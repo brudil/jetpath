@@ -1,0 +1,21 @@
+.root {
+  font-size: 0.8rem;
+}
+
+.title {
+  font-size: 1.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.5em;
+}
+
+.control {
+  margin-bottom: 1em;
+}
+
+.controlName {
+  font-size: 1em;
+  margin-bottom: 0.25em;
+  color: $color__grey;
+}
+
+

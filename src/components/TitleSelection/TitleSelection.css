@@ -1,0 +1,59 @@
+@import '../../styles/core/colors.css';
+@import '../../styles/core/layers.css';
+
+.root {
+  display: inline-block;
+  position: relative;
+  user-select: none;
+}
+
+.root_active {
+
+}
+
+.title {
+  font-size: 1.6em;
+  font-weight: 400;
+  composes: Link from '../../styles/sets/Link.css';
+}
+
+.choices {
+  padding-top: 1em;
+}
+
+.choice {
+  padding: 0.15em 0;
+  white-space: nowrap;
+  composes: Link from '../../styles/sets/Link.css';
+}
+
+.currentTitle {
+  &:after {
+    margin-left: 0.75rem;
+    content: '◢';
+    display: inline-block;
+    transform: rotate(45deg);
+    top: -5px;
+    font-size: 1.2rem;
+    position: relative;
+    z-index: var(--layer__title-selection-triangle);
+  }
+}
+
+.dropdown {
+  display: none;
+  box-shadow: 0 0 6px 0 rgba(30, 30, 30, 0.3);
+  background: var(--color__white);
+  padding: 0.5rem 3rem 0.5rem 0.5rem;
+  box-sizing: border-box;
+  margin-top: -0.5rem;
+  margin-left: -0.5rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: var(--layer__title-selection-dropdown);
+}
+
+.root_active .dropdown {
+  display: block;
+}

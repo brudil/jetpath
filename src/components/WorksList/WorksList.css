@@ -1,0 +1,66 @@
+@import '../../styles/core/colors.css';
+
+.rootList {}
+
+.item {
+  cursor: pointer;
+  /* background: rgba(190, 190, 190, 0.1); */
+  padding-left: 1rem;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  position: relative;
+  display: block;
+  margin-bottom: 0.5em;
+}
+
+.itemNub {
+  width: 0.3em;
+  height: 100%;
+  background: var(--color__dull-grey);
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+
+  &_second {
+    left: 0.5em;
+  }
+}
+
+.itemTitle {
+  font-size: 1.3rem;
+  font-family: 'pragmatica-web-condensed', sans-serif;
+  font-weight: normal;
+}
+
+.itemMeta {
+  font-size: 0.85rem;
+  opacity: 0.9;
+  padding-top: 0.2em;
+  color: var(--color__optional-gray);
+
+}
+
+.itemMetaBit {
+  margin-right: 0.4rem;
+}
+
+.itemNub--status-stub {
+  background-color: var(--color__content-status__stub);
+}
+
+.itemNub--status-drafting {
+  background-color: var(--color__content-status__writing);
+}
+
+.itemNub--status-finished {
+  background-color: var(--color__content-status__finished);
+}
+
+.itemNub_statusPublished {
+  background-color: #54de3c;
+}
+
+.itemNub_status_unpublished {
+  background-color: #f44e44;
+}

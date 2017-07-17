@@ -1,0 +1,18 @@
+@import '../../../../styles/core/colors.css';
+
+.root {}
+
+.textarea {
+  background: transparent;
+  border: 0;
+  font-family: var(--font__family--content);
+  font-size: 1.2em;
+  padding-left: 0.8rem;
+  box-sizing: border-box;
+  border-left: 3px solid var(--color__dull-grey);
+
+  &:focus {
+    border-left: 3px solid var(--color__accent);
+    outline: 0;
+  }
+}

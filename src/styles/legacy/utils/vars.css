@@ -1,0 +1,50 @@
+:root {
+  --white: #ffffff;
+  --black: #000000;
+
+  --outline: #e5e5e5;
+  --accent: #2288fa;
+  --optional-gray: #333333; // 0.8 opacity
+
+  --accent-draft: #aa00ff;
+  --accent-upcoming: #ffaa00;
+  --accent-published: #3ede63;
+
+  --accent-stop: #c90f14;
+
+  --danger-color: #ff3b31;
+
+  --base-font-family: 'pragmatica-web', sans-serif;
+
+
+  --font__family--content: 'ff-tisa-web-pro', sans-serif;
+  --font__family--title: 'pragmatica-web-condensed';
+
+
+  --content-status__stub: #f7db15;
+  --content-status__writing: #fd8603;
+  --content-status__finished: #00cbe7;
+
+
+  --color__accent: #228dff;
+  --color__accent--dull: #5e9adb;
+  --color__accent--hover: #2288fa;
+  --color__accent--active: #2185f5;
+
+  --color__background: #f9f9f9;
+
+  --color__danger: #ff3b31;
+  --color__danger--hover: darken(desaturate(--color__danger, 10%), 2%);
+  --color__danger--active: darken(desaturate(--color__danger, 10%), 5%);
+
+  --color__dull-grey: rgb(193, 193, 193);
+  --color__grey: #555555;
+
+  --color__gradient--from: #6fe731;
+  --color__gradient--to: #30d181;
+
+  --color__modal-background: #f6f6f6;
+
+  --shadow__soft: rgba(200, 200, 200, 0.8);
+  --shadow__soft--active: rgba(200, 200, 200, 0.5);
+}

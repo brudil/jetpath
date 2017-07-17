@@ -1,0 +1,13 @@
+.inline-tags {
+  display: inline-block;
+  margin-left: 0.5em;
+
+  &__item {
+    display: inline-block;
+    padding: 0 0.2em;
+
+    &:before {
+      content: '#';
+    }
+  }
+}

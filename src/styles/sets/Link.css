@@ -1,0 +1,6 @@
+@import '../core/colors.css';
+
+.Link {
+  color: var(--color__accent);
+  cursor: pointer;
+}

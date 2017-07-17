@@ -1,0 +1,12 @@
+.root {
+  opacity: 1;
+  height: 22px;
+  transition: transform 200ms ease;
+  display: block;
+  float: left;
+
+  &:hover {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}

@@ -1,0 +1,87 @@
+.root {
+  position: relative;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  display: flex;
+  background: linear-gradient(155deg, #6fe731 0%, #30d181 100%);
+}
+
+.vertical_thepratex {
+  background: linear-gradient(155deg, #6e23fa 0%, #5241ff 100%);
+}
+
+.vertical_thedrab {
+  background: linear-gradient(175deg, #e71e01 0%, #ff701d 100%);
+}
+
+.logoHeading {
+  float: left;
+  display: block;
+  margin-right: 1rem;
+
+  & > a {
+    display: block;
+  }
+}
+
+
+.menu {
+  margin-left: 10px;
+}
+
+
+.menuItem {
+  margin-left: 0.7rem;
+  margin-right: 0.7rem;
+  display: inline-block;
+
+  & a {
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.6);
+
+    &:hover {
+      color: rgba(0, 0, 0, 0.8);
+    }
+  }
+
+  & span {
+    font-size: 1.1em;
+    display: block;
+    line-height: 1em;
+  }
+}
+
+.header {
+  flex: 1 1 0;
+}
+
+.footer {
+  display: flex;
+}
+
+.credits {
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 0.6em;
+  font-style: italic;
+  margin-right: 0.5rem;
+}
+
+.dmLogo {
+  height: 22px;
+  display: block;
+}
+
+.verticalJoiner {
+  float: left;
+  padding: 0 0.5rem;
+  font-size: 1rem;
+}
+
+.verticalLogo {
+  height: 22px;
+  display: block;
+  float: left;
+}
+

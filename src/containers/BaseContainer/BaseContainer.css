@@ -1,0 +1,7 @@
+@import '../../styles/core/colors.css';
+
+.rootSection {
+  background-color: var(--color__background);
+  box-sizing: border-box;
+  position: relative;
+}

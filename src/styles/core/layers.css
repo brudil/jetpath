@@ -1,0 +1,15 @@
+:root {
+  --layer__editor-nav: 610;
+  --layer__section-fixed: 600;
+
+  --layer__file-dropover-overlay: 150;
+
+  --layer__overlay-front: 120;
+  --layer__overlay: 110;
+  --layer__overlay-back: 100;
+
+  --layer__media-grid-hover: 60;
+
+  --layer__title-selection-triangle: 51;
+  --layer__title-selection-dropdown: 50;
+}

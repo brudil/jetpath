@@ -1,0 +1,23 @@
+@keyframes cycle {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0.6;
+  }
+}
+
+
+.loadingContainer {
+  width: 100%;
+  height: 100%;
+  background: rgba(30, 30, 30, 0.1);
+  animation: cycle 750ms ease 0s infinite alternate;
+}
+
+.loadingImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

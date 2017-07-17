@@ -1,0 +1,52 @@
+:root {
+  --color__white: #ffffff;
+  --color__black: #000000;
+
+  --color__outline: #e5e5e5;
+  --color__optional-gray: #333333; /* 0.8 opacity */
+
+  --color__accent-draft: #aa00ff;
+  --color__accent-upcoming: #ffaa00;
+  --color__accent-published: #3ede63;
+
+  --color__accent-stop: #c90f14;
+
+  --color__danger-color: #ff3b31;
+
+  --base-font-family: -apple-system, BlinkMacSystemFont,
+  "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+  "Fira Sans", "Droid Sans", "Helvetica Neue",
+  sans-serif;
+
+
+  --font__family--content: 'ff-tisa-web-pro', sans-serif;
+  --font__family--title: 'pragmatica-web-condensed';
+
+
+  --color__content-status__stub: #f7db15;
+  --color__content-status__writing: #fd8603;
+  --color__content-status__finished: #00cbe7;
+
+
+  --color__accent: #228dff;
+  --color__accent--dull: #5e9adb;
+  --color__accent--hover: #2288fa;
+  --color__accent--active: #2185f5;
+
+  --color__background: #fbfbfb;
+
+  --color__danger: #ff3b31;
+  --color__danger--hover: darken(desaturate(--color__danger, 10%), 2%);
+  --color__danger--active: darken(desaturate(--color__danger, 10%), 5%);
+
+  --color__dull-grey: rgb(193, 193, 193);
+  --color__grey: #555555;
+
+  --color__gradient--from: #6fe731;
+  --color__gradient--to: #30d181;
+
+  --color__modal-background: #f6f6f6;
+
+  --color__shadow__soft: rgba(200, 200, 200, 0.8);
+  --color__shadow__soft--active: rgba(200, 200, 200, 0.5);
+}

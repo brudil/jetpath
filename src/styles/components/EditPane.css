@@ -1,0 +1,12 @@
+.root {
+  flex: 2 1 auto;
+}
+
+.root_sidebar {
+  flex: 1 1 auto;
+  max-width: 300px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  position: relative;
+  padding-left: 1rem;
+  box-sizing: border-box;
+}

@@ -1,0 +1,19 @@
+@import '../../styles/core/colors.css';
+
+.root {
+  color: var(--color__grey);
+}
+
+.message {
+  font-style: italic;
+  text-align: center;
+  display: block;
+  font-size: 1.8em;
+}
+
+.sad {
+  display: block;
+  text-align: center;
+  font-size: 6em;
+  margin-bottom: 0.5em;
+}

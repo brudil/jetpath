@@ -1,0 +1,14 @@
+.root {
+  display: flex;
+}
+
+.content {
+  flex: 1 1 0;
+}
+
+.sidebar {
+  flex: 1 1 0;
+  max-width: 220px;
+  max-height: 100vh;
+  padding-left: 1em;
+}

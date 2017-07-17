@@ -1,0 +1,19 @@
+.spectrum {
+
+  textarea,
+  .text-editor {
+    box-shadow: none;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    outline: 0;
+    background: transparent;
+    width: calc(100% - 15px);
+    margin-right: 5px;
+
+    &:focus {
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: 0 0 8px 0 rgba(30, 30, 30, 0.1);
+    }
+  }
+}
+

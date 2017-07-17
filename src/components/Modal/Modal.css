@@ -1,0 +1,32 @@
+@import '../../styles/core/colors.css';
+
+.root {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.3);
+  background-color: var(--color__modal-background);
+  transition: all 150ms 150ms ease;
+  position: relative;
+  top: 0;
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.body {
+  padding: 15px;
+}
+
+.header {
+  padding-top: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.footer {
+  padding-bottom: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+}

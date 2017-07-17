@@ -1,0 +1,31 @@
+.root {
+
+}
+
+.section {
+  &_disabled {
+    opacity: 0.4;
+    pointer-events: none;
+  }
+}
+
+.sectionTitle {
+  text-transform: uppercase;
+
+  &::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    border-radius: 50%;
+    margin-left: 0.6rem;
+  }
+
+  &_ok::after {
+    background: green;
+  }
+
+  &_issue::after {
+    background: red;
+  }
+}

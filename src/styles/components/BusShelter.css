@@ -1,0 +1,43 @@
+@import '../core/colors.css';
+
+.root {
+  display: flex;
+}
+
+.col {
+  flex: 1 0 0px;
+  max-width: 400px;
+  border-left: 1px solid var(--color__grey);
+  box-sizing: border-box;
+  padding: 0 1em;
+  overflow-y: auto;
+
+  &:first-child {
+    border-left: 0;
+    padding-left: 0;
+  }
+}
+
+.colHeader {
+  text-transform: uppercase;
+  font-weight: bold;
+  background: var(--color__background);
+  top: 0;
+  position: sticky;
+}
+
+
+.item {
+  border-bottom: 1px solid var(--color__dull-grey);
+  padding: 0.5em;
+
+  &_selected {
+    background-color: var(--color__accent);
+    color: var(--color__white);
+  }
+
+  &_selectedDull {
+    background-color: var(--color__accent--dull);
+    color: var(--color__white);
+  }
+}

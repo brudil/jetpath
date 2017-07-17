@@ -1,0 +1,44 @@
+.root {
+  display: block;
+  text-align: center;
+  position: relative;
+  transition: opacity 600ms ease;
+
+  &:after {
+    background-color: rgba(0, 0, 0, 0.1);
+    content: '';
+    display: block;
+    height: 1px;
+    margin: 0 auto;
+    position: relative;
+    top: -11px;
+    width: 10%;
+    transition: width 600ms ease, opacity 600ms ease;
+  }
+
+  &:hover,
+  &:active {
+    opacity: 1;
+    text-decoration: none;
+
+    &:after {
+      width: 50%;
+      opacity: 0;
+    }
+
+    & .label {
+      opacity: 1;
+      transition: inherit;
+
+    }
+  }
+}
+
+.label {
+  opacity: 0;
+  color: rgba(0, 0, 0, 0.3);
+  font-size: 0.8em;
+  text-transform: uppercase;
+  font-family: "pragmatica-web", sans-serif;
+  font-weight: bold;
+}

@@ -1,0 +1,28 @@
+@import '../../styles/core/colors.css';
+
+.root {
+  display: inline-block;
+  margin-right: 0.5em;
+}
+
+.icon {
+  width: 25px;
+  display: inline-block;
+  float: left;
+}
+
+.badge {
+  display: inline-block;
+  background-color: var(--color__danger-color);
+  border-radius: 50%;
+  text-align: center;
+  line-height: 10px;
+  margin-left: -10px;
+  margin-top: -10px;
+  vertical-align: middle;
+  padding: 4px;
+  width: 10px;
+  height: 10px;
+  color: var(--color__white);
+  font-size: 0.8em;
+}

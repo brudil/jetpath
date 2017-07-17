@@ -1,0 +1,27 @@
+@import '../../styles/core/colors.css';
+
+.root {
+  font-size: 0.9rem;
+}
+
+.title {
+  font-size: 1.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.5em;
+}
+
+.control {
+  margin-bottom: 1em;
+}
+
+.controlTitle {
+  font-size: 1em;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: 0.25em;
+  color: var(--color__grey);
+}
+
+.input {
+  composes: Textbox from '../../styles/sets/Textbox.css';
+}

@@ -1,0 +1,17 @@
+.root {
+
+}
+
+.noUsers {
+  opacity: 0.8;
+  font-style: italic;
+}
+
+.currentList {
+  margin-bottom: 0.5em;
+  overflow: hidden;
+}
+
+.selector {
+
+}

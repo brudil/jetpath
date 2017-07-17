@@ -1,0 +1,55 @@
+.root {
+  position: absolute;
+  right: -100px;
+  width: 105px;
+  min-height: 35px;
+  top: 0;
+  visibility: hidden;
+  text-align: left;
+  /* transition: width 300ms ease, right 300ms ease, height 300ms ease; */
+}
+
+.root_visible {
+  visibility: visible;
+}
+
+.root_open {
+  visibility: visible;
+  width: 255px;
+  right: -250px;
+  overflow: hidden;
+
+  & .inner {
+    opacity: 1;
+    width: 255px;
+  }
+}
+
+.item {
+  opacity: 0.4;
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  margin-right: 0.5em;
+  cursor: pointer;
+
+  & img {
+    width: 14px;
+  }
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.inner {
+  opacity: 0.5;
+  margin-left: 5px;
+  border-top: 1px solid rgba(225, 225, 225, 1);
+  box-sizing: border-box;
+  padding: 0.5em;
+
+  &:hover {
+    opacity: 1;
+  }
+}

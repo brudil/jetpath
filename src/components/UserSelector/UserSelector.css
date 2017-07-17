@@ -1,0 +1,45 @@
+@import '../../styles/core/colors.css';
+
+.root {
+  position: relative;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border: 1px solid var(--color__outline);
+  position: absolute;
+  left: 0;
+  right: 0;
+  box-shadow: 0 0 3px 0 rgba(30, 30, 30, 0.3);
+}
+
+.suggestion {
+  border-bottom: 1px solid var(--color__outline);
+  background-color: rgba(255, 255, 255, 0.95);
+  box-sizing: border-box;
+  padding: 0.25em 0.35em;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
+.suggestion_focus {
+  background-color: var(--color__outline);
+}
+
+
+.suggestionName {
+  margin-right: 0.5em;
+}
+
+.suggestionUsername {
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.suggestionCurrentUser {
+  font-style: italic;
+}
