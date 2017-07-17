@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import sample from 'lodash/sample';
 import classnames from 'classnames';
 import DocumentTitle from '../components/DocumentTitle';
@@ -38,11 +38,9 @@ class VerticalSelectionPage extends React.Component {
 VerticalSelectionPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  nextLocation: PropTypes.string.isRequired,
 };
 
 export default connect(state => ({
   auth: state.auth,
-  nextLocation: state.routing.locationBeforeTransitions.query.nextPath || '/',
   verticals: state.verticals.list,
 }))(VerticalSelectionPage);

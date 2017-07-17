@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import startCase from 'lodash/startCase';
 import SmartDate from '../SmartDate';
 import {

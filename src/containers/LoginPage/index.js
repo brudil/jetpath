@@ -10,6 +10,7 @@ import * as AuthActions from '../../actions/AuthActions';
 import Button from '../../components/Button';
 
 import styles from './LoginPage.css';
+import { withRouter } from 'react-router-dom';
 
 class LoginPage extends React.Component {
   constructor(x, y) {
@@ -38,7 +39,8 @@ class LoginPage extends React.Component {
 
   handleCorrectRoute(props) {
     if (props.auth.auth !== null) {
-      this.props.dispatch(replace(this.props.nextLocation));
+      const nextPath = new URLSearchParams(this.props.location.search).get('nextLocation');
+      this.props.history.replace(nextPath || '/');
     }
   }
 
@@ -92,10 +94,10 @@ class LoginPage extends React.Component {
 LoginPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  nextLocation: PropTypes.string.isRequired,
 };
 
-export default connect(state => ({
-  auth: state.auth,
-  nextLocation: state.routing.locationBeforeTransitions.query.nextPath || '/',
-}))(LoginPage);
+export default withRouter(
+  connect(state => ({
+    auth: state.auth,
+  }))(LoginPage)
+);

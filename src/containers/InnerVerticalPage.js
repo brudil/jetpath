@@ -2,8 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import findIndex from 'lodash/findIndex';
 import { connect } from 'react-redux';
+import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import { setVertical, getVerticals } from '../actions/VerticalActions';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import ContentListPage from './ContentListPage';
+import MediaListPage from './MediaListPage';
+import OrganisationPage from './OrganisationPage';
+import EditorPage from './EditorPage';
 
 class InnerVerticalPage extends React.Component {
   componentDidMount() {
@@ -17,42 +21,41 @@ class InnerVerticalPage extends React.Component {
 
   handleVerticalCorrect(nextProps = null) {
     if (
-      nextProps.params.vertical !==
+      nextProps.match.params.vertical !==
       this.props.verticals.selectedVerticalIdentifier
     ) {
-      this.props.dispatch(setVertical(nextProps.params.vertical));
+      this.props.dispatch(setVertical(nextProps.match.params.vertical));
     }
   }
 
   render() {
     const selectedVertical = this.props.verticals.selectedVertical;
+    const { url } = this.props.match;
 
     if (!selectedVertical) {
       return (
-        <h1>This vertical doesn't exist, or you don't have access to it.</h1>
+        <h1>
+          {"This vertical doesn't exist, or you don't have access to it."}
+        </h1>
       );
     }
 
     return (
       <Switch>
-        <Route path="content" component={ContentListPage} />
-        <Route path="media" component={MediaListPage} />
-        <Route path="organisation" component={OrganisationPage} />
-        <Redirect from="editor" to="editor/new" />
-        <Route path="editor/:id" component={EditorPage}>
-          <Route path="/" component={EditorSectionContent} exact />
-          <Route path="metadata" component={EditorSectionMetadata} />
-          <Route path="workflow" component={EditorSectionWorkflow} />
-        </Route>
+        <Route path={`${url}/content`} component={ContentListPage} />
+        <Route path={`${url}/media`} component={MediaListPage} />
+        <Route path={`${url}/organisation`} component={OrganisationPage} />
+        <Redirect from={`${url}/editor`} to="editor/new" />
+        <Route path={`${url}/editor/:id`} component={EditorPage} />
       </Switch>
     );
   }
 }
 
-InnerVerticalPage.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+InnerVerticalPage.propTypes = {};
 
-export default connect(state => ({
-  verticals: state.verticals,
-}))(InnerVerticalPage);
+export default withRouter(
+  connect(state => ({
+    verticals: state.verticals,
+  }))(InnerVerticalPage)
+);

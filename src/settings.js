@@ -8,7 +8,7 @@ settings.lowdownHost = (() => {
     return 'https://platform.theprate.com';
   }
 
-  return 'http://localhost:4444';
+  return 'http://localhost:8000';
 })();
 
 export default settings;

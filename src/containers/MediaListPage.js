@@ -244,11 +244,11 @@ MediaListPage.propTypes = {
   hasNext: PropTypes.bool.isRequired,
 };
 
-export default connect(state => ({
+export default withRouter(connect(state => ({
   media: state.mediaList,
   mediamodal: state.mediamodal,
   uploadProgress: state.uploadProgress,
   mediaItems: state.mediaList.list.map(id => state.entities.media[id]),
   hasNext: state.mediaList.hasNext,
   isLoading: state.mediaList.loading,
-}))(MediaListPage);
+}))(MediaListPage));

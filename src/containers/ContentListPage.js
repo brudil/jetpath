@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router-dom';
 import without from 'lodash/without';
 import isEqual from 'lodash/isEqual';
 import intersection from 'lodash/intersection';
 import { connect } from 'react-redux';
-import { replace, push } from 'react-router-redux';
+import qs from 'query-string';
 import {
   contentForm,
   contentStatus,
@@ -73,17 +73,18 @@ class ContentListPage extends React.Component {
   }
 
   getQueryData(props = null) {
-    const query =
-      props === null ? this.props.location.query : props.location.query;
+    const query = new URLSearchParams(
+      props === null ? this.props.location.search : props.location.search
+    );
     return {
-      order: query.order || 'created_desc',
-      state: query.state || null,
-      status: query.status || null,
-      tone: query.tone || null,
-      form: query.form || null,
-      search: query.search || null,
-      authors: query.authors || [],
-      page: parseInt(query.page, 10) || 1,
+      order: query.get('order') || 'created_desc',
+      state: query.get('.state') || null,
+      status: query.get('.status') || null,
+      tone: query.get('.tone') || null,
+      form: query.get('.form') || null,
+      search: query.get('.search') || null,
+      authors: query.get('.authors') || [],
+      page: parseInt(query.get('.page'), 10) || 1,
     };
   }
 
@@ -92,12 +93,12 @@ class ContentListPage extends React.Component {
   }
 
   handleQueryChange(filters, createHistoryItem = false) {
-    const action = createHistoryItem ? push : replace;
-    this.props.dispatch(
-      action({
-        pathname: `/@${this.props.vertical.identifier}/content`,
-        query: filters,
-      })
+    const action = createHistoryItem
+      ? this.props.history.push
+      : this.props.history.replace;
+
+    action(
+      `/@${this.props.vertical.identifier}/content?${qs.stringify(filters)}`
     );
   }
 
@@ -322,11 +323,13 @@ ContentListPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
-export default connect(state => ({
-  contentlist: state.contentList,
-  contentListItems: state.contentList.list.map(id => ({
-    ...state.entities.contentList[id],
-  })),
-  isLoading: state.contentList.loading,
-  vertical: state.verticals.selectedVertical,
-}))(ContentListPage);
+export default withRouter(
+  connect(state => ({
+    contentlist: state.contentList,
+    contentListItems: state.contentList.list.map(id => ({
+      ...state.entities.contentList[id],
+    })),
+    isLoading: state.contentList.loading,
+    vertical: state.verticals.selectedVertical,
+  }))(ContentListPage)
+);

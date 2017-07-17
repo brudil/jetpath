@@ -1,4 +1,4 @@
-import { normalize, arrayOf } from 'normalizr';
+import { normalize, schema } from 'normalizr';
 import AT, {
   FETCH_ALL_SECTIONS,
   GET_ALL_SECTIONS,
@@ -22,7 +22,9 @@ export function getSectionIndex(queryParams) {
     const transaction = createTransaction(dispatch, AT.SECTION_LIST_FETCH);
     SectionsClient.getAll(queryParams)
       .then(payload => {
-        transaction.done(normalize(payload.data, arrayOf(sectionSchema)));
+        transaction.done(
+          normalize(payload.data, new schema.Array(sectionSchema))
+        );
       })
       .catch(transaction.error);
   };
@@ -74,7 +76,9 @@ export function getTopicsForSection(sectionId) {
 
     SectionsClient.getTopicsFor(sectionId)
       .then(payload => {
-        transaction.done(normalize(payload.data, arrayOf(topicSchema)));
+        transaction.done(
+          normalize(payload.data, new schema.Array(topicSchema))
+        );
       })
       .catch(transaction.error);
   };

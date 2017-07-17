@@ -2,7 +2,7 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import JetpathLogo from '../JetpathLogo';
 import UserMenu from '../../components/UserMenu';
 import verticals from '../../verticals';

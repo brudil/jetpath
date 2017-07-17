@@ -1,4 +1,4 @@
-import { schema, arrayOf } from 'normalizr';
+import { schema } from 'normalizr';
 
 const nestingOptions = {
   assignEntity(obj, key, value) {

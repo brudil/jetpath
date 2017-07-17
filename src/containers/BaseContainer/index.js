@@ -3,13 +3,12 @@ import React from 'react';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext as dragDropContext } from 'react-dnd';
 import { connect } from 'react-redux';
-import { replace } from 'react-router-redux';
+import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import { StickyContainer } from 'react-sticky';
 import GlobalHeader from '../../components/GlobalHeader';
 import Toasts from '../../components/Toasts';
 
 import styles from './BaseContainer.css';
-import { Redirect, Route, Switch } from 'react-router-dom';
 import VerticalSelectionPage from '../VerticalSelectionPage';
 import InnerVerticalPage from '../InnerVerticalPage';
 import NotFoundPage from '../NotFoundPage';
@@ -29,19 +28,15 @@ class BaseContainer extends React.Component {
 
   handleCorrectRoute(props) {
     if (props.auth.auth === null) {
-      this.props.dispatch(
-        replace({
-          pathname: '/auth/login',
-          query: {
-            nextPath: this.props.location.pathname,
-          },
-        })
+      this.props.history.replace(
+        `/auth/login?nextPath=${this.props.location.pathname}`
       );
     }
   }
 
   render() {
-    const vertical = this.props.params.vertical;
+    const vertical = this.props.match.params.vertical;
+    const { url } = this.props.match;
     return (
       <div>
         <StickyContainer>
@@ -49,8 +44,15 @@ class BaseContainer extends React.Component {
           <div className={styles.rootSectionWrapper}>
             <div className={styles.rootSection}>
               <Switch>
-                <Route path="verticals" component={VerticalSelectionPage} />
-                <Route path="@:vertical" component={InnerVerticalPage} />
+                <Route
+                  path={`${url}verticals`}
+                  component={VerticalSelectionPage}
+                />
+                <Route
+                  path={`${url}@:vertical`}
+                  component={InnerVerticalPage}
+                />
+                <Redirect from="/" to="verticals" />
                 <Route path="*" component={NotFoundPage} />
               </Switch>
               <Toasts />
@@ -68,9 +70,11 @@ BaseContainer.propTypes = {
   dispatch: PropTypes.func,
 };
 
-export default dragDropContext(HTML5Backend)(
+const withRoutered = withRouter(
   connect(state => ({
     auth: state.auth,
     verticals: state.verticals,
   }))(BaseContainer)
 );
+
+export default dragDropContext(HTML5Backend)(withRoutered);

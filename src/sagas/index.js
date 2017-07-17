@@ -119,20 +119,20 @@ function* handleFetchVerticals() {
 }
 
 function* watchGetVerticals() {
-  yield* takeLatest(FETCH_VERTICALS.REQUEST, handleFetchVerticals);
+  yield takeLatest(FETCH_VERTICALS.REQUEST, handleFetchVerticals);
 }
 
 export default function* root() {
-  yield [
-    all(...authSagas),
-    all(...notificationSagas),
-    all(...organsiationSagas),
-    all(...editorSagas),
+  yield all([
+    ...authSagas,
+    ...notificationSagas,
+    ...organsiationSagas,
+    ...editorSagas,
     spawn(searchUsers),
     spawn(watchLoadContentList),
     spawn(watchLoadMediaList),
     spawn(watchFetchTopicsForKeyword),
     spawn(watchMediaUpload),
     spawn(watchGetVerticals),
-  ];
+  ]);
 }

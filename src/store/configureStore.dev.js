@@ -7,8 +7,8 @@ import { createLogger } from 'redux-logger';
 import * as rootReducer from '../reducers/index';
 
 const sagaMiddleware = createSagaMiddleware();
-
-const finalCreateStore = compose(
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const finalCreateStore = composeEnhancers(
   applyMiddleware(sagaMiddleware),
   applyMiddleware(ReduxThunk),
   applyMiddleware(routerMiddleware(browserHistory)),

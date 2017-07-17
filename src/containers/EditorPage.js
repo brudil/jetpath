@@ -15,6 +15,10 @@ import LoadingContent from '../components/LoadingContent';
 import stylesEditPane from '../styles/components/EditPane.css';
 import stylesEditor from '../styles/components/Editor.css';
 import stylesWriteSheet from '../styles/components/WriteSheet.css';
+import { Route, Switch } from 'react-router-dom';
+import EditorSectionContent from './EditorSectionContent';
+import EditorSectionMetadata from './EditorSectionMetadata';
+import EditorSectionWorkflow from './EditorSectionWorkflow';
 
 class EditorPage extends React.Component {
   constructor(props) {
@@ -119,7 +123,11 @@ class EditorPage extends React.Component {
           pathId={this.props.params.id}
         />
         <div>
-          {this.props.children}
+          <Switch>
+            <Route path="/" component={EditorSectionContent} exact />
+            <Route path="metadata" component={EditorSectionMetadata} />
+            <Route path="workflow" component={EditorSectionWorkflow} />
+          </Switch>
         </div>
       </div>
     );
@@ -202,15 +210,17 @@ EditorPage.propTypes = {
   children: PropTypes.node,
 };
 
-export default connect(state => ({
-  workingDocument: state.editor.get('workingDocument'),
-  workingRevision: state.editor.get('workingRevision'),
-  savedDocument: state.editor.get('savedDocument'),
-  savedRevision: state.editor.get('savedRevision'),
-  isLocal: state.editor.get('isLocal'),
-  vertical: state.verticals.selectedVertical,
-  isSaving: state.editor.get('isSaving'),
-  hasChangesFromSaved: state.editor.get('hasChangesFromSaved'),
-  editorialMetadata: state.editor.get('editorialMetadata'),
-  contentId: state.editor.get('remoteId'),
-}))(withRouter(EditorPage));
+export default withRouter(
+  connect(state => ({
+    workingDocument: state.editor.get('workingDocument'),
+    workingRevision: state.editor.get('workingRevision'),
+    savedDocument: state.editor.get('savedDocument'),
+    savedRevision: state.editor.get('savedRevision'),
+    isLocal: state.editor.get('isLocal'),
+    vertical: state.verticals.selectedVertical,
+    isSaving: state.editor.get('isSaving'),
+    hasChangesFromSaved: state.editor.get('hasChangesFromSaved'),
+    editorialMetadata: state.editor.get('editorialMetadata'),
+    contentId: state.editor.get('remoteId'),
+  }))(EditorPage)
+);
