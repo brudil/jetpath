@@ -9,5 +9,6 @@ test('CharCount render', () => {
       <span>
         {13}
       </span>
-    )).toBeTruthy();
+    )
+  ).toBeTruthy();
 });

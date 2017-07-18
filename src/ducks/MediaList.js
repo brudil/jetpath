@@ -1,19 +1,25 @@
+import { takeLatest, takeEvery, put, call, fork } from 'redux-saga/effects';
 import { sequence } from '../reducers/utils';
 import { createRequestTypes } from '../constants/ActionTypes';
 import { action as makeAction } from '../actions/utils';
+import { fetchMediaList } from '../sagas/index';
+import getVertical from '../sagas/getVertical';
+import { MediaClient } from '../serverAPI';
 
 export const LOAD_MEDIA_LIST = 'LOAD_MEDIA_LIST';
-export const MEDIA_LIST_FETCH = createRequestTypes('MEDIA_LIST_FETCH');
+export const MEDIA_LIST_FETCH_REQUEST = 'MEDIA_LIST_FETCH_REQUEST';
+export const MEDIA_LIST_FETCH_FAILURE = 'MEDIA_LIST_FETCH_FAILURE';
+export const MEDIA_LIST_FETCH_SUCCESS = 'MEDIA_LIST_FETCH_SUCCESS';
 export const MEDIA_UPLOAD = createRequestTypes('MEDIA_UPLOAD');
 
 export const loadMediaList = (vertical, query, limit) =>
   makeAction(LOAD_MEDIA_LIST, { vertical, query, limit });
 export const media = {
-  request: query => makeAction(MEDIA_LIST_FETCH.REQUEST, { query }),
+  request: query => makeAction(MEDIA_LIST_FETCH_REQUEST, { query }),
   success: (query, payload) =>
-    makeAction(MEDIA_LIST_FETCH.SUCCESS, { query, payload }),
+    makeAction(MEDIA_LIST_FETCH_SUCCESS, { query, payload }),
   failure: (query, error) =>
-    makeAction(MEDIA_LIST_FETCH.FAILURE, { query, error }),
+    makeAction(MEDIA_LIST_FETCH_FAILURE, { query, error }),
 };
 
 export const upload = {
@@ -34,7 +40,7 @@ export default function MediaListReducer(state = initialState, action) {
   const { payload } = action;
 
   switch (action.type) {
-    case MEDIA_LIST_FETCH.SUCCESS:
+    case MEDIA_LIST_FETCH_SUCCESS:
       return {
         ...state,
         list: payload.result,
@@ -63,4 +69,26 @@ export default function MediaListReducer(state = initialState, action) {
     default:
       return state;
   }
+}
+
+// SAGA
+
+function* handleLoadMediaList(action) {
+  yield fork(fetchMediaList, action.vertical, action.query, action.limit);
+}
+
+function* mediaUpload({ file }) {
+  const vertical = yield getVertical();
+  const { payload, error } = yield call(MediaClient.upload, vertical, file);
+
+  if (payload) {
+    yield put({ type: MEDIA_UPLOAD.SUCCESS, payload });
+  } else {
+    yield put({ type: MEDIA_UPLOAD.FAILURE, error });
+  }
+}
+
+export function* saga() {
+  yield takeEvery(MEDIA_UPLOAD.REQUEST, mediaUpload);
+  yield takeLatest(LOAD_MEDIA_LIST, handleLoadMediaList);
 }

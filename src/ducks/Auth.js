@@ -1,23 +1,47 @@
-import { createRequestTypes } from '../constants/ActionTypes';
-import { action as makeAction } from '../actions/utils';
+import { takeLatest, put } from 'redux-saga/effects';
+import { AuthClient } from '../serverAPI';
+import { createToast } from '../ducks/Toast';
 
-export const AUTH_RESTORE = createRequestTypes('AUTH_RESTORE');
-export const AUTH_LOGOUT = createRequestTypes('AUTH_LOGOUT');
-export const AUTH_LOGIN = createRequestTypes('AUTH_LOGIN');
+// CONSTANTS
+const AUTH_RESTORE_REQUEST = 'AUTH_RESTORE_REQUEST';
+const AUTH_RESTORE_FAILURE = 'AUTH_RESTORE_FAILURE';
+const AUTH_RESTORE_SUCCESS = 'AUTH_RESTORE_SUCCESS';
 
-export const restoreAuth = () => makeAction(AUTH_RESTORE.REQUEST);
-export const restoreAuthFailure = () => makeAction(AUTH_RESTORE.FAILURE);
-export const restoreAuthSuccess = payload =>
-  makeAction(AUTH_RESTORE.SUCCESS, { payload });
+const AUTH_LOGOUT_REQUEST = 'AUTH_LOGOUT_REQUEST';
+const AUTH_LOGOUT_FAILURE = 'AUTH_LOGOUT_FAILURE';
+const AUTH_LOGOUT_SUCCESS = 'AUTH_LOGOUT_SUCCESS';
 
-export const logout = () => makeAction(AUTH_LOGOUT.REQUEST);
-export const logoutSuccess = () => makeAction(AUTH_LOGOUT.SUCCESS);
+const AUTH_LOGIN_REQUEST = 'AUTH_LOGIN_REQUEST';
+const AUTH_LOGIN_FAILURE = 'AUTH_LOGIN_FAILURE';
+const AUTH_LOGIN_SUCCESS = 'AUTH_LOGIN_SUCCESS';
 
-export const login = (username, password) =>
-  makeAction(AUTH_LOGIN.REQUEST, { username, password });
-export const loginSuccess = payload =>
-  makeAction(AUTH_LOGIN.SUCCESS, { payload });
+// ACTIONS
+export const restoreAuth = () => ({
+  type: AUTH_RESTORE_REQUEST,
+});
+export const logout = () => ({
+  type: AUTH_LOGOUT_REQUEST,
+});
+export const login = (username, password) => ({
+  type: AUTH_LOGIN_REQUEST,
+  payload: { username, password },
+});
 
+// HELPERS
+const restoreAuthFailure = error => ({
+  type: AUTH_RESTORE_FAILURE,
+  payload: error,
+});
+const restoreAuthSuccess = payload => ({ type: AUTH_RESTORE_SUCCESS, payload });
+const logoutSuccess = () => ({ type: AUTH_LOGOUT_SUCCESS });
+const loginSuccess = payload => ({ type: AUTH_LOGIN_SUCCESS, payload });
+const loginFailure = error => ({
+  type: AUTH_LOGIN_FAILURE,
+  payload: error,
+  error: true,
+});
+
+// REDUCER
 const initialState = {
   auth: null,
   loading: false,
@@ -27,40 +51,40 @@ const initialState = {
 
 export default function AuthReducer(state = initialState, action) {
   switch (action.type) {
-    case AUTH_LOGIN.REQUEST:
+    case AUTH_LOGIN_REQUEST:
       return {
         ...state,
         loading: true,
       };
-    case AUTH_LOGIN.FAILURE:
+    case AUTH_LOGIN_FAILURE:
       return {
         ...state,
         error: action.payload,
         loading: false,
       };
-    case AUTH_LOGIN.SUCCESS:
+    case AUTH_LOGIN_SUCCESS:
       return {
         ...state,
         auth: action.payload.data,
       };
-    case AUTH_RESTORE.SUCCESS:
+    case AUTH_RESTORE_SUCCESS:
       return {
         ...state,
         auth: action.payload.data,
         attempted: true,
       };
-    case AUTH_RESTORE.REQUEST:
+    case AUTH_RESTORE_REQUEST:
       return {
         ...state,
         loading: true,
       };
-    case AUTH_RESTORE.FAILURE:
+    case AUTH_RESTORE_FAILURE:
       return {
         ...state,
         loading: false,
         attempted: true,
       };
-    case AUTH_LOGOUT.SUCCESS:
+    case AUTH_LOGOUT_SUCCESS:
       return {
         ...state,
         attemped: true,
@@ -71,4 +95,42 @@ export default function AuthReducer(state = initialState, action) {
     default:
       return state;
   }
+}
+
+// SAGAS
+function* handleRestoreAuth() {
+  const response = yield AuthClient.restore();
+
+  if (response !== null) {
+    yield put(restoreAuthSuccess(response));
+  } else {
+    yield put(restoreAuthFailure(response));
+  }
+}
+
+function* logoutAuth() {
+  AuthClient.logout();
+  yield put(logoutSuccess());
+}
+
+function* loginAuth({ payload: { username, password } }) {
+  try {
+    const payload = yield AuthClient.login(username, password);
+    yield put(loginSuccess(payload));
+    yield put(
+      createToast(
+        'Welcome back!',
+        'Remember, an article a day keeps the rickets away.',
+        'message'
+      )
+    );
+  } catch (error) {
+    yield put(loginFailure(error));
+  }
+}
+
+export function* saga() {
+  yield takeLatest(AUTH_RESTORE_REQUEST, handleRestoreAuth);
+  yield takeLatest(AUTH_LOGOUT_REQUEST, logoutAuth);
+  yield takeLatest(AUTH_LOGIN_REQUEST, loginAuth);
 }

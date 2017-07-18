@@ -1,50 +1,24 @@
-import AT, { createRequestTypes } from '../constants/ActionTypes';
-import { sequence } from '../reducers/utils';
+import { takeLatest, put } from 'redux-saga/effects';
+import { createRequestTypes } from '../constants/ActionTypes';
 import { NotificationClient } from '../serverAPI';
-import { createTransaction, action as makeAction } from '../actions/utils';
 
-export const NOTIFICATION_UNREAD_COUNT = createRequestTypes(
-  'NOTIFICATION_UNREAD_COUNT'
-);
+const NOTIFICATION_UNREAD_COUNT_REQUEST = 'NOTIFICATION_UNREAD_COUNT_REQUEST';
+const NOTIFICATION_UNREAD_COUNT_FAILURE = 'NOTIFICATION_UNREAD_COUNT_FAILURE';
+const NOTIFICATION_UNREAD_COUNT_SUCCESS = 'NOTIFICATION_UNREAD_COUNT_SUCCESS';
 
 // seemingly this was missing?
 export const NOTIFICATION_UNREAD = createRequestTypes('NOTIFICATION_UNREAD');
 
-export function getUnreadCount() {
-  return dispatch => {
-    const transaction = createTransaction(dispatch, NOTIFICATION_UNREAD_COUNT);
+// ACTIONS
+export const loadUnreadCount = () => ({
+  type: NOTIFICATION_UNREAD_COUNT_REQUEST,
+});
 
-    NotificationClient.getUnreadCount()
-      .then(response => {
-        transaction.done(response.data);
-      })
-      .catch(transaction.error);
-  };
-}
-
-export const loadUnreadCount = () =>
-  makeAction(NOTIFICATION_UNREAD_COUNT.REQUEST);
-export const loadUnreadCountSuccess = payload =>
-  makeAction(NOTIFICATION_UNREAD_COUNT.SUCCESS, { payload });
-
-export const unread = () => makeAction(NOTIFICATION_UNREAD.REQUEST);
-export const unreadSuccess = payload =>
-  makeAction(NOTIFICATION_UNREAD.SUCCESS, { payload });
-
-export function getUnread() {
-  return dispatch => {
-    const transaction = createTransaction(
-      dispatch,
-      AT.NOTIFICATION_FETCH_UNREAD
-    );
-
-    NotificationClient.getUnread()
-      .then(() => {
-        transaction.done();
-      })
-      .catch(transaction.error);
-  };
-}
+// HELPERS
+const loadUnreadCountSuccess = payload => ({
+  type: NOTIFICATION_UNREAD_COUNT_SUCCESS,
+  payload,
+});
 
 const initialState = {
   unreadCount: null,
@@ -53,21 +27,22 @@ const initialState = {
 
 export default function NotificationReducer(state = initialState, action) {
   switch (action.type) {
-    case NOTIFICATION_UNREAD_COUNT.SUCCESS:
+    case NOTIFICATION_UNREAD_COUNT_SUCCESS:
       return {
         ...state,
         unreadCount: action.payload.data.count,
       };
-    case AT.NOTIFICATION_FETCH_UNREAD:
-      return sequence(state, action, {
-        done() {
-          return {
-            ...state,
-            unreadList: action.payload.result,
-          };
-        },
-      });
     default:
       return state;
   }
+}
+
+// SAGA
+function* handleLoadUnreadCount() {
+  const response = yield NotificationClient.getUnreadCount();
+  yield put(loadUnreadCountSuccess(response));
+}
+
+export function* saga() {
+  yield takeLatest(NOTIFICATION_UNREAD_COUNT_REQUEST, handleLoadUnreadCount);
 }

@@ -1,19 +1,25 @@
-import { createRequestTypes } from '../constants/ActionTypes';
+import { takeLatest, fork } from 'redux-saga/effects';
 import { action as makeAction } from '../actions/utils';
+import { fetchContent } from '../sagas/index';
 
-export const CONTENT_LIST_FETCH = createRequestTypes('CONTENT_LIST_FETCH');
-export const LOAD_CONTENT_LIST = 'LOAD_CONTENT_LIST';
+const CONTENT_LIST_FETCH_REQUEST = 'CONTENT_LIST_FETCH_REQUEST';
+const CONTENT_LIST_FETCH_FAILURE = 'CONTENT_LIST_FETCH_FAILURE';
+const CONTENT_LIST_FETCH_SUCCESS = 'CONTENT_LIST_FETCH_SUCCESS';
 
-export const loadContent = (vertical, query) =>
-  makeAction(LOAD_CONTENT_LIST, { vertical, query });
+const LOAD_CONTENT_LIST = 'LOAD_CONTENT_LIST';
+
+export const loadContent = (vertical, query) => ({
+  type: LOAD_CONTENT_LIST,
+  payload: { vertical, query },
+});
 
 export const content = {
   request: (vertical, query) =>
-    makeAction(CONTENT_LIST_FETCH.REQUEST, { vertical, query }),
+    makeAction(CONTENT_LIST_FETCH_REQUEST, { vertical, query }),
   success: (query, payload) =>
-    makeAction(CONTENT_LIST_FETCH.SUCCESS, { query, payload }),
+    makeAction(CONTENT_LIST_FETCH_SUCCESS, { query, payload }),
   failure: (query, error) =>
-    makeAction(CONTENT_LIST_FETCH.FAILURE, { query, error }),
+    makeAction(CONTENT_LIST_FETCH_FAILURE, { query, error }),
 };
 
 const initialState = {
@@ -26,7 +32,7 @@ const initialState = {
 
 export default function ContentListReducer(state = initialState, action) {
   switch (action.type) {
-    case CONTENT_LIST_FETCH.SUCCESS:
+    case CONTENT_LIST_FETCH_SUCCESS:
       return {
         ...state,
         list: action.payload.result,
@@ -38,4 +44,13 @@ export default function ContentListReducer(state = initialState, action) {
     default:
       return state;
   }
+}
+
+// SAGAS
+function* handleLoadContentList({ payload: { vertical, query } }) {
+  yield fork(fetchContent, vertical, query);
+}
+
+export function* saga() {
+  yield takeLatest(LOAD_CONTENT_LIST, handleLoadContentList);
 }

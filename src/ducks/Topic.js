@@ -1,27 +1,36 @@
+import { call, put, takeEvery } from 'redux-saga/effects';
 import { action as makeAction } from '../actions/utils';
-import { createRequestTypes } from '../constants/ActionTypes';
+import { TopicsClient } from '../serverAPI';
+import getVertical from '../sagas/getVertical';
 
-export const FETCH_SUGGESTED_TOPICS = createRequestTypes(
-  'FETCH_SUGGESTED_TOPICS'
-);
-export const FETCH_TOPICS_FOR_KEYWORD = createRequestTypes(
-  'FETCH_TOPICS_FOR_KEYWORD'
-);
+// CONSTANTS
+const FETCH_SUGGESTED_TOPICS_REQUEST = 'FETCH_SUGGESTED_TOPICS_REQUEST';
+const FETCH_SUGGESTED_TOPICS_FAILURE = 'FETCH_SUGGESTED_TOPICS_FAILURE';
+const FETCH_SUGGESTED_TOPICS_SUCCESS = 'FETCH_SUGGESTED_TOPICS_SUCCESS';
 
+const FETCH_TOPICS_FOR_KEYWORD_REQUEST = 'FETCH_TOPICS_FOR_KEYWORD_REQUEST';
+const FETCH_TOPICS_FOR_KEYWORD_FAILURE = 'FETCH_TOPICS_FOR_KEYWORD_FAILURE';
+const FETCH_TOPICS_FOR_KEYWORD_SUCCESS = 'FETCH_TOPICS_FOR_KEYWORD_SUCCESS';
+
+// ACTIONS
 export const getSuggestedTopics = () =>
-  makeAction(FETCH_SUGGESTED_TOPICS.REQUEST);
-export const getSuggestedTopicsSuccess = payload =>
-  makeAction(FETCH_SUGGESTED_TOPICS.SUCESS, { payload });
-export const getSuggestedTopicsFailure = () =>
-  makeAction(FETCH_SUGGESTED_TOPICS.FAILURE);
+  makeAction(FETCH_SUGGESTED_TOPICS_REQUEST);
 
 export const getTopicsForKeyword = keyword =>
-  makeAction(FETCH_TOPICS_FOR_KEYWORD.REQUEST, { keyword });
-export const getTopicsForKeywordSuccess = payload =>
-  makeAction(FETCH_TOPICS_FOR_KEYWORD.SUCESS, { payload });
-export const getTopicsForKeywordFailure = () =>
-  makeAction(FETCH_TOPICS_FOR_KEYWORD.FAILURE);
+  makeAction(FETCH_TOPICS_FOR_KEYWORD_REQUEST, { keyword });
 
+// HELPERS
+export const getSuggestedTopicsSuccess = payload =>
+  makeAction(FETCH_SUGGESTED_TOPICS_SUCCESS, { payload });
+export const getSuggestedTopicsFailure = () =>
+  makeAction(FETCH_SUGGESTED_TOPICS_FAILURE);
+
+export const getTopicsForKeywordSuccess = payload =>
+  makeAction(FETCH_TOPICS_FOR_KEYWORD_SUCCESS, { payload });
+export const getTopicsForKeywordFailure = () =>
+  makeAction(FETCH_TOPICS_FOR_KEYWORD_FAILURE);
+
+// REDUCER
 const initialState = {
   keywordMap: {},
   isLoading: true,
@@ -29,7 +38,7 @@ const initialState = {
 
 export default function TopicsReducer(state = initialState, action) {
   switch (action.type) {
-    case FETCH_TOPICS_FOR_KEYWORD.SUCCESS:
+    case FETCH_TOPICS_FOR_KEYWORD_SUCCESS:
       return {
         ...state,
         isLoading: false,
@@ -41,4 +50,22 @@ export default function TopicsReducer(state = initialState, action) {
     default:
       return state;
   }
+}
+
+// SAGA
+function* handleFetchTopicsForKeyword({ keyword }) {
+  const vertical = yield getVertical();
+  const payload = yield call(TopicsClient.forKeyword, vertical, keyword);
+  if (!payload.error) {
+    yield put({ type: FETCH_TOPICS_FOR_KEYWORD_SUCCESS, payload, keyword });
+  } else {
+    yield put({ type: FETCH_TOPICS_FOR_KEYWORD_FAILURE, error: payload.error });
+  }
+}
+
+export function* saga() {
+  yield takeEvery(
+    FETCH_TOPICS_FOR_KEYWORD_REQUEST,
+    handleFetchTopicsForKeyword
+  );
 }

@@ -1,3 +1,5 @@
+import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { actions as formActions } from 'react-redux-form';
 import { normalize, schema } from 'normalizr';
 import { SectionsClient, TopicsClient } from '../serverAPI';
 import {
@@ -7,6 +9,7 @@ import {
 import { createTransaction, action as makeAction } from '../actions/utils';
 import { sequence } from '../reducers/utils';
 import { AT, createRequestTypes } from '../constants/ActionTypes';
+import getVertical from '../sagas/getVertical';
 
 // CONSTANTS
 export const GET_ALL_SECTIONS = 'GET_ALL_SECTIONS';
@@ -282,4 +285,94 @@ export default function OrganisationReducer(state = initialState, action) {
     default:
       return state;
   }
+}
+
+// SAGA
+function* handleGetAllSections() {
+  yield put(fetchAllSections());
+  const vertical = yield getVertical();
+  const payload = yield call(SectionsClient.getAll, vertical);
+
+  if (payload.error) {
+    yield put(fetchAllSectionsFailure(payload));
+  } else {
+    yield put(fetchAllSectionsSuccess(payload));
+  }
+}
+
+function* handleSelectSection({ id }) {
+  console.log(id);
+  const response = yield call(SectionsClient.getTopicsFor, id);
+  yield put(fetchTopicsForSectionSuccess(id, response));
+  const section = yield select(state => state.entities.sections[id]);
+  yield put(formActions.change('sectionEdit', section));
+}
+
+function* handleSelectTopic({ id }) {
+  console.log(id);
+  const topic = yield select(state => state.entities.topics[id]);
+  yield put(formActions.change('topicEdit', topic));
+}
+
+function* handleSelectNewSection() {
+  yield put(formActions.reset('sectionEdit'));
+}
+
+function* handleSelectNewTopic() {
+  yield put(formActions.reset('topicEdit'));
+}
+
+function* handleSaveTopic({ data }) {
+  let response = null;
+  const [selectedSectionId, selectedTopicId] = yield select(state => [
+    state.organisation.selectedSectionId,
+    state.organisation.selectedTopicId,
+  ]);
+  console.log({ selectedSectionId, selectedTopicId });
+  if (selectedTopicId === null) {
+    response = yield call(TopicsClient.create, selectedSectionId, data);
+  } else {
+    const currentData = yield select(
+      state => state.entities.topics[selectedTopicId]
+    );
+    response = yield call(TopicsClient.update, selectedTopicId, {
+      ...currentData,
+      ...data,
+    });
+  }
+
+  if (response.error) {
+    yield put(saveTopicFailure(response));
+  } else {
+    yield put(saveTopicSuccess(response));
+  }
+}
+
+function* handleSaveSection({ data }) {
+  let response = null;
+  const selectedId = yield select(
+    state => state.organisation.selectedSectionId
+  );
+  if (selectedId === null) {
+    const vertical = yield getVertical();
+    response = yield call(SectionsClient.create, vertical, data);
+  } else {
+    response = yield call(SectionsClient.update, selectedId, data);
+  }
+
+  if (response.error) {
+    yield put(saveSectionFailure(response));
+  } else {
+    yield put(saveSectionSuccess(response));
+  }
+}
+
+export function* saga() {
+  yield takeLatest(GET_ALL_SECTIONS, handleGetAllSections);
+  yield takeLatest(ORGANISATION_SELECT_SECTION, handleSelectSection);
+  yield takeLatest(ORGANISATION_SELECT_TOPIC, handleSelectTopic);
+  yield takeLatest(ORGANISATION_SELECT_NEW_SECTION, handleSelectNewSection);
+  yield takeLatest(ORGANISATION_SELECT_NEW_TOPIC, handleSelectNewTopic);
+  yield takeLatest(ORGANISATION_SAVE_TOPIC.REQUEST, handleSaveTopic);
+  yield takeLatest(ORGANISATION_SAVE_SECTION.REQUEST, handleSaveSection);
 }
