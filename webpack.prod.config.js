@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const config = require('./webpack.base.config.js');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const SaveAssetsJson = require('assets-webpack-plugin');
 
@@ -22,7 +22,6 @@ config.plugins = config.plugins.concat([
     path: process.cwd(),
     filename: 'assets.json',
   }),
-  new BundleAnalyzerPlugin(),
 ]);
 
 config.module.loaders = config.module.loaders.concat([
