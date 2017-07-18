@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Form, Field } from 'react-redux-form';
 import { SidebarControl } from './Sidebar';
-import * as OrgansiationActions from '../actions/OrgansiationActions';
+import * as OrgansiationActions from '../ducks/Organisation';
 
 class SectionEditForm extends React.Component {
   constructor(props) {

@@ -1,5 +1,7 @@
 import { spawn, call, put, select, takeLatest } from 'redux-saga/effects';
 import { actions as formActions } from 'react-redux-form';
+import { SectionsClient, TopicsClient } from '../serverAPI';
+import getVertical from './getVertical';
 import {
   GET_ALL_SECTIONS,
   ORGANISATION_SELECT_SECTION,
@@ -8,10 +10,6 @@ import {
   ORGANISATION_SELECT_NEW_TOPIC,
   ORGANISATION_SAVE_TOPIC,
   ORGANISATION_SAVE_SECTION,
-} from '../constants/ActionTypes';
-import { SectionsClient, TopicsClient } from '../serverAPI';
-import getVertical from './getVertical';
-import {
   fetchAllSections,
   fetchAllSectionsSuccess,
   fetchAllSectionsFailure,
@@ -20,7 +18,7 @@ import {
   saveTopicFailure,
   saveSectionSuccess,
   saveSectionFailure,
-} from '../actions/OrgansiationActions';
+} from '../ducks/Organisation';
 
 function* handleGetAllSections() {
   yield put(fetchAllSections());

@@ -4,7 +4,7 @@ import filter from 'lodash/filter';
 import { connect } from 'react-redux';
 import cx from 'classnames';
 import { TitleSelection, SelectionItem } from '../components/TitleSelection';
-import * as OrgansiationActions from '../actions/OrgansiationActions';
+import * as OrgansiationActions from '../ducks/Organisation';
 import DocumentTitle from '../components/DocumentTitle';
 import TopicEditForm from '../components/TopicEditForm';
 import SectionEditForm from '../components/SectionEditForm';

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import Select from 'react-select';
-import * as OrgansiationActions from '../../actions/OrgansiationActions';
+import * as OrgansiationActions from '../../ducks/Organisation';
 
 // eslint-disable-next-line
 import 'style-loader!css-loader!postcss-loader!react-select/dist/react-select.css';
