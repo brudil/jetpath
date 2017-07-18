@@ -1,5 +1,5 @@
 import { takeLatest, put } from 'redux-saga/effects';
-import { createRequestTypes } from '../constants/ActionTypes';
+import { createRequestTypes } from '../utils';
 import { NotificationClient } from '../serverAPI';
 
 const NOTIFICATION_UNREAD_COUNT_REQUEST = 'NOTIFICATION_UNREAD_COUNT_REQUEST';

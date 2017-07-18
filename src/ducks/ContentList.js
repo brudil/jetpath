@@ -1,5 +1,5 @@
 import { takeLatest, fork } from 'redux-saga/effects';
-import { action as makeAction } from '../actions/utils';
+import { action as makeAction } from '../utils';
 import { fetchContent } from '../sagas/index';
 
 const CONTENT_LIST_FETCH_REQUEST = 'CONTENT_LIST_FETCH_REQUEST';

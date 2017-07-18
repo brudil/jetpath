@@ -1,5 +1,5 @@
 import Immutable from 'immutable';
-import { action } from '../actions/utils';
+import { action } from '../utils';
 
 export const CREATE_TOAST = 'CREATE_TOAST';
 export const REMOVE_TOAST = 'REMOVE_TOAST';

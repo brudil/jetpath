@@ -6,9 +6,12 @@ import {
   topic as topicSchema,
   section as sectionSchema,
 } from '../schema/index';
-import { createTransaction, action as makeAction } from '../actions/utils';
-import { sequence } from '../reducers/utils';
-import { AT, createRequestTypes } from '../constants/ActionTypes';
+import {
+  sequence,
+  createTransaction,
+  action as makeAction,
+  createRequestTypes,
+} from '../utils';
 import getVertical from '../sagas/getVertical';
 
 // CONSTANTS
@@ -37,19 +40,6 @@ export const ORGANISATION_FETCH_TOPICS_FOR_SECTION = createRequestTypes(
 );
 
 // ACTIONS
-export function getSectionIndex(queryParams) {
-  return dispatch => {
-    const transaction = createTransaction(dispatch, AT.SECTION_LIST_FETCH);
-    SectionsClient.getAll(queryParams)
-      .then(payload => {
-        transaction.done(
-          normalize(payload.data, new schema.Array(sectionSchema))
-        );
-      })
-      .catch(transaction.error);
-  };
-}
-
 export const getAllSections = () => makeAction(GET_ALL_SECTIONS);
 export const fetchAllSections = () => makeAction(FETCH_ALL_SECTIONS.REQUEST);
 export const fetchAllSectionsFailure = payload =>

@@ -1,7 +1,5 @@
 import { takeLatest, takeEvery, put, call, fork } from 'redux-saga/effects';
-import { sequence } from '../reducers/utils';
-import { createRequestTypes } from '../constants/ActionTypes';
-import { action as makeAction } from '../actions/utils';
+import { sequence, action as makeAction, createRequestTypes } from '../utils';
 import { fetchMediaList } from '../sagas/index';
 import getVertical from '../sagas/getVertical';
 import { MediaClient } from '../serverAPI';

@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from 'redux-saga/effects';
-import { action as makeAction } from '../actions/utils';
+import { action as makeAction } from '../utils';
 import { TopicsClient } from '../serverAPI';
 import getVertical from '../sagas/getVertical';
 

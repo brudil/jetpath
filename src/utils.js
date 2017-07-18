@@ -4,6 +4,20 @@ export function action(type, payload = {}) {
   return { type, ...payload };
 }
 
+const REQUEST = 'REQUEST';
+const SUCCESS = 'SUCCESS';
+const FAILURE = 'FAILURE';
+
+export function createRequestTypes(base) {
+  const res = {};
+  [REQUEST, SUCCESS, FAILURE].forEach(type => {
+    const constant = `${base}_${type}`;
+    res[type] = constant;
+    return constant;
+  });
+  return res;
+}
+
 export function createTransaction(dispatch, actionType, sequenceData = {}) {
   const transactionId = uuid();
   console.warn(
@@ -55,4 +69,20 @@ export function createTransaction(dispatch, actionType, sequenceData = {}) {
       });
     },
   };
+}
+
+export function sequence(state, action, methods) {
+  if (action.error && {}.hasOwnProperty.call(methods, 'error')) {
+    return methods.error();
+  }
+
+  if (!{}.hasOwnProperty.call(action, 'sequence')) {
+    throw new Error('Sequence action has no sequence data!');
+  }
+
+  if ({}.hasOwnProperty.call(methods, action.sequence.type)) {
+    return methods[action.sequence.type]();
+  }
+
+  return state;
 }

@@ -7,8 +7,7 @@ import {
   fields,
 } from '@brudil/spectrum';
 import { WorksClient, MediaClient } from '../serverAPI';
-import { action as makeAction } from '../actions/utils';
-import { createRequestTypes } from '../constants/ActionTypes';
+import { action as makeAction, createRequestTypes } from '../utils';
 import getVertical from '../sagas/getVertical';
 
 const EDITOR_LOAD_CONTENT = createRequestTypes('EDITOR_LOAD_CONTENT');

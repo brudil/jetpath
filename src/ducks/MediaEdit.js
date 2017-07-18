@@ -1,14 +1,21 @@
 import Immutable from 'immutable';
-import AT from '../constants/ActionTypes';
 import { sequence } from '../reducers/utils';
 import { MediaClient } from '../serverAPI';
-import { createTransaction } from '../actions/utils';
+import { createTransaction } from '../utils';
 
+// TYPES
+const MEDIA_MODAL_SHOW = 'MEDIA_MODAL_SHOW';
+const MEDIA_MODAL_CLOSE = 'MEDIA_MODAL_CLOSE';
+const MEDIA_MODAL_FETCH = 'MEDIA_MODAL_FETCH';
+const MEDIA_MODAL_UPDATE = 'MEDIA_MODAL_UPDATE';
+const MEDIA_MODAL_SAVE = 'MEDIA_MODAL_SAVE';
+
+// ACTIONS
 export function open() {}
 
 export function save(data) {
   return dispatch => {
-    const transaction = createTransaction(dispatch, AT.MEDIA_MODAL_SAVE);
+    const transaction = createTransaction(dispatch, MEDIA_MODAL_SAVE);
 
     try {
       const payload = MediaClient.update(data.get('id'), data);
@@ -22,7 +29,7 @@ export function save(data) {
 export function update(key, value) {
   return dispatch => {
     dispatch({
-      type: AT.MEDIA_MODAL_UPDATE,
+      type: MEDIA_MODAL_UPDATE,
       payload: {
         key,
         value,
@@ -33,7 +40,7 @@ export function update(key, value) {
 
 export function close() {
   return {
-    type: AT.MEDIA_MODAL_CLOSE,
+    type: MEDIA_MODAL_CLOSE,
   };
 }
 
@@ -49,27 +56,27 @@ const initialState = {
 export default function MediaEditModalReducer(state = initialState, action) {
   const { payload } = action;
   switch (action.type) {
-    case AT.MEDIA_MODAL_SHOW:
+    case MEDIA_MODAL_SHOW:
       return {
         ...state,
         id: payload.id,
         data: null,
         serverData: null,
       };
-    case AT.MEDIA_MODAL_CLOSE:
+    case MEDIA_MODAL_CLOSE:
       return {
         ...state,
         id: null,
         data: null,
         serverData: null,
       };
-    case AT.MEDIA_MODAL_FETCH:
+    case MEDIA_MODAL_FETCH:
       return {
         ...state,
         data: payload,
         serverData: payload,
       };
-    case AT.MEDIA_MODAL_SAVE:
+    case MEDIA_MODAL_SAVE:
       return sequence(state, action, {
         start() {
           return {
@@ -93,7 +100,7 @@ export default function MediaEditModalReducer(state = initialState, action) {
           };
         },
       });
-    case AT.MEDIA_MODAL_UPDATE:
+    case MEDIA_MODAL_UPDATE:
       return {
         ...state,
         data: state.data.set(payload.key, payload.value),
