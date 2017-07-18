@@ -13,7 +13,7 @@ config.devServer = {
   historyApiFallback: true,
 };
 
-config.devtool = 'eval-source-map';
+config.devtool = 'inline-source-map';
 
 config.plugins = config.plugins.concat([
   new webpack.NoEmitOnErrorsPlugin(),

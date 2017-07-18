@@ -3,8 +3,8 @@ import React from 'react';
 import cx from 'classnames';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import { replace } from 'react-router-redux';
 import Mousetrap from 'mousetrap';
+import { Route, Switch } from 'react-router-dom';
 import DebouncedAutosizeTextarea from '../components/DebouncedAutosizeTextarea';
 import DocumentTitle from '../components/DocumentTitle';
 import EditorSidebar from '../components/Editor/EditorSidebar';
@@ -15,7 +15,6 @@ import LoadingContent from '../components/LoadingContent';
 import stylesEditPane from '../styles/components/EditPane.css';
 import stylesEditor from '../styles/components/Editor.css';
 import stylesWriteSheet from '../styles/components/WriteSheet.css';
-import { Route, Switch } from 'react-router-dom';
 import EditorSectionContent from './EditorSectionContent';
 import EditorSectionMetadata from './EditorSectionMetadata';
 import EditorSectionWorkflow from './EditorSectionWorkflow';
@@ -28,9 +27,10 @@ class EditorPage extends React.Component {
   }
 
   componentWillMount() {
-    if (this.props.params.id !== 'new') {
-      this.props.dispatch(EditorActions.loadContent(this.props.params.id));
-      // this.props.dispatch(EditorActions.fetchLatestRevisionAndUpdateResources(this.props.params.id));
+    const { id } = this.props.match.params;
+    if (id !== 'new') {
+      this.props.dispatch(EditorActions.loadContent(id));
+      // this.props.dispatch(EditorActions.fetchLatestRevisionAndUpdateResources(id));
     } else {
       this.props.dispatch(EditorActions.createEmptyDocument());
     }
@@ -40,10 +40,11 @@ class EditorPage extends React.Component {
     /*
     Router hook to trigger if we attempt to leave
     */
-    this.props.router.setRouteLeaveHook(
-      this.props.route,
-      this.routerWillLeave.bind(this)
-    );
+    // TODO: port this to RR v4
+    // this.props.router.setRouteLeaveHook(
+    //   this.props.route,
+    //   this.routerWillLeave.bind(this)
+    // );
 
     /*
     Keyboard shortcut bindings for editor-wide actions
@@ -58,21 +59,20 @@ class EditorPage extends React.Component {
     if (
       nextProps.isLocal === false &&
       this.props.isLocal === true &&
-      this.props.params.id === 'new'
+      this.props.match.params.id === 'new'
     ) {
-      const vertical = this.props.params.vertical;
-      this.props.dispatch(
-        replace(`/@${vertical}/editor/${nextProps.contentId}`)
-      );
+      const vertical = this.props.match.params.vertical;
+      this.props.history.replace(`/@${vertical}/editor/${nextProps.contentId}`);
     }
 
     if (nextProps.location.pathname !== this.props.location.pathname) {
       console.log('[editor] re-adding router leave hook');
       console.log(nextProps.location, this.props.location);
-      this.props.router.setRouteLeaveHook(
-        this.props.route,
-        this.routerWillLeave.bind(this)
-      );
+      // TODO: port this to RR v4
+      // this.props.router.setRouteLeaveHook(
+      //   this.props.route,
+      //   this.routerWillLeave.bind(this)
+      // );
     }
   }
 
@@ -104,12 +104,13 @@ class EditorPage extends React.Component {
       editorialMetadata,
       hasChangesFromSaved,
       isLocal,
-      params,
     } = this.props;
     const revisionChangeHandler = createChangeHandler(
       this.props.dispatch,
       EditorActions.updateRevision
     );
+
+    const { url, params } = this.props.match;
 
     return (
       <div>
@@ -120,13 +121,13 @@ class EditorPage extends React.Component {
           hasChangesFromSaved={hasChangesFromSaved}
           onSave={this.handleSave}
           onHeadlineUpdate={revisionChangeHandler('headline')}
-          pathId={this.props.params.id}
+          pathId={params.id}
         />
         <div>
           <Switch>
-            <Route path="/" component={EditorSectionContent} exact />
-            <Route path="metadata" component={EditorSectionMetadata} />
-            <Route path="workflow" component={EditorSectionWorkflow} />
+            <Route path={`${url}`} component={EditorSectionContent} exact />
+            <Route path={`${url}/metadata`} component={EditorSectionMetadata} />
+            <Route path={`${url}/workflow`} component={EditorSectionWorkflow} />
           </Switch>
         </div>
       </div>
@@ -207,7 +208,6 @@ EditorPage.propTypes = {
   router: PropTypes.object.isRequired,
   route: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
-  children: PropTypes.node,
 };
 
 export default withRouter(

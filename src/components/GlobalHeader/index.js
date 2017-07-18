@@ -77,7 +77,9 @@ function GlobalHeader(props) {
 }
 
 GlobalHeader.propTypes = {
-  vertical: PropTypes.string,
+  vertical: PropTypes.shape({
+    identifier: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default connect(state => ({

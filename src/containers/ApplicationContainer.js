@@ -1,13 +1,18 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import omit from 'lodash/omit';
+import { Route, Switch, withRouter } from 'react-router-dom';
+import loadBaseContainer from 'bundle-loader?name=Base&lazy!./BaseContainer';
 import DocumentTitle from '../components/DocumentTitle';
 import Stonewall from '../components/Stonewall';
 import * as AuthActions from '../actions/AuthActions';
-import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
-import BaseContainer from './BaseContainer';
 import StonewallContainer from './StonewallContainer';
+import Bundle from '../components/Bundle';
+
+const BaseContainer = props =>
+  <Bundle load={loadBaseContainer}>
+    {BaseContainerL => <BaseContainerL {...props} />}
+  </Bundle>;
 
 class ApplicationContainer extends React.Component {
   componentDidMount() {

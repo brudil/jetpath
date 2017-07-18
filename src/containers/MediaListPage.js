@@ -22,6 +22,7 @@ import Sidebar, { SidebarControl } from '../components/Sidebar';
 
 import viewContainerStyles from '../styles/components/ViewContainer.css';
 import stylesStandardHeader from '../styles/components/StandardHeader.css';
+import { withRouter } from 'react-router-dom';
 
 const presets = {
   all: {
@@ -64,7 +65,7 @@ class MediaListPage extends React.Component {
   }
 
   handleQueryChange(filters) {
-    const vertical = this.props.params.vertical;
+    const vertical = this.props.match.params.vertical;
     this.props.dispatch(
       replace({
         pathname: `/@${vertical}/media`,
@@ -72,7 +73,7 @@ class MediaListPage extends React.Component {
       })
     );
     this.props.dispatch(
-      MediaListActions.loadMediaList(this.props.params.vertical, { ...filters })
+      MediaListActions.loadMediaList(this.props.match.params.vertical, { ...filters })
     );
   }
 
@@ -244,11 +245,13 @@ MediaListPage.propTypes = {
   hasNext: PropTypes.bool.isRequired,
 };
 
-export default withRouter(connect(state => ({
-  media: state.mediaList,
-  mediamodal: state.mediamodal,
-  uploadProgress: state.uploadProgress,
-  mediaItems: state.mediaList.list.map(id => state.entities.media[id]),
-  hasNext: state.mediaList.hasNext,
-  isLoading: state.mediaList.loading,
-}))(MediaListPage));
+export default withRouter(
+  connect(state => ({
+    media: state.mediaList,
+    mediamodal: state.mediamodal,
+    uploadProgress: state.uploadProgress,
+    mediaItems: state.mediaList.list.map(id => state.entities.media[id]),
+    hasNext: state.mediaList.hasNext,
+    isLoading: state.mediaList.loading,
+  }))(MediaListPage)
+);

@@ -17,7 +17,7 @@ const env = {
 };
 
 _.assign(env, {
-  build: (env.production || env.staging),
+  build: env.production || env.staging,
 });
 
 module.exports = {
@@ -28,15 +28,12 @@ module.exports = {
   output: {
     path: path.join(__dirname),
     publicPath: '/',
-    filename: 'application.js',
+    filename: 'application.[name].js',
+    chunkFilename: '[name].[id].js',
   },
 
   resolve: {
-    modules: [
-      'web_modules',
-      'node_modules',
-      './src/images',
-    ],
+    modules: ['web_modules', 'node_modules', './src/images'],
     moduleExtensions: ['js', 'svg'],
   },
 
@@ -81,7 +78,12 @@ module.exports = {
   module: {
     loaders: [
       // { test: /react\-select\.css$/, loader: 'style!css' },
-      { test: /\.css$/, loader: 'style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader', exclude: /node_modules/ },
+      {
+        test: /\.css$/,
+        loader:
+          'style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader',
+        exclude: /node_modules/,
+      },
       { test: /\.svg$/, loader: 'file-loader' },
     ],
 

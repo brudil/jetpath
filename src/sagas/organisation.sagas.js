@@ -35,7 +35,7 @@ function* handleGetAllSections() {
 }
 
 function* watchGetAllSections() {
-  yield* takeLatest(GET_ALL_SECTIONS, handleGetAllSections);
+  yield takeLatest(GET_ALL_SECTIONS, handleGetAllSections);
 }
 
 function* handleSelectSection({ id }) {
@@ -47,7 +47,7 @@ function* handleSelectSection({ id }) {
 }
 
 function* watchSelectSection() {
-  yield* takeLatest(ORGANISATION_SELECT_SECTION, handleSelectSection);
+  yield takeLatest(ORGANISATION_SELECT_SECTION, handleSelectSection);
 }
 
 function* handleSelectTopic({ id }) {
@@ -57,7 +57,7 @@ function* handleSelectTopic({ id }) {
 }
 
 function* watchSelectTopic() {
-  yield* takeLatest(ORGANISATION_SELECT_TOPIC, handleSelectTopic);
+  yield takeLatest(ORGANISATION_SELECT_TOPIC, handleSelectTopic);
 }
 
 function* handleSelectNewSection() {
@@ -65,7 +65,7 @@ function* handleSelectNewSection() {
 }
 
 function* watchSelectNewSection() {
-  yield* takeLatest(ORGANISATION_SELECT_NEW_SECTION, handleSelectNewSection);
+  yield takeLatest(ORGANISATION_SELECT_NEW_SECTION, handleSelectNewSection);
 }
 
 function* handleSelectNewTopic() {
@@ -73,7 +73,7 @@ function* handleSelectNewTopic() {
 }
 
 function* watchSelectNewTopic() {
-  yield* takeLatest(ORGANISATION_SELECT_NEW_TOPIC, handleSelectNewTopic);
+  yield takeLatest(ORGANISATION_SELECT_NEW_TOPIC, handleSelectNewTopic);
 }
 
 function* handleSaveTopic({ data }) {
@@ -103,7 +103,7 @@ function* handleSaveTopic({ data }) {
 }
 
 function* watchSaveTopic() {
-  yield* takeLatest(ORGANISATION_SAVE_TOPIC.REQUEST, handleSaveTopic);
+  yield takeLatest(ORGANISATION_SAVE_TOPIC.REQUEST, handleSaveTopic);
 }
 
 function* handleSaveSection({ data }) {
@@ -127,7 +127,7 @@ function* handleSaveSection({ data }) {
 }
 
 function* watchSaveSection() {
-  yield* takeLatest(ORGANISATION_SAVE_SECTION.REQUEST, handleSaveSection);
+  yield takeLatest(ORGANISATION_SAVE_SECTION.REQUEST, handleSaveSection);
 }
 
 export default [

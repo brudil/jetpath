@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import configureStore from './store/configureStore';
 import rootSaga from './sagas/index';
 import { createToast } from './actions/ToastActions';
@@ -9,9 +9,6 @@ import ApplicationContainer from './containers/ApplicationContainer';
 
 console.log('Jetpath 1.0');
 console.log(`ENV: ${process.env.NODE_ENV}`);
-if (process.env.NODE_ENV === 'development') {
-  window.Perf = require('react-addons-perf'); // eslint-disable-line
-}
 
 require('./styles/legacy/style.css');
 

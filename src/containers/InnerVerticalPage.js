@@ -1,13 +1,29 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import findIndex from 'lodash/findIndex';
 import { connect } from 'react-redux';
+import loadEditorPage from 'bundle-loader?name=Editor&lazy!./EditorPage';
+import loadOrganisationPage from 'bundle-loader?name=Organisation&lazy!./OrganisationPage';
+import loadMediaListPage from 'bundle-loader?name=Media&lazy!./MediaListPage';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import { setVertical, getVerticals } from '../actions/VerticalActions';
 import ContentListPage from './ContentListPage';
-import MediaListPage from './MediaListPage';
-import OrganisationPage from './OrganisationPage';
-import EditorPage from './EditorPage';
+
+import Bundle from '../components/Bundle';
+
+const EditorPage = props =>
+  <Bundle load={loadEditorPage}>
+    {EditorPageL => <EditorPageL {...props} />}
+  </Bundle>;
+
+const OrganisationPage = props =>
+  <Bundle load={loadOrganisationPage}>
+    {OrganisationPageL => <OrganisationPageL {...props} />}
+  </Bundle>;
+
+const MediaListPage = props =>
+  <Bundle load={loadMediaListPage}>
+    {MediaListPageL => <MediaListPageL {...props} />}
+  </Bundle>;
+
 
 class InnerVerticalPage extends React.Component {
   componentDidMount() {
@@ -45,8 +61,8 @@ class InnerVerticalPage extends React.Component {
         <Route path={`${url}/content`} component={ContentListPage} />
         <Route path={`${url}/media`} component={MediaListPage} />
         <Route path={`${url}/organisation`} component={OrganisationPage} />
-        <Redirect from={`${url}/editor`} to="editor/new" />
         <Route path={`${url}/editor/:id`} component={EditorPage} />
+        <Redirect from={`${url}/editor`} to="editor/new" />
       </Switch>
     );
   }

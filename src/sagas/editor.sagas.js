@@ -225,19 +225,19 @@ function* watchEditorChange() {
 }
 
 function* watchEditorPublish() {
-  yield* takeLatest(EDITOR_PUBLISH_CONTENT.REQUEST, handleEditorPublish);
+  yield takeLatest(EDITOR_PUBLISH_CONTENT.REQUEST, handleEditorPublish);
 }
 
 function* watchEditorSave() {
-  yield* takeLatest(EDITOR_SAVE, handleEditorSave);
+  yield takeLatest(EDITOR_SAVE, handleEditorSave);
 }
 
 function* watchEditorLoad() {
-  yield* takeLatest(EDITOR_LOAD_CONTENT.REQUEST, handleEditorLoad);
+  yield takeLatest(EDITOR_LOAD_CONTENT.REQUEST, handleEditorLoad);
 }
 
 function* watchEditorChangeRevisionStatus() {
-  yield* takeLatest(
+  yield takeLatest(
     EDITOR_CHANGE_REVISION_STATUS.REQUEST,
     handleEditorChangeRevisionStatus
   );

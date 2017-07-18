@@ -86,7 +86,7 @@ class EditorNav extends React.Component {
   render() {
     return (
       <Sticky stickyClassName={styles.sticky}>
-        {this.renderDefault()}
+        {() => this.renderDefault()}
       </Sticky>
     );
   }
@@ -95,8 +95,8 @@ class EditorNav extends React.Component {
 EditorNav.propTypes = {
   vertical: PropTypes.string,
   headline: PropTypes.string,
-  isLocal: PropTypes.boolean,
-  hasChangesFromSaved: PropTypes.boolean,
+  isLocal: PropTypes.bool,
+  hasChangesFromSaved: PropTypes.bool,
   onSave: PropTypes.func,
   onHeadlineUpdate: PropTypes.func,
   pathId: PropTypes.string,
