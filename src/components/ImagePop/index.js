@@ -1,14 +1,12 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ImgixClient from 'imgix-core-js';
+import qs from 'query-string';
 
 import styles from './ImagePop.css';
 
-const imgix = new ImgixClient({
-  host: 'drafty.imgix.net',
-  secureURLToken: 'NeyWxnlkYl3yWvZ1',
-});
-
+function imgix(resource, options) {
+  return `https://drafty.imgix.net/${resource}?${qs.stringify(options)}`;
+}
 class ImagePop extends React.Component {
   constructor(x, y) {
     super(x, y);
@@ -51,7 +49,7 @@ class ImagePop extends React.Component {
   generateDisplayUrl(image) {
     return image.mime === 'image/gif'
       ? image.direct_url
-      : imgix.buildURL(image.resource_name, { h: 300 });
+      : imgix(image.resource_name, { h: 300 });
   }
 
   handleLoaded() {
@@ -73,7 +71,7 @@ class ImagePop extends React.Component {
       <div className={styles.loadingContainer}>
         <img
           className={styles.loadingImage}
-          src={imgix.buildURL(this.props.image.resource_name, { h: 6 })}
+          src={imgix(this.props.image.resource_name, { h: 6 })}
           alt={this.props.image.fileName}
         />
       </div>

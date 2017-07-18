@@ -17,7 +17,7 @@ config.output = {
 };
 
 config.plugins = config.plugins.concat([
-  new webpack.optimize.UglifyJsPlugin({ output: { comments: false } }),
+  new webpack.optimize.UglifyJsPlugin({ output: { comments: false }, sourceMap: true }),
   new SaveAssetsJson({
     path: process.cwd(),
     filename: 'assets.json',

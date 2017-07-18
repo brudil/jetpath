@@ -1,22 +1,19 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import moment from 'moment';
-
-const weekAgoMonent = moment().subtract(5, 'days');
+import differenceInDays from 'date-fns/differenceInDays';
+import format from 'date-fns/format';
+import formatDistance from 'date-fns/formatDistance';
 
 function SmartDate(props) {
-  const dateMonent = moment(props.value);
-  const shouldPrintPretty = dateMonent.diff(weekAgoMonent, 'days') > 0;
+  const date = new Date(props.value);
+  const shouldPrintPretty = differenceInDays(date, new Date()) < 6;
   const textualValue = shouldPrintPretty
-    ? dateMonent.fromNow()
-    : `on ${dateMonent.format('ddd Do MMMM [at] hh:mma')}`;
+    ? formatDistance(date, new Date())
+    : `on ${format(date, 'ddd Do MMMM [at] hh:mma')}`;
 
   return (
     <span>
-      <time
-        dateTime={dateMonent.toISOString()}
-        title={dateMonent.toISOString()}
-      >
+      <time dateTime={date.toISOString()} title={date.toISOString()}>
         {textualValue}
       </time>
     </span>
