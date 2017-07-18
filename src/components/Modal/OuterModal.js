@@ -1,5 +1,5 @@
 import React from 'react';
-import uuid from 'node-uuid';
+import uuid from 'uuid/v4';
 import Modal from './InnerModal';
 
 export default () => InnerModalComponent => {
@@ -8,7 +8,7 @@ export default () => InnerModalComponent => {
       super(props, context);
 
       this.state = {
-        uuid: uuid.v4(),
+        uuid: uuid(),
       };
     }
 

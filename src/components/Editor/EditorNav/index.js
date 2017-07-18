@@ -27,7 +27,7 @@ class EditorNav extends React.Component {
       headline,
       vertical,
     } = this.props;
-    const basePath = `/@${vertical}/editor/${pathId}`;
+    const basePath = `/@${vertical.identifier}/editor/${pathId}`;
 
     return (
       <div className={styles.root}>
@@ -93,7 +93,9 @@ class EditorNav extends React.Component {
 }
 
 EditorNav.propTypes = {
-  vertical: PropTypes.string,
+  vertical: PropTypes.shape({
+    identifier: PropTypes.string,
+  }),
   headline: PropTypes.string,
   isLocal: PropTypes.bool,
   hasChangesFromSaved: PropTypes.bool,

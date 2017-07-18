@@ -61,7 +61,7 @@ class EditorPage extends React.Component {
       this.props.isLocal === true &&
       this.props.match.params.id === 'new'
     ) {
-      const vertical = this.props.match.params.vertical;
+      const vertical = this.props.vertical.identifier;
       this.props.history.replace(`/@${vertical}/editor/${nextProps.contentId}`);
     }
 
@@ -117,7 +117,7 @@ class EditorPage extends React.Component {
         <EditorNav
           headline={workingRevision.get('headline')}
           isLocal={isLocal}
-          vertical={params.vertical}
+          vertical={vertical}
           hasChangesFromSaved={hasChangesFromSaved}
           onSave={this.handleSave}
           onHeadlineUpdate={revisionChangeHandler('headline')}

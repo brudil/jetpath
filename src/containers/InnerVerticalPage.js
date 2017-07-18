@@ -24,7 +24,6 @@ const MediaListPage = props =>
     {MediaListPageL => <MediaListPageL {...props} />}
   </Bundle>;
 
-
 class InnerVerticalPage extends React.Component {
   componentDidMount() {
     this.handleVerticalCorrect(this.props);

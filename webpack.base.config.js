@@ -23,7 +23,19 @@ _.assign(env, {
 module.exports = {
   target: 'web',
 
-  entry: './src/application.js',
+  entry: {
+    vendor: [
+      'react',
+      'react-dom',
+      'react-router',
+      'react-router-dom',
+      'redux',
+      'redux-saga',
+      'immutable',
+      'react-redux-form',
+    ],
+    main: ['./src/application.js'],
+  },
 
   output: {
     path: path.join(__dirname),
@@ -59,6 +71,12 @@ module.exports = {
       inject: false,
       filename: '200.html',
     }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      minChunks: Infinity,
+    }),
+    new webpack.IgnorePlugin(/unicode\/category\/So/),
+
     // new FaviconsWebpackPlugin({
     //   logo: './src/images/favicon-2048-black.png',
     //   icons: {

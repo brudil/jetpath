@@ -1,11 +1,11 @@
-import uuid from 'node-uuid';
+import uuid from 'uuid/v4';
 
 export function action(type, payload = {}) {
   return { type, ...payload };
 }
 
 export function createTransaction(dispatch, actionType, sequenceData = {}) {
-  const transactionId = uuid.v4();
+  const transactionId = uuid();
   console.warn(
     `${actionType} is using deprecated transactions and thunk. Use React Saga for async.`
   );

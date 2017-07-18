@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import { replace } from 'react-router-redux';
 import sample from 'lodash/sample';
 import classnames from 'classnames';
 import DocumentTitle from '../../components/DocumentTitle';

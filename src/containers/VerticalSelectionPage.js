@@ -2,12 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import sample from 'lodash/sample';
-import classnames from 'classnames';
 import DocumentTitle from '../components/DocumentTitle';
-import loginButtonOptions from '../lang/login';
 import * as VerticalActions from '../actions/VerticalActions';
-import Button from '../components/Button';
+import verticalConfig from '../verticals';
 
 class VerticalSelectionPage extends React.Component {
   componentDidMount() {
@@ -24,6 +21,10 @@ class VerticalSelectionPage extends React.Component {
             {verticals.map(vertical =>
               <li key={vertical.identifier}>
                 <Link to={`/@${vertical.identifier}/content`}>
+                  <img
+                    src={verticalConfig[vertical.identifier].logoHeader}
+                    alt={vertical.name}
+                  />
                   {vertical.name}
                 </Link>
               </li>

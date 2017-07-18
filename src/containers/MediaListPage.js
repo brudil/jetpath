@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import qs from 'query-string';
 import without from 'lodash/without';
 import TagsInput from 'react-tagsinput';
 import { connect } from 'react-redux';
-import { replace } from 'react-router-redux';
+import { withRouter } from 'react-router-dom';
 import { TitleSelection, SelectionItem } from '../components/TitleSelection';
 import UsersPicker from '../components/UserPicker';
 import MediaGrid from '../components/MediaGrid';
@@ -22,7 +23,6 @@ import Sidebar, { SidebarControl } from '../components/Sidebar';
 
 import viewContainerStyles from '../styles/components/ViewContainer.css';
 import stylesStandardHeader from '../styles/components/StandardHeader.css';
-import { withRouter } from 'react-router-dom';
 
 const presets = {
   all: {
@@ -54,7 +54,7 @@ class MediaListPage extends React.Component {
   }
 
   getQueryData() {
-    const query = this.props.location.query;
+    const query = qs.parse(this.props.location.search);
     return {
       order: query.order || 'created_desc',
       type: query.type || null,
@@ -65,15 +65,11 @@ class MediaListPage extends React.Component {
   }
 
   handleQueryChange(filters) {
-    const vertical = this.props.match.params.vertical;
+    console.log(this.props);
+    const vertical = this.props.vertical.identifier;
+    this.props.history.replace(`/@${vertical}/media?${qs.stringify(filters)}`);
     this.props.dispatch(
-      replace({
-        pathname: `/@${vertical}/media`,
-        query: filters,
-      })
-    );
-    this.props.dispatch(
-      MediaListActions.loadMediaList(this.props.match.params.vertical, { ...filters })
+      MediaListActions.loadMediaList(vertical, { ...filters })
     );
   }
 
@@ -253,5 +249,6 @@ export default withRouter(
     mediaItems: state.mediaList.list.map(id => state.entities.media[id]),
     hasNext: state.mediaList.hasNext,
     isLoading: state.mediaList.loading,
+    vertical: state.verticals.selectedVertical,
   }))(MediaListPage)
 );

@@ -12,7 +12,8 @@ config.devtool = 'source-map';
 config.output = {
   path: path.resolve(path.join(__dirname, 'dist')),
   publicPath: '/',
-  filename: 'bundle.[hash].min.js',
+  filename: 'Jetpath.[name].[hash].min.js',
+  chunkFilename: '[name].[hash].[id].min.js',
 };
 
 config.plugins = config.plugins.concat([
