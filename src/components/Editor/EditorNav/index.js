@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Sticky } from 'react-sticky';
 
 import styles from './EditorNav.css';
 
@@ -84,11 +83,7 @@ class EditorNav extends React.Component {
   }
 
   render() {
-    return (
-      <Sticky stickyClassName={styles.sticky}>
-        {() => this.renderDefault()}
-      </Sticky>
-    );
+    return this.renderDefault();
   }
 }
 
