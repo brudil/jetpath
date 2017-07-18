@@ -1,20 +1,61 @@
 import Immutable from 'immutable';
 import { SpectrumDocument, subtypes, fields } from '@brudil/spectrum';
-import {
-  EDITOR_CREATE_EMTPY_DOCUMENT,
-  EDITOR_DOCUMENT_CHANGE,
-  EDITOR_REVISION_CHANGE,
-  EDITOR_LOAD_CONTENT,
-  EDITOR_ADD_AUTHOR,
-  EDITOR_REMOVE_AUTHOR,
-  EDITOR_SAVE,
-  EDITOR_CREATE_REVISION,
-  EDITOR_CREATE_CONTENT,
-  EDITOR_CHANGE_STATE_CHANGED,
-  EDITOR_CHANGE_REVISION_STATUS,
-  EDITOR_PUBLISH_CONTENT,
-} from '../constants/ActionTypes';
+import { action as makeAction } from '../actions/utils';
+import { createRequestTypes } from '../constants/ActionTypes';
 
+export const EDITOR_LOAD_CONTENT = createRequestTypes('EDITOR_LOAD_CONTENT');
+export const EDITOR_PUBLISH_CONTENT = createRequestTypes(
+  'EDITOR_PUBLISH_CONTENT'
+);
+export const EDITOR_CHANGE_REVISION_STATUS = createRequestTypes(
+  'EDITOR_CHANGE_REVISION_STATUS'
+);
+export const EDITOR_CREATE_EMTPY_DOCUMENT = 'EDITOR_CREATE_EMTPY_DOCUMENT';
+export const EDITOR_DOCUMENT_CHANGE = 'EDITOR_DOCUMENT_CHANGE';
+export const EDITOR_REVISION_CHANGE = 'EDITOR_REVISION_CHANGE';
+export const EDITOR_REMOVE_AUTHOR = 'EDITOR_REMOVE_AUTHOR';
+export const EDITOR_ADD_AUTHOR = 'EDITOR_ADD_AUTHOR';
+export const EDITOR_CHANGE_STATE_CHANGED = 'EDITOR_CHANGE_STATE_CHANGED';
+export const EDITOR_SAVE = 'EDITOR_SAVE';
+export const EDITOR_CREATE_REVISION = createRequestTypes(
+  'EDITOR_CREATE_REVISION'
+);
+export const EDITOR_CREATE_CONTENT = createRequestTypes(
+  'EDITOR_CREATE_CONTENT'
+);
+
+// ACTIONS
+export const loadContent = contentId =>
+  makeAction(EDITOR_LOAD_CONTENT.REQUEST, { contentId });
+export const publish = () => makeAction(EDITOR_PUBLISH_CONTENT.REQUEST);
+export const publishSuccess = payload =>
+  makeAction(EDITOR_PUBLISH_CONTENT.SUCCESS, payload);
+
+export const loadContentSuccess = payload =>
+  makeAction(EDITOR_LOAD_CONTENT.SUCCESS, payload);
+
+export const createEmptyDocument = () =>
+  makeAction(EDITOR_CREATE_EMTPY_DOCUMENT);
+export const updateSpectrumDocument = changeset =>
+  makeAction(EDITOR_DOCUMENT_CHANGE, { changeset });
+export const updateRevision = (path, value) =>
+  makeAction(EDITOR_REVISION_CHANGE, { path, value });
+
+export const save = () => makeAction(EDITOR_SAVE);
+export const createRevisionSuccess = payload =>
+  makeAction(EDITOR_CREATE_REVISION.SUCCESS, payload);
+export const createContentSuccess = payload =>
+  makeAction(EDITOR_CREATE_CONTENT.SUCCESS, payload);
+
+export const changeRevisionStatus = status =>
+  makeAction(EDITOR_CHANGE_REVISION_STATUS.REQUEST, { status });
+export const changeRevisionStatusSuccess = payload =>
+  makeAction(EDITOR_CHANGE_REVISION_STATUS.SUCCESS, payload);
+
+export const addAuthor = id => makeAction(EDITOR_ADD_AUTHOR, { id });
+export const removeAuthor = id => makeAction(EDITOR_REMOVE_AUTHOR, { id });
+
+// REDUCER
 const initialState = new Immutable.Map({
   remoteId: null,
   isLocal: true,
@@ -27,7 +68,7 @@ const initialState = new Immutable.Map({
   hasChangesFromSaved: false,
 });
 
-function createEmptyDocument() {
+function createEmptyDocumentUtil() {
   const document = new SpectrumDocument();
   document.content = new subtypes.ArticleSubtype();
 
@@ -126,7 +167,7 @@ export default function EditorReducer(state = initialState, action) {
       );
     }
     case EDITOR_CREATE_EMTPY_DOCUMENT: {
-      const document = createEmptyDocument();
+      const document = createEmptyDocumentUtil();
       const revision = createEmptyRevision();
       return state.withMutations(map =>
         map

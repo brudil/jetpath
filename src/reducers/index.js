@@ -30,7 +30,7 @@ export { default as auth } from '../ducks/Auth';
 export { default as topics } from '../ducks/Topic';
 export { default as organisation } from '../ducks/Organisation';
 // export { default as uploadProgress } from './UploadProgressReducer';
-export { default as editor } from './EditorReducer';
+export { default as editor } from '../ducks/Editor';
 export { default as users } from '../ducks/User';
 export { default as notification } from '../ducks/Notification';
 export { default as toasts } from '../ducks/Toast';

@@ -3,6 +3,7 @@ import Immutable from 'immutable';
 import getVertical from './getVertical';
 // eslint-disable-next-line no-unused-vars
 import { SpectrumDocument, resources } from '@brudil/spectrum';
+import { WorksClient, MediaClient } from '../serverAPI';
 import {
   EDITOR_SAVE,
   EDITOR_LOAD_CONTENT,
@@ -16,15 +17,12 @@ import {
   EDITOR_CREATE_REVISION,
   EDITOR_CREATE_CONTENT,
   EDITOR_CHANGE_REVISION_STATUS,
-} from '../constants/ActionTypes';
-import { WorksClient, MediaClient } from '../serverAPI';
-import {
   loadContentSuccess,
   createRevisionSuccess,
   createContentSuccess,
   changeRevisionStatusSuccess,
   publishSuccess,
-} from '../actions/EditorActions';
+} from '../ducks/Editor';
 
 /* // TODO: currently assuming only image resources, this map will be needed when we have other resources, e.g: videos
 const spectrumResourcesMap = new Map();

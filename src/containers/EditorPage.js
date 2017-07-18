@@ -9,7 +9,7 @@ import DebouncedAutosizeTextarea from '../components/DebouncedAutosizeTextarea';
 import DocumentTitle from '../components/DocumentTitle';
 import EditorSidebar from '../components/Editor/EditorSidebar';
 import EditorNav from '../components/Editor/EditorNav';
-import * as EditorActions from '../actions/EditorActions';
+import * as EditorActions from '../ducks/Editor';
 import { formly, createChangeHandler } from '../libs/form';
 import LoadingContent from '../components/LoadingContent';
 import stylesEditPane from '../styles/components/EditPane.css';

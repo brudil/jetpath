@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import * as EditorActions from '../actions/EditorActions';
+import * as EditorActions from '../ducks/Editor';
 import { formly, createChangeHandler } from '../libs/form';
 
 import EditorSidebar from '../components/Editor/EditorSidebar';
