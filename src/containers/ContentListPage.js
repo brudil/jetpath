@@ -21,7 +21,7 @@ import SegmentedControl from '../components/SegmentedControl';
 import NoListItems from '../components/NoListItems';
 import Sidebar, { SidebarControl } from '../components/Sidebar';
 import LoadingContent from '../components/LoadingContent';
-import * as ContentListActions from '../actions/ContentListActions';
+import * as ContentListActions from '../ducks/ContentList';
 import { generateFromConstants } from '../lang/utils';
 import {
   contentForm as contentFormLang,

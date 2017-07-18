@@ -9,7 +9,6 @@ import {
   all,
 } from 'redux-saga/effects';
 import {
-  LOAD_CONTENT_LIST,
   LOAD_MEDIA_LIST,
   USER_SUGGESTIONS,
   MEDIA_UPLOAD,
@@ -23,7 +22,10 @@ import {
   TopicsClient,
   VerticalClient,
 } from '../serverAPI';
-import { content as contentEntity } from '../actions/ContentListActions';
+import {
+  content as contentEntity,
+  LOAD_CONTENT_LIST,
+} from '../ducks/ContentList';
 import { media as mediaEntity } from '../actions/MediaActions';
 import { receiveSuggestions } from '../actions/UserActions';
 import { getVerticalsSuccess } from '../actions/VerticalActions';
