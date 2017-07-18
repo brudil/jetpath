@@ -1,16 +1,13 @@
-import test from 'ava';
 import React from 'react';
 import { shallow } from 'enzyme';
 import CharCount from '../index';
 
-test('CharCount render', t => {
+test('CharCount render', () => {
   const wrapper = shallow(<CharCount max={20} value="foo bar" />);
-  t.is(
+  expect(
     wrapper.contains(
       <span>
         {13}
       </span>
-    ),
-    true
-  );
+    )).toBeTruthy();
 });
