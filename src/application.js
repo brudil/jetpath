@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import configureStore from './store/configureStore';
 import rootSaga from './sagas/index';
-import { createToast } from './actions/ToastActions';
+import { createToast } from './ducks/Toast';
 import ApplicationContainer from './containers/ApplicationContainer';
 
 console.log('Jetpath 1.0');

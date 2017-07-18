@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import Toast from './Toast';
-import { removeToast } from '../../actions/ToastActions';
+import { removeToast } from '../../ducks/Toast';
 
 import styles from './ToastList.css';
 

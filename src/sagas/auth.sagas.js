@@ -9,7 +9,7 @@ import {
   logoutSuccess,
   loginSuccess,
 } from '../ducks/Auth';
-import { createToast } from '../actions/ToastActions';
+import { createToast } from '../ducks/Toast';
 
 function* restoreAuth() {
   while (true) {

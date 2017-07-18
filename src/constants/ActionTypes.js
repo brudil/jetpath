@@ -48,10 +48,6 @@ export const EDITOR_CREATE_CONTENT = createRequestTypes(
   'EDITOR_CREATE_CONTENT'
 );
 
-// toast system
-export const CREATE_TOAST = 'CREATE_TOAST';
-export const REMOVE_TOAST = 'REMOVE_TOAST';
-
 // organisational actions
 
 export const GET_ALL_SECTIONS = 'GET_ALL_SECTIONS';

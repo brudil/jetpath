@@ -33,7 +33,7 @@ export { default as organisation } from './OrganisationReducer';
 export { default as editor } from './EditorReducer';
 export { default as users } from './UserReducer';
 export { default as notification } from './NotificationReducer';
-export { default as toasts } from './ToastReducer';
+export { default as toasts } from '../ducks/Toast';
 export { default as verticals } from './VerticalReducer';
 
 export const sectionEdit = modelReducer('sectionEdit');
