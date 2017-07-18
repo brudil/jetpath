@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import * as ModalManagerActions from '../actions/ModalManagerActions';
+import * as ModalManagerActions from '../ducks/Modal';
 import MediaDisplay from './MediaDisplay';
 import MediaEditModal from './MediaEditModal';
 import MediaSelectModal from './MediaSelectModal';

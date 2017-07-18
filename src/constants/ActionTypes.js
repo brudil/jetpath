@@ -22,8 +22,6 @@ export const GET_USER_SUGGESTIONS = 'GET_USER_SUGGESTIONS';
 
 
 // modal
-export const MODAL_OPEN = 'MODAL_OPEN';
-export const MODAL_CLOSE = 'MODAL_CLOSE';
 
 // topics component
 

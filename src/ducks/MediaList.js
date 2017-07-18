@@ -8,6 +8,19 @@ export const MEDIA_UPLOAD = createRequestTypes('MEDIA_UPLOAD');
 
 export const loadMediaList = (vertical, query, limit) =>
   makeAction(LOAD_MEDIA_LIST, { vertical, query, limit });
+export const media = {
+  request: query => makeAction(MEDIA_LIST_FETCH.REQUEST, { query }),
+  success: (query, payload) =>
+    makeAction(MEDIA_LIST_FETCH.SUCCESS, { query, payload }),
+  failure: (query, error) =>
+    makeAction(MEDIA_LIST_FETCH.FAILURE, { query, error }),
+};
+
+export const upload = {
+  request: file => makeAction(MEDIA_UPLOAD.REQUEST, { file }),
+  success: payload => makeAction(MEDIA_UPLOAD.SUCCESS, { payload }),
+  failure: error => makeAction(MEDIA_UPLOAD.FAILURE, { error }),
+};
 
 const initialState = {
   list: [],

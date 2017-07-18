@@ -10,7 +10,11 @@ import {
 } from 'redux-saga/effects';
 import { FETCH_TOPICS_FOR_KEYWORD } from '../ducks/Topic';
 import { FETCH_VERTICALS, getVerticalsSuccess } from '../ducks/Vertical';
-import { LOAD_MEDIA_LIST, MEDIA_UPLOAD } from '../ducks/MediaList';
+import {
+  LOAD_MEDIA_LIST,
+  MEDIA_UPLOAD,
+  media as mediaEntity,
+} from '../ducks/MediaList';
 import {
   WorksClient,
   MediaClient,
@@ -22,7 +26,6 @@ import {
   content as contentEntity,
   LOAD_CONTENT_LIST,
 } from '../ducks/ContentList';
-import { media as mediaEntity } from '../actions/MediaActions';
 import { USER_SUGGESTIONS, receiveSuggestions } from '../ducks/User';
 import getVertical from './getVertical';
 import authSagas from './auth.sagas';

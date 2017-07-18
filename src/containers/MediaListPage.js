@@ -11,8 +11,7 @@ import MediaGrid from '../components/MediaGrid';
 import MediaUploadContainer from '../components/MediaUploadContainer';
 import MediaEditModal from '../components/MediaEditModal';
 import * as MediaListActions from '../ducks/MediaList';
-import * as MediaActions from '../actions/MediaActions';
-import * as ModalManagerActions from '../actions/ModalManagerActions';
+import * as ModalManagerActions from '../ducks/Modal';
 import ViewContainer from '../components/ViewContainer';
 import DocumentTitle from '../components/DocumentTitle';
 import SegmentedControl from '../components/SegmentedControl';
@@ -100,7 +99,7 @@ class MediaListPage extends React.Component {
   }
 
   handleFile(file) {
-    this.props.dispatch(MediaActions.upload.request(file));
+    this.props.dispatch(MediaListActions.upload.request(file));
   }
 
   handlePagination(page) {

@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { modalWrapper } from './Modal';
-import * as MediaActions from '../actions/MediaActions';
 import * as MediaListActions from '../ducks/MediaList';
 import MediaUploadContainer from './MediaUploadContainer';
 import MediaGrid from './MediaGrid';
@@ -38,7 +37,7 @@ class MediaSelectModal extends React.Component {
   }
 
   handleFile(file) {
-    this.props.dispatch(MediaActions.upload(file));
+    this.props.dispatch(MediaListActions.upload(file));
   }
 
   handlePagination(page) {

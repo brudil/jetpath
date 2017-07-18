@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import cx from 'classnames';
 import { connect } from 'react-redux';
 import Mousetrap from 'mousetrap';
-import * as ModalManagerActions from '../../actions/ModalManagerActions';
+import * as ModalManagerActions from '../../ducks/Modal';
 
 import stylesOverlay from './Overlay.css';
 import stylesModal from './Modal.css';
