@@ -1,4 +1,5 @@
 import uuid from 'uuid/v4';
+import { call, put } from 'redux-saga/effects';
 
 export function action(type, payload = {}) {
   return { type, ...payload };
@@ -85,4 +86,14 @@ export function sequence(state, action, methods) {
   }
 
   return state;
+}
+
+export function* fetchEntity(entity, apiFn, vertical, id, url) {
+  yield put(entity.request(id));
+  const { payload, error } = yield call(apiFn, vertical, id, url);
+  if (payload) {
+    yield put(entity.success(id, payload));
+  } else {
+    yield put(entity.failure(id, error));
+  }
 }

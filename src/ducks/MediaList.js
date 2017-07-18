@@ -1,6 +1,5 @@
 import { takeLatest, takeEvery, put, call, fork } from 'redux-saga/effects';
-import { sequence, action as makeAction, createRequestTypes } from '../utils';
-import { fetchMediaList } from '../sagas/index';
+import { sequence, action as makeAction, createRequestTypes, fetchEntity } from '../utils';
 import getVertical from '../sagas/getVertical';
 import { MediaClient } from '../serverAPI';
 
@@ -25,6 +24,12 @@ export const upload = {
   success: payload => makeAction(MEDIA_UPLOAD.SUCCESS, { payload }),
   failure: error => makeAction(MEDIA_UPLOAD.FAILURE, { error }),
 };
+
+export const fetchMediaList = fetchEntity.bind(
+  null,
+  media,
+  MediaClient.getByFilter
+);
 
 const initialState = {
   list: [],

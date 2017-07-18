@@ -1,6 +1,6 @@
 import { takeLatest, fork } from 'redux-saga/effects';
-import { action as makeAction } from '../utils';
-import { fetchContent } from '../sagas/index';
+import { action as makeAction, fetchEntity } from '../utils';
+import { WorksClient } from '../serverAPI';
 
 const CONTENT_LIST_FETCH_REQUEST = 'CONTENT_LIST_FETCH_REQUEST';
 const CONTENT_LIST_FETCH_FAILURE = 'CONTENT_LIST_FETCH_FAILURE';
@@ -13,7 +13,7 @@ export const loadContent = (vertical, query) => ({
   payload: { vertical, query },
 });
 
-export const content = {
+const content = {
   request: (vertical, query) =>
     makeAction(CONTENT_LIST_FETCH_REQUEST, { vertical, query }),
   success: (query, payload) =>
@@ -21,6 +21,12 @@ export const content = {
   failure: (query, error) =>
     makeAction(CONTENT_LIST_FETCH_FAILURE, { query, error }),
 };
+
+const fetchContent = fetchEntity.bind(
+  null,
+  content,
+  WorksClient.getByFilterForVertical
+);
 
 const initialState = {
   list: [],
