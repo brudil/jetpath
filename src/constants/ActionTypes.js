@@ -15,9 +15,6 @@ export function createRequestTypes(base) {
 }
 
 // sparkly new stuff
-export const NOTIFICATION_UNREAD_COUNT = createRequestTypes(
-  'NOTIFICATION_UNREAD_COUNT'
-);
 
 // new mishmash
 

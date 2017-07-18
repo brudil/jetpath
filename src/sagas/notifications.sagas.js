@@ -1,7 +1,7 @@
 import { spawn, take, put } from 'redux-saga/effects';
 import { NOTIFICATION_UNREAD_COUNT } from '../constants/ActionTypes';
 import { NotificationClient } from '../serverAPI';
-import { loadUnreadCountSuccess } from '../actions/NotificationActions';
+import { loadUnreadCountSuccess } from '../ducks/Notification';
 
 function* loadUnreadCount() {
   while (true) {

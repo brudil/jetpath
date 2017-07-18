@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import DocumentTitle from '../components/DocumentTitle';
-import { getUnread } from '../actions/NotificationActions';
+import { getUnread } from '../ducks/Notification';
 
 class NotificationsPage extends React.Component {
   componentDidMount() {
