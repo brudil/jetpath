@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import Select from 'react-select';
-import * as TopicActions from '../../actions/TopicActions';
+import * as TopicActions from '../../ducks/Topic';
 import 'style-loader!css-loader!postcss-loader!react-select/dist/react-select.css'; // eslint-disable-line
 
 class TopicsSelector extends React.Component {

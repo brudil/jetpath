@@ -67,12 +67,6 @@ export const MODAL_OPEN = 'MODAL_OPEN';
 export const MODAL_CLOSE = 'MODAL_CLOSE';
 
 // topics component
-export const FETCH_SUGGESTED_TOPICS = createRequestTypes(
-  'FETCH_SUGGESTED_TOPICS'
-);
-export const FETCH_TOPICS_FOR_KEYWORD = createRequestTypes(
-  'FETCH_TOPICS_FOR_KEYWORD'
-);
 
 // old
 

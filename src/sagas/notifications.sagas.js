@@ -1,7 +1,9 @@
 import { spawn, take, put } from 'redux-saga/effects';
-import { NOTIFICATION_UNREAD_COUNT } from '../constants/ActionTypes';
 import { NotificationClient } from '../serverAPI';
-import { loadUnreadCountSuccess } from '../ducks/Notification';
+import {
+  NOTIFICATION_UNREAD_COUNT,
+  loadUnreadCountSuccess,
+} from '../ducks/Notification';
 
 function* loadUnreadCount() {
   while (true) {
@@ -13,6 +15,6 @@ function* loadUnreadCount() {
 }
 
 export default [
-  spawn(loadUnreadCount),
+  yield spawn(loadUnreadCount),
   // fork(loadUnread)
 ];

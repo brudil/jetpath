@@ -8,10 +8,7 @@ import {
   takeLatest,
   all,
 } from 'redux-saga/effects';
-import {
-  USER_SUGGESTIONS,
-  FETCH_TOPICS_FOR_KEYWORD,
-} from '../constants/ActionTypes';
+import { FETCH_TOPICS_FOR_KEYWORD } from '../ducks/Topic';
 import { FETCH_VERTICALS, getVerticalsSuccess } from '../ducks/Vertical';
 import { LOAD_MEDIA_LIST, MEDIA_UPLOAD } from '../ducks/MediaList';
 import {
@@ -26,7 +23,7 @@ import {
   LOAD_CONTENT_LIST,
 } from '../ducks/ContentList';
 import { media as mediaEntity } from '../actions/MediaActions';
-import { receiveSuggestions } from '../ducks/User';
+import { USER_SUGGESTIONS, receiveSuggestions } from '../ducks/User';
 import getVertical from './getVertical';
 import authSagas from './auth.sagas';
 import notificationSagas from './notifications.sagas';

@@ -27,7 +27,7 @@ export { default as mediaList } from '../ducks/MediaList';
 export { default as modalManager } from './ModalManagerReducer';
 export { default as mediamodal } from './MediaEditModalReducer';
 export { default as auth } from '../ducks/Auth';
-export { default as topics } from './TopicsReducer';
+export { default as topics } from '../ducks/Topic';
 export { default as organisation } from './OrganisationReducer';
 // export { default as uploadProgress } from './UploadProgressReducer';
 export { default as editor } from './EditorReducer';
