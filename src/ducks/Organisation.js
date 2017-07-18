@@ -22,6 +22,13 @@ export const ORGANISATION_SELECT_TOPIC = 'ORGANISATION_SELECT_TOPIC';
 export const ORGANISATION_SELECT_NEW_SECTION =
   'ORGANISATION_SELECT_NEW_SECTION';
 export const ORGANISATION_SELECT_NEW_TOPIC = 'ORGANISATION_SELECT_NEW_TOPIC';
+export const ORGANISATION_CREATE_TOPIC = 'ORGANISATION_CREATE_TOPIC';
+export const ORGANISATION_UPDATE_TOPIC = 'ORGANISATION_UPDATE_TOPIC';
+export const ORGANISATION_UPDATE_SECTION = 'ORGANISATION_UPDATE_SECTION';
+export const ORGANISATION_TOPIC_BLANK = 'ORGANISATION_TOPIC_BLANK';
+export const ORGANISATION_SECTION_BLANK = 'ORGANISATION_SECTION_BLANK';
+export const ORGANISATION_GET_TOPICS_FOR_SECTION =
+  'ORGANISATION_GET_TOPICS_FOR_SECTION';
 export const ORGANISATION_FETCH_TOPICS_FOR_SECTION = createRequestTypes(
   'ORGANISATION_FETCH_TOPICS_FOR_SECTION'
 );
@@ -79,7 +86,7 @@ export function getTopicsForSection(sectionId) {
   return dispatch => {
     const transaction = createTransaction(
       dispatch,
-      AT.ORGANISATION_GET_TOPICS_FOR_SECTION,
+      ORGANISATION_GET_TOPICS_FOR_SECTION,
       {
         sectionId,
       }
@@ -100,7 +107,7 @@ export function updateSection(sectionId, sectionData) {
     const state = getState();
     const transaction = createTransaction(
       dispatch,
-      AT.ORGANISATION_UPDATE_SECTION,
+      ORGANISATION_UPDATE_SECTION,
       {
         sectionId,
       }
@@ -119,13 +126,9 @@ export function updateSection(sectionId, sectionData) {
 export function updateTopic(topicId, sectionData) {
   return (dispatch, getState) => {
     const state = getState();
-    const transaction = createTransaction(
-      dispatch,
-      AT.ORGANISATION_UPDATE_TOPIC,
-      {
-        topicId,
-      }
-    );
+    const transaction = createTransaction(dispatch, ORGANISATION_UPDATE_TOPIC, {
+      topicId,
+    });
 
     TopicsClient.update(topicId, {
       ...state.entities.topics[topicId],
@@ -140,13 +143,9 @@ export function updateTopic(topicId, sectionData) {
 
 export function createTopic(sectionId, data) {
   return dispatch => {
-    const transaction = createTransaction(
-      dispatch,
-      AT.ORGANISATION_CREATE_TOPIC,
-      {
-        sectionId,
-      }
-    );
+    const transaction = createTransaction(dispatch, ORGANISATION_CREATE_TOPIC, {
+      sectionId,
+    });
 
     TopicsClient.create(sectionId, data)
       .then(payload => {
@@ -158,13 +157,13 @@ export function createTopic(sectionId, data) {
 
 export function blankTopic() {
   return {
-    type: AT.ORGANISATION_TOPIC_BLANK,
+    type: ORGANISATION_TOPIC_BLANK,
   };
 }
 
 export function blankSection() {
   return {
-    type: AT.ORGANISATION_SECTION_BLANK,
+    type: ORGANISATION_SECTION_BLANK,
   };
 }
 
@@ -193,7 +192,7 @@ export default function OrganisationReducer(state = initialState, action) {
         sectionList: action.payload.result,
       };
     }
-    case AT.ORGANISATION_CREATE_TOPIC:
+    case ORGANISATION_CREATE_TOPIC:
       return sequence(state, action, {
         done() {
           return {

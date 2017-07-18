@@ -15,6 +15,6 @@ function* loadUnreadCount() {
 }
 
 export default [
-  yield spawn(loadUnreadCount),
+  spawn(loadUnreadCount),
   // fork(loadUnread)
 ];

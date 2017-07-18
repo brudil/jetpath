@@ -6,7 +6,7 @@ import Immutable from 'immutable';
 import SmartDate from './SmartDate';
 import { modalWrapper } from './Modal';
 import MediaDisplay from './MediaDisplay';
-import * as MediaEditModalActions from '../actions/MediaEditModalActions';
+import * as MediaEditModalActions from '../ducks/MediaEdit';
 import { formly } from '../libs/form';
 import Button from './Button';
 

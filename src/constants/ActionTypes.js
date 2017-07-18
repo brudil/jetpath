@@ -14,18 +14,7 @@ export function createRequestTypes(base) {
   return res;
 }
 
-// sparkly new stuff
-
-// new mishmash
-
 export const GET_USER_SUGGESTIONS = 'GET_USER_SUGGESTIONS';
-
-
-// modal
-
-// topics component
-
-// old
 
 export default constance('jetpath/', {
   // Media Modal
