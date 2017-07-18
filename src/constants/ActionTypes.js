@@ -71,10 +71,6 @@ export const ORGANISATION_FETCH_TOPICS_FOR_SECTION = createRequestTypes(
 export const MODAL_OPEN = 'MODAL_OPEN';
 export const MODAL_CLOSE = 'MODAL_CLOSE';
 
-// verticals
-export const FETCH_VERTICALS = createRequestTypes('FETCH_VERTICALS');
-export const SET_VERTICAL = 'SET_VERTICAL';
-
 // topics component
 export const FETCH_SUGGESTED_TOPICS = createRequestTypes(
   'FETCH_SUGGESTED_TOPICS'

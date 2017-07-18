@@ -34,7 +34,7 @@ export { default as editor } from './EditorReducer';
 export { default as users } from './UserReducer';
 export { default as notification } from './NotificationReducer';
 export { default as toasts } from '../ducks/Toast';
-export { default as verticals } from './VerticalReducer';
+export { default as verticals } from '../ducks/Vertical';
 
 export const sectionEdit = modelReducer('sectionEdit');
 export const sectionEditForm = formReducer('sectionEdit');

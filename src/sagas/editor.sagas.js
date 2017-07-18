@@ -2,7 +2,6 @@ import { spawn, call, put, select, takeLatest } from 'redux-saga/effects';
 import Immutable from 'immutable';
 import getVertical from './getVertical';
 // eslint-disable-next-line no-unused-vars
-import diff from 'deep-diff';
 import { SpectrumDocument, resources } from '@brudil/spectrum';
 import {
   EDITOR_SAVE,

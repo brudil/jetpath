@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import DocumentTitle from '../components/DocumentTitle';
-import * as VerticalActions from '../actions/VerticalActions';
+import * as VerticalActions from '../ducks/Vertical';
 import verticalConfig from '../verticals';
 
 class VerticalSelectionPage extends React.Component {

@@ -4,7 +4,7 @@ import loadEditorPage from 'bundle-loader?name=Editor&lazy!./EditorPage';
 import loadOrganisationPage from 'bundle-loader?name=Organisation&lazy!./OrganisationPage';
 import loadMediaListPage from 'bundle-loader?name=Media&lazy!./MediaListPage';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
-import { setVertical, getVerticals } from '../actions/VerticalActions';
+import { setVertical, getVerticals } from '../ducks/Vertical';
 import ContentListPage from './ContentListPage';
 
 import Bundle from '../components/Bundle';

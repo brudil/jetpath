@@ -1,5 +1,14 @@
 import find from 'lodash/find';
-import { FETCH_VERTICALS, SET_VERTICAL } from '../constants/ActionTypes';
+import { createRequestTypes } from '../constants/ActionTypes';
+import { action as makeAction } from '../actions/utils';
+
+export const FETCH_VERTICALS = createRequestTypes('FETCH_VERTICALS');
+export const SET_VERTICAL = 'SET_VERTICAL';
+
+export const getVerticals = () => makeAction(FETCH_VERTICALS.REQUEST);
+export const getVerticalsSuccess = payload =>
+  makeAction(FETCH_VERTICALS.SUCCESS, { payload });
+export const setVertical = vertical => makeAction(SET_VERTICAL, { vertical });
 
 const initialState = {
   list: [],
