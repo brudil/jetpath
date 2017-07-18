@@ -5,7 +5,7 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 import loadBaseContainer from 'bundle-loader?name=Base&lazy!./BaseContainer';
 import DocumentTitle from '../components/DocumentTitle';
 import Stonewall from '../components/Stonewall';
-import * as AuthActions from '../actions/AuthActions';
+import * as AuthActions from '../ducks/Auth';
 import StonewallContainer from './StonewallContainer';
 import Bundle from '../components/Bundle';
 

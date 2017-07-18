@@ -26,7 +26,7 @@ export { default as contentList } from '../ducks/ContentList';
 export { default as mediaList } from './MediaListReducer';
 export { default as modalManager } from './ModalManagerReducer';
 export { default as mediamodal } from './MediaEditModalReducer';
-export { default as auth } from './AuthReducer';
+export { default as auth } from '../ducks/Auth';
 export { default as topics } from './TopicsReducer';
 export { default as organisation } from './OrganisationReducer';
 // export { default as uploadProgress } from './UploadProgressReducer';

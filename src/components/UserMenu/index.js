@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import * as AuthActions from '../../actions/AuthActions';
+import * as AuthActions from '../../ducks/Auth';
 
 import styles from './UserMenu.css';
 

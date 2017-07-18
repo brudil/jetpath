@@ -4,7 +4,7 @@ const REQUEST = 'REQUEST';
 const SUCCESS = 'SUCCESS';
 const FAILURE = 'FAILURE';
 
-function createRequestTypes(base) {
+export function createRequestTypes(base) {
   const res = {};
   [REQUEST, SUCCESS, FAILURE].forEach(type => {
     const constant = `${base}_${type}`;
@@ -15,10 +15,6 @@ function createRequestTypes(base) {
 }
 
 // sparkly new stuff
-export const AUTH_RESTORE = createRequestTypes('AUTH_RESTORE');
-export const AUTH_LOGOUT = createRequestTypes('AUTH_LOGOUT');
-export const AUTH_LOGIN = createRequestTypes('AUTH_LOGIN');
-
 export const NOTIFICATION_UNREAD_COUNT = createRequestTypes(
   'NOTIFICATION_UNREAD_COUNT'
 );

@@ -1,16 +1,14 @@
 import { spawn, take, put } from 'redux-saga/effects';
+import { AuthClient } from '../serverAPI';
 import {
   AUTH_RESTORE,
   AUTH_LOGOUT,
   AUTH_LOGIN,
-} from '../constants/ActionTypes';
-import { AuthClient } from '../serverAPI';
-import {
   restoreAuthSuccess,
   restoreAuthFailure,
   logoutSuccess,
   loginSuccess,
-} from '../actions/AuthActions';
+} from '../ducks/Auth';
 import { createToast } from '../actions/ToastActions';
 
 function* restoreAuth() {

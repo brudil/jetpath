@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import sample from 'lodash/sample';
 import classnames from 'classnames';
 import DocumentTitle from '../../components/DocumentTitle';
 import loginButtonOptions from '../../lang/login';
-import * as AuthActions from '../../actions/AuthActions';
+import * as AuthActions from '../../ducks/Auth';
 import Button from '../../components/Button';
 
 import styles from './LoginPage.css';
-import { withRouter } from 'react-router-dom';
 
 class LoginPage extends React.Component {
   constructor(x, y) {
