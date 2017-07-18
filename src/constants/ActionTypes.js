@@ -20,8 +20,6 @@ export const NOTIFICATION_UNREAD_COUNT = createRequestTypes(
 );
 
 // new mishmash
-export const USER_FETCH = createRequestTypes('USER_FETCH');
-export const USER_SUGGESTIONS = createRequestTypes('USER_SUGGESTIONS');
 
 export const GET_USER_SUGGESTIONS = 'GET_USER_SUGGESTIONS';
 

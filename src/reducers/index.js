@@ -31,7 +31,7 @@ export { default as topics } from './TopicsReducer';
 export { default as organisation } from './OrganisationReducer';
 // export { default as uploadProgress } from './UploadProgressReducer';
 export { default as editor } from './EditorReducer';
-export { default as users } from './UserReducer';
+export { default as users } from '../ducks/User';
 export { default as notification } from './NotificationReducer';
 export { default as toasts } from '../ducks/Toast';
 export { default as verticals } from '../ducks/Vertical';

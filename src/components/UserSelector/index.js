@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import cx from 'classnames';
 import Mousetrap from 'mousetrap';
 import loSome from 'lodash/some';
-import * as UserActions from '../../actions/UserActions';
+import * as UserActions from '../../ducks/User';
 
 import styles from './UserSelector.css';
 

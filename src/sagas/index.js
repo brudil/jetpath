@@ -26,7 +26,7 @@ import {
   LOAD_CONTENT_LIST,
 } from '../ducks/ContentList';
 import { media as mediaEntity } from '../actions/MediaActions';
-import { receiveSuggestions } from '../actions/UserActions';
+import { receiveSuggestions } from '../ducks/User';
 import getVertical from './getVertical';
 import authSagas from './auth.sagas';
 import notificationSagas from './notifications.sagas';
