@@ -1,5 +1,13 @@
-import { MEDIA_LIST_FETCH, MEDIA_UPLOAD } from '../constants/ActionTypes';
-import { sequence } from './utils';
+import { sequence } from '../reducers/utils';
+import { createRequestTypes } from '../constants/ActionTypes';
+import { action as makeAction } from '../actions/utils';
+
+export const LOAD_MEDIA_LIST = 'LOAD_MEDIA_LIST';
+export const MEDIA_LIST_FETCH = createRequestTypes('MEDIA_LIST_FETCH');
+export const MEDIA_UPLOAD = createRequestTypes('MEDIA_UPLOAD');
+
+export const loadMediaList = (vertical, query, limit) =>
+  makeAction(LOAD_MEDIA_LIST, { vertical, query, limit });
 
 const initialState = {
   list: [],

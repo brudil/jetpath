@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { modalWrapper } from './Modal';
 import * as MediaActions from '../actions/MediaActions';
-import * as MediaListActions from '../actions/MediaListActions';
+import * as MediaListActions from '../ducks/MediaList';
 import MediaUploadContainer from './MediaUploadContainer';
 import MediaGrid from './MediaGrid';
 import PaginationNav from '../components/PaginationNav';

@@ -10,7 +10,7 @@ import UsersPicker from '../components/UserPicker';
 import MediaGrid from '../components/MediaGrid';
 import MediaUploadContainer from '../components/MediaUploadContainer';
 import MediaEditModal from '../components/MediaEditModal';
-import * as MediaListActions from '../actions/MediaListActions';
+import * as MediaListActions from '../ducks/MediaList';
 import * as MediaActions from '../actions/MediaActions';
 import * as ModalManagerActions from '../actions/ModalManagerActions';
 import ViewContainer from '../components/ViewContainer';

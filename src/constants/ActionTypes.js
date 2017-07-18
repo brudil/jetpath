@@ -20,14 +20,9 @@ export const NOTIFICATION_UNREAD_COUNT = createRequestTypes(
 );
 
 // new mishmash
-export const CONTENT_LIST_FETCH = createRequestTypes('CONTENT_LIST_FETCH');
-export const MEDIA_LIST_FETCH = createRequestTypes('MEDIA_LIST_FETCH');
-export const MEDIA_UPLOAD = createRequestTypes('MEDIA_UPLOAD');
 export const USER_FETCH = createRequestTypes('USER_FETCH');
 export const USER_SUGGESTIONS = createRequestTypes('USER_SUGGESTIONS');
 
-export const LOAD_CONTENT_LIST = 'LOAD_CONTENT_LIST';
-export const LOAD_MEDIA_LIST = 'LOAD_MEDIA_LIST';
 export const GET_USER_SUGGESTIONS = 'GET_USER_SUGGESTIONS';
 
 export const EDITOR_LOAD_CONTENT = createRequestTypes('EDITOR_LOAD_CONTENT');

@@ -9,12 +9,14 @@ import {
   all,
 } from 'redux-saga/effects';
 import {
-  LOAD_MEDIA_LIST,
   USER_SUGGESTIONS,
-  MEDIA_UPLOAD,
   FETCH_VERTICALS,
   FETCH_TOPICS_FOR_KEYWORD,
 } from '../constants/ActionTypes';
+import {
+  LOAD_MEDIA_LIST,
+  MEDIA_UPLOAD,
+} from '../ducks/MediaList';
 import {
   WorksClient,
   MediaClient,

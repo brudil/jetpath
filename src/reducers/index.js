@@ -23,7 +23,7 @@ export function entities(
 }
 
 export { default as contentList } from '../ducks/ContentList';
-export { default as mediaList } from './MediaListReducer';
+export { default as mediaList } from '../ducks/MediaList';
 export { default as modalManager } from './ModalManagerReducer';
 export { default as mediamodal } from './MediaEditModalReducer';
 export { default as auth } from '../ducks/Auth';
