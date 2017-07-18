@@ -2,10 +2,12 @@
   "extends": [
     "airbnb",
     "prettier",
-    "prettier/react"
+    "prettier/react",
+    "plugin:redux-saga/recommended"
   ],
   "plugins": [
-    "prettier"
+    "prettier",
+    "redux-saga"
   ],
   "parser": "babel-eslint",
   "parserOptions": {
