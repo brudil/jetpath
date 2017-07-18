@@ -27,7 +27,7 @@ class BaseContainer extends React.Component {
   }
 
   handleCorrectRoute(props) {
-    if (props.auth.auth === null) {
+    if (props.auth.get('auth') === null) {
       this.props.history.replace(
         `/auth/login?nextPath=${this.props.location.pathname}`
       );

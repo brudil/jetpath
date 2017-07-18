@@ -55,10 +55,8 @@ class ContentListPage extends React.Component {
   }
 
   componentDidMount() {
-    const data = this.getQueryData();
-    this.props.dispatch(
-      ContentListActions.loadContent(this.props.vertical.identifier, data)
-    );
+    const query = this.getQueryData();
+    this.props.dispatch(ContentListActions.loadContent(query));
   }
 
   componentWillReceiveProps(nextProps) {

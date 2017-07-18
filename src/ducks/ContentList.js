@@ -1,6 +1,7 @@
 import { takeLatest, fork } from 'redux-saga/effects';
 import { action as makeAction, fetchEntity } from '../utils';
 import { WorksClient } from '../serverAPI';
+import getVertical from "../sagas/getVertical";
 
 const CONTENT_LIST_FETCH_REQUEST = 'CONTENT_LIST_FETCH_REQUEST';
 const CONTENT_LIST_FETCH_FAILURE = 'CONTENT_LIST_FETCH_FAILURE';
@@ -8,14 +9,13 @@ const CONTENT_LIST_FETCH_SUCCESS = 'CONTENT_LIST_FETCH_SUCCESS';
 
 const LOAD_CONTENT_LIST = 'LOAD_CONTENT_LIST';
 
-export const loadContent = (vertical, query) => ({
+export const loadContent = query => ({
   type: LOAD_CONTENT_LIST,
-  payload: { vertical, query },
+  payload: { query },
 });
 
 const content = {
-  request: (vertical, query) =>
-    makeAction(CONTENT_LIST_FETCH_REQUEST, { vertical, query }),
+  request: query => makeAction(CONTENT_LIST_FETCH_REQUEST, { query }),
   success: (query, payload) =>
     makeAction(CONTENT_LIST_FETCH_SUCCESS, { query, payload }),
   failure: (query, error) =>
@@ -38,6 +38,11 @@ const initialState = {
 
 export default function ContentListReducer(state = initialState, action) {
   switch (action.type) {
+    case CONTENT_LIST_FETCH_REQUEST:
+      return {
+        ...state,
+        list: [],
+      };
     case CONTENT_LIST_FETCH_SUCCESS:
       return {
         ...state,
@@ -53,7 +58,8 @@ export default function ContentListReducer(state = initialState, action) {
 }
 
 // SAGAS
-function* handleLoadContentList({ payload: { vertical, query } }) {
+function* handleLoadContentList({ payload: { query } }) {
+  const vertical = yield getVertical();
   yield fork(fetchContent, vertical, query);
 }
 

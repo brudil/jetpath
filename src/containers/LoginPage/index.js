@@ -37,18 +37,18 @@ class LoginPage extends React.Component {
   }
 
   handleCorrectRoute(props) {
-    if (props.auth.auth !== null) {
+    if (props.auth.get('auth') !== null) {
       const nextPath = new URLSearchParams(this.props.location.search).get('nextLocation');
       this.props.history.replace(nextPath || '/');
     }
   }
 
   render() {
-    const buttonClass = classnames({ loading: this.props.auth.loading });
+    const buttonClass = classnames({ loading: this.props.auth.get('loading') });
     return (
       <DocumentTitle title="Login">
         <div>
-          {this.props.auth.error ? 'Error!' : ''}
+          {this.props.auth.get('error') ? 'Error!' : ''}
           <form onSubmit={this.handleSubmit}>
             <label htmlFor="usernameInput">
               <span className={styles.inputLabel}>Username</span>
@@ -79,8 +79,8 @@ class LoginPage extends React.Component {
             <Button
               className={buttonClass}
               type="submit"
-              disabled={this.props.auth.loading}
-              text={`${this.props.auth.loading ? 'Logging in' : 'Log in'} ${this
+              disabled={this.props.auth.get('loading')}
+              text={`${this.props.auth.get('loading') ? 'Logging in' : 'Log in'} ${this
                 .state.loginPhrase}`}
             />
           </form>

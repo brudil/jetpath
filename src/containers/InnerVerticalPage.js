@@ -55,6 +55,10 @@ class InnerVerticalPage extends React.Component {
       );
     }
 
+    if (selectedVertical.identifier !== this.props.match.params.vertical) {
+      return <h1>Loading</h1>;
+    }
+
     return (
       <Switch>
         <Route path={`${url}/content`} component={ContentListPage} />
