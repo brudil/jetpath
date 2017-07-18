@@ -23,7 +23,7 @@ class ApplicationContainer extends React.Component {
     return (
       <DocumentTitle title="Jetpath">
         <div>
-          {this.props.auth.attempted
+          {this.props.auth.get('attempted')
             ? <Switch>
                 <Route path="/auth" component={StonewallContainer} />
                 <Route path="/" component={BaseContainer} />

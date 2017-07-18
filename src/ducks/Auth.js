@@ -1,3 +1,4 @@
+import { Map, Record } from 'immutable';
 import { takeLatest, put } from 'redux-saga/effects';
 import { AuthClient } from '../serverAPI';
 import { createToast } from '../ducks/Toast';
@@ -42,56 +43,49 @@ const loginFailure = error => ({
 });
 
 // REDUCER
-const initialState = {
+const AuthUser = Record(
+  {
+    id: null,
+    username: null,
+    first_name: null,
+    last_name: null,
+    gravatar_hash: null,
+  },
+  'AuthUser'
+);
+
+const initialState = Map({
   auth: null,
   loading: false,
   attempted: false,
   error: null,
-};
+});
 
 export default function AuthReducer(state = initialState, action) {
   switch (action.type) {
     case AUTH_LOGIN_REQUEST:
-      return {
-        ...state,
-        loading: true,
-      };
+      return state.set('loading', true);
     case AUTH_LOGIN_FAILURE:
-      return {
-        ...state,
-        error: action.payload,
-        loading: false,
-      };
+      return state.set('error', action.payload).set('loading', false);
     case AUTH_LOGIN_SUCCESS:
-      return {
-        ...state,
-        auth: action.payload.data,
-      };
+      return state
+        .set('auth', new AuthUser(action.payload.data))
+        .set('loading', false);
     case AUTH_RESTORE_SUCCESS:
-      return {
-        ...state,
-        auth: action.payload.data,
-        attempted: true,
-      };
+      return state
+        .set('auth', new AuthUser(action.payload.data))
+        .set('attempted', true)
+        .set('loading', false);
     case AUTH_RESTORE_REQUEST:
-      return {
-        ...state,
-        loading: true,
-      };
+      return state.set('loading', true);
     case AUTH_RESTORE_FAILURE:
-      return {
-        ...state,
-        loading: false,
-        attempted: true,
-      };
+      return state.set('loading', false).set('attempted', true);
     case AUTH_LOGOUT_SUCCESS:
-      return {
-        ...state,
-        attemped: true,
-        auth: null,
-        loading: false,
-        error: null,
-      };
+      return state
+        .set('attempted', true)
+        .set('auth', null)
+        .set('loading', false)
+        .set('error', null);
     default:
       return state;
   }

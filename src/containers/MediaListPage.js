@@ -68,7 +68,7 @@ class MediaListPage extends React.Component {
     const vertical = this.props.vertical.identifier;
     this.props.history.replace(`/@${vertical}/media?${qs.stringify(filters)}`);
     this.props.dispatch(
-      MediaListActions.loadMediaList(vertical, { ...filters })
+      MediaListActions.loadMediaList({ ...filters })
     );
   }
 

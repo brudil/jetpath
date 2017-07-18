@@ -18,14 +18,14 @@ class UserMenu extends React.Component {
   }
 
   render() {
-    if (this.props.auth.auth === null) {
+    if (this.props.auth.get('auth') === null) {
       return null;
     }
 
     return (
       <div className={styles.root}>
         <span>
-          <a href="profile">{this.props.auth.auth.username}</a>{' '}
+          <a href="profile">{this.props.auth.get('auth').username}</a>{' '}
         </span>
         <span>
           <a href="/logout" target="_self">

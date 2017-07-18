@@ -9,8 +9,8 @@ export const MEDIA_LIST_FETCH_FAILURE = 'MEDIA_LIST_FETCH_FAILURE';
 export const MEDIA_LIST_FETCH_SUCCESS = 'MEDIA_LIST_FETCH_SUCCESS';
 export const MEDIA_UPLOAD = createRequestTypes('MEDIA_UPLOAD');
 
-export const loadMediaList = (vertical, query, limit) =>
-  makeAction(LOAD_MEDIA_LIST, { vertical, query, limit });
+export const loadMediaList = (query, limit) =>
+  makeAction(LOAD_MEDIA_LIST, { query, limit });
 export const media = {
   request: query => makeAction(MEDIA_LIST_FETCH_REQUEST, { query }),
   success: (query, payload) =>
@@ -77,7 +77,8 @@ export default function MediaListReducer(state = initialState, action) {
 // SAGA
 
 function* handleLoadMediaList(action) {
-  yield fork(fetchMediaList, action.vertical, action.query, action.limit);
+  const vertical = yield getVertical();
+  yield fork(fetchMediaList, vertical, action.query, action.limit);
 }
 
 function* mediaUpload({ file }) {

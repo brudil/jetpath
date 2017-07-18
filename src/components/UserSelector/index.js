@@ -166,5 +166,5 @@ UserSelector.defaultProps = {
 export default connect(state => ({
   usersList: state.users.suggestions.map(id => state.entities.users[id]),
   userEntities: state.entities.users,
-  currentUser: state.auth.auth,
+  currentUser: state.auth.get('auth'),
 }))(UserSelector);

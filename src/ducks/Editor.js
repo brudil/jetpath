@@ -389,9 +389,10 @@ function* loadMissingResourcesForRevision(revision) {
     }
   }
 
-  const payload = yield call(MediaClient.getMultiple, missingIds);
-
-  yield put(entities(payload));
+  if (missingIds.length > 0) {
+    const payload = yield call(MediaClient.getMultiple, missingIds);
+    yield put(entities(payload));
+  }
 }
 
 function* handleEditorChangeRevisionStatus({ status }) {
