@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const config = require('./webpack.base.config.js');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
@@ -17,11 +18,15 @@ config.output = {
 };
 
 config.plugins = config.plugins.concat([
-  new webpack.optimize.UglifyJsPlugin({ output: { comments: false }, sourceMap: true }),
+  new webpack.optimize.UglifyJsPlugin({
+    output: { comments: false },
+    sourceMap: true,
+  }),
   new SaveAssetsJson({
     path: process.cwd(),
     filename: 'assets.json',
   }),
+  new CopyWebpackPlugin([{ from: './src/root', to: './' }]),
 ]);
 
 config.module.loaders = config.module.loaders.concat([
