@@ -98,6 +98,7 @@ class UserSelector extends React.Component {
 
   renderSuggestions() {
     const { usersList, currentUser } = this.props;
+    console.log(usersList, currentUser);
     if (usersList.length <= 0) {
       return <div>No users found.</div>;
     }

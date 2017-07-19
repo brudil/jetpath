@@ -122,6 +122,14 @@ export class UserClient {
   }
 }
 
+export class AuthorClient {
+  static search(term) {
+    return api.get('/authors', { search: term, limit: 10 }).then(payload => ({
+      payload: normalize(payload.data.results, new schema.Array(appSchema.author)),
+    }));
+  }
+}
+
 export class NotificationClient {
   static getUnreadCount() {
     return api.get('/notifications/unread/count');

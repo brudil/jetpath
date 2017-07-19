@@ -12,6 +12,7 @@ import styles from './BaseContainer.css';
 import VerticalSelectionPage from '../VerticalSelectionPage';
 import InnerVerticalPage from '../InnerVerticalPage';
 import NotFoundPage from '../NotFoundPage';
+import LoadingContent from '../../components/LoadingContent/index';
 
 class BaseContainer extends React.Component {
   componentWillMount() {
@@ -37,6 +38,10 @@ class BaseContainer extends React.Component {
   render() {
     const vertical = this.props.match.params.vertical;
     const { url } = this.props.match;
+    if (this.props.auth.get('auth') === null) {
+      return <LoadingContent />;
+    }
+
     return (
       <div>
         <StickyContainer>

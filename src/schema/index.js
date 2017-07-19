@@ -12,6 +12,7 @@ const nestingOptions = {
 };
 
 export const user = new schema.Entity('users', nestingOptions);
+export const author = new schema.Entity('authors', nestingOptions);
 export const media = new schema.Entity('media', nestingOptions);
 export const vertical = new schema.Entity('vertical', nestingOptions);
 export const topic = new schema.Entity('topics', nestingOptions);

@@ -27,7 +27,7 @@ export const requestSuggestions = term => ({
 });
 export const receiveSuggestions = (term, payload) => ({
   type: USER_SUGGESTIONS_SUCCESS,
-  payload: { term, payload },
+  payload: { term, ...payload },
 });
 
 const initialState = {
@@ -38,6 +38,7 @@ export default function UserReducer(state = initialState, action) {
   const { payload } = action;
   switch (action.type) {
     case USER_SUGGESTIONS_SUCCESS:
+      console.log(action);
       return {
         ...state,
         suggestions: payload.result,
