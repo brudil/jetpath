@@ -16,13 +16,6 @@
   },
   "author": "James Canning <james@jamescanning.com> (http://brudil.com)",
   "license": "ISC",
-  "ava": {
-    "require": [
-      "babel-register",
-      "ignore-styles"
-    ],
-    "babel": "inherit"
-  },
   "devDependencies": {
     "assets-webpack-plugin": "^3.5.1",
     "autoprefixer-loader": "3.2.0",
