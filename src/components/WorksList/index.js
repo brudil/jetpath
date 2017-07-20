@@ -45,7 +45,7 @@ function WorksList(props) {
               {index > 2 && revision.authors.length > 1 ? ', ' : null}
             </span>
             <span>
-              {getUsersDisplayName(author)}
+              {author.name}
             </span>
           </span>
         )}
