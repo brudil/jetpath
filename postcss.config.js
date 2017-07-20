@@ -3,6 +3,7 @@
 module.exports = {
   plugins: [
     require('postcss-import'),
+    require('postcss-ant'),
     require('lost')(),
     require('postcss-cssnext')
   ]

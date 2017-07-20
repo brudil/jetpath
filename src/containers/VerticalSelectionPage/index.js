@@ -2,9 +2,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import DocumentTitle from '../components/DocumentTitle';
-import * as VerticalActions from '../ducks/Vertical';
-import verticalConfig from '../verticals';
+import DocumentTitle from '../../components/DocumentTitle';
+import * as VerticalActions from '../../ducks/Vertical';
+import verticalConfig from '../../verticals';
+
+import style from './style.css';
 
 class VerticalSelectionPage extends React.Component {
   componentDidMount() {
@@ -16,16 +18,22 @@ class VerticalSelectionPage extends React.Component {
     return (
       <DocumentTitle title="Select a vertical">
         <div>
-          <h1>Verticals!</h1>
-          <ul>
+          <h1 className={style.title}>Select a vertical</h1>
+          <ul className={style.list}>
             {verticals.map(vertical =>
               <li key={vertical.identifier}>
-                <Link to={`/@${vertical.identifier}/content`}>
+                <Link
+                  className={style.item}
+                  to={`/@${vertical.identifier}/content`}
+                >
                   <img
+                    className={style.logo}
                     src={verticalConfig[vertical.identifier].logoHeader}
                     alt={vertical.name}
                   />
-                  {vertical.name}
+                  <span className={style.audience}>
+                    {vertical.audience}
+                  </span>
                 </Link>
               </li>
             )}
