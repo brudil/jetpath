@@ -59,7 +59,10 @@ export class WorksClient {
       .get(`/verticals/${vertical}/content`, filterWithPagination)
       .then(payload => ({
         payload: {
-          ...normalize(payload.data.results, new schema.Array(appSchema.contentListItem)),
+          ...normalize(
+            payload.data.results,
+            new schema.Array(appSchema.contentListItem)
+          ),
           ...standardPaginatedTreats(payload),
         },
       }));
@@ -117,16 +120,24 @@ export class WorksClient {
 export class UserClient {
   static search(term) {
     return api.get('/users', { search: term, limit: 10 }).then(payload => ({
-      payload: normalize(payload.data.results, new schema.Array(appSchema.user)),
+      payload: normalize(
+        payload.data.results,
+        new schema.Array(appSchema.user)
+      ),
     }));
   }
 }
 
 export class AuthorClient {
-  static search(term) {
-    return api.get('/authors', { search: term, limit: 10 }).then(payload => ({
-      payload: normalize(payload.data.results, new schema.Array(appSchema.author)),
-    }));
+  static search(vertical, term) {
+    return api
+      .get(`/verticals/${vertical}/authors`, { search: term, limit: 10 })
+      .then(payload => ({
+        payload: normalize(
+          payload.data.results,
+          new schema.Array(appSchema.author)
+        ),
+      }));
   }
 }
 
@@ -138,7 +149,9 @@ export class NotificationClient {
   static getUnread() {
     return api
       .get('/notifications/unread')
-      .then(payload => normalize(payload.data, new schema.Array(appSchema.notification)));
+      .then(payload =>
+        normalize(payload.data, new schema.Array(appSchema.notification))
+      );
   }
 }
 
@@ -154,7 +167,9 @@ export class SectionsClient {
   static getTopicsFor(sectionId) {
     return api
       .get(`/sections/${sectionId}/topics`, { limit: 100, offset: 0 })
-      .then(payload => normalize(payload.data.results, new schema.Array(appSchema.topic)));
+      .then(payload =>
+        normalize(payload.data.results, new schema.Array(appSchema.topic))
+      );
   }
 
   static update(sectionId, data) {
@@ -186,7 +201,9 @@ export class TopicsClient {
   static forKeyword(vertical, keyword) {
     return api
       .get(`/verticals/${vertical}/topics`, { search: keyword })
-      .then(payload => normalize(payload.data, new schema.Array(appSchema.topic)));
+      .then(payload =>
+        normalize(payload.data, new schema.Array(appSchema.topic))
+      );
   }
 }
 export class VerticalClient {

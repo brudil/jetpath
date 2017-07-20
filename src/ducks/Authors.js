@@ -1,5 +1,6 @@
 import { takeLatest, put, call } from 'redux-saga/effects';
 import { AuthorClient } from '../serverAPI';
+import getVertical from "../sagas/getVertical";
 
 export const AUTHOR_SUGGESTIONS_REQUEST = 'AUTHOR_SUGGESTIONS_REQUEST';
 export const AUTHOR_SUGGESTIONS_FAILURE = 'AUTHOR_SUGGESTIONS_FAILURE';
@@ -25,7 +26,9 @@ export const requestSuggestions = term => ({
   type: AUTHOR_SUGGESTIONS_REQUEST,
   payload: { term },
 });
-export const receiveSuggestions = (term, payload) => ({
+
+// HELPERS
+const receiveSuggestions = (term, payload) => ({
   type: AUTHOR_SUGGESTIONS_SUCCESS,
   payload: { term, ...payload },
 });
@@ -38,7 +41,6 @@ export default function AuthorReducer(state = initialState, action) {
   const { payload } = action;
   switch (action.type) {
     case AUTHOR_SUGGESTIONS_SUCCESS:
-      console.log(action);
       return {
         ...state,
         suggestions: payload.result,
@@ -51,7 +53,8 @@ export default function AuthorReducer(state = initialState, action) {
 // SAGA
 
 function* searchAuthors({ payload: { term } }) {
-  const { payload } = yield call(AuthorClient.search, term);
+  const vertical = yield getVertical();
+  const { payload } = yield call(AuthorClient.search, vertical, term);
 
   yield put(receiveSuggestions(term, payload));
 }

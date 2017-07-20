@@ -6,7 +6,7 @@ import DebouncedInput from '../DebouncedInput';
 import DebouncedAutosizeTextarea from '../DebouncedAutosizeTextarea';
 import MediaInput from '../MediaInput';
 import SlugInput from '../SlugInput';
-import UsersPicker from '../UserPicker';
+import AuthorsSelector from '../AuthorsSelector';
 import Sidebar, { SidebarControl } from '../Sidebar';
 import SectionSelector from '../SectionSelector';
 import TopicsSelector from '../TopicsSelector';
@@ -101,11 +101,12 @@ function EditorSidebar(props) {
         />
       </SidebarControl>
       <SidebarControl title="Authors">
-        <UsersPicker
-          users={revision.get('authors').toJS()}
+        <AuthorsSelector
+          value={revision.get('authors')}
           onRemove={onRemoveAuthor}
           onAdd={onAddAuthor}
           noUsersText="No authors added"
+          onChange={revisionChangeHandler('authors')}
         />
       </SidebarControl>
       <SidebarControl title="Section">

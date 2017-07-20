@@ -31,6 +31,7 @@ export { default as topics } from '../ducks/Topic';
 export { default as organisation } from '../ducks/Organisation';
 export { default as editor } from '../ducks/Editor';
 export { default as users } from '../ducks/User';
+export { default as authors } from '../ducks/Authors';
 export { default as notification } from '../ducks/Notification';
 export { default as toasts } from '../ducks/Toast';
 export { default as verticals } from '../ducks/Vertical';

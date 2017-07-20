@@ -8,6 +8,7 @@ import { saga as topicSaga } from '../ducks/Topic';
 import { saga as editorSaga } from '../ducks/Editor';
 import { saga as organisationSaga } from '../ducks/Organisation';
 import { saga as userSaga } from '../ducks/User';
+import { saga as authorsSaga } from '../ducks/Authors';
 
 export default function* root() {
   try {
@@ -21,6 +22,7 @@ export default function* root() {
       spawn(topicSaga),
       spawn(mediaListSaga),
       spawn(userSaga),
+      spawn(authorsSaga),
     ]);
   } catch (error) {
     yield;
