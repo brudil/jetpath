@@ -8,6 +8,7 @@ import MediaEditModal from '../../../MediaEditModal';
 import MediaSelectModal from '../../../MediaSelectModal';
 import Panel from './Panel';
 import Button from '../../../Button';
+import ImageIcon from '../../../icons/image.svg.react';
 
 import styles from './ImageBlock.css';
 
@@ -71,6 +72,7 @@ class ImageBlock extends React.Component {
 }
 
 ImageBlock.panel = Panel;
+ImageBlock.Icon = ImageIcon;
 
 ImageBlock.propTypes = {
   update: PropTypes.func,

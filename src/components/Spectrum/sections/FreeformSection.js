@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import ElementStream from '../ElementStream';
 import * as SpectrumPropTypes from '../SpectrumPropTypes';
+import FreeformIcon from '../../icons/freeform.svg.react';
 
 import styles from './Section.css';
 
@@ -19,6 +20,8 @@ function FreeformSection(props) {
     </div>
   );
 }
+
+FreeformSection.Icon = FreeformIcon;
 
 FreeformSection.propTypes = {
   update: PropTypes.func,

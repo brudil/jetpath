@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import DebouncedAutosizeTextarea from '../../../DebouncedAutosizeTextarea';
 import * as SpectrumPropTypes from '../../SpectrumPropTypes';
+import TextIcon from '../../../icons/text.svg.react';
 
 import styles from './TextBlock.css';
 
@@ -36,6 +37,8 @@ class TextBlock extends React.Component {
     );
   }
 }
+
+TextBlock.Icon = TextIcon;
 
 TextBlock.propTypes = {
   update: PropTypes.func,

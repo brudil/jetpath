@@ -3,6 +3,7 @@ import React from 'react';
 import has from 'lodash/has';
 import cx from 'classnames';
 import * as SpectrumPropTypes from '../SpectrumPropTypes';
+import { nameToComponentMap } from '../elementsMap';
 
 import styles from './ElementInserter.css';
 import stylesInsertElement from './InsertElement.css';
@@ -98,6 +99,15 @@ class ElementInserter extends React.Component {
           <ul className={styles.list}>
             {Object.keys(this.state.elements).map(key => {
               const element = this.state.elements[key];
+              const component = nameToComponentMap.get(element._name);
+              if (component === undefined) {
+                console.warn(element._name, "isn't in element map");
+                return null;
+              }
+              const Icon = Object.hasOwnProperty.call(component, 'Icon')
+                ? component.Icon
+                : null;
+              console.log(component.Icon);
               return (
                 <li
                   className={styles.element}
@@ -106,11 +116,7 @@ class ElementInserter extends React.Component {
                 >
                   <div className={styles.elementIcon}>
                     <i className={`icon icon-${element.elementName}`}>
-                      <img
-                        // eslint-disable-next-line
-                        src={require('icons/image.svg')}
-                        role="presentation"
-                      />
+                      {Icon !== null ? <Icon /> : null}
                     </i>
                   </div>
                   <div className={styles.elementLabel}>

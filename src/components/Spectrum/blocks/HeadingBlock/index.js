@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import DebouncedAutosizeTextarea from '../../../DebouncedAutosizeTextarea';
 import * as SpectrumPropTypes from '../../SpectrumPropTypes';
+import HeadingIcon from '../../../icons/heading.svg.react';
 
 import styles from './HeadingBlock.css';
 
@@ -35,6 +36,8 @@ class HeadingBlock extends React.Component {
     );
   }
 }
+
+HeadingBlock.Icon = HeadingIcon;
 
 HeadingBlock.propTypes = {
   update: PropTypes.func,

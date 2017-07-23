@@ -3,6 +3,7 @@ import React from 'react';
 import ElementStream from '../ElementStream';
 import * as SpectrumPropTypes from '../SpectrumPropTypes';
 import ListSectionPanel from './ListSectionPanel';
+import ListIcon from '../../icons/list.svg.react';
 
 import styles from './Section.css';
 
@@ -23,6 +24,8 @@ function ListSection(props) {
 }
 
 ListSectionPanel.panel = ListSectionPanel;
+
+ListSection.Icon = ListIcon;
 
 ListSection.propTypes = {
   update: PropTypes.func,
