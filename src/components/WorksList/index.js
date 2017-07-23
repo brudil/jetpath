@@ -82,19 +82,23 @@ function WorksList(props) {
                 {renderAuthors(currentRevision)}
               </span>
               <span className={styles.itemMetaBit}>
-                Edited: <SmartDate value={currentRevision.created} />
+                last edited: <SmartDate value={currentRevision.created} /> ago
               </span>
               <span className={styles.itemMetaBit}>
-                Revision: #{work.revision_count}
+                revision: #{work.revision_count}
               </span>
               <span className={styles.itemMetaBit}>
-                Tone: {contentTone[currentRevision.tone]}
+                tone: {contentTone[currentRevision.tone]}
               </span>
               <span className={styles.itemMetaBit}>
-                Status: {contentStatus[currentRevision.status]}
+                status: {contentStatus[currentRevision.status]}
               </span>
               <ul className="inline-tags" />
             </div>
+            <Link
+              className={styles.fauxLink}
+              to={`/@${props.vertical}/editor/${work.content}`}
+            />
           </li>
         );
       })}

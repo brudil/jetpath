@@ -4,13 +4,16 @@
 
 .item {
   cursor: pointer;
-  /* background: rgba(190, 190, 190, 0.1); */
   padding-left: 1rem;
   padding-top: 0.2rem;
   padding-bottom: 0.2rem;
   position: relative;
   display: block;
   margin-bottom: 0.5em;
+
+  &:hover {
+    background: rgba(190, 190, 190, 0.1);
+  }
 }
 
 .itemNub {
@@ -37,12 +40,19 @@
   font-size: 0.85rem;
   opacity: 0.9;
   padding-top: 0.2em;
-  color: var(--color__optional-gray);
-
+  color: var(--color__grey);
 }
 
 .itemMetaBit {
-  margin-right: 0.4rem;
+  margin-right: 0.6rem;
+}
+
+.fauxLink {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
 }
 
 .itemNub--status-stub {
