@@ -93,12 +93,15 @@ export default function AuthReducer(state = initialState, action) {
 
 // SAGAS
 function* handleRestoreAuth() {
-  const response = yield AuthClient.restore();
-
-  if (response !== null) {
-    yield put(restoreAuthSuccess(response));
-  } else {
-    yield put(restoreAuthFailure(response));
+  try {
+    const response = yield AuthClient.restore();
+    if (response !== null) {
+      yield put(restoreAuthSuccess(response));
+    } else {
+      yield put(restoreAuthFailure(response));
+    }
+  } catch (error) {
+    yield put(restoreAuthFailure(error));
   }
 }
 
