@@ -60,8 +60,8 @@ function GlobalHeader(props) {
       <footer className={styles.footer}>
         <UserMenu />
         <div className={styles.credits}>
-          <p>v6.0</p>
-          <p>pablo</p>
+          <p>v7.0</p>
+          <p>bland</p>
         </div>
         <a href="http://draftymedia.com" className="awesomes-logo">
           <img
