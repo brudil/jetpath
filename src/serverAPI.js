@@ -53,7 +53,7 @@ function standardPaginatedTreats(payload) {
 }
 
 export class WorksClient {
-  static getByFilterForVertical(vertical, filter, limit = 5) {
+  static getByFilterForVertical(vertical, filter, limit = 20) {
     const filterWithPagination = limitOffsetPagination(filter, limit);
     return api
       .get(`/verticals/${vertical}/content`, filterWithPagination)

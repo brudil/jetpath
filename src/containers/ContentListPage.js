@@ -62,27 +62,24 @@ class ContentListPage extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (!isEqual(this.getQueryData(), this.getQueryData(nextProps))) {
       this.props.dispatch(
-        ContentListActions.loadContent(
-          this.props.vertical.identifier,
-          this.getQueryData(nextProps)
-        )
+        ContentListActions.loadContent(this.getQueryData(nextProps))
       );
     }
   }
 
   getQueryData(props = null) {
-    const query = new URLSearchParams(
+    const query = qs.parse(
       props === null ? this.props.location.search : props.location.search
     );
     return {
-      order: query.get('order') || 'created_desc',
-      state: query.get('.state') || null,
-      status: query.get('.status') || null,
-      tone: query.get('.tone') || null,
-      form: query.get('.form') || null,
-      search: query.get('.search') || null,
-      authors: query.get('.authors') || [],
-      page: parseInt(query.get('.page'), 10) || 1,
+      order: query.order || 'created_desc',
+      state: query.state || null,
+      status: query.status || null,
+      tone: query.tone || null,
+      form: query.form || null,
+      search: query.search || null,
+      authors: query.authors || [],
+      page: parseInt(query.page, 10) || 1,
     };
   }
 
@@ -216,10 +213,10 @@ class ContentListPage extends React.Component {
                     options={[
                       null,
                       'All',
-                      ...generateFromConstants(contentStateLang, [
-                        contentState.STATE_DRAFT,
-                        contentState.STATE_LIVE,
-                      ]),
+                      'internal',
+                      'Internal',
+                      'live',
+                      'Live',
                     ]}
                     onChange={this.handleUpdate.bind(this, 'state')}
                   />
