@@ -12,6 +12,7 @@ import Button from '../components/Button';
 
 import stylesShelter from '../styles/components/BusShelter.css';
 import stylesView from '../styles/components/ViewContainer.css';
+import ViewContainer from '../components/ViewContainer';
 
 class OrganisationPage extends React.Component {
   constructor(props) {
@@ -194,17 +195,8 @@ class OrganisationPage extends React.Component {
   render() {
     return (
       <DocumentTitle title="Organisation">
-        <div>
+        <ViewContainer>
           <header className="standard-header">
-            <a className="standard-header__prepend">
-              <i className="icon icon-plus">
-                <img
-                  // eslint-disable-next-line
-                  src={require('icons/plus.svg')}
-                  alt="Add"
-                />
-              </i>
-            </a>
             <TitleSelection className="standard-header__title">
               <SelectionItem default="true" name="sections">
                 Sections
@@ -226,7 +218,7 @@ class OrganisationPage extends React.Component {
               </div>
             </div>
           </div>
-        </div>
+        </ViewContainer>
       </DocumentTitle>
     );
   }
