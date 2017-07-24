@@ -102,11 +102,8 @@ function EditorSidebar(props) {
       </SidebarControl>
       <SidebarControl title="Authors">
         <AuthorsSelector
-          value={revision.get('authors')}
-          onRemove={onRemoveAuthor}
-          onAdd={onAddAuthor}
-          noUsersText="No authors added"
-          onChange={revisionChangeHandler('authors')}
+          value={revision.get('authors').toJS()}
+          onChange={revisionChangeHandler('authors', formly.toImmutable)}
         />
       </SidebarControl>
       <SidebarControl title="Section">

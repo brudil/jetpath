@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Immutable from 'immutable';
 import { connect } from 'react-redux';
 import Select from 'react-select';
 import * as AuthorActions from '../../ducks/Authors';
@@ -26,7 +25,7 @@ class AuthorsSelector extends React.Component {
   }
 
   onChange(selected) {
-    this.props.onChange(Immutable.fromJS(selected.map(item => item.value)));
+    this.props.onChange(selected.map(item => item.value));
   }
 
   render() {
@@ -49,7 +48,7 @@ class AuthorsSelector extends React.Component {
           options={options}
           onInputChange={this.handleInputChangeBound}
           onChange={this.onChange}
-          value={value.toJS()}
+          value={value}
           multi
         />
       </div>

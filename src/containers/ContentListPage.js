@@ -21,6 +21,7 @@ import SegmentedControl from '../components/SegmentedControl';
 import NoListItems from '../components/NoListItems';
 import Sidebar, { SidebarControl } from '../components/Sidebar';
 import LoadingContent from '../components/LoadingContent';
+import AuthorsSelector from '../components/AuthorsSelector';
 import * as ContentListActions from '../ducks/ContentList';
 import { generateFromConstants } from '../lang/utils';
 import {
@@ -52,6 +53,7 @@ class ContentListPage extends React.Component {
 
     this.handlePagination = this.handlePagination.bind(this);
     this.handleFilterPresetChange = this.handleFilterPresetChange.bind(this);
+    this.handleAuthorChange = this.handleAuthorChange.bind(this);
   }
 
   componentDidMount() {
@@ -77,7 +79,7 @@ class ContentListPage extends React.Component {
       status: query.status || null,
       tone: query.tone || null,
       form: query.form || null,
-      search: query.search || null,
+      search: query.search || '',
       authors: query.authors || [],
       page: parseInt(query.page, 10) || 1,
     };
@@ -109,15 +111,9 @@ class ContentListPage extends React.Component {
     this.handleQueryChange(query);
   }
 
-  handleUserFilter(method, userId) {
-    const add = method === 'add';
+  handleAuthorChange(value) {
     const query = this.getQueryData();
-    if (add) {
-      query.authors.push(userId);
-    } else {
-      query.authors = without(query.uploaders, userId);
-    }
-
+    query.authors = value;
     this.handleQueryChange(query);
   }
 
@@ -192,21 +188,19 @@ class ContentListPage extends React.Component {
             </div>
             <div className={ViewContainerStyles.sidebar}>
               <Sidebar>
-                {/*
-                <SidebarControl title="Headline">
-                  <input type="text" value={query.search} onChange={this.handleInputUpdate.bind(this, 'search')} />
-                </SidebarControl>
-
-                <SidebarControl title="Authors">
-                  <UsersPicker
-                    users={query.authors}
-                    onAdd={this.handleUserFilter.bind(this, 'add')}
-                    onRemove={this.handleUserFilter.bind(this, 'remove')}
-                    noUsersText={''}
-                    placeholderText="Search for authors or me"
+                <SidebarControl title="Search">
+                  <Sidebar.Input
+                    type="text"
+                    value={query.search}
+                    onChange={this.handleInputUpdate.bind(this, 'search')}
                   />
                 </SidebarControl>
-*/}
+                <SidebarControl title="Authors">
+                  <AuthorsSelector
+                    onChange={this.handleAuthorChange}
+                    value={parseInt(query.authors, 10)}
+                  />
+                </SidebarControl>
                 <SidebarControl title="State">
                   <SegmentedControl
                     value={query.state}

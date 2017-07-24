@@ -1,3 +1,5 @@
+import Immutable from 'immutable';
+
 export function event(input) {
   return input.target.value;
 }
@@ -12,4 +14,8 @@ export function select(input) {
 
 export function selectMulti(inputList) {
   return inputList.map(input => input.value);
+}
+
+export function toImmutable(jsStructure) {
+  return Immutable.fromJS(jsStructure);
 }

@@ -15,6 +15,9 @@ Sidebar.propTypes = {
   children: PropTypes.node,
 };
 
+Sidebar.Input = ({ className = '', ...props }) =>
+  <input className={`${styles.input} ${className}`} {...props} />;
+
 export default Sidebar;
 
 function SidebarControl(props) {
