@@ -6,9 +6,9 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@brudil/drafty-constants/-/drafty-constants-1.1.0.tgz#7c3261e27eb27e97fb4baa756f0476dc2153df7f"
 
-"@brudil/spectrum@^0.3.4":
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/@brudil/spectrum/-/spectrum-0.3.4.tgz#0bb34d88de9d5e5f4b831ccc0a366eca09fad0a9"
+"@brudil/spectrum@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@brudil/spectrum/-/spectrum-0.4.0.tgz#c5a371f02f48bda751bbe433dcd6ddbf13ee72c8"
 
 abab@^1.0.3:
   version "1.0.3"
@@ -2303,6 +2303,10 @@ debug@^2.6.3:
 decamelize@^1.0.0, decamelize@^1.1.1, decamelize@^1.1.2:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
+
+decode-uri-component@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
 
 deep-diff@^0.3.5, deep-diff@^0.3.8:
   version "0.3.8"
@@ -6730,10 +6734,11 @@ query-string@^4.1.0:
     object-assign "^4.1.0"
     strict-uri-encode "^1.0.0"
 
-query-string@^4.3.4:
-  version "4.3.4"
-  resolved "https://registry.yarnpkg.com/query-string/-/query-string-4.3.4.tgz#bbb693b9ca915c232515b228b1a02b609043dbeb"
+query-string@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/query-string/-/query-string-5.0.0.tgz#fbdf7004b4d2aff792f9871981b7a2794f555947"
   dependencies:
+    decode-uri-component "^0.2.0"
     object-assign "^4.1.0"
     strict-uri-encode "^1.0.0"
 
@@ -6914,7 +6919,7 @@ react-router@^4.1.1, react-router@^4.1.2:
     prop-types "^15.5.4"
     warning "^3.0.0"
 
-react-select@1.0.0-rc:
+react-select@1.0.0-rc.5:
   version "1.0.0-rc.5"
   resolved "https://registry.yarnpkg.com/react-select/-/react-select-1.0.0-rc.5.tgz#9d316f252b1adc372ddb5cdf1f119c6b7cfdb5d6"
   dependencies:

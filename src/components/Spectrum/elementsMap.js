@@ -12,6 +12,7 @@ import ListSectionItem from './sections/ListSectionItem';
 import HeadingBlock from './blocks/HeadingBlock';
 import ImageBlock from './blocks/ImageBlock';
 import TextBlock from './blocks/TextBlock';
+import PullQuoteBlock from './blocks/PullQuoteBlock';
 // TODO: VideoBlock
 
 const elementMap = new Map();
@@ -28,6 +29,7 @@ elementMap.set(sections.ListSectionItem, ListSectionItem);
 elementMap.set(blocks.HeadingBlock, HeadingBlock);
 elementMap.set(blocks.ImageBlock, ImageBlock);
 elementMap.set(blocks.TextBlock, TextBlock);
+elementMap.set(blocks.PullQuoteBlock, PullQuoteBlock);
 
 export default elementMap;
 
