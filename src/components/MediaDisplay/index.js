@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import ImagePop from '../ImagePop';
+import Image from '../Image';
 
 import styles from './MediaDisplay.css';
 
@@ -9,7 +9,9 @@ function MediaDisplay({ className, media }) {
   return (
     <div className={cx(className, styles.root)}>
       {media.file_type === 'image'
-        ? <ImagePop className={styles.image} image={media} />
+        ? <div className={styles.image}>
+            <Image image={media} />
+          </div>
         : null}
     </div>
   );

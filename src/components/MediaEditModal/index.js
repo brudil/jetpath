@@ -3,12 +3,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import TagsInput from 'react-tagsinput';
 import Immutable from 'immutable';
-import SmartDate from './SmartDate';
-import { modalWrapper } from './Modal';
-import MediaDisplay from './MediaDisplay';
-import * as MediaEditModalActions from '../ducks/MediaEdit';
-import { formly } from '../libs/form';
-import Button from './Button';
+import SmartDate from '../SmartDate';
+import { modalWrapper } from '../Modal';
+import MediaDisplay from '../MediaDisplay';
+import * as MediaEditModalActions from '../../ducks/MediaEdit';
+import { formly } from '../../libs/form';
+import Button from '../Button';
+import { createChangeHandler } from '../../libs/form/index';
+
+import style from './MediaEditModal.css';
 
 class MediaEditModal extends React.Component {
   componentDidMount() {
@@ -28,21 +31,24 @@ class MediaEditModal extends React.Component {
   }
 
   handleTagsChange(tags) {
-    this.handleMediaChange('tags', Immutable.fromJS(tags));
+    this.handleMediaChange(['tags'], Immutable.fromJS(tags));
   }
 
   renderModal() {
+    console.log(this.props.mediamodal);
     const serverMedia = this.props.mediamodal.serverData;
     const media = this.props.mediamodal.data;
     const unchanged = Immutable.is(media, serverMedia);
-    const form = this.props.form.modal;
-
+    const form = createChangeHandler(
+      this.props.dispatch,
+      MediaEditModalActions.update
+    );
     return (
       <div>
         <header className="modal__header" />
         <div className="modal__body">
           <div className="">
-            Uploaded <SmartDate value={media.get('created_at')} />
+            Uploaded <SmartDate value={media.get('created')} />
           </div>
           <TagsInput
             value={media.get('tags').toJS()}
@@ -50,17 +56,20 @@ class MediaEditModal extends React.Component {
           />
 
           <h2>Credits</h2>
+          <label htmlFor="creditUrl">Credit URL</label>
           <input
-            value={media.get('creditUrl')}
-            onChange={form('creditUrl', formly.event)}
+            id="creditUrl"
+            value={media.get('credit_url')}
+            onChange={form('credit_url', formly.event)}
             type="url"
           />
+          <label htmlFor="creditTitle">Credit title</label>
           <input
-            value={media.get('creditTitle')}
-            onChange={form('creditTitle', formly.event)}
+            id="creditTitle"
+            value={media.get('credit_title')}
+            onChange={form('credit_title', formly.event)}
             type="text"
           />
-
           <Button
             onClick={unchanged ? this.props.close : this.handleSave.bind(this)}
             text={unchanged ? 'Close' : 'Save'}
@@ -86,7 +95,7 @@ class MediaEditModal extends React.Component {
 
   render() {
     return (
-      <div className="media-edit-modal">
+      <div className={style.root}>
         {this.props.mediamodal.data === null ? null : this.renderModal()}
       </div>
     );
@@ -97,7 +106,6 @@ MediaEditModal.propTypes = {
   dispatch: PropTypes.func.isRequired,
   close: PropTypes.func.isRequired,
   mediamodal: PropTypes.object.isRequired,
-  form: PropTypes.object.isRequired,
   conf: PropTypes.object.isRequired,
 };
 

@@ -1,30 +1,26 @@
+import { call, put, select, takeLatest } from 'redux-saga/effects';
 import Immutable from 'immutable';
-import { sequence } from '../reducers/utils';
+import { sequence } from '../utils';
 import { MediaClient } from '../serverAPI';
-import { createTransaction } from '../utils';
 
 // TYPES
 const MEDIA_MODAL_SHOW = 'MEDIA_MODAL_SHOW';
 const MEDIA_MODAL_CLOSE = 'MEDIA_MODAL_CLOSE';
 const MEDIA_MODAL_FETCH = 'MEDIA_MODAL_FETCH';
 const MEDIA_MODAL_UPDATE = 'MEDIA_MODAL_UPDATE';
-const MEDIA_MODAL_SAVE = 'MEDIA_MODAL_SAVE';
+const MEDIA_MODAL_SAVE_REQUEST = 'MEDIA_MODAL_SAVE_REQUEST';
+const MEDIA_MODAL_SAVE_FAILURE = 'MEDIA_MODAL_SAVE_FAILURE';
+const MEDIA_MODAL_SAVE_SUCCESS = 'MEDIA_MODAL_SAVE_SUCCESS';
 
 // ACTIONS
-export function open() {}
+export const open = id => ({
+  type: MEDIA_MODAL_SHOW,
+  payload: {
+    id,
+  },
+});
 
-export function save(data) {
-  return dispatch => {
-    const transaction = createTransaction(dispatch, MEDIA_MODAL_SAVE);
-
-    try {
-      const payload = MediaClient.update(data.get('id'), data);
-      transaction.done(Immutable.fromJS(payload.data));
-    } catch (error) {
-      transaction.error(error);
-    }
-  };
-}
+export const save = () => ({ type: MEDIA_MODAL_SAVE_REQUEST });
 
 export function update(key, value) {
   return dispatch => {
@@ -73,39 +69,63 @@ export default function MediaEditModalReducer(state = initialState, action) {
     case MEDIA_MODAL_FETCH:
       return {
         ...state,
-        data: payload,
-        serverData: payload,
+        data: Immutable.fromJS(payload),
+        serverData: Immutable.fromJS(payload),
       };
-    case MEDIA_MODAL_SAVE:
-      return sequence(state, action, {
-        start() {
-          return {
-            ...state,
-            syncingToServer: true,
-            id: null,
-          };
-        },
-        done() {
-          return {
-            ...state,
-            serverData: payload,
-            syncingToServer: false,
-          };
-        },
-        error() {
-          return {
-            ...state,
-            error: action.error,
-            syncingToServer: false,
-          };
-        },
-      });
+    case MEDIA_MODAL_SAVE_REQUEST:
+      return {
+        ...state,
+        syncingToServer: true,
+        id: null,
+      };
+    case MEDIA_MODAL_SAVE_FAILURE:
+      return {
+        ...state,
+        error: action.error,
+        syncingToServer: false,
+      };
+    case MEDIA_MODAL_SAVE_SUCCESS:
+      return {
+        ...state,
+        serverData: payload,
+        syncingToServer: false,
+      };
     case MEDIA_MODAL_UPDATE:
       return {
         ...state,
-        data: state.data.set(payload.key, payload.value),
+        data: state.data.setIn(payload.key, payload.value),
       };
     default:
       return state;
   }
+}
+
+function* handleLoadMedia(action) {
+  try {
+    const media = yield call(MediaClient.get, action.payload.id);
+    yield put({ type: MEDIA_MODAL_FETCH, payload: media.data });
+  } catch (error) {}
+}
+
+function* handleSaveMedia() {
+  try {
+    const dataImmutable = yield select(state => state.mediamodal.data);
+    const data = dataImmutable.toJS();
+    const payload = yield call(MediaClient.update, data.id, data);
+    yield put({
+      type: MEDIA_MODAL_SAVE_SUCCESS,
+      payload: payload.data,
+    });
+  } catch (error) {
+    yield put({
+      type: MEDIA_MODAL_SAVE_FAILURE,
+      payload: error,
+      error: true,
+    });
+  }
+}
+
+export function* saga() {
+  yield takeLatest(MEDIA_MODAL_SHOW, handleLoadMedia);
+  yield takeLatest(MEDIA_MODAL_SAVE_REQUEST, handleSaveMedia);
 }

@@ -4,5 +4,8 @@
 
 .image {
   width: 100%;
+  max-width: 600px;
   display: block;
+  margin-left: auto;
+  margin-right: auto;
 }

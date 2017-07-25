@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import ImagePop from '../ImagePop';
+import Image from '../Image';
 
 import styles from './MediaGridItem.css';
 
@@ -25,7 +25,7 @@ class MediaGridItem extends React.Component {
   renderImagePreview() {
     const { media } = this.props;
 
-    return <ImagePop className={styles.thumbnail} image={media} />;
+    return <Image className={styles.thumbnail} image={media} />;
   }
 
   renderPseudoPreview() {

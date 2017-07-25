@@ -237,7 +237,7 @@ export class MediaClient {
   }
 
   static update(id, data) {
-    return api.put(`/media/${id}`, { data });
+    return api.put(`/media/${id}`, data);
   }
 
   static upload(vertical, file) {
