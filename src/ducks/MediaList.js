@@ -1,5 +1,10 @@
 import { takeLatest, takeEvery, put, call, fork } from 'redux-saga/effects';
-import { sequence, action as makeAction, createRequestTypes, fetchEntity } from '../utils';
+import {
+  sequence,
+  action as makeAction,
+  createRequestTypes,
+  fetchEntity,
+} from '../utils';
 import getVertical from '../sagas/getVertical';
 import { MediaClient } from '../serverAPI';
 
@@ -7,10 +12,21 @@ export const LOAD_MEDIA_LIST = 'LOAD_MEDIA_LIST';
 export const MEDIA_LIST_FETCH_REQUEST = 'MEDIA_LIST_FETCH_REQUEST';
 export const MEDIA_LIST_FETCH_FAILURE = 'MEDIA_LIST_FETCH_FAILURE';
 export const MEDIA_LIST_FETCH_SUCCESS = 'MEDIA_LIST_FETCH_SUCCESS';
+
+export const MEDIA_DELETE_REQUEST = 'MEDIA_DELETE_REQUEST';
+export const MEDIA_DELETE_FAILURE = 'MEDIA_DELETE_FAILURE';
+export const MEDIA_DELETE_SUCCESS = 'MEDIA_DELETE_SUCCESS';
+
 export const MEDIA_UPLOAD = createRequestTypes('MEDIA_UPLOAD');
 
 export const loadMediaList = (query, limit) =>
   makeAction(LOAD_MEDIA_LIST, { query, limit });
+
+export const deleteMedia = id => ({
+  type: MEDIA_DELETE_REQUEST,
+  payload: { id },
+});
+
 export const media = {
   request: query => makeAction(MEDIA_LIST_FETCH_REQUEST, { query }),
   success: (query, payload) =>
@@ -69,6 +85,12 @@ export default function MediaListReducer(state = initialState, action) {
           };
         },
       });
+    case MEDIA_DELETE_SUCCESS: {
+      return {
+        ...state,
+        list: state.list.filter(id => id !== payload.id),
+      };
+    }
     default:
       return state;
   }
@@ -92,7 +114,21 @@ function* mediaUpload({ file }) {
   }
 }
 
+function* mediaDelete({ payload: { id } }) {
+  try {
+    yield call(MediaClient.delete, id);
+    yield put({ type: MEDIA_DELETE_SUCCESS, payload: { id } });
+  } catch (error) {
+    yield put({
+      type: MEDIA_DELETE_FAILURE,
+      payload: { id, error },
+      error: true,
+    });
+  }
+}
+
 export function* saga() {
+  yield takeEvery(MEDIA_DELETE_REQUEST, mediaDelete);
   yield takeEvery(MEDIA_UPLOAD.REQUEST, mediaUpload);
   yield takeLatest(LOAD_MEDIA_LIST, handleLoadMediaList);
 }

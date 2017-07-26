@@ -7,6 +7,8 @@ import SmartDate from '../SmartDate';
 import { modalWrapper } from '../Modal';
 import MediaDisplay from '../MediaDisplay';
 import * as MediaEditModalActions from '../../ducks/MediaEdit';
+import * as MediaListActions from '../../ducks/MediaList';
+import * as ModalActions from '../../ducks/Modal';
 import { formly } from '../../libs/form';
 import Button from '../Button';
 import { createChangeHandler } from '../../libs/form/index';
@@ -14,12 +16,23 @@ import { createChangeHandler } from '../../libs/form/index';
 import style from './MediaEditModal.css';
 
 class MediaEditModal extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.handleDelete = this.handleDelete.bind(this);
+  }
+
   componentDidMount() {
     this.props.dispatch(MediaEditModalActions.open(this.props.conf.id));
   }
 
   handleSave() {
     this.props.dispatch(MediaEditModalActions.save(this.props.mediamodal.data));
+  }
+
+  handleDelete() {
+    this.props.dispatch(MediaListActions.deleteMedia(this.props.mediamodal.id));
+    this.props.dispatch(ModalActions.closeById(this.props.conf.id));
   }
 
   handleMediaChange(key, value) {
@@ -35,7 +48,6 @@ class MediaEditModal extends React.Component {
   }
 
   renderModal() {
-    console.log(this.props.mediamodal);
     const serverMedia = this.props.mediamodal.serverData;
     const media = this.props.mediamodal.data;
     const unchanged = Immutable.is(media, serverMedia);
@@ -74,6 +86,8 @@ class MediaEditModal extends React.Component {
             onClick={unchanged ? this.props.close : this.handleSave.bind(this)}
             text={unchanged ? 'Close' : 'Save'}
           />
+
+          <Button onClick={this.handleDelete} text="Delete" />
 
           <div className="media-edit-modal__metadata">
             {media.hasIn(['metadata', 'width']) &&

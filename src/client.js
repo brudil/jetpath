@@ -47,15 +47,27 @@ export function fetchWrapper(method, resource, dataOrParams = null) {
   return fetch(
     `${settings.lowdownHost}/manage${urlPath}${qss}`,
     additional
-  ).then(response =>
-    response
-      .json()
-      .then(json => (response.ok ? json : Promise.reject(new Error(json))))
-  );
+  ).then(response => {
+    const contentType = response.headers.get('content-type');
+    if (
+      contentType &&
+      contentType.indexOf('application/json') !== -1 &&
+      response.status !== 204
+    ) {
+      return response
+        .json()
+        .then(json => (response.ok ? json : Promise.reject(new Error(json))));
+    }
+
+    return response
+      .text()
+      .then(text => (response.ok ? text : Promise.reject(new Error(text))));
+  });
 }
 
 export const api = {
   get: fetchWrapper.bind({}, 'GET'),
   post: fetchWrapper.bind({}, 'POST'),
   put: fetchWrapper.bind({}, 'PUT'),
+  delete: fetchWrapper.bind({}, 'DELETE'),
 };

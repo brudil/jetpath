@@ -240,6 +240,10 @@ export class MediaClient {
     return api.put(`/media/${id}`, data);
   }
 
+  static delete(id) {
+    return api.delete(`/media/${id}`);
+  }
+
   static upload(vertical, file) {
     const form = new FormData();
     form.append('file', file);
