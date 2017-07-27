@@ -77,20 +77,20 @@ module.exports = {
     }),
     new webpack.IgnorePlugin(/unicode\/category\/So/),
 
-    // new FaviconsWebpackPlugin({
-    //   logo: './src/images/favicon-2048-black.png',
-    //   icons: {
-    //     favicons: true,
-    //     android: isProduction,
-    //     appleIcon: isProduction,
-    //     windows: isProduction,
-    //     firefox: isProduction,
-    //     opengraph: false,
-    //     yandex: false,
-    //     coast: false,
-    //     appleStartup: false,
-    //   },
-    // }),
+    new FaviconsWebpackPlugin({
+      logo: './src/images/favicon-2048-black.png',
+      icons: {
+        favicons: true,
+        android: isProduction,
+        appleIcon: isProduction,
+        windows: isProduction,
+        firefox: isProduction,
+        opengraph: false,
+        yandex: false,
+        coast: false,
+        appleStartup: false,
+      },
+    }),
   ],
 
   module: {
