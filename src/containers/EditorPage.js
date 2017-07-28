@@ -103,6 +103,7 @@ class EditorPage extends React.Component {
       savedRevision,
       editorialMetadata,
       hasChangesFromSaved,
+      stats,
       isLocal,
     } = this.props;
     const revisionChangeHandler = createChangeHandler(
@@ -122,6 +123,7 @@ class EditorPage extends React.Component {
           onSave={this.handleSave}
           onHeadlineUpdate={revisionChangeHandler('headline')}
           pathId={params.id}
+          stats={stats}
         />
         <div>
           <Switch>
@@ -141,6 +143,7 @@ class EditorPage extends React.Component {
           <EditorNav
             headline={workingRevision.get('headline')}
             onHeadlineUpdate={revisionChangeHandler('headline')}
+            stats={stats}
           />
           <div className={stylesWriteSheet.root}>
             <div className={stylesEditPane.root}>
@@ -217,6 +220,7 @@ export default withRouter(
     savedDocument: state.editor.get('savedDocument'),
     savedRevision: state.editor.get('savedRevision'),
     isLocal: state.editor.get('isLocal'),
+    stats: state.editor.get('stats'),
     vertical: state.verticals.selectedVertical,
     isSaving: state.editor.get('isSaving'),
     hasChangesFromSaved: state.editor.get('hasChangesFromSaved'),

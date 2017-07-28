@@ -1,10 +1,18 @@
 import Immutable from 'immutable';
-import { spawn, call, put, select, takeLatest } from 'redux-saga/effects';
+import {
+  spawn,
+  call,
+  put,
+  select,
+  takeLatest,
+  throttle,
+} from 'redux-saga/effects';
 import {
   SpectrumDocument,
   resources,
   subtypes,
   fields,
+  blocks,
 } from '@brudil/spectrum';
 import { WorksClient, MediaClient } from '../serverAPI';
 import { action as makeAction, createRequestTypes } from '../utils';
@@ -19,6 +27,7 @@ const EDITOR_CREATE_EMTPY_DOCUMENT = 'EDITOR_CREATE_EMTPY_DOCUMENT';
 const EDITOR_DOCUMENT_CHANGE = 'EDITOR_DOCUMENT_CHANGE';
 const EDITOR_REVISION_CHANGE = 'EDITOR_REVISION_CHANGE';
 const EDITOR_REMOVE_AUTHOR = 'EDITOR_REMOVE_AUTHOR';
+const EDITOR_UPDATE_STATS = 'EDITOR_UPDATE_STATS';
 const EDITOR_ADD_AUTHOR = 'EDITOR_ADD_AUTHOR';
 const EDITOR_CHANGE_STATE_CHANGED = 'EDITOR_CHANGE_STATE_CHANGED';
 const EDITOR_SAVE = 'EDITOR_SAVE';
@@ -67,6 +76,9 @@ const initialState = new Immutable.Map({
   editorialMetadata: null,
   isSaving: false,
   hasChangesFromSaved: false,
+  stats: new Immutable.Map({
+    wordCount: null,
+  }),
 });
 
 function createEmptyDocumentUtil() {
@@ -183,6 +195,9 @@ export default function EditorReducer(state = initialState, action) {
     }
     case EDITOR_SAVE: {
       return state.set('isSaving', true);
+    }
+    case EDITOR_UPDATE_STATS: {
+      return state.set('stats', Immutable.fromJS(action.payload));
     }
     case EDITOR_CREATE_REVISION.SUCCESS: {
       const revisionPayload = createImmutableRevision(action.revision);
@@ -326,7 +341,7 @@ function* handleEditorPublish() {
 }
 
 function* handleEditorChange() {
-  yield call(delay, 80);
+  yield call(delay, 200);
   const editorState = yield select(state => state.editor);
 
   const serverMutableFields = [
@@ -431,6 +446,24 @@ function* handleEditorLoad({ contentId }) {
   ];
 }
 
+function* updateStats() {
+  const editor = yield select(state => state.editor);
+
+  const filteredBlocks = SpectrumDocument.fromJS(
+    editor.get('workingDocument').toJS()
+  )
+    .getElements()
+    .filter(element => element instanceof blocks.TextBlock);
+  const wordCount = filteredBlocks.reduce(
+    (total, textBlock) =>
+      total +
+      textBlock.text.text.trim().replace(/\s+/gi, ' ').split(' ').length,
+    0
+  );
+
+  yield put({ type: EDITOR_UPDATE_STATS, payload: { wordCount } });
+}
+
 export function* saga() {
   yield takeLatest(EDITOR_PUBLISH_CONTENT.REQUEST, handleEditorPublish);
   yield takeLatest(EDITOR_SAVE, handleEditorSave);
@@ -448,6 +481,7 @@ export function* saga() {
     ],
     handleEditorChange
   );
+  yield throttle(2200, [EDITOR_DOCUMENT_CHANGE, EDITOR_CREATE_EMTPY_DOCUMENT, EDITOR_LOAD_CONTENT.SUCCESS], updateStats);
   yield takeLatest(
     EDITOR_CHANGE_REVISION_STATUS.REQUEST,
     handleEditorChangeRevisionStatus

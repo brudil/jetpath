@@ -25,6 +25,7 @@ class EditorNav extends React.Component {
       pathId,
       headline,
       vertical,
+      stats,
     } = this.props;
     const basePath = `/@${vertical.identifier}/editor/${pathId}`;
 
@@ -76,7 +77,9 @@ class EditorNav extends React.Component {
           </button>
         </div>
         <div className={styles.secondary}>
-          <div className={styles.info}>saved 33 seconds ago. draft. prod.</div>
+          <div className={styles.info}>
+            {stats.get('wordCount')} words. {Math.round(stats.get('wordCount') / 270)} minute read.
+          </div>
         </div>
       </div>
     );
@@ -97,6 +100,7 @@ EditorNav.propTypes = {
   onSave: PropTypes.func,
   onHeadlineUpdate: PropTypes.func,
   pathId: PropTypes.string,
+  stats: PropTypes.object,
 };
 
 export default EditorNav;
