@@ -378,16 +378,14 @@ function* loadMissingResourcesForRevision(revision) {
 
   const usedIds = foundResources.map(resource => resource.id);
   usedIds.push(revision.poster_image);
-
-  for (const resourceId of usedIds) {
-    if (resourceId !== null && missingIds.indexOf(resourceId) >= 0) {
-      const isMissing = !{}.hasOwnProperty.call(imageEntities, resourceId);
-
+  usedIds.forEach(resourceId => {
+    if (resourceId !== null && missingIds.indexOf(resourceId) < 0) {
+      const isMissing = !Object.hasOwnProperty.call(imageEntities, resourceId);
       if (isMissing) {
         missingIds.push(resourceId);
       }
     }
-  }
+  });
 
   if (missingIds.length > 0) {
     const payload = yield call(MediaClient.getMultiple, missingIds);
