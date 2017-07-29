@@ -67,11 +67,12 @@ class ImageContainer extends React.Component {
             100}%`,
         }}
       >
-        <Imgix
-          crop=""
-          precision={0}
-          src={`https://drafty.imgix.net/${this.props.image.resource_name}`}
-        />
+        <div className={styles.imageContainer}>
+          <Imgix
+
+            src={`https://drafty.imgix.net/${this.props.image.resource_name}`}
+          />
+        </div>
       </div>
     );
   }
