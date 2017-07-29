@@ -13,6 +13,8 @@ import HeadingBlock from './blocks/HeadingBlock';
 import ImageBlock from './blocks/ImageBlock';
 import TextBlock from './blocks/TextBlock';
 import PullQuoteBlock from './blocks/PullQuoteBlock';
+import CanvasBlock from './blocks/CanvasBlock';
+
 // TODO: VideoBlock
 
 const elementMap = new Map();
@@ -30,6 +32,7 @@ elementMap.set(blocks.HeadingBlock, HeadingBlock);
 elementMap.set(blocks.ImageBlock, ImageBlock);
 elementMap.set(blocks.TextBlock, TextBlock);
 elementMap.set(blocks.PullQuoteBlock, PullQuoteBlock);
+elementMap.set(blocks.CanvasBlock, CanvasBlock);
 
 export default elementMap;
 

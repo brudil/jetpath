@@ -7,6 +7,7 @@ import {
   takeLatest,
   throttle,
 } from 'redux-saga/effects';
+import find from 'lodash/find';
 import {
   SpectrumDocument,
   resources,
@@ -14,7 +15,7 @@ import {
   fields,
   blocks,
 } from '@brudil/spectrum';
-import { WorksClient, MediaClient } from '../serverAPI';
+import { WorksClient, MediaClient, InteractivesClient } from '../serverAPI';
 import { action as makeAction, createRequestTypes } from '../utils';
 import getVertical from '../sagas/getVertical';
 
@@ -385,8 +386,13 @@ function* handleEditorChange() {
 function* loadMissingResourcesForRevision(revision) {
   const foundResources = SpectrumDocument.fromJS(revision.spectrum_document)
     .getElements()
-    .filter(el => el instanceof resources.Resource);
+    .filter(
+      el =>
+        el instanceof resources.Resource ||
+        el instanceof resources.LowdownInteractiveResource
+    );
 
+  // IMAGES
   const imageEntities = yield select(state => state.entities.media);
 
   const missingIds = [];
@@ -404,6 +410,30 @@ function* loadMissingResourcesForRevision(revision) {
 
   if (missingIds.length > 0) {
     const payload = yield call(MediaClient.getMultiple, missingIds);
+    yield put(entities(payload));
+  }
+
+  // INTERACTIVES
+  const interactivesEntities = yield select(
+    state => state.entities.interactivees
+  );
+
+  const missingSlugs = [];
+
+  const usedSlugs = foundResources.map(resource => resource.slug);
+  usedSlugs.forEach(interactiveSlug => {
+    if (interactiveSlug !== null && missingSlugs.indexOf(interactiveSlug) < 0) {
+      const isMissing = find(interactivesEntities, interactiveSlug) === undefined;
+      if (isMissing) {
+        missingSlugs.push(interactiveSlug);
+      }
+    }
+  });
+
+
+  if (missingSlugs.length > 0) {
+    const payload = yield call(InteractivesClient.getMultiple, missingSlugs);
+    console.log('missingSlugs', missingSlugs, payload);
     yield put(entities(payload));
   }
 }
@@ -481,7 +511,15 @@ export function* saga() {
     ],
     handleEditorChange
   );
-  yield throttle(2200, [EDITOR_DOCUMENT_CHANGE, EDITOR_CREATE_EMTPY_DOCUMENT, EDITOR_LOAD_CONTENT.SUCCESS], updateStats);
+  yield throttle(
+    2200,
+    [
+      EDITOR_DOCUMENT_CHANGE,
+      EDITOR_CREATE_EMTPY_DOCUMENT,
+      EDITOR_LOAD_CONTENT.SUCCESS,
+    ],
+    updateStats
+  );
   yield takeLatest(
     EDITOR_CHANGE_REVISION_STATUS.REQUEST,
     handleEditorChangeRevisionStatus

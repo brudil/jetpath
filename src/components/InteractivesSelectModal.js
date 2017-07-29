@@ -2,12 +2,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { modalWrapper } from './Modal';
-import * as MediaListActions from '../ducks/MediaList';
-import MediaUploadContainer from './MediaUploadContainer';
-import MediaGrid from './MediaGrid';
+import * as InteractivesActions from '../ducks/Interactives';
 import PaginationNav from '../components/PaginationNav';
 
-class MediaSelectModal extends React.Component {
+class InteractivesSelectModal extends React.Component {
   constructor(props) {
     super(props);
 
@@ -16,7 +14,6 @@ class MediaSelectModal extends React.Component {
     };
 
     this.handlePagination = this.handlePagination.bind(this);
-    this.handleFile = this.handleFile.bind(this);
   }
 
   componentWillMount() {
@@ -25,9 +22,9 @@ class MediaSelectModal extends React.Component {
 
   loadCurrentPage() {
     this.props.dispatch(
-      MediaListActions.loadMediaList(
+      InteractivesActions.loadInteractivesList(
         { page: this.state.page, order: 'created_desc' },
-        25
+        5
       )
     );
   }
@@ -36,16 +33,12 @@ class MediaSelectModal extends React.Component {
     this.props.close();
   }
 
-  handleFile(file) {
-    this.props.dispatch(MediaListActions.upload(file));
-  }
-
   handlePagination(page) {
     this.setState({ page }, this.loadCurrentPage.bind(this));
   }
 
   renderModal() {
-    const { hasNext } = this.props;
+    const { hasNext, interactiveItems } = this.props;
     const { page } = this.state;
     const pagination = (
       <PaginationNav
@@ -54,18 +47,20 @@ class MediaSelectModal extends React.Component {
         onChange={this.handlePagination}
       />
     );
+
     return (
       <div>
         <header className="modal__header" />
         <div className="modal__body">
-          <MediaUploadContainer onFile={this.handleFile}>
-            {pagination}
-            <MediaGrid
-              media={this.props.mediaItems}
-              onSelect={this.props.onSelect}
-            />
-            {pagination}
-          </MediaUploadContainer>
+          {pagination}
+          <ul>
+            {interactiveItems.map(item =>
+              <li>
+                <button onClick={this.props.onSelect.bind(null, item.slug)}>{item.slug}</button>
+              </li>
+            )}
+          </ul>
+          {pagination}
         </div>
       </div>
     );
@@ -80,9 +75,9 @@ class MediaSelectModal extends React.Component {
   }
 }
 
-MediaSelectModal.propTypes = {
+InteractivesSelectModal.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  mediaItems: PropTypes.array.isRequired,
+  interactiveItems: PropTypes.array.isRequired,
   onSelect: PropTypes.func.isRequired,
   close: PropTypes.func.isRequired,
   hasNext: PropTypes.bool.isRequired,
@@ -90,7 +85,9 @@ MediaSelectModal.propTypes = {
 
 export default modalWrapper()(
   connect(state => ({
-    mediaItems: state.mediaList.list.map(id => state.entities.media[id]),
-    hasNext: state.mediaList.hasNext,
-  }))(MediaSelectModal)
+    interactiveItems: state.interactives.list.map(
+      id => state.entities.interactives[id]
+    ),
+    hasNext: state.interactives.hasNext,
+  }))(InteractivesSelectModal)
 );

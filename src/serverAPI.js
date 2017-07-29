@@ -253,3 +253,37 @@ export class MediaClient {
     }));
   }
 }
+
+export class InteractivesClient {
+  static getByFilter(filter, limit) {
+    const filterWithPagination = limitOffsetPagination(filter, limit);
+    return api.get(`/interactives`, filterWithPagination).then(payload => ({
+      payload: {
+        ...normalize(
+          payload.data.results,
+          new schema.Array(appSchema.interactive)
+        ),
+        ...standardPaginatedTreats(payload),
+      },
+    }));
+  }
+
+  static get(slug) {
+    return api.get(`/interactives/${slug}`);
+  }
+
+  static getMultiple(slugs) {
+    return api.get('/interactives', { slugs }).then(payload => ({
+      ...normalize(payload.data, new schema.Array(appSchema.interactive)),
+      count: payload.data.count,
+    }));
+  }
+
+  static update(slug, data) {
+    return api.put(`/interactives/${slug}`, data);
+  }
+
+  static delete(slug) {
+    return api.delete(`/interactives/${slug}`);
+  }
+}

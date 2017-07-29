@@ -9,6 +9,7 @@ export function entities(
     notifications: {},
     sections: {},
     topics: {},
+    interactives: {},
     content: {},
     vertical: {},
     contentRevision: {},
@@ -32,6 +33,7 @@ export { default as organisation } from '../ducks/Organisation';
 export { default as editor } from '../ducks/Editor';
 export { default as users } from '../ducks/User';
 export { default as authors } from '../ducks/Authors';
+export { default as interactives } from '../ducks/Interactives';
 export { default as notification } from '../ducks/Notification';
 export { default as toasts } from '../ducks/Toast';
 export { default as verticals } from '../ducks/Vertical';
