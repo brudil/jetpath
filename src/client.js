@@ -54,9 +54,14 @@ export function fetchWrapper(method, resource, dataOrParams = null) {
       contentType.indexOf('application/json') !== -1 &&
       response.status !== 204
     ) {
-      return response
-        .json()
-        .then(json => (response.ok ? json : Promise.reject(new Error(json))));
+      return response.json().then(
+        json =>
+          response.ok
+            ? json
+            : Promise.reject({
+                json,
+              })
+      );
     }
 
     return response

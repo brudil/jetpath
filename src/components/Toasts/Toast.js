@@ -11,10 +11,10 @@ function Toast(props) {
 
   return (
     <li className={cx(style.root)} onClick={handleRemove}>
-      <h1>
+      <h1 className={style.title}>
         {title}
       </h1>
-      <p>
+      <p className={style.content}>
         {message}
       </p>
     </li>

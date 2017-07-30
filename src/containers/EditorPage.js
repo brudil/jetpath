@@ -105,6 +105,7 @@ class EditorPage extends React.Component {
       hasChangesFromSaved,
       stats,
       isLocal,
+      isSaving,
     } = this.props;
     const revisionChangeHandler = createChangeHandler(
       this.props.dispatch,
@@ -124,6 +125,7 @@ class EditorPage extends React.Component {
           onHeadlineUpdate={revisionChangeHandler('headline')}
           pathId={params.id}
           stats={stats}
+          isSaving={isSaving}
         />
         <div>
           <Switch>

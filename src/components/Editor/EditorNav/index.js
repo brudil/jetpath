@@ -26,8 +26,17 @@ class EditorNav extends React.Component {
       headline,
       vertical,
       stats,
+      isSaving,
     } = this.props;
     const basePath = `/@${vertical.identifier}/editor/${pathId}`;
+
+    const saveButtonText = () => {
+      if (isLocal) {
+        return isSaving ? 'Creating' : 'Create';
+      }
+
+      return isSaving ? 'Saving' : 'Save';
+    };
 
     return (
       <div className={styles.root}>
@@ -73,12 +82,13 @@ class EditorNav extends React.Component {
             disabled={!hasChangesFromSaved}
             onClick={onSave}
           >
-            {isLocal ? 'Create' : 'Save'}
+            {saveButtonText()}
           </button>
         </div>
         <div className={styles.secondary}>
           <div className={styles.info}>
-            {stats.get('wordCount')} words. {Math.round(stats.get('wordCount') / 270)} minute read.
+            {stats.get('wordCount')} words.{' '}
+            {Math.round(stats.get('wordCount') / 270)} minute read.
           </div>
         </div>
       </div>
@@ -96,6 +106,7 @@ EditorNav.propTypes = {
   }),
   headline: PropTypes.string,
   isLocal: PropTypes.bool,
+  isSaving: PropTypes.bool,
   hasChangesFromSaved: PropTypes.bool,
   onSave: PropTypes.func,
   onHeadlineUpdate: PropTypes.func,

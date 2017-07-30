@@ -2,34 +2,36 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import slug from 'slug';
 import cx from 'classnames';
+import slugify from '../libs/slugify';
 
-function removeStopWords(text) {
+function performRemoveStopWords(text) {
   return text;
 }
 
-function SlugInput(props) {
+function SlugInput({ onChange, removeStopWords, value, ...props }) {
   function handleChange(event) {
     let text = event.target.value;
-    if (props.removeStopWords) {
-      text = removeStopWords(text);
+    if (removeStopWords) {
+      text = performRemoveStopWords(text);
     }
-    text = text.replace(/\s+/g, '-').replace(/-+/g, '-').toLowerCase();
+    text = slugify(text);
 
-    props.onChange(text);
+    onChange(text);
   }
 
   function handleBlur() {
-    const text = slug(props.value);
-    props.onChange(text);
+    const text = slug(value);
+    onChange(text);
   }
 
   return (
     <input
       className={cx(props.className)}
       type="text"
-      value={props.value}
+      value={value}
       onChange={handleChange}
       onBlur={handleBlur}
+      {...props}
     />
   );
 }

@@ -20,13 +20,36 @@ Sidebar.Input = ({ className = '', ...props }) =>
 
 export default Sidebar;
 
-function SidebarControl(props) {
+function SidebarControl({
+  title,
+  children,
+  charLimit = null,
+  charCount = null,
+  buttonTreats = null,
+}) {
   return (
     <div className={styles.control}>
       <h2 className={styles.controlTitle}>
-        {props.title}
+        {title}
+
+        {charCount !== null
+          ? <span className={styles.controlTitleLimit}>
+              {charCount}
+              {charLimit !== null ? `/${charLimit}` : null}
+            </span>
+          : null}
+
+        {buttonTreats !== null
+          ? <ul className={styles.treats}>
+              {buttonTreats.map(treat =>
+                <li>
+                  <button className={styles.treatButton} {...treat} />
+                </li>
+              )}
+            </ul>
+          : null}
       </h2>
-      {props.children}
+      {children}
     </div>
   );
 }
@@ -34,6 +57,8 @@ function SidebarControl(props) {
 SidebarControl.propTypes = {
   children: PropTypes.node,
   title: PropTypes.string,
+  charLimit: PropTypes.number,
+  charCount: PropTypes.number,
 };
 
 export { SidebarControl };

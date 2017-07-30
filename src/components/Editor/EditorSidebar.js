@@ -20,6 +20,7 @@ import {
 import * as contentLang from '../../lang/content_attrs';
 
 import stylesSidebar from '../Sidebar/Sidebar.css';
+import slugify from '../../libs/slugify';
 
 function EditorSidebar(props) {
   const {
@@ -38,13 +39,26 @@ function EditorSidebar(props) {
 
   return (
     <Sidebar>
-      <SidebarControl title="Slug">
+      <SidebarControl
+        title="Slug"
+        charLimit={60}
+        charCount={revision.get('slug').length}
+        buttonTreats={[
+          {
+            children: 'Auto from headline',
+            onClick: () => {
+              revisionChangeHandler('slug')(slugify(revision.get('headline')));
+            },
+          },
+        ]}
+      >
         <SlugInput
           className={stylesSidebar.input}
           value={revision.get('slug')}
           autoValue={revision.headline}
           removeStopWords
           onChange={revisionChangeHandler('slug')}
+          maxLength={60}
         />
       </SidebarControl>
       <SidebarControl title="Poster Image">
@@ -77,27 +91,42 @@ function EditorSidebar(props) {
           )}
         </select>
       </SidebarControl>
-      <SidebarControl title="Short Headline">
+      <SidebarControl
+        title="Short Headline"
+        charLimit={60}
+        charCount={revision.get('short_headline').length}
+      >
         <DebouncedInput
           className={stylesSidebar.input}
           type="text"
           value={revision.get('short_headline')}
           onChange={revisionChangeHandler('short_headline', formly.event)}
+          maxLength={60}
         />
       </SidebarControl>
-      <SidebarControl title="Kicker">
+      <SidebarControl
+        title="Kicker"
+        charLimit={60}
+        charCount={revision.get('kicker').length}
+      >
         <DebouncedInput
           className={stylesSidebar.input}
           type="text"
           value={revision.get('kicker')}
           onChange={revisionChangeHandler('kicker', formly.event)}
+          maxLength={60}
         />
       </SidebarControl>
-      <SidebarControl title="Standfirst">
+      <SidebarControl
+        title="Standfirst"
+        charLimit={140}
+        charCount={revision.get('standfirst').length}
+      >
         <DebouncedAutosizeTextarea
           className={stylesSidebar.input}
           value={revision.get('standfirst')}
           onChange={revisionChangeHandler('standfirst', formly.event)}
+          maxLength={140}
         />
       </SidebarControl>
       <SidebarControl title="Authors">

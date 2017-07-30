@@ -18,6 +18,7 @@ import {
 import { WorksClient, MediaClient, InteractivesClient } from '../serverAPI';
 import { action as makeAction, createRequestTypes } from '../utils';
 import getVertical from '../sagas/getVertical';
+import { createToast } from './Toast';
 
 const EDITOR_LOAD_CONTENT = createRequestTypes('EDITOR_LOAD_CONTENT');
 const EDITOR_PUBLISH_CONTENT = createRequestTypes('EDITOR_PUBLISH_CONTENT');
@@ -32,6 +33,7 @@ const EDITOR_UPDATE_STATS = 'EDITOR_UPDATE_STATS';
 const EDITOR_ADD_AUTHOR = 'EDITOR_ADD_AUTHOR';
 const EDITOR_CHANGE_STATE_CHANGED = 'EDITOR_CHANGE_STATE_CHANGED';
 const EDITOR_SAVE = 'EDITOR_SAVE';
+const EDITOR_SAVE_FAILURE = 'EDITOR_SAVE_FAILURE';
 const EDITOR_CREATE_REVISION = createRequestTypes('EDITOR_CREATE_REVISION');
 const EDITOR_CREATE_CONTENT = createRequestTypes('EDITOR_CREATE_CONTENT');
 
@@ -197,6 +199,9 @@ export default function EditorReducer(state = initialState, action) {
     case EDITOR_SAVE: {
       return state.set('isSaving', true);
     }
+    case EDITOR_SAVE_FAILURE: {
+      return state.set('isSaving', false);
+    }
     case EDITOR_UPDATE_STATS: {
       return state.set('stats', Immutable.fromJS(action.payload));
     }
@@ -290,16 +295,32 @@ function* handleEditorSave() {
     .set('spectrum_document', document)
     .set('content', editorState.get('remoteId'))
     .toJS();
-  if (!isLocal) {
-    response = yield call(WorksClient.saveRevision, revisionWithDocument);
-  } else {
-    response = yield call(
-      WorksClient.saveNewContent,
-      vertical,
-      revisionWithDocument
-    );
-  }
 
+  try {
+    if (!isLocal) {
+      response = yield call(WorksClient.saveRevision, revisionWithDocument);
+    } else {
+      response = yield call(
+        WorksClient.saveNewContent,
+        vertical,
+        revisionWithDocument
+      );
+    }
+  } catch (error) {
+    yield put(
+      createToast(
+        'Failed to save!',
+        `An error occurred that stopped this being saved. ${JSON.stringify(
+          error.json.data
+        )}`,
+        'error'
+      )
+    );
+    yield put({
+      type: EDITOR_SAVE_FAILURE,
+    });
+    return;
+  }
   const revisionResponse =
     response.payload.entities.contentRevision[response.payload.result];
 
@@ -423,13 +444,13 @@ function* loadMissingResourcesForRevision(revision) {
   const usedSlugs = foundResources.map(resource => resource.slug);
   usedSlugs.forEach(interactiveSlug => {
     if (interactiveSlug !== null && missingSlugs.indexOf(interactiveSlug) < 0) {
-      const isMissing = find(interactivesEntities, interactiveSlug) === undefined;
+      const isMissing =
+        find(interactivesEntities, interactiveSlug) === undefined;
       if (isMissing) {
         missingSlugs.push(interactiveSlug);
       }
     }
   });
-
 
   if (missingSlugs.length > 0) {
     const payload = yield call(InteractivesClient.getMultiple, missingSlugs);
@@ -520,8 +541,12 @@ export function* saga() {
     ],
     updateStats
   );
-  yield takeLatest(
-    EDITOR_CHANGE_REVISION_STATUS.REQUEST,
-    handleEditorChangeRevisionStatus
-  );
+  try {
+    yield takeLatest(
+      EDITOR_CHANGE_REVISION_STATUS.REQUEST,
+      handleEditorChangeRevisionStatus
+    );
+  } catch (error) {
+    console.warn(error);
+  }
 }
