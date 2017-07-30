@@ -18,6 +18,7 @@ import stylesWriteSheet from '../styles/components/WriteSheet.css';
 import EditorSectionContent from './EditorSectionContent';
 import EditorSectionMetadata from './EditorSectionMetadata';
 import EditorSectionWorkflow from './EditorSectionWorkflow';
+import EditorSectionPreview from './EditorSectionPreview';
 
 class EditorPage extends React.Component {
   constructor(props) {
@@ -132,6 +133,7 @@ class EditorPage extends React.Component {
             <Route path={`${url}`} component={EditorSectionContent} exact />
             <Route path={`${url}/metadata`} component={EditorSectionMetadata} />
             <Route path={`${url}/workflow`} component={EditorSectionWorkflow} />
+            <Route path={`${url}/preview`} component={EditorSectionPreview} />
           </Switch>
         </div>
       </div>

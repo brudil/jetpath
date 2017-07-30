@@ -76,6 +76,15 @@ class EditorNav extends React.Component {
                 Workflow
               </Link>
             </li>
+            <li className={styles.listItem}>
+              <Link
+                className={styles.listItemLink}
+                activeClassName={styles.listItemLink_active}
+                to={`${basePath}/preview`}
+              >
+                Preview
+              </Link>
+            </li>
           </ul>
           <button
             className={styles.saveButton}

@@ -1,0 +1,30 @@
+.root {
+
+}
+
+.frame {
+  transition: width 300ms ease, max-width 300ms ease;
+  width: 100%;
+  border: 1px solid #dedede;
+  border-radius: 2px;
+  box-shadow: 0 2px 5px rgba(50, 50, 50, 0.1);
+  margin: 0 auto;
+  height: calc(100vh - 160px);
+  display: block;
+  margin-top: 1rem;
+}
+
+.frameDesktop {
+  max-width: 1280px;
+}
+
+.frameTablet {
+  max-width: 1024px;
+  height: 768px;
+
+}
+
+.frameMobile {
+  max-width: 480px;
+}
+
