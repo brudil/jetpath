@@ -26,5 +26,15 @@
   max-width: 320px;
 }
 
+.header {
+  display: flex;
+  margin-bottom: 1rem;
 }
 
+.previewText {
+  flex: 1 1 auto;
+}
+
+.copyButton {
+
+}
