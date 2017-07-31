@@ -19,12 +19,12 @@
 }
 
 .frameTablet {
-  max-width: 1024px;
-  height: 768px;
-
+  max-width: 768px;
 }
 
 .frameMobile {
-  max-width: 480px;
+  max-width: 320px;
+}
+
 }
 
