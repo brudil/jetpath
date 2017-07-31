@@ -11,24 +11,15 @@ class TitleSelection extends React.Component {
 
     const items = {};
     const itemsIds = [];
-    let currentId = null;
     props.children.forEach(child => {
       items[child.props.name] = {
         title: child.props.children,
         id: child.props.name,
       };
       itemsIds.push(child.props.name);
-      if ({}.hasOwnProperty.call(child.props, 'default')) {
-        currentId = child.props.name;
-      }
     });
 
-    if (!currentId) {
-      currentId = items[0].id;
-    }
-
     this.state = {
-      currentId,
       items,
       itemsIds,
       isOpen: false,
@@ -40,8 +31,9 @@ class TitleSelection extends React.Component {
   }
 
   handleSelect(selectedId) {
-    if (this.state.currentId !== selectedId) {
-      this.setState({ currentId: selectedId, isOpen: false });
+    const value = this.props.value;
+    if (value !== selectedId) {
+      this.setState({ value: selectedId, isOpen: false });
       this.props.onSelection(selectedId);
     } else {
       this.setState({ isOpen: false });
@@ -65,12 +57,12 @@ class TitleSelection extends React.Component {
           className={cx(styles.title, styles.currentTitle, 'link')}
           onClick={this.handleOpen}
         >
-          {this.state.items[this.state.currentId].title}
+          {this.state.items[this.props.value].title}
         </h2>
 
         <div className={styles.dropdown}>
           <h2 className={cx(styles.title, 'link')} onClick={this.handleClose}>
-            {this.state.items[this.state.currentId].title}
+            {this.state.items[this.props.value].title}
           </h2>
           <ul className={styles.choices}>
             {this.state.itemsIds.map(id =>
@@ -92,6 +84,7 @@ TitleSelection.propTypes = {
   className: PropTypes.string.isRequired,
   onSelection: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
+  value: PropTypes.string.isRequired,
 };
 
 export { TitleSelection };

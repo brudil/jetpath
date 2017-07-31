@@ -39,7 +39,7 @@ function GlobalHeader(props) {
           ? <menu className={styles.menu}>
               <ul>
                 <li className={styles.menuItem}>
-                  <Link to={verticalLinkTo('content')}>
+                  <Link to={verticalLinkTo('content?order=updated_desc&state=internal&status')}>
                     <span>Content</span>
                   </Link>
                 </li>

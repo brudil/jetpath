@@ -3,6 +3,8 @@ import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import without from 'lodash/without';
 import isEqual from 'lodash/isEqual';
+import pickBy from 'lodash/pickBy';
+import identity from 'lodash/identity';
 import intersection from 'lodash/intersection';
 import { connect } from 'react-redux';
 import qs from 'query-string';
@@ -33,17 +35,20 @@ import {
 
 import ViewContainerStyles from '../styles/components/ViewContainer.css';
 import stylesStandardHeader from '../styles/components/StandardHeader.css';
+import filterPresetsMatch from '../libs/filterPresetsMatch';
 
 const presets = {
-  upcoming: {
-    state: 'upcoming',
+  ready: {
+    state: 'internal',
+    status: contentStatus.STATUS_FINISHED,
   },
   published: {
-    state: 'published',
+    state: 'live',
   },
-  all: {},
   recent: {
-    order: 'created_desc',
+    state: 'internal',
+    order: 'updated_desc',
+    status: null,
   },
 };
 
@@ -76,7 +81,7 @@ class ContentListPage extends React.Component {
     return {
       order: query.order || 'created_desc',
       state: query.state || null,
-      status: query.status || null,
+      status: parseInt(query.status, 10) || null,
       tone: query.tone || null,
       form: query.form || null,
       search: query.search || '',
@@ -173,13 +178,12 @@ class ContentListPage extends React.Component {
             <TitleSelection
               onSelection={this.handleFilterPresetChange}
               className={stylesStandardHeader.title}
+              value={filterPresetsMatch(query, presets, 'custom')}
             >
-              <SelectionItem name="all">All Content</SelectionItem>
-              <SelectionItem default="true" name="recent">
-                Recent Edited Content
-              </SelectionItem>
-              <SelectionItem name="upcoming">Upcoming Content</SelectionItem>
-              <SelectionItem name="published">Published Content</SelectionItem>
+              <SelectionItem name="recent">Recently Edited</SelectionItem>
+              <SelectionItem name="ready">Ready</SelectionItem>
+              <SelectionItem name="published">Published</SelectionItem>
+              <SelectionItem name="custom">Filtered</SelectionItem>
             </TitleSelection>
           </header>
           <div className={ViewContainerStyles.root}>
@@ -224,6 +228,7 @@ class ContentListPage extends React.Component {
                       'All',
                       ...generateFromConstants(contentStatusLang, [
                         contentStatus.STATUS_STUB,
+                        contentStatus.STATUS_WRITING,
                         contentStatus.STATUS_FINISHED,
                       ]),
                     ]}

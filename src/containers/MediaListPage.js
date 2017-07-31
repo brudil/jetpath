@@ -22,6 +22,7 @@ import Sidebar, { SidebarControl } from '../components/Sidebar';
 
 import viewContainerStyles from '../styles/components/ViewContainer.css';
 import stylesStandardHeader from '../styles/components/StandardHeader.css';
+import filterPresetsMatch from '../libs/filterPresetsMatch';
 
 const presets = {
   all: {
@@ -67,9 +68,7 @@ class MediaListPage extends React.Component {
     console.log(this.props);
     const vertical = this.props.vertical.identifier;
     this.props.history.replace(`/@${vertical}/media?${qs.stringify(filters)}`);
-    this.props.dispatch(
-      MediaListActions.loadMediaList({ ...filters })
-    );
+    this.props.dispatch(MediaListActions.loadMediaList({ ...filters }));
   }
 
   handleUpdate(key, value) {
@@ -151,12 +150,12 @@ class MediaListPage extends React.Component {
             <TitleSelection
               onSelection={this.handleFilterPresetChange}
               className={stylesStandardHeader.title}
+              value={filterPresetsMatch(query, presets, 'custom')}
             >
-              <SelectionItem default="true" name="all">
-                All Media
-              </SelectionItem>
+              <SelectionItem name="all">All Media</SelectionItem>
               <SelectionItem name="images">Images</SelectionItem>
               <SelectionItem name="videos">Videos</SelectionItem>
+              <SelectionItem name="custom">Filtered</SelectionItem>
             </TitleSelection>
           </header>
           <div className={viewContainerStyles.root}>

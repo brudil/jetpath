@@ -16,7 +16,7 @@ class SelectionItem extends React.Component {
     return (
       <li
         className={cx(styles.title, styles.choice, 'link')}
-        onClick={this.handleSelect}
+        onClick={this.handleClick}
       >
         {title}
       </li>

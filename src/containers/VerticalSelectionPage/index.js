@@ -24,7 +24,7 @@ class VerticalSelectionPage extends React.Component {
               <li key={vertical.identifier}>
                 <Link
                   className={style.item}
-                  to={`/@${vertical.identifier}/content`}
+                  to={`/@${vertical.identifier}/content?order=updated_desc&state=internal&status`}
                 >
                   <img
                     className={style.logo}
