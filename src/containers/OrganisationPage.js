@@ -197,12 +197,9 @@ class OrganisationPage extends React.Component {
       <DocumentTitle title="Organisation">
         <ViewContainer>
           <header className="standard-header">
-            <TitleSelection className="standard-header__title">
-              <SelectionItem default="true" name="sections">
-                Sections
-              </SelectionItem>
-              <SelectionItem name="topics">Topics</SelectionItem>
-              <SelectionItem name="labels">Labels</SelectionItem>
+            <TitleSelection className="standard-header__title" value="sections">
+              <SelectionItem name="sections">Sections</SelectionItem>
+              <SelectionItem name="series">Series</SelectionItem>
             </TitleSelection>
           </header>
           <div className={stylesView.root}>
