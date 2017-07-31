@@ -52,7 +52,7 @@ class EditorPage extends React.Component {
     */
     Mousetrap.bind('mod+s', e => {
       e.preventDefault();
-      this.handleSaveBound();
+      this.handleSave();
     });
   }
 
