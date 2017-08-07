@@ -1,19 +1,55 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import * as SpectrumPropTypes from '../SpectrumPropTypes';
+import InteractiveSelector from '../../InteractiveSelector';
 import ElementStream from '../ElementStream';
+import { connect } from 'react-redux';
+import find from 'lodash/find';
+import SegmentedControl from '../../SegmentedControl/index';
 
-function CanvasSubtype(props) {
-  const { data, path, update } = props;
-  return (
-    <ElementStream
-      className="spectrum__top-stream"
-      data={data}
-      index="stream"
-      path={path}
-      update={update}
-    />
-  );
+class CanvasSubtype extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.handleSelection = slug => {
+      this.props.update({
+        command: 'update',
+        path: [...this.props.path, 'resource', 'slug'],
+        value: slug,
+      });
+    };
+    this.handleViewModeChange = value => {
+      this.props.update({
+        command: 'update',
+        path: [...this.props.path, 'viewMode'],
+        value,
+      });
+    };
+  }
+
+  render() {
+    const { interactiveEntities, data } = this.props;
+    const slug = data.getIn(['resource', 'slug']);
+    const item = find(interactiveEntities, { slug });
+
+    return (
+      <div>
+        <SegmentedControl
+          options={[
+            'CONTENT',
+            'Content',
+            'CONTAINER',
+            'Container',
+            'CANVAS',
+            'Canvas',
+          ]}
+          value={data.get('viewMode')}
+          onChange={this.handleViewModeChange}
+        />
+        <InteractiveSelector value={item} onChange={this.handleSelection} />
+      </div>
+    );
+  }
 }
 
 CanvasSubtype.propTypes = {
@@ -22,4 +58,6 @@ CanvasSubtype.propTypes = {
   path: SpectrumPropTypes.elementPath.isRequired,
 };
 
-export default CanvasSubtype;
+export default connect(state => ({
+  interactiveEntities: state.entities.interactives,
+}))(CanvasSubtype);

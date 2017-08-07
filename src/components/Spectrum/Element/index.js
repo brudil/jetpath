@@ -59,6 +59,11 @@ class Element extends React.Component {
       : <pre>
           "{elementName}" not found!
         </pre>;
+
+    const hasCustomPanel =
+      ElementChild !== undefined &&
+      Object.hasOwnProperty.call(ElementChild, 'panel');
+
     return (
       <div
         className={styles.root}
@@ -70,7 +75,7 @@ class Element extends React.Component {
           isHovering={this.state.show}
           update={update}
           path={elementPath}
-          customElementPanel={ElementChild.panel}
+          customElementPanel={hasCustomPanel ? ElementChild.panel : null}
           data={element}
           streamIndex={position}
           isInStream={isInStream}

@@ -34,6 +34,7 @@ const EDITOR_ADD_AUTHOR = 'EDITOR_ADD_AUTHOR';
 const EDITOR_CHANGE_STATE_CHANGED = 'EDITOR_CHANGE_STATE_CHANGED';
 const EDITOR_SAVE = 'EDITOR_SAVE';
 const EDITOR_SAVE_FAILURE = 'EDITOR_SAVE_FAILURE';
+const EDITOR_CHANGE_SUBTYPE = 'EDITOR_CHANGE_SUBTYPE';
 const EDITOR_CREATE_REVISION = createRequestTypes('EDITOR_CREATE_REVISION');
 const EDITOR_CREATE_CONTENT = createRequestTypes('EDITOR_CREATE_CONTENT');
 
@@ -53,6 +54,13 @@ export const updateSpectrumDocument = changeset =>
   makeAction(EDITOR_DOCUMENT_CHANGE, { changeset });
 export const updateRevision = (path, value) =>
   makeAction(EDITOR_REVISION_CHANGE, { path, value });
+
+export const changeDocumentSubtype = subtypeElement => ({
+  type: EDITOR_CHANGE_SUBTYPE,
+  payload: {
+    element: subtypeElement,
+  },
+});
 
 export const save = () => makeAction(EDITOR_SAVE);
 export const createRevisionSuccess = payload =>
@@ -196,6 +204,12 @@ export default function EditorReducer(state = initialState, action) {
           .set('remoteId', null)
       );
     }
+    case EDITOR_CHANGE_SUBTYPE:
+      const subtype = action.payload.element;
+      const subtypeVanilla = new fields.ElementField().toJS(subtype);
+      const subtypeImmutable = Immutable.fromJS(subtypeVanilla);
+      console.log(subtype, subtypeVanilla, subtypeImmutable);
+      return state.setIn(['workingDocument', 'content'], subtypeImmutable);
     case EDITOR_SAVE: {
       return state.set('isSaving', true);
     }

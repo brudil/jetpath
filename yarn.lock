@@ -6,9 +6,9 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@brudil/drafty-constants/-/drafty-constants-1.1.0.tgz#7c3261e27eb27e97fb4baa756f0476dc2153df7f"
 
-"@brudil/spectrum@^0.6.2":
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/@brudil/spectrum/-/spectrum-0.6.2.tgz#05aa565bbc9686adc4a6a575c8454d6b3e511226"
+"@brudil/spectrum@0.6.3":
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/@brudil/spectrum/-/spectrum-0.6.3.tgz#b19bbe52ce8864d50383185a51e8049edd067f62"
 
 abab@^1.0.3:
   version "1.0.3"

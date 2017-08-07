@@ -1,6 +1,7 @@
 import { subtypes, sections, blocks } from '@brudil/spectrum';
 // subtypes
 import ArticleSubtype from './subtypes/ArticleSubtype';
+import CanvasSubtype from './subtypes/CanvasSubtype';
 // TODO: VideoSubtype
 
 // sections
@@ -21,6 +22,7 @@ const elementMap = new Map();
 
 // subtypes
 elementMap.set(subtypes.ArticleSubtype, ArticleSubtype);
+elementMap.set(subtypes.CanvasSubtype, CanvasSubtype);
 
 // sections
 elementMap.set(sections.FreeformSection, FreeformSection);

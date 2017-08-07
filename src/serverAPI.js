@@ -260,7 +260,7 @@ export class InteractivesClient {
     return api.get(`/interactives`, filterWithPagination).then(payload => ({
       payload: {
         ...normalize(
-          payload.data.results,
+          payload.data,
           new schema.Array(appSchema.interactive)
         ),
         ...standardPaginatedTreats(payload),
