@@ -36,17 +36,13 @@ function WorksList(props) {
         {revision.authors.map((author, index) =>
           <span key={author.id}>
             <span>
-              {index === revision.authors.length - 1 &&
-              revision.authors.length > 1
-                ? ' and '
-                : null}
-            </span>
-            <span>
-              {index > 2 && revision.authors.length > 1 ? ', ' : null}
-            </span>
-            <span>
               {author.name}
             </span>
+            {index < revision.authors.length - 1
+              ? <span>
+                  {index >= revision.authors.length - 2 ? ' and ' : ', '}
+                </span>
+              : null}
           </span>
         )}
       </span>
