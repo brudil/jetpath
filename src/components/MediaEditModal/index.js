@@ -60,13 +60,15 @@ class MediaEditModal extends React.Component {
         <header className="modal__header" />
         <div className="modal__body">
           <div className="">
+            id: #<input type="number" value={media.get('id')} readOnly />
+          </div>
+          <div className="">
             Uploaded <SmartDate value={media.get('created')} />
           </div>
           <TagsInput
             value={media.get('tags').toJS()}
             onChange={this.handleTagsChange.bind(this)}
           />
-
           <h2>Credits</h2>
           <label htmlFor="creditUrl">Credit URL</label>
           <input
@@ -86,9 +88,7 @@ class MediaEditModal extends React.Component {
             onClick={unchanged ? this.props.close : this.handleSave.bind(this)}
             text={unchanged ? 'Close' : 'Save'}
           />
-
           <Button onClick={this.handleDelete} text="Delete" />
-
           <div className="media-edit-modal__metadata">
             {media.hasIn(['metadata', 'width']) &&
             media.hasIn(['metadata', 'height'])
@@ -98,7 +98,6 @@ class MediaEditModal extends React.Component {
                 ])}`
               : null}
           </div>
-
           <div className="media-edit-modal__preview-stage">
             <MediaDisplay media={media.toJS()} />
           </div>
