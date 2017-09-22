@@ -46,7 +46,8 @@ module.exports = {
 
   resolve: {
     modules: ['web_modules', 'node_modules', './src/images'],
-    moduleExtensions: ['js', 'svg'],
+    moduleExtensions: ['js', 'svg', 'tsx'],
+    extensions: ['.tsx', '.js', '.svg'],
   },
 
   plugins: [
@@ -101,6 +102,23 @@ module.exports = {
         loader:
           'style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader',
         exclude: /node_modules/,
+      },
+      {
+        test: /\.graphql$/,
+        exclude: /node_modules/,
+        loader: 'graphql-tag/loader',
+      },
+      {
+        test: /\.ts(x?)$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+          },
+          {
+            loader: 'ts-loader',
+          },
+        ],
       },
       { test: /\.svg$/, loader: 'file-loader' },
     ],

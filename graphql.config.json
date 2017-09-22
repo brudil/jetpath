@@ -1,0 +1,26 @@
+{
+  "schema": {
+    "request": {
+      "url": "http://localhost:8000/manage/graphql/",
+      "method": "POST",
+      "postIntrospectionQuery": true,
+      "options": {
+        "headers": {
+          "user-agent": "JS GraphQL"
+        }
+      }
+    }
+  },
+  "endpoints" : [
+    {
+      "name": "Manage (http://localhost:8000/graphql)",
+      "url": "http://localhost:8000/manage/graphql/",
+      "options" : {
+        "headers": {
+          "user-agent" : "JS GraphQL"
+        }
+      }
+    }
+  ]
+
+}

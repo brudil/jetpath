@@ -1,16 +1,15 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import slug from 'slug';
 import cx from 'classnames';
 import slugify from '../libs/slugify';
 
-function performRemoveStopWords(text) {
+function performRemoveStopWords(text: string): string {
   return text;
 }
 
-function SlugInput({ onChange, removeStopWords, value, ...props }) {
-  function handleChange(event) {
-    let text = event.target.value;
+function SlugInput({ onChange, removeStopWords, value, ...props }: { onChange: Function, removeStopWords: boolean, autoValue: string, className: string, value: string }) {
+  function handleChange(event: React.FormEvent<HTMLInputElement>) {
+    let text = event.currentTarget.value;
     if (removeStopWords) {
       text = performRemoveStopWords(text);
     }
@@ -35,13 +34,5 @@ function SlugInput({ onChange, removeStopWords, value, ...props }) {
     />
   );
 }
-
-SlugInput.propTypes = {
-  value: PropTypes.string.isRequired,
-  autoValue: PropTypes.string,
-  removeStopWords: PropTypes.bool.isRequired,
-  onChange: PropTypes.func.isRequired,
-  className: PropTypes.string.isRequired,
-};
 
 export default SlugInput;
