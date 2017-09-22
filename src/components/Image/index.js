@@ -50,7 +50,7 @@ class ImageContainer extends React.Component {
   generateDisplayUrl(image) {
     return image.mime === 'image/gif'
       ? image.direct_url
-      : imgix(image.resource_name, { h: 300 });
+      : imgix(image.resourceName, { h: 300 });
   }
 
   handleLoaded() {
@@ -62,15 +62,15 @@ class ImageContainer extends React.Component {
       <div
         className={styles.loadingContainer}
         style={{
-          paddingBottom: `${this.props.image.type_data.height /
-            this.props.image.type_data.width *
+          paddingBottom: `${this.props.image.object.height /
+            this.props.image.object.width *
             100}%`,
         }}
       >
         <div className={styles.imageContainer}>
           <Imgix
-
-            src={`https://drafty.imgix.net/${this.props.image.resource_name}`}
+            precision={20}
+            src={`https://drafty.imgix.net/${this.props.image.resourceName}`}
           />
         </div>
       </div>

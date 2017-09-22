@@ -3,7 +3,9 @@ import React from 'react';
 import qs from 'query-string';
 import without from 'lodash/without';
 import TagsInput from 'react-tagsinput';
+import { graphql } from 'react-apollo';
 import { connect } from 'react-redux';
+import { compose } from 'recompose';
 import { withRouter } from 'react-router-dom';
 import { TitleSelection, SelectionItem } from '../components/TitleSelection';
 import UsersPicker from '../components/UserPicker';
@@ -23,6 +25,8 @@ import Sidebar, { SidebarControl } from '../components/Sidebar';
 import viewContainerStyles from '../styles/components/ViewContainer.css';
 import stylesStandardHeader from '../styles/components/StandardHeader.css';
 import filterPresetsMatch from '../libs/filterPresetsMatch';
+
+import MediaListQuery from './MediaList.graphql';
 
 const presets = {
   all: {
@@ -68,7 +72,6 @@ class MediaListPage extends React.Component {
     console.log(this.props);
     const vertical = this.props.vertical.identifier;
     this.props.history.replace(`/@${vertical}/media?${qs.stringify(filters)}`);
-    this.props.dispatch(MediaListActions.loadMediaList({ ...filters }));
   }
 
   handleUpdate(key, value) {
@@ -106,19 +109,18 @@ class MediaListPage extends React.Component {
   }
 
   renderContent(query) {
-    const { hasNext, isLoading, mediaItems } = this.props;
+    console.log();
 
-    if (isLoading) {
+    if (this.props.data.loading) {
       return <LoadingContent />;
     }
 
-    if (mediaItems.length > 0) {
+    const { hasNext, data: { loading, vertical: { allMedia } } } = this.props;
+
+    if (allMedia.edges.length > 0) {
       return (
         <div>
-          <MediaGrid
-            media={this.props.mediaItems}
-            onSelect={this.handleItemSelect}
-          />
+          <MediaGrid media={allMedia.edges} onSelect={this.handleItemSelect} />
           <PaginationNav
             hasNext={hasNext}
             currentPage={query.page}
@@ -161,9 +163,7 @@ class MediaListPage extends React.Component {
           <div className={viewContainerStyles.root}>
             <div className={viewContainerStyles.content}>
               <MediaUploadContainer onFile={this.handleFile}>
-                <div>
-                  {this.renderContent(query)}
-                </div>
+                <div>{this.renderContent(query)}</div>
               </MediaUploadContainer>
             </div>
             <div className={viewContainerStyles.sidebar}>
@@ -239,14 +239,18 @@ MediaListPage.propTypes = {
   hasNext: PropTypes.bool.isRequired,
 };
 
-export default withRouter(
+export default compose(
+  withRouter,
   connect(state => ({
-    media: state.mediaList,
     mediamodal: state.mediamodal,
     uploadProgress: state.uploadProgress,
-    mediaItems: state.mediaList.list.map(id => state.entities.media[id]),
-    hasNext: state.mediaList.hasNext,
-    isLoading: state.mediaList.loading,
     vertical: state.verticals.selectedVertical,
-  }))(MediaListPage)
-);
+  })),
+  graphql(MediaListQuery, {
+    options: props => ({
+      variables: {
+        vertical: props.vertical.identifier,
+      },
+    }),
+  })
+)(MediaListPage);

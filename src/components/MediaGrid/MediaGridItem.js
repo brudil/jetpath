@@ -4,17 +4,6 @@ import Image from '../Image';
 
 import styles from './MediaGridItem.css';
 
-function calcWidth(metadata) {
-  const HEIGHT = 150;
-
-  if (!metadata.height || !metadata.width) {
-    return HEIGHT;
-  }
-
-  const ratio = metadata.height / HEIGHT;
-  return metadata.width / ratio;
-}
-
 class MediaGridItem extends React.Component {
   constructor(props) {
     super(props);
@@ -32,9 +21,7 @@ class MediaGridItem extends React.Component {
     const { media } = this.props;
     return (
       <div className={styles.pseudo}>
-        <span>
-          {media.mime}
-        </span>
+        <span>{media.mime}</span>
       </div>
     );
   }
@@ -45,10 +32,15 @@ class MediaGridItem extends React.Component {
       <li
         className={styles.root}
         onClick={this.handleSelect}
-        style={{ width: `${calcWidth(media.type_data)}px` }}
+        style={{
+          height: '110px',
+          width: `${Math.round(
+            110 * (media.object.width / media.object.height)
+          )}px`,
+        }}
       >
         <div className={styles.inner}>
-          {media.file_type === 'image'
+          {media.fileType === 'image'
             ? this.renderImagePreview()
             : this.renderPseudoPreview()}
         </div>

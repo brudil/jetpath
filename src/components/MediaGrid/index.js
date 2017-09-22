@@ -8,7 +8,7 @@ function MediaGrid(props) {
   return (
     <ul className={styles.root}>
       {props.media.map(media =>
-        <MediaGridItem media={media} key={media.id} onSelect={props.onSelect} />
+        <MediaGridItem media={media.node} key={media.id} onSelect={props.onSelect} />
       )}
     </ul>
   );

@@ -97,6 +97,7 @@
     "qs": "^6.5.0",
     "query-string": "^5.0.0",
     "react": "^15.6.1",
+    "react-apollo": "^1.4.15",
     "react-copy-to-clipboard": "^5.0.0",
     "react-custom-scrollbars": "^4.1.2",
     "react-dnd": "^2.4.0",

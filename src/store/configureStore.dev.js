@@ -4,25 +4,26 @@ import createSagaMiddleware from 'redux-saga';
 import { createLogger } from 'redux-logger';
 import * as rootReducer from '../reducers/index';
 
-const sagaMiddleware = createSagaMiddleware();
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const finalCreateStore = composeEnhancers(
-  applyMiddleware(sagaMiddleware),
-  applyMiddleware(ReduxThunk),
-  applyMiddleware(
-    createLogger({
-      collapsed: true,
-    })
-  )
-  // DevTools.instrument()
-)(createStore);
+export default function configureStore({ apolloClient }) {
+  const sagaMiddleware = createSagaMiddleware();
+  const composeEnhancers =
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  const finalCreateStore = composeEnhancers(
+    applyMiddleware(sagaMiddleware),
+    applyMiddleware(ReduxThunk),
+    applyMiddleware(
+      createLogger({
+        collapsed: true,
+      })
+    ),
+    applyMiddleware(apolloClient.middleware()),
+  )(createStore);
 
-export default function configureStore(initialState) {
   const store = finalCreateStore(
     combineReducers({
       ...rootReducer,
-    }),
-    initialState
+      apollo: apolloClient.reducer(),
+    })
   );
 
   if (module.hot) {

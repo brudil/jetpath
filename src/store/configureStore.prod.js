@@ -1,22 +1,26 @@
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
-import { browserHistory } from 'react-router';
 import ReduxThunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 import * as rootReducer from '../reducers/index';
 
 const sagaMiddleware = createSagaMiddleware();
 
-const finalCreateStore = compose(
-  applyMiddleware(sagaMiddleware),
-  applyMiddleware(ReduxThunk),
-)(createStore);
+export default function configureStore({ apolloClient }) {
+  const finalCreateStore = compose(
+    applyMiddleware(sagaMiddleware),
+    applyMiddleware(ReduxThunk),
+    applyMiddleware(apolloClient.middleware()),
+    // If you are using the devToolsExtension, you can add it here also
+    typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined'
+      ? window.__REDUX_DEVTOOLS_EXTENSION__()
+      : f => f
+  )(createStore);
 
-export default function configureStore(initialState) {
   const store = finalCreateStore(
     combineReducers({
       ...rootReducer,
-    }),
-    initialState
+      apollo: apolloClient.reducer(),
+    })
   );
 
   store.sagaMiddleware = sagaMiddleware;

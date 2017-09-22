@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import DocumentTitle from '../components/DocumentTitle';
@@ -33,12 +32,6 @@ class NotificationsPage extends React.Component {
     );
   }
 }
-
-NotificationsPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  notificationsList: PropTypes.array.isRequired,
-  notification: PropTypes.object.isRequired,
-};
 
 export default connect(state => ({
   notification: state.notification,

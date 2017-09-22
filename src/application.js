@@ -1,29 +1,60 @@
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
+import {
+  ApolloProvider,
+  ApolloClient,
+  createNetworkInterface,
+} from 'react-apollo';
 import { BrowserRouter as Router } from 'react-router-dom';
+import settings from './settings';
 import configureStore from './store/configureStore';
 import rootSaga from './sagas/index';
 import { createToast } from './ducks/Toast';
 import ApplicationContainer from './containers/ApplicationContainer';
+import { clientAuth } from './client';
 
-console.log('Jetpath 1.0');
+console.log('Jetpath 7.0');
 console.log(`ENV: ${process.env.NODE_ENV}`);
 
 require('./styles/legacy/style.css');
 
-const store = configureStore();
+const networkInterface = createNetworkInterface({
+  uri: `${settings.lowdownHost}/manage/graphql/`,
+});
+
+networkInterface.use([
+  {
+    applyMiddleware(req, next) {
+      if (!req.options.headers) {
+        // eslint-disable-next-line no-param-reassign
+        req.options.headers = {}; // Create the header object if needed.
+      }
+      const token = clientAuth.getToken();
+      if (token) {
+        // eslint-disable-next-line no-param-reassign
+        req.options.headers.Authorization = token ? `Bearer ${token}` : null;
+      }
+      next();
+    },
+  },
+]);
+
+const client = new ApolloClient({
+  networkInterface,
+});
+
+const store = configureStore({ apolloClient: client });
 const rootTask = store.sagaMiddleware.run(rootSaga);
 
 function renderApp() {
   ReactDOM.render(
     <div>
-      <Provider store={store}>
+      <ApolloProvider store={store} client={client}>
         <Router>
           <ApplicationContainer />
         </Router>
-      </Provider>
+      </ApolloProvider>
     </div>,
     document.getElementById('app')
   );
