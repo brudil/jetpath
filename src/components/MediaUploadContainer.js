@@ -2,7 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { NativeTypes } from 'react-dnd-html5-backend';
 import { DropTarget as dropTarget } from 'react-dnd';
-import classnames from 'classnames';
+import cx from 'classnames';
+
+import styles from './MediaUpload.css';
 
 const fileTarget = {
   drop(props, monitor, component) {
@@ -17,15 +19,15 @@ class MediaUploadContainer extends React.Component {
 
   render() {
     const { connectDropTarget, isOver, canDrop } = this.props;
-    const classes = classnames('file-splash', {
-      'file-splash--is-over': isOver && canDrop,
+    const classes = cx(styles.root, {
+      [styles.isOver]: isOver && canDrop,
     });
 
     return connectDropTarget(
       <div>
         {this.props.children}
         <div className={classes}>
-          <div className="file-splash__text">Drop to upload</div>
+          <div className={styles.text}>Drop to upload</div>
         </div>
       </div>
     );
