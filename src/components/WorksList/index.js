@@ -33,18 +33,16 @@ function WorksList(props) {
     return (
       <span>
         <span>by </span>
-        {revision.authors.map((author, index) =>
+        {revision.authors.map((author, index) => (
           <span key={author.id}>
-            <span>
-              {author.name}
-            </span>
-            {index < revision.authors.length - 1
-              ? <span>
-                  {index >= revision.authors.length - 2 ? ' and ' : ', '}
-                </span>
-              : null}
+            <span>{author.name}</span>
+            {index < revision.authors.length - 1 ? (
+              <span>
+                {index >= revision.authors.length - 2 ? ' and ' : ', '}
+              </span>
+            ) : null}
           </span>
-        )}
+        ))}
       </span>
     );
   }
@@ -79,6 +77,7 @@ function WorksList(props) {
               </span>
               <span className={styles.itemMetaBit}>
                 last edited: <SmartDate value={currentRevision.created} /> ago
+                by {currentRevision.created_by && currentRevision.created_by.username}
               </span>
               <span className={styles.itemMetaBit}>
                 revision: #{work.revision_count}
