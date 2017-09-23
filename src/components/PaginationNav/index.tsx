@@ -1,18 +1,22 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import Button from '../Button';
 
 import styles from './PaginationNav.css';
 
-function PaginationNav(props) {
+function PaginationNav(props: {
+  currentPage: number,
+  hasNext: boolean,
+  total: number,
+  onChange: (page: number) => void,
+}) {
   const { hasNext, currentPage, onChange, total } = props;
 
   function handlePreviousPage() {
-    onChange(parseInt(currentPage, 10) - 1);
+    onChange(currentPage - 1);
   }
 
   function handleNextPage() {
-    onChange(parseInt(currentPage, 10) + 1);
+    onChange(currentPage + 1);
   }
 
   function renderPrevious() {
@@ -38,12 +42,5 @@ function PaginationNav(props) {
     </div>
   );
 }
-
-PaginationNav.propTypes = {
-  currentPage: PropTypes.number.isRequired,
-  hasNext: PropTypes.bool.isRequired,
-  total: PropTypes.number,
-  onChange: PropTypes.func.isRequired,
-};
 
 export default PaginationNav;

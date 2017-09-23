@@ -138,48 +138,6 @@ class EditorPage extends React.Component {
         </div>
       </div>
     );
-
-    return (
-      <DocumentTitle
-        title={`${workingRevision.get('headline') || 'Untitled'} - Editor`}
-      >
-        <div>
-          <EditorNav
-            headline={workingRevision.get('headline')}
-            onHeadlineUpdate={revisionChangeHandler('headline')}
-            stats={stats}
-          />
-          <div className={stylesWriteSheet.root}>
-            <div className={stylesEditPane.root}>
-              <div className={stylesEditor.root}>
-                <DebouncedAutosizeTextarea
-                  className={stylesEditor.title}
-                  value={workingRevision.get('headline')}
-                />
-              </div>
-            </div>
-            <div
-              className={cx(stylesEditPane.root, stylesEditPane.root_sidebar)}
-            >
-              <EditorSidebar
-                workingRevision={workingRevision}
-                vertical={vertical}
-                savedRevision={savedRevision}
-                editorialMetadata={editorialMetadata}
-                hasChangesFromSaved={hasChangesFromSaved}
-                isLocal={isLocal}
-                revisionChangeHandler={revisionChangeHandler}
-                onAddAuthor={this.handleAddAuthorBound}
-                onRemoveAuthor={this.handleRemoveAuthorBound}
-                onSave={this.handleSave}
-                onChangeStatus={this.handleChangeStatusBound}
-                onPublish={this.handlePublishBound}
-              />
-            </div>
-          </div>
-        </div>
-      </DocumentTitle>
-    );
   }
 
   render() {

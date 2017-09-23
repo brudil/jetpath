@@ -1,8 +1,19 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 
-class InputAdd extends React.Component {
-  constructor(props) {
+interface IProps {
+  save: (value: string) => void,
+  value: string,
+  type: string,
+}
+
+interface IState {
+  value: string,
+}
+
+class InputAdd extends React.Component<IProps, IState> {
+  handleUpdate: (event: React.FormEvent<HTMLInputElement>) => void;
+
+  constructor(props: IProps) {
     super(props);
     this.state = {
       value: this.props.value,
@@ -12,14 +23,10 @@ class InputAdd extends React.Component {
     this.handleUpdate = this.handleUpdate.bind(this);
   }
 
-  handleSave(e) {
-    e.preventDefault();
+  handleSave(event: React.FormEvent<HTMLInputElement | HTMLFormElement>) {
+    event.preventDefault();
     this.props.save(this.state.value);
     this.setState({ value: '' });
-  }
-
-  update(e) {
-    this.setState({ value: e.target.value });
   }
 
   render() {
@@ -34,11 +41,5 @@ class InputAdd extends React.Component {
     );
   }
 }
-
-InputAdd.propTypes = {
-  save: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-};
 
 export default InputAdd;

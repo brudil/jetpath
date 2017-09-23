@@ -1,10 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import without from 'lodash/without';
 import isEqual from 'lodash/isEqual';
-import pickBy from 'lodash/pickBy';
-import identity from 'lodash/identity';
 import intersection from 'lodash/intersection';
 import { connect } from 'react-redux';
 import qs from 'query-string';
@@ -21,7 +18,7 @@ import ViewContainer from '../components/ViewContainer';
 import PaginationNav from '../components/PaginationNav';
 import SegmentedControl from '../components/SegmentedControl';
 import NoListItems from '../components/NoListItems';
-import Sidebar, { SidebarControl } from '../components/Sidebar';
+import Sidebar, { SidebarControl, SidebarInput } from '../components/Sidebar';
 import LoadingContent from '../components/LoadingContent';
 import AuthorsSelector from '../components/AuthorsSelector';
 import * as ContentListActions from '../ducks/ContentList';
@@ -193,7 +190,7 @@ class ContentListPage extends React.Component {
             <div className={ViewContainerStyles.sidebar}>
               <Sidebar>
                 <SidebarControl title="Search">
-                  <Sidebar.Input
+                  <SidebarInput
                     type="text"
                     value={query.search}
                     onChange={this.handleInputUpdate.bind(this, 'search')}

@@ -1,10 +1,14 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import MediaGridItem from './MediaGridItem';
+import MediaGridItem, { MediaObject } from './MediaGridItem';
 
 import styles from './MediaGrid.css';
 
-function MediaGrid(props) {
+interface IProps {
+  media: Array<{ node: MediaObject, id: string }>,
+  onSelect: () => void
+}
+
+function MediaGrid(props: IProps) {
   return (
     <ul className={styles.root}>
       {props.media.map(media =>
@@ -13,10 +17,5 @@ function MediaGrid(props) {
     </ul>
   );
 }
-
-MediaGrid.propTypes = {
-  media: PropTypes.array,
-  onSelect: PropTypes.func,
-};
 
 export default MediaGrid;

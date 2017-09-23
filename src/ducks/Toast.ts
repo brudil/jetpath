@@ -10,7 +10,7 @@ export const removeToast = (id: number) => action(REMOVE_TOAST, { id });
 
 let toastCount = 0;
 
-interface ToastBase {
+export interface ToastBase {
   id: number,
   title: string,
   message: string,
@@ -24,7 +24,7 @@ const ToastRecord = Immutable.Record({
   preset: 'log',
 });
 
-class Toast extends ToastRecord implements ToastBase {
+export class Toast extends ToastRecord implements ToastBase {
   id: number;
   title: string;
   message: string;

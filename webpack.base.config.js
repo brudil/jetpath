@@ -47,7 +47,7 @@ module.exports = {
   resolve: {
     modules: ['web_modules', 'node_modules', './src/images'],
     moduleExtensions: ['js', 'svg', 'tsx'],
-    extensions: ['.tsx', '.js', '.svg'],
+    extensions: ['.tsx', '.ts', '.js', '.svg'],
   },
 
   plugins: [
@@ -100,7 +100,7 @@ module.exports = {
       {
         test: /\.css$/,
         loader:
-          'style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader',
+          'style-loader!typings-for-css-modules-loader?modules&namedExport&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader',
         exclude: /node_modules/,
       },
       {

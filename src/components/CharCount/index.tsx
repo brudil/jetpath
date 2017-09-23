@@ -1,9 +1,8 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import styles from './CharCount.css';
 
-function CharCount({ value, max }) {
+function CharCount({ value, max }: { value: string, max: number }) {
   const length = value ? value.length : 0;
   return (
     <div className={styles.root}>
@@ -17,10 +16,5 @@ function CharCount({ value, max }) {
     </div>
   );
 }
-
-CharCount.propTypes = {
-  max: PropTypes.number.isRequired,
-  value: PropTypes.string.isRequired,
-};
 
 export default CharCount;

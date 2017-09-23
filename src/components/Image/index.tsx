@@ -1,16 +1,28 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import qs from 'query-string';
 import Imgix from 'react-imgix';
 
 import styles from './ImagePop.css';
+import {MediaObject} from "../MediaGrid/MediaGridItem";
 
-function imgix(resource, options) {
+function imgix(resource: string, options: Object) {
   return `https://drafty.imgix.net/${resource}?${qs.stringify(options)}`;
 }
-class ImageContainer extends React.Component {
-  constructor(x, y) {
-    super(x, y);
+
+interface IProps {
+  image: MediaObject,
+  className?: string
+}
+
+interface IState {
+  img: HTMLImageElement | null,
+  bound: () => void,
+  src?: string,
+}
+
+class ImageContainer extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
+    super(props);
 
     this.state = {
       img: new Image(),
@@ -19,12 +31,15 @@ class ImageContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.state.img.addEventListener('load', this.state.bound);
-    this.state.src = this.generateDisplayUrl(this.props.image);
-    this.state.img.src = this.state.src;
+    if (this.state.img !== null) {
+      this.state.img.addEventListener('load', this.state.bound);
+      const src = this.generateDisplayUrl(this.props.image);
+      this.setState({ src });
+      this.state.img.src = src;
+    }
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: IProps) {
     if (this.props.image.id === nextProps.image.id) {
       return;
     }
@@ -35,8 +50,10 @@ class ImageContainer extends React.Component {
         src: this.generateDisplayUrl(nextProps.image),
       },
       () => {
-        this.state.img.addEventListener('load', this.state.bound);
-        this.state.img.src = this.state.src;
+        if (this.state.img !== null && this.state.src) {
+          this.state.img.addEventListener('load', this.state.bound);
+          this.state.img.src = this.state.src;
+        }
       }
     );
   }
@@ -47,9 +64,9 @@ class ImageContainer extends React.Component {
     }
   }
 
-  generateDisplayUrl(image) {
+  generateDisplayUrl(image: MediaObject) {
     return image.mime === 'image/gif'
-      ? image.direct_url
+      ? image.directUrl
       : imgix(image.resourceName, { h: 300 });
   }
 
@@ -68,7 +85,7 @@ class ImageContainer extends React.Component {
         }}
       >
         <div className={styles.imageContainer}>
-          <Imgix
+          <Imgix as any
             precision={20}
             src={`https://drafty.imgix.net/${this.props.image.resourceName}`}
           />
@@ -77,10 +94,5 @@ class ImageContainer extends React.Component {
     );
   }
 }
-
-ImageContainer.propTypes = {
-  image: PropTypes.object.isRequired,
-  className: PropTypes.string,
-};
 
 export default ImageContainer;

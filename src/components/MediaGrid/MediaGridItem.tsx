@@ -1,11 +1,27 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import Image from '../Image';
 
 import styles from './MediaGridItem.css';
 
-class MediaGridItem extends React.Component {
-  constructor(props) {
+
+export interface MediaObject {
+  id: string,
+  object: { width: number, height: number },
+  fileType: string,
+  mime: string,
+  resourceName: string,
+  directUrl: string,
+}
+
+interface IProps {
+  media: MediaObject,
+  onSelect: () => void
+}
+
+class MediaGridItem extends React.Component<IProps, {}> {
+  handleSelect: (event: React.MouseEvent<HTMLLIElement>) => void;
+
+  constructor(props: IProps) {
     super(props);
 
     this.handleSelect = this.props.onSelect.bind(this, this.props.media.id);
@@ -48,10 +64,5 @@ class MediaGridItem extends React.Component {
     );
   }
 }
-
-MediaGridItem.propTypes = {
-  media: PropTypes.object,
-  onSelect: PropTypes.func,
-};
 
 export default MediaGridItem;

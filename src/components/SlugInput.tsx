@@ -1,4 +1,5 @@
 import React from 'react';
+import omit from 'lodash/omit';
 import slug from 'slug';
 import cx from 'classnames';
 import slugify from '../libs/slugify';
@@ -30,7 +31,7 @@ function SlugInput({ onChange, removeStopWords, value, ...props }: { onChange: F
       value={value}
       onChange={handleChange}
       onBlur={handleBlur}
-      {...props}
+      {...omit(props, ['autoValue'])}
     />
   );
 }

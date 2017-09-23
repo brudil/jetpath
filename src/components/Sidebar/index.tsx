@@ -1,9 +1,8 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import styles from './Sidebar.css';
 
-function Sidebar(props) {
+function Sidebar(props: { children: React.ReactChildren }) {
   return (
     <div className={styles.root}>
       {props.children}
@@ -11,11 +10,7 @@ function Sidebar(props) {
   );
 }
 
-Sidebar.propTypes = {
-  children: PropTypes.node,
-};
-
-Sidebar.Input = ({ className = '', ...props }) =>
+export const SidebarInput = ({ className = '', ...props }) =>
   <input className={`${styles.input} ${className}`} {...props} />;
 
 export default Sidebar;
@@ -26,6 +21,12 @@ function SidebarControl({
   charLimit = null,
   charCount = null,
   buttonTreats = null,
+}: {
+  title: string,
+  children: JSX.Element,
+  charLimit?: number,
+  charCount?: number,
+  buttonTreats?: Array<Object>,
 }) {
   return (
     <div className={styles.control}>
@@ -53,12 +54,5 @@ function SidebarControl({
     </div>
   );
 }
-
-SidebarControl.propTypes = {
-  children: PropTypes.node,
-  title: PropTypes.string,
-  charLimit: PropTypes.number,
-  charCount: PropTypes.number,
-};
 
 export { SidebarControl };

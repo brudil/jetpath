@@ -1,18 +1,25 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import chunk from 'lodash/chunk';
 import cx from 'classnames';
 
 import styles from './SegmentedControl.css';
 
-function SegmentedControl(props) {
-  function handleChange(optionId) {
+type controlId = string | number;
+type optionTuple = [controlId, string];
+
+function SegmentedControl(props: {
+  className: string,
+  value: controlId,
+  options: Array<controlId | string>,
+  onChange: (id: controlId) => void
+}) {
+  function handleChange(optionId: controlId) {
     if (optionId !== props.value) {
       props.onChange(optionId);
     }
   }
 
-  const options = chunk(props.options, 2);
+  const options = chunk(props.options, 2) as Array<optionTuple>;
   return (
     <div className={cx(styles.root, props.className)}>
       {options.map(option => {
@@ -33,12 +40,5 @@ function SegmentedControl(props) {
     </div>
   );
 }
-
-SegmentedControl.propTypes = {
-  className: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  options: PropTypes.array.isRequired,
-  onChange: PropTypes.func.isRequired,
-};
 
 export default SegmentedControl;

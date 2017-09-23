@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import Select from 'react-select';
@@ -7,9 +6,15 @@ import * as OrgansiationActions from '../../ducks/Organisation';
 // eslint-disable-next-line
 import 'style-loader!css-loader!postcss-loader!react-select/dist/react-select.css';
 
-class SectionSelector extends React.Component {
+interface IProps {
+  getAllSections: OrgansiationActions.getAllSections,
+  isLoading: boolean,
+  sections: Array<{ id: number, title: string }>
+}
+
+class SectionSelector extends React.Component<IProps, {}> {
   componentDidMount() {
-    this.props.dispatch(OrgansiationActions.getAllSections());
+    this.props.getAllSections();
   }
 
   render() {
@@ -17,22 +22,26 @@ class SectionSelector extends React.Component {
     const sectionOptions = sections.map(section => ({
       value: section.id,
       label: section.title,
-    }));
+    })) as any;
     return (
-      <Select isLoading={isLoading} options={sectionOptions} {...this.props} />
+      <Select isLoading={isLoading} options={sectionOptions} />
     );
   }
 }
 
-SectionSelector.propTypes = {
-  isLoading: PropTypes.bool.isRequired,
-  sections: PropTypes.arrayOf(PropTypes.object).isRequired,
-  dispatch: PropTypes.func.isRequired,
-};
-
-export default connect(state => ({
+export default connect((state: {
+  organisation: {
+    loading: boolean,
+    sectionList: Array<number>,
+  },
+  entities: {
+    sections: {[key: number]: Object}
+  }
+}) => ({
   isLoading: state.organisation.loading,
   sections: state.organisation.sectionList.map(
     id => state.entities.sections[id]
   ),
-}))(SectionSelector);
+}), {
+  getAllSections: OrgansiationActions.getAllSections,
+})(SectionSelector);

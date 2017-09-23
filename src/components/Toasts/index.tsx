@@ -1,13 +1,15 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import Toast from './Toast';
-import { removeToast } from '../../ducks/Toast';
+import { removeToast, Toast as ToastObject } from '../../ducks/Toast';
 
 import styles from './ToastList.css';
 
-function ToastList(props) {
-  const handleRemove = id => props.dispatch(removeToast(id));
+function ToastList(props: {
+  toastList: Array<ToastObject>,
+  removeToast: (id: number) => Object
+}) {
+  const handleRemove = (id: number) => props.removeToast(id);
 
   return (
     <ul className={styles.root}>
@@ -25,11 +27,8 @@ function ToastList(props) {
   );
 }
 
-ToastList.propTypes = {
-  toastList: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired,
-};
-
 export default connect(state => ({
   toastList: state.toasts.get('toastList'),
-}))(ToastList);
+}), {
+  removeToast,
+})(ToastList);

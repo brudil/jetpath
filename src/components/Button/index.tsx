@@ -1,10 +1,13 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import omit from 'lodash/omit';
 
 import styles from './Button.css';
 
-function Button(props) {
+function Button(props: {
+  text: string,
+  className?: string,
+  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void,
+}) {
   return (
     <button
       className={styles.button}
@@ -15,11 +18,5 @@ function Button(props) {
     </button>
   );
 }
-
-Button.propTypes = {
-  text: PropTypes.string.isRequired,
-  className: PropTypes.any,
-  onClick: PropTypes.func,
-};
 
 export default Button;

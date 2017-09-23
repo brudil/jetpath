@@ -1,10 +1,17 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 
 import style from './Toast.css';
 
-function Toast(props) {
+interface IProps {
+  id: number,
+  title: string,
+  message: string,
+  preset: string,
+  onRemove: (id: number) => void,
+}
+
+function Toast(props: IProps) {
   const { title, message, onRemove } = props;
 
   const handleRemove = () => onRemove(props.id);
@@ -20,13 +27,5 @@ function Toast(props) {
     </li>
   );
 }
-
-Toast.propTypes = {
-  id: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
-  message: PropTypes.string.isRequired,
-  preset: PropTypes.string.isRequired,
-  onRemove: PropTypes.func.isRequired,
-};
 
 export default Toast;
