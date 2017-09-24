@@ -14,22 +14,10 @@
   color: var(--color__grey);
 }
 
-.spinner {
-  display: block;
-  /*animation: turbo 8s linear 0s infinite;*/
-  width: 60%;
-  max-width: 150px;
-  margin: 0 auto;
-
-  & img {
-    width: 100%;
-  }
-}
-
 .message {
-  display: none;
   font-style: italic;
   text-align: center;
-  /* display: block; */
+  padding-top: 20vh;
+  display: block;
   font-size: 1.8em;
 }
