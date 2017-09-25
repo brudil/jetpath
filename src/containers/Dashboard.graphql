@@ -1,0 +1,32 @@
+query DashboardQuery($vertical: String) {
+  vertical(identifier: $vertical) {
+    contentStats {
+      totalFinal
+      totalDrafts
+      totalStubs
+    }
+
+    recent: allContent(watching: true) {
+      edges {
+        node {
+          contentId
+          editorialMetadata {
+            currentRevision {
+              headline
+            }
+          }
+        }
+      }
+    }
+  }
+
+  releaseNotes(last: 5) {
+    edges {
+      node {
+        versionNumber
+        body
+        created
+      }
+    }
+  }
+}
