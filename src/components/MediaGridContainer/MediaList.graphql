@@ -1,6 +1,6 @@
 query MediaList($vertical: String) {
   vertical(identifier: $vertical) {
-    allMedia(last: 100) {
+    allMedia(first: 100) {
       pageInfo {
         hasNextPage
         endCursor
