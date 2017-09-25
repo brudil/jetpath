@@ -1,0 +1,13 @@
+#import './Comment.graphql'
+
+query EditorComments($vertical: String, $contentId: Int) {
+  vertical(identifier: $vertical) {
+    content(contentId: $contentId) {
+      editorialMetadata {
+        comments {
+          ...Comment
+        }
+      }
+    }
+  }
+}

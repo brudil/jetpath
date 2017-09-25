@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import styles from './EditorNav.css';
 
@@ -49,41 +49,41 @@ class EditorNav extends React.Component {
           />
           <ul className={styles.list}>
             <li className={styles.listItem}>
-              <Link
+              <NavLink
                 className={styles.listItemLink}
                 activeClassName={styles.listItemLink_active}
                 to={basePath}
-                onlyActiveOnIndex
+                exact
               >
                 Compose
-              </Link>
+              </NavLink>
             </li>
             <li className={styles.listItem}>
-              <Link
+              <NavLink
                 className={styles.listItemLink}
                 activeClassName={styles.listItemLink_active}
                 to={`${basePath}/metadata`}
               >
                 Metadata
-              </Link>
+              </NavLink>
             </li>
             <li className={styles.listItem}>
-              <Link
+              <NavLink
                 className={styles.listItemLink}
                 activeClassName={styles.listItemLink_active}
                 to={`${basePath}/workflow`}
               >
                 Workflow
-              </Link>
+              </NavLink>
             </li>
             <li className={styles.listItem}>
-              <Link
+              <NavLink
                 className={styles.listItemLink}
                 activeClassName={styles.listItemLink_active}
                 to={`${basePath}/preview`}
               >
                 Preview
-              </Link>
+              </NavLink>
             </li>
           </ul>
           <button

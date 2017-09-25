@@ -7,6 +7,7 @@ function Button(props: {
   text: string,
   className?: string,
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void,
+  disabled?: boolean,
 }) {
   return (
     <button

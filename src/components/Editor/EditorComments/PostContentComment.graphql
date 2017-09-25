@@ -1,0 +1,10 @@
+#import './Comment.graphql'
+
+mutation PostContentComment($data: PostContentCommentInput){
+  postContentComment(data: $data) {
+    ok
+    comment {
+      ...Comment
+    }
+  }
+}

@@ -12,4 +12,8 @@
   font-size: 1em;
   border-radius: 2px;
   box-sizing: border-box;
+
+  &[disabled] {
+    background-color: var(--color__dull-grey);
+  }
 }

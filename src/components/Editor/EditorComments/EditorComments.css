@@ -1,0 +1,42 @@
+@import '../../../styles/core/colors.css';
+@import '../../../styles/core/layers.css';
+
+.root {
+  width: 230px;
+  position: fixed;
+  left: -230px;
+  top: 0;
+  bottom: 0;
+  box-sizing: border-box;
+  box-shadow: 1px 0 8px rgba(40, 40, 40, 0.2);
+  background: var(--color__background);
+  transition: left 300ms ease;
+  display: flex;
+  flex-direction: column;
+  z-index: var(--layer__overlay-front);
+}
+
+.root_open {
+  left: 0;
+}
+
+.scroll {
+  overflow-y: auto;
+  padding: 1rem;
+  flex: 1 1 auto;
+}
+
+.postComment {
+  bottom: 0;
+  padding: 1rem;
+}
+
+.button {
+  position: fixed;
+  left: 0;
+  border: 0;
+  padding: 0.1rem;
+  background-color: #ffffff;
+  top: 200px;
+  z-index: var(--layer__overlay-back);
+}

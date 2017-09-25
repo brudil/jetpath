@@ -1,0 +1,8 @@
+fragment Comment on ContentComment {
+  id
+  user {
+    username
+  }
+  comment
+  created
+}
