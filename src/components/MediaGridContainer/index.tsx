@@ -20,12 +20,12 @@ interface IProps {
     vertical: {
       allMedia: any
     },
+    refetch: () => void,
   },
   onSelect: (mediaId: number) => void,
   wrap?: (media: MediaObject, children: JSX.Element) => Element
   children?: Element,
 }
-
 
 function MediaGridContainer(props: IProps) {
   if (props.data.loading) {
@@ -35,7 +35,7 @@ function MediaGridContainer(props: IProps) {
   const { data: { vertical: { allMedia } } } = props;
 
   function handleFile(file: any) {
-    MediaClient.upload(props.vertical.identifier, file)
+    MediaClient.upload(props.vertical.identifier, file).then(() => props.data.refetch())
   }
 
   return (
