@@ -3,30 +3,23 @@ import React from 'react';
 import qs from 'query-string';
 import without from 'lodash/without';
 import TagsInput from 'react-tagsinput';
-import { graphql } from 'react-apollo';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { TitleSelection, SelectionItem } from '../components/TitleSelection';
 import UsersPicker from '../components/UserPicker';
-import MediaGrid from '../components/MediaGrid';
-import MediaUploadContainer from '../components/MediaUploadContainer';
+import MediaGridContainer from '../components/MediaGridContainer';
 import MediaEditModal from '../components/MediaEditModal';
 import * as MediaListActions from '../ducks/MediaList';
 import * as ModalManagerActions from '../ducks/Modal';
 import ViewContainer from '../components/ViewContainer';
 import DocumentTitle from '../components/DocumentTitle';
 import SegmentedControl from '../components/SegmentedControl';
-import PaginationNav from '../components/PaginationNav';
-import LoadingContent from '../components/LoadingContent';
-import NoListItems from '../components/NoListItems';
 import Sidebar, { SidebarControl } from '../components/Sidebar';
 
 import viewContainerStyles from '../styles/components/ViewContainer.css';
 import stylesStandardHeader from '../styles/components/StandardHeader.css';
 import filterPresetsMatch from '../libs/filterPresetsMatch';
-
-import MediaListQuery from './MediaList.graphql';
 
 const presets = {
   all: {
@@ -108,31 +101,6 @@ class MediaListPage extends React.Component {
     this.handleQueryChange({ ...this.getQueryData(), page });
   }
 
-  renderContent(query) {
-    console.log();
-
-    if (this.props.data.loading) {
-      return <LoadingContent />;
-    }
-
-    const { hasNext, data: { loading, vertical: { allMedia } } } = this.props;
-
-    if (allMedia.edges.length > 0) {
-      return (
-        <div>
-          <MediaGrid media={allMedia.edges} onSelect={this.handleItemSelect} />
-          <PaginationNav
-            hasNext={hasNext}
-            currentPage={query.page}
-            onChange={this.handlePagination}
-          />
-        </div>
-      );
-    }
-
-    return <NoListItems text="No media meets criteria" />;
-  }
-
   render() {
     const query = this.getQueryData();
 
@@ -162,9 +130,16 @@ class MediaListPage extends React.Component {
           </header>
           <div className={viewContainerStyles.root}>
             <div className={viewContainerStyles.content}>
-              <MediaUploadContainer onFile={this.handleFile}>
-                <div>{this.renderContent(query)}</div>
-              </MediaUploadContainer>
+              <MediaGridContainer
+                wrap={(media, children) => (
+                  <Link
+                    to={`${this.props.match &&
+                      this.props.match.url}/${media.mediaId}`}
+                  >
+                    {children}
+                  </Link>
+                )}
+              />
             </div>
             <div className={viewContainerStyles.sidebar}>
               <Sidebar>
@@ -245,12 +220,5 @@ export default compose(
     mediamodal: state.mediamodal,
     uploadProgress: state.uploadProgress,
     vertical: state.verticals.selectedVertical,
-  })),
-  graphql(MediaListQuery, {
-    options: props => ({
-      variables: {
-        vertical: props.vertical.identifier,
-      },
-    }),
-  })
+  }))
 )(MediaListPage);

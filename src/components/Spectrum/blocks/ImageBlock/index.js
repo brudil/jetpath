@@ -54,9 +54,11 @@ class ImageBlock extends React.Component {
           onClick={this.handleOpenLibraryBound}
           text={'Select from Library'}
         />
-        {item !== null
-          ? <MediaDisplay className={styles.mediaDisplay} media={item} />
-          : null}
+        {item !== null ? (
+          <MediaDisplay className={styles.mediaDisplay} media={item} />
+        ) : (
+          <em>No image selected</em>
+        )}
 
         <MediaSelectModal
           ref={el => {

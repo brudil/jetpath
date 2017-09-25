@@ -11,6 +11,7 @@
   overflow-x: hidden;
   opacity: 1;
   z-index: var(--layer__overlay);
+  display: flex;
 }
 
 .root_invisible {

@@ -1,0 +1,26 @@
+query MediaList($vertical: String) {
+  vertical(identifier: $vertical) {
+    allMedia(last: 40) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      edges {
+        node {
+          id
+          mediaId
+          resourceName
+          fileType
+          mime
+          object {
+            __typename
+            ...on MultimediaImage {
+              width
+              height
+            }
+          }
+        }
+      }
+    }
+  }
+}

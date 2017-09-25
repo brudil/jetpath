@@ -37,6 +37,8 @@ const EDITOR_SAVE_FAILURE = 'EDITOR_SAVE_FAILURE';
 const EDITOR_CHANGE_SUBTYPE = 'EDITOR_CHANGE_SUBTYPE';
 const EDITOR_CREATE_REVISION = createRequestTypes('EDITOR_CREATE_REVISION');
 const EDITOR_CREATE_CONTENT = createRequestTypes('EDITOR_CREATE_CONTENT');
+const EDITOR_OPEN_COMMENT_PANEL = 'EDITOR_OPEN_COMMENTS_PANEL';
+const EDITOR_CLOSE_COMMENT_PANEL = 'EDITOR_CLOSE_COMMENTS_PANEL';
 
 // ACTIONS
 export const loadContent = contentId =>
@@ -62,6 +64,14 @@ export const changeDocumentSubtype = subtypeElement => ({
   },
 });
 
+export const openCommentPanel = () => ({
+  type: EDITOR_OPEN_COMMENT_PANEL,
+});
+
+export const closeCommentPanel = () => ({
+  type: EDITOR_CLOSE_COMMENT_PANEL,
+});
+
 export const save = () => makeAction(EDITOR_SAVE);
 export const createRevisionSuccess = payload =>
   makeAction(EDITOR_CREATE_REVISION.SUCCESS, payload);
@@ -81,6 +91,7 @@ const initialState = new Immutable.Map({
   remoteId: null,
   isLocal: true,
   workingRevision: null,
+  commentPanelOpen: false,
   workingDocument: null,
   savedRevision: null,
   savedDocument: null,
@@ -280,6 +291,12 @@ export default function EditorReducer(state = initialState, action) {
     case EDITOR_CHANGE_STATE_CHANGED: {
       return state.set('hasChangesFromSaved', action.hasChangesFromSaved);
     }
+    case EDITOR_OPEN_COMMENT_PANEL: {
+      return state.set('commentPanelOpen', true);
+    }
+    case EDITOR_CLOSE_COMMENT_PANEL: {
+      return state.set('commentPanelOpen', false);
+    }
     default:
       return state;
   }
@@ -376,50 +393,10 @@ function* handleEditorPublish() {
   yield put(publishSuccess({ editorialMetadata }));
 }
 
-function* handleEditorChange() {
-  yield call(delay, 200);
-  const editorState = yield select(state => state.editor);
+function* loadMissingResourcesForRevision(revision, spectrum_document) {
+  console.log('LOADIN MISSING: rev: ', revision);
 
-  const serverMutableFields = [
-    'updated',
-    'created',
-    'id',
-    'content',
-    'revision_number',
-  ];
-  const removeServerMutableFields = rev =>
-    rev.merge(
-      serverMutableFields.reduce(
-        (state, fieldName) => state.set(fieldName, null),
-        new Immutable.Map()
-      )
-    );
-
-  const documentEqual = Immutable.is(
-    editorState.get('workingDocument'),
-    editorState.get('savedDocument')
-  );
-  const revisionEqual = Immutable.is(
-    removeServerMutableFields(editorState.get('workingRevision')),
-    removeServerMutableFields(editorState.get('savedRevision'))
-  );
-
-  /*
-   console.log(diff(
-   removeServerMutableFields(editorState.get('workingRevision')).toJS(),
-   removeServerMutableFields(editorState.get('savedRevision')).toJS()
-   ));
-   */
-
-  const hasChangesFromSaved = !documentEqual || !revisionEqual;
-
-  if (editorState.hasChangesFromSaved !== hasChangesFromSaved) {
-    yield put({ type: EDITOR_CHANGE_STATE_CHANGED, hasChangesFromSaved });
-  }
-}
-
-function* loadMissingResourcesForRevision(revision) {
-  const foundResources = SpectrumDocument.fromJS(revision.spectrum_document)
+  const foundResources = SpectrumDocument.fromJS(spectrum_document)
     .getElements()
     .filter(
       el =>
@@ -473,6 +450,58 @@ function* loadMissingResourcesForRevision(revision) {
   }
 }
 
+function* handleEditorChange() {
+  yield call(delay, 200);
+  const editorState = yield select(state => state.editor);
+
+  const serverMutableFields = [
+    'updated',
+    'created',
+    'id',
+    'content',
+    'revision_number',
+  ];
+  const removeServerMutableFields = rev =>
+    rev.merge(
+      serverMutableFields.reduce(
+        (state, fieldName) => state.set(fieldName, null),
+        new Immutable.Map()
+      )
+    );
+
+  const documentEqual = Immutable.is(
+    editorState.get('workingDocument'),
+    editorState.get('savedDocument')
+  );
+  const revisionEqual = Immutable.is(
+    removeServerMutableFields(editorState.get('workingRevision')),
+    removeServerMutableFields(editorState.get('savedRevision'))
+  );
+
+  /*
+   console.log(diff(
+   removeServerMutableFields(editorState.get('workingRevision')).toJS(),
+   removeServerMutableFields(editorState.get('savedRevision')).toJS()
+   ));
+   */
+
+  const hasChangesFromSaved = !documentEqual || !revisionEqual;
+
+  if (editorState.hasChangesFromSaved !== hasChangesFromSaved) {
+    yield put({ type: EDITOR_CHANGE_STATE_CHANGED, hasChangesFromSaved });
+  }
+}
+
+function* handleLoadResourcesOnChange() {
+  const editorState = yield select(state => state.editor);
+
+  const workingRev = editorState.get('workingRevision');
+  const workingDoc = editorState.get('workingDocument');
+  if (workingRev && workingDoc) {
+    yield spawn(loadMissingResourcesForRevision, workingRev.toJS(), workingDoc.toJS());
+  }
+}
+
 function* handleEditorChangeRevisionStatus({ status }) {
   const editorState = yield select(state => state.editor);
 
@@ -498,7 +527,7 @@ function* handleEditorLoad({ contentId }) {
   const editorialMetadata =
     metaEntities[editorialMetadataPayload.payload.result];
   yield [
-    spawn(loadMissingResourcesForRevision, revision),
+    spawn(loadMissingResourcesForRevision, revision, revision.spectrum_document),
     put(entities(revisionPayload.payload)),
     put(entities(editorialMetadataPayload.payload)),
     put(
@@ -545,6 +574,15 @@ export function* saga() {
       EDITOR_ADD_AUTHOR,
     ],
     handleEditorChange
+  );
+  yield throttle(
+    2200,
+    [
+      EDITOR_DOCUMENT_CHANGE,
+      EDITOR_CREATE_EMTPY_DOCUMENT,
+      EDITOR_LOAD_CONTENT.SUCCESS,
+    ],
+    handleLoadResourcesOnChange
   );
   yield throttle(
     2200,

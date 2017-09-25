@@ -9,6 +9,7 @@ import DebouncedAutosizeTextarea from '../components/DebouncedAutosizeTextarea';
 import DocumentTitle from '../components/DocumentTitle';
 import EditorSidebar from '../components/Editor/EditorSidebar';
 import EditorNav from '../components/Editor/EditorNav';
+import EditorComments from '../components/Editor/EditorComments';
 import * as EditorActions from '../ducks/Editor';
 import { formly, createChangeHandler } from '../libs/form';
 import LoadingContent from '../components/LoadingContent';
@@ -136,6 +137,9 @@ class EditorPage extends React.Component {
             <Route path={`${url}/preview`} component={EditorSectionPreview} />
           </Switch>
         </div>
+        {!isLocal ? (
+          <EditorComments contentId={params.id} revisionId={savedRevision.get('id')} />
+        ) : null}
       </div>
     );
   }
@@ -151,9 +155,7 @@ class EditorPage extends React.Component {
 
     return (
       <DocumentTitle title="Editor">
-        <div>
-          {editor}
-        </div>
+        <div>{editor}</div>
       </DocumentTitle>
     );
   }
@@ -170,8 +172,6 @@ EditorPage.propTypes = {
   isSaving: PropTypes.bool.isRequired,
   isLocal: PropTypes.bool.isRequired,
   hasChangesFromSaved: PropTypes.bool.isRequired,
-  router: PropTypes.object.isRequired,
-  route: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
 };
 

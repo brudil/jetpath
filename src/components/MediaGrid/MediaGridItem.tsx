@@ -3,9 +3,9 @@ import Image from '../Image';
 
 import styles from './MediaGridItem.css';
 
-
 export interface MediaObject {
   id: string,
+  mediaId: number,
   object: { width: number, height: number },
   fileType: string,
   mime: string,
@@ -15,16 +15,24 @@ export interface MediaObject {
 
 interface IProps {
   media: MediaObject,
-  onSelect: () => void
+  onSelect?: (mediaId: number) => void,
+  match?: {
+    url: string,
+  },
+  wrap?: (media: MediaObject, children: JSX.Element) => Element
 }
 
 class MediaGridItem extends React.Component<IProps, {}> {
-  handleSelect: (event: React.MouseEvent<HTMLLIElement>) => void;
+  handleSelect: () => void;
 
   constructor(props: IProps) {
     super(props);
 
-    this.handleSelect = this.props.onSelect.bind(this, this.props.media.id);
+    this.handleSelect = () => {
+      if (this.props.onSelect) {
+        this.props.onSelect(this.props.media.mediaId)
+      }
+    }
   }
 
   renderImagePreview() {
@@ -42,12 +50,23 @@ class MediaGridItem extends React.Component<IProps, {}> {
     );
   }
 
-  render() {
+  renderInner() {
     const { media } = this.props;
+
+    return (
+      <div className={styles.inner}>
+        {media.fileType === 'image'
+          ? this.renderImagePreview()
+          : this.renderPseudoPreview()}
+      </div>
+    );
+  }
+
+  render() {
+    const { media, wrap } = this.props;
     return (
       <li
         className={styles.root}
-        onClick={this.handleSelect}
         style={{
           height: '110px',
           width: `${Math.round(
@@ -55,11 +74,7 @@ class MediaGridItem extends React.Component<IProps, {}> {
           )}px`,
         }}
       >
-        <div className={styles.inner}>
-          {media.fileType === 'image'
-            ? this.renderImagePreview()
-            : this.renderPseudoPreview()}
-        </div>
+        {wrap ? wrap(media, this.renderInner()) : <div onClick={this.handleSelect}>{this.renderInner()}</div>}
       </li>
     );
   }

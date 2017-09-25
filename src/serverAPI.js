@@ -14,10 +14,13 @@ export class AuthClient {
 
     clientAuth.setToken(jwt);
 
-    return api.get('/users/me').then(data => data).catch(err => {
-      clientAuth.removeToken();
-      return err;
-    });
+    return api
+      .get('/users/me')
+      .then(data => data)
+      .catch(err => {
+        clientAuth.removeToken();
+        return err;
+      });
   }
 
   static login(username, password) {
@@ -229,9 +232,21 @@ export class MediaClient {
     return api.get(`/media/${id}`);
   }
 
+  static convertForGraphQL(obj) {
+    /* eslint-disable */
+    obj.object = obj.type_data;
+    obj.resourceName = obj.resource_name;
+
+    /* eslint-enable */
+    return obj;
+  }
+
   static getMultiple(ids) {
     return api.get('/media', { ids }).then(payload => ({
-      ...normalize(payload.data, new schema.Array(appSchema.media)),
+      ...normalize(
+        payload.data.map(MediaClient.convertForGraphQL),
+        new schema.Array(appSchema.media)
+      ),
       count: payload.data.count,
     }));
   }
@@ -259,10 +274,7 @@ export class InteractivesClient {
     const filterWithPagination = limitOffsetPagination(filter, limit);
     return api.get(`/interactives`, filterWithPagination).then(payload => ({
       payload: {
-        ...normalize(
-          payload.data,
-          new schema.Array(appSchema.interactive)
-        ),
+        ...normalize(payload.data, new schema.Array(appSchema.interactive)),
         ...standardPaginatedTreats(payload),
       },
     }));

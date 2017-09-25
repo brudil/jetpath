@@ -3,11 +3,18 @@ import { connect } from 'react-redux';
 import loadEditorPage from 'bundle-loader?name=Editor&lazy!./EditorPage';
 import loadOrganisationPage from 'bundle-loader?name=Organisation&lazy!./OrganisationPage';
 import loadMediaListPage from 'bundle-loader?name=Media&lazy!./MediaListPage';
+import loadDashboardPage from 'bundle-loader?name=Dashboard&lazy!./DashboardPage';
+import loadMediaEditPage from 'bundle-loader?name=MediaEdit&lazy!./MediaEditPage';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import { setVertical, getVerticals } from '../ducks/Vertical';
 import ContentListPage from './ContentListPage';
 
 import Bundle from '../components/Bundle';
+
+const DashboardPage = props =>
+  <Bundle load={loadDashboardPage}>
+    {DashboardPageL => <DashboardPageL {...props} />}
+  </Bundle>;
 
 const EditorPage = props =>
   <Bundle load={loadEditorPage}>
@@ -22,6 +29,11 @@ const OrganisationPage = props =>
 const MediaListPage = props =>
   <Bundle load={loadMediaListPage}>
     {MediaListPageL => <MediaListPageL {...props} />}
+  </Bundle>;
+
+const MediaEditPage = props =>
+  <Bundle load={loadMediaEditPage}>
+    {MediaEditPageL => <MediaEditPageL {...props} />}
   </Bundle>;
 
 class InnerVerticalPage extends React.Component {
@@ -61,8 +73,10 @@ class InnerVerticalPage extends React.Component {
 
     return (
       <Switch>
+        <Route path={`${url}/dashboard`} component={DashboardPage} />
         <Route path={`${url}/content`} component={ContentListPage} />
-        <Route path={`${url}/media`} component={MediaListPage} />
+        <Route path={`${url}/media`} exact component={MediaListPage} />
+        <Route path={`${url}/media/:id`} component={MediaEditPage} />
         <Route path={`${url}/organisation`} component={OrganisationPage} />
         <Route path={`${url}/editor/:id`} component={EditorPage} />
         <Redirect from={`${url}/editor`} to="editor/new" />
