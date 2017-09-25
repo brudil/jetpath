@@ -579,6 +579,7 @@ export function* saga() {
     2200,
     [
       EDITOR_DOCUMENT_CHANGE,
+      EDITOR_REVISION_CHANGE,
       EDITOR_CREATE_EMTPY_DOCUMENT,
       EDITOR_LOAD_CONTENT.SUCCESS,
     ],
