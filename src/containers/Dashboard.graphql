@@ -6,6 +6,10 @@ query DashboardQuery($vertical: String) {
       totalStubs
     }
 
+    lastPublished {
+      publishedDate
+    }
+
     recent: allContent(watching: true) {
       edges {
         node {
