@@ -136,7 +136,6 @@ const applyDocumentChange = changeset => document => {
         new fields.ElementField().toJS(changeset.element)
       );
       return document.updateIn(changeset.path, arr => {
-        console.log(arr.splice(changeset.position, 0, elementStructure));
         return arr.splice(changeset.position, 0, elementStructure);
       });
     }
@@ -180,7 +179,6 @@ function createImmutableRevision(revision) {
 export default function EditorReducer(state = initialState, action) {
   switch (action.type) {
     case EDITOR_LOAD_CONTENT.REQUEST: {
-      console.log(action);
       return state;
     }
     case EDITOR_LOAD_CONTENT.SUCCESS: {
@@ -219,7 +217,6 @@ export default function EditorReducer(state = initialState, action) {
       const subtype = action.payload.element;
       const subtypeVanilla = new fields.ElementField().toJS(subtype);
       const subtypeImmutable = Immutable.fromJS(subtypeVanilla);
-      console.log(subtype, subtypeVanilla, subtypeImmutable);
       return state.setIn(['workingDocument', 'content'], subtypeImmutable);
     case EDITOR_SAVE: {
       return state.set('isSaving', true);
@@ -234,7 +231,6 @@ export default function EditorReducer(state = initialState, action) {
       const revisionPayload = createImmutableRevision(action.revision);
       const document = revisionPayload.get('spectrum_document');
       const revision = revisionPayload.delete('spectrum_document');
-      console.log(revision.get('revision_number'));
       return state.withMutations(map =>
         map
           .set('isSaving', false)
@@ -394,8 +390,6 @@ function* handleEditorPublish() {
 }
 
 function* loadMissingResourcesForRevision(revision, spectrum_document) {
-  console.log('LOADIN MISSING: rev: ', revision);
-
   const foundResources = SpectrumDocument.fromJS(spectrum_document)
     .getElements()
     .filter(

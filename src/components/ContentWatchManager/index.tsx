@@ -1,0 +1,71 @@
+import React from 'react';
+import Button from "../Button";
+import { compose } from "recompose";
+import { graphql } from "react-apollo";
+
+import ContentWatchersQuery from './ContentWatchers.graphql';
+import WatchContentMutation from './WatchContent.graphql';
+import { connect } from "react-redux";
+
+interface ContentWatcher {
+  slient: boolean,
+  user: {
+    userId: number
+    username: string,
+  }
+}
+
+interface IProps {
+  contentId: number,
+  auth: {
+    id: number,
+  }
+  data: {
+    loading: boolean,
+    error: boolean,
+    content: {
+      editorialMetadata: {
+        watchers: Array<ContentWatcher>
+      }
+    }
+  },
+  watchContent: () => void,
+  children?: Element,
+}
+
+function ContentWatchManager(props: IProps) {
+  if (props.data.loading) {
+    return null;
+  }
+  if (props.data.error) {
+    return <div>error!</div>;
+  }
+
+  const isWatching = props.data.content.editorialMetadata.watchers.map(watcher => watcher.user.userId).indexOf(props.auth.id) >= 0;
+
+  return (
+    <div>
+      <h3>Watchers</h3>
+      <Button text={isWatching ? 'Slience' : 'Watch'} onClick={props.watchContent} />
+
+      <ul>
+        {props.data.content.editorialMetadata.watchers.map(watcher => <li key={watcher.user.userId}>{watcher.user.username}</li>)}
+      </ul>
+    </div>
+  );
+}
+
+
+export default compose(
+  connect((state: any) => ({
+    auth: state.auth.get('auth'),
+  })),
+ graphql(WatchContentMutation, { name: 'watchContent' }),
+ graphql(ContentWatchersQuery, {
+   options: (props: IProps) => ({
+     variables: {
+       contentId: props.contentId,
+     },
+   }),
+ }),
+)(ContentWatchManager);

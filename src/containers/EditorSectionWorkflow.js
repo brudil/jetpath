@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import * as EditorActions from '../ducks/Editor';
+import ContentWatchManager from '../components/ContentWatchManager';
 import { createChangeHandler } from '../libs/form';
 
 import EditorWorkflow from '../components/Editor/EditorWorkflow';
@@ -41,6 +42,7 @@ class EditorSectionMetadata extends React.Component {
           onPublish={this.handlePublish}
           editorialMetadata={editorialMetadata}
         />
+        <ContentWatchManager contentId={savedRevision.get('content')} />
       </div>
     );
   }

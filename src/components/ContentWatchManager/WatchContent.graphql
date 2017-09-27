@@ -1,0 +1,12 @@
+mutation WatchContent($contentId: Int) {
+  watchContent(contentId: $contentId) {
+    editorialMetadata {
+      watchers {
+        user {
+          id
+          username
+        }
+      }
+    }
+  }
+}
