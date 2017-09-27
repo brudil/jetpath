@@ -1,7 +1,11 @@
 import React from 'react';
 import keyBy from 'lodash/keyBy';
 import { subtypes } from '@brudil/spectrum';
-import SegmentedControl from '../SegmentedControl';
+import SegmentedControl from '../../SegmentedControl';
+
+import cogIcon from './cog.svg';
+
+import styles from './DocumentPanel.css';
 
 interface IProps {
   data: any,
@@ -50,7 +54,7 @@ class DocumentPanel extends React.Component<IProps, any> {
         </div>
       </div>
     ) : (
-      <button onClick={this.handleVisibilityToggle}>Document prefs</button>
+      <button className={styles.button} onClick={this.handleVisibilityToggle}><img src={cogIcon} alt="Document preferences" width="24" /></button>
     );
   }
 }
