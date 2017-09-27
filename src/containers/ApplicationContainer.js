@@ -16,11 +16,36 @@ const BaseContainer = props => (
 );
 
 class ApplicationContainer extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      hasError: false,
+      error: null,
+    };
+  }
+
   componentDidMount() {
     this.props.dispatch(AuthActions.restoreAuth());
   }
 
+  componentDidCatch(error, info) {
+    this.setState({ hasError: true, error: { error, info } });
+    console.log({ error, info });
+  }
+
   render() {
+    if (this.state.hasError) {
+      return (
+        <Stonewall subtitle="Huston, shit's just crashed.">
+          <p>
+            Yeah. Sorry about this! Have a gander in the console if {`you're `}
+            interested in what happened.
+          </p>
+        </Stonewall>
+      );
+    }
+
     return (
       <DocumentTitle title="Jetpath">
         <div>
