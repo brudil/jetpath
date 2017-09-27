@@ -5,7 +5,6 @@ import * as appSchema from './schema/index';
 export class NoTokenError extends Error {}
 export class AuthClient {
   static restore() {
-    console.log('restore!');
     const jwt = localStorage.getItem('auth-token');
 
     if (jwt === null) {

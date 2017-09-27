@@ -1,11 +1,16 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import Stonewall from '../../components/Stonewall';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import NotFoundPage from '../NotFoundPage';
 import LoginPage from '../LoginPage';
 
-function StonewallContainer({ match }) {
+interface IProps {
+  match: {
+    url: string,
+  },
+}
+
+function StonewallContainer({ match }: IProps) {
   return (
     <Stonewall>
       <Switch>
@@ -15,9 +20,5 @@ function StonewallContainer({ match }) {
     </Stonewall>
   );
 }
-
-StonewallContainer.propTypes = {
-  children: PropTypes.node,
-};
 
 export default withRouter(StonewallContainer);

@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -8,9 +7,23 @@ import verticalConfig from '../../verticals';
 
 import style from './style.css';
 
-class VerticalSelectionPage extends React.Component {
+interface Vertical {
+  identifier: string,
+  name: string,
+  audience: string,
+}
+
+interface IProps {
+  getVerticals: any, // TODO: i think this is technically () => void as it's being bound to dispatch
+  verticals: Array<Vertical>,
+  children?: Element,
+  context?: any
+}
+
+
+class VerticalSelectionPage extends React.Component<IProps, any> {
   componentDidMount() {
-    this.props.dispatch(VerticalActions.getVerticals());
+    this.props.getVerticals();
   }
 
   render() {
@@ -20,23 +33,21 @@ class VerticalSelectionPage extends React.Component {
         <div>
           <h1 className={style.title}>Select a vertical</h1>
           <ul className={style.list}>
-            {verticals.map(vertical =>
+            {verticals.map(vertical => (
               <li key={vertical.identifier}>
                 <Link
                   className={style.item}
-                  to={`/@${vertical.identifier}/content?order=updated_desc&state=internal&status`}
+                  to={`/@${vertical.identifier}/dashboard`}
                 >
                   <img
                     className={style.logo}
                     src={verticalConfig[vertical.identifier].logoHeader}
                     alt={vertical.name}
                   />
-                  <span className={style.audience}>
-                    {vertical.audience}
-                  </span>
+                  <span className={style.audience}>{vertical.audience}</span>
                 </Link>
               </li>
-            )}
+            ))}
           </ul>
         </div>
       </DocumentTitle>
@@ -44,12 +55,8 @@ class VerticalSelectionPage extends React.Component {
   }
 }
 
-VerticalSelectionPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-};
-
 export default connect(state => ({
-  auth: state.auth,
   verticals: state.verticals.list,
-}))(VerticalSelectionPage);
+}), {
+  getVerticals: VerticalActions.getVerticals,
+})(VerticalSelectionPage);

@@ -1,37 +1,49 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import isEqual from 'lodash/isEqual';
 import { nameToComponentMap } from '../elementsMap';
-import * as SpectrumPropTypes from '../SpectrumPropTypes';
 import ElementPanel from '../ElementPanel';
 
 import styles from './Element.css';
+import {ElementIndex, ElementPath, SingleElementData} from "../spectrumInterfaces";
 
-class Element extends React.Component {
-  constructor(props, context) {
-    super(props, context);
+interface IProps {
+  update: (key: any) => void,
+  position?: Array<any>, // todo
+  path: ElementPath,
+  isInStream: boolean,
+  index: ElementIndex,
+  data: SingleElementData,
+}
+
+interface IState {
+  show: boolean,
+}
+
+class Element extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
+    super(props);
     this.state = {
       show: false,
     };
 
-    this.handleMouseOverBound = this.handleMouseOver.bind(this);
-    this.handleMouseOutBound = this.handleMouseOut.bind(this);
+    this.handleMouseOver = this.handleMouseOver.bind(this);
+    this.handleMouseOut = this.handleMouseOut.bind(this);
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps: IProps, nextState: IState) {
     return (
       this.state.show !== nextState.show || !isEqual(this.props, nextProps)
     );
   }
 
-  handleMouseOver(e) {
+  handleMouseOver(e: React.MouseEvent<HTMLDivElement>) {
     e.stopPropagation();
     if (this.state.show !== true) {
       this.setState({ show: true });
     }
   }
 
-  handleMouseOut(e) {
+  handleMouseOut(e: React.MouseEvent<HTMLDivElement>) {
     e.stopPropagation();
     if (this.state.show !== false) {
       this.setState({ show: false });
@@ -67,11 +79,11 @@ class Element extends React.Component {
     return (
       <div
         className={styles.root}
-        onMouseOut={this.handleMouseOutBound}
-        onMouseOver={this.handleMouseOverBound}
+        onMouseOut={this.handleMouseOut}
+        onMouseOver={this.handleMouseOver}
       >
         {el}
-        <ElementPanel
+        {position ? <ElementPanel
           isHovering={this.state.show}
           update={update}
           path={elementPath}
@@ -79,27 +91,10 @@ class Element extends React.Component {
           data={element}
           streamIndex={position}
           isInStream={isInStream}
-        />
+        /> : null}
       </div>
     );
   }
 }
-
-Element.propTypes = {
-  update: PropTypes.func.isRequired,
-  data: PropTypes.oneOfType([
-    PropTypes.shape({
-      setupStructure: PropTypes.object,
-    }).isRequired,
-    PropTypes.array.isRequired,
-  ]),
-  position: PropTypes.array,
-  isInStream: PropTypes.bool,
-  index: PropTypes.oneOfType([
-    PropTypes.string.isRequired,
-    PropTypes.number.isRequired,
-  ]),
-  path: SpectrumPropTypes.elementPath.isRequired,
-};
 
 export default Element;

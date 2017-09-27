@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -9,9 +8,16 @@ import bellIcon from 'icons/bell.svg';
 
 import styles from './NotificationBell.css';
 
-class NotificationBell extends React.Component {
+interface IProps {
+  loadUnreadCount: () => any,
+  notification: {
+    unreadCount: number,
+  }
+}
+
+class NotificationBell extends React.Component<IProps> {
   componentDidMount() {
-    this.props.dispatch(loadUnreadCount());
+    this.props.loadUnreadCount();
   }
 
   render() {
@@ -28,11 +34,8 @@ class NotificationBell extends React.Component {
   }
 }
 
-NotificationBell.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  notification: PropTypes.object.isRequired,
-};
-
 export default connect(state => ({
   notification: state.notification,
-}))(NotificationBell);
+}), {
+  loadUnreadCount,
+})(NotificationBell);

@@ -1,9 +1,14 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import DumbGravatar from '../DumbGravatar';
 
-function UserAvatar(props) {
+interface IProps {
+  user: any, // todo
+  className?: string,
+  size: number,
+}
+
+function UserAvatar(props: IProps) {
   return (
     <div className={cx('user-avatar', props.className)}>
       <DumbGravatar
@@ -14,15 +19,5 @@ function UserAvatar(props) {
     </div>
   );
 }
-
-UserAvatar.propTypes = {
-  user: PropTypes.object.isRequired,
-  className: PropTypes.string,
-  size: PropTypes.number.isRequired,
-};
-
-UserAvatar.defaultProps = {
-  className: '',
-};
 
 export default UserAvatar;

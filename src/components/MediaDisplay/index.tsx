@@ -1,11 +1,15 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import Image from '../Image';
 
 import styles from './MediaDisplay.css';
 
-function MediaDisplay({ className, media }) {
+interface IProps {
+  className?: string,
+  media: any, // todo
+}
+
+function MediaDisplay({ className, media }: IProps) {
   return (
     <div className={cx(className, styles.root)}>
       {media.file_type === 'image'
@@ -16,10 +20,5 @@ function MediaDisplay({ className, media }) {
     </div>
   );
 }
-
-MediaDisplay.propTypes = {
-  className: PropTypes.string,
-  media: PropTypes.object,
-};
 
 export default MediaDisplay;

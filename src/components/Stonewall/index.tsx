@@ -1,16 +1,21 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 
+import jetpathLogo from 'logo.svg'
 import styles from './Stonewall.css';
 
-function Stonewall(props) {
+interface IProps {
+  subtitle?: string,
+  children: JSX.Element,
+}
+
+
+function Stonewall(props: IProps) {
   return (
     <div className={styles.root}>
       <h1>
         <img
           className={styles.logo}
-          // eslint-disable-next-line
-          src={require('logo.svg')}
+          src={jetpathLogo}
           role="presentation"
         />
       </h1>
@@ -23,10 +28,5 @@ function Stonewall(props) {
     </div>
   );
 }
-
-Stonewall.propTypes = {
-  subtitle: PropTypes.string,
-  children: PropTypes.node,
-};
 
 export default Stonewall;

@@ -1,9 +1,14 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import * as SpectrumPropTypes from '../SpectrumPropTypes';
 import ElementStream from '../ElementStream';
+import {ElementData, ElementPath} from "../spectrumInterfaces";
 
-function ArticleSubtype(props) {
+interface IProps {
+  update: () => void,
+  data: ElementData,
+  path: ElementPath,
+}
+
+function ArticleSubtype(props: IProps) {
   const { data, path, update } = props;
   return (
     <ElementStream
@@ -15,11 +20,5 @@ function ArticleSubtype(props) {
     />
   );
 }
-
-ArticleSubtype.propTypes = {
-  update: PropTypes.func,
-  data: PropTypes.object,
-  path: SpectrumPropTypes.elementPath.isRequired,
-};
 
 export default ArticleSubtype;

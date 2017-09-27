@@ -8,7 +8,7 @@ type controlId = string | number;
 type optionTuple = [controlId, string];
 
 function SegmentedControl(props: {
-  className: string,
+  className?: string,
   value: controlId,
   options: Array<controlId | string>,
   onChange: (id: controlId) => void

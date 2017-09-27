@@ -33,3 +33,7 @@
   width: 100%;
   margin-bottom: 1rem;
 }
+
+.audience {
+  font-style: italic;
+}

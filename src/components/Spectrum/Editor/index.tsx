@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 // Documents - a Spectrum Document
 // Sections  - top level container of elements, with optionally ridgid structure
 // Blocks    - a display format. e.g: image, text, heading
@@ -12,16 +11,25 @@ import * as EditorActions from '../../../ducks/Editor';
 
 import styles from './SpectrumEditor.css';
 
-class SpectrumEditor extends React.Component {
-  constructor(props) {
+interface IProps {
+  updateSpectrumDocument: any,
+  changeDocumentSubtype: any,
+  document: any,
+}
+
+class SpectrumEditor extends React.Component<IProps, any> {
+  private boundUpdate: (changeset: any) => void;
+  private changeDocumentSubtype: (element: any) => void;
+
+  constructor(props: IProps) {
     super(props);
 
     this.boundUpdate = changeset => {
-      this.props.dispatch(EditorActions.updateSpectrumDocument(changeset));
+      this.props.updateSpectrumDocument(changeset);
     };
 
     this.changeDocumentSubtype = element => {
-      this.props.dispatch(EditorActions.changeDocumentSubtype(element));
+      this.props.changeDocumentSubtype(element);
     };
   }
 
@@ -41,6 +49,7 @@ class SpectrumEditor extends React.Component {
               index="content"
               path={[]}
               update={this.boundUpdate}
+              isInStream={false}
             />
           : null}
       </div>
@@ -48,9 +57,8 @@ class SpectrumEditor extends React.Component {
   }
 }
 
-SpectrumEditor.propTypes = {
-  dispatch: PropTypes.func,
-  document: PropTypes.object,
-};
 
-export default connect()(SpectrumEditor);
+export default connect(null, {
+  changeDocumentSubtype: EditorActions.changeDocumentSubtype,
+  updateSpectrumDocument: EditorActions.updateSpectrumDocument,
+})(SpectrumEditor);

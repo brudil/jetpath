@@ -24,7 +24,7 @@ class SectionSelector extends React.Component<IProps, {}> {
       label: section.title,
     })) as any;
     return (
-      <Select isLoading={isLoading} options={sectionOptions} />
+      <Select isLoading={isLoading} options={sectionOptions} {...this.props} />
     );
   }
 }

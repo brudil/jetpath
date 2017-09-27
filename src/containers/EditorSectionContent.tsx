@@ -1,9 +1,12 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import SpectrumEditor from '../components/Spectrum/Editor';
 
-class EditorSectionContent extends React.Component {
+interface IProps {
+  workingDocument: any // todo
+}
+
+class EditorSectionContent extends React.Component<IProps> {
   render() {
     const { workingDocument } = this.props;
     return (
@@ -13,10 +16,6 @@ class EditorSectionContent extends React.Component {
     );
   }
 }
-
-EditorSectionContent.propTypes = {
-  workingDocument: PropTypes.object,
-};
 
 export default connect(state => ({
   workingDocument: state.editor.get('workingDocument'),

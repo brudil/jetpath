@@ -1,20 +1,24 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import * as AuthActions from '../../ducks/Auth';
 
 import styles from './UserMenu.css';
 
-class UserMenu extends React.Component {
-  constructor(props) {
+interface IProps {
+  logout: () => any,
+  auth: any, // todo
+}
+
+class UserMenu extends React.Component<IProps> {
+  constructor(props: IProps) {
     super(props);
 
     this.handleLogout = this.handleLogout.bind(this);
   }
 
-  handleLogout(e) {
+  handleLogout(e: React.MouseEvent<HTMLAnchorElement>) {
     e.preventDefault();
-    this.props.dispatch(AuthActions.logout());
+    this.props.logout();
   }
 
   render() {
@@ -42,11 +46,8 @@ class UserMenu extends React.Component {
   }
 }
 
-UserMenu.propTypes = {
-  auth: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired,
-};
-
 export default connect(state => ({
   auth: state.auth,
-}))(UserMenu);
+}), {
+  logout: AuthActions.logout
+})(UserMenu);

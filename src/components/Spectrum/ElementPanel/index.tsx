@@ -1,12 +1,26 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import * as SpectrumPropTypes from '../SpectrumPropTypes';
 
 import styles from './ElementPanel.css';
+import {ElementPath} from '../spectrumInterfaces';
 
-class ElementPanel extends React.Component {
-  constructor(props) {
+interface IProps {
+  update: (options: { command: string, path: ElementPath, value?: any, position?: number }) => void,
+  streamIndex: Array<any>, // todo: fix
+  path: ElementPath,
+  data: any, // todo: fix
+  customElementPanel: any, // todo: search for react component type
+  isHovering: boolean,
+  isInStream: boolean,
+}
+
+interface IState {
+  isOpen: boolean,
+  shownDeleteConfirm: boolean,
+}
+
+class ElementPanel extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
 
     this.state = {
@@ -14,11 +28,11 @@ class ElementPanel extends React.Component {
       shownDeleteConfirm: false,
     };
 
-    this.handleClickOutsideBound = this.handleClickOutside.bind(this);
-    this.handlePrefsOpenBound = this.handlePrefsOpen.bind(this);
-    this.handleUpBound = this.handleUp.bind(this);
-    this.handleDownBound = this.handleDown.bind(this);
-    this.handleRemoveBound = this.handleRemove.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+    this.handlePrefsOpen = this.handlePrefsOpen.bind(this);
+    this.handleUp = this.handleUp.bind(this);
+    this.handleDown = this.handleDown.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
   }
 
   handleClickOutside() {
@@ -52,10 +66,9 @@ class ElementPanel extends React.Component {
       <li
         className={styles.item}
         title="Remove"
-        onClick={this.handleRemoveBound}
+        onClick={this.handleRemove}
       >
         <img
-          // eslint-disable-next-line
           src={require(`icons/cross${this.state.shownDeleteConfirm ? '-danger' : ''}.svg`)}
           alt="Remove element"
         />
@@ -67,7 +80,7 @@ class ElementPanel extends React.Component {
     const showDown =
       this.props.isInStream &&
       this.props.streamIndex[0] < this.props.streamIndex[1] - 1;
-    const showUp = this.props.isInStream && !this.props.streamIndex[0] < 1;
+    const showUp = this.props.isInStream && !(this.props.streamIndex[0] < 1);
     const showPrefs = this.props.customElementPanel;
     const showRemove = this.props.isInStream;
 
@@ -77,10 +90,9 @@ class ElementPanel extends React.Component {
           ? <li
               className={styles.item}
               title="Open Preferences"
-              onClick={this.handlePrefsOpenBound}
+              onClick={this.handlePrefsOpen}
             >
               <img
-                // eslint-disable-next-line
               src={require('icons/vertical-elip.svg')}
                 alt="Open preferences"
               />
@@ -90,10 +102,9 @@ class ElementPanel extends React.Component {
           ? <li
               className={styles.item}
               title="Move Up"
-              onClick={this.handleUpBound}
+              onClick={this.handleUp}
             >
               <img
-              // eslint-disable-next-line
               src={require('icons/up-caret.svg')}
                 alt="Move element up"
               />
@@ -103,11 +114,10 @@ class ElementPanel extends React.Component {
           ? <li
               className={styles.item}
               title="Move up"
-              onClick={this.handleDownBound}
+              onClick={this.handleDown}
             >
               <img
-                // eslint-disable-next-line
-              src={require('icons/down-caret.svg')}
+                src={require('icons/down-caret.svg')}
                 alt="Move element down"
               />
             </li>
@@ -141,15 +151,5 @@ class ElementPanel extends React.Component {
     );
   }
 }
-
-ElementPanel.propTypes = {
-  update: PropTypes.func,
-  streamIndex: PropTypes.array,
-  path: SpectrumPropTypes.elementPath.isRequired,
-  data: PropTypes.object,
-  customElementPanel: PropTypes.element,
-  isHovering: PropTypes.bool,
-  isInStream: PropTypes.bool,
-};
 
 export default ElementPanel;

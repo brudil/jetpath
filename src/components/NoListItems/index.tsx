@@ -1,9 +1,12 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import styles from './NoListItems.css';
 
-function NoListItems(props) {
+interface IProps {
+  text: string,
+}
+
+function NoListItems(props: IProps) {
   return (
     <div className={styles.root}>
       <span className={styles.sad}>:(</span>
@@ -13,9 +16,4 @@ function NoListItems(props) {
     </div>
   );
 }
-
-NoListItems.propTypes = {
-  text: PropTypes.string.isRequired,
-};
-
 export default NoListItems;

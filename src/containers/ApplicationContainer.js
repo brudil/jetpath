@@ -9,10 +9,11 @@ import * as AuthActions from '../ducks/Auth';
 import StonewallContainer from './StonewallContainer';
 import Bundle from '../components/Bundle';
 
-const BaseContainer = props =>
+const BaseContainer = props => (
   <Bundle load={loadBaseContainer}>
     {BaseContainerL => <BaseContainerL {...props} />}
-  </Bundle>;
+  </Bundle>
+);
 
 class ApplicationContainer extends React.Component {
   componentDidMount() {
@@ -23,12 +24,14 @@ class ApplicationContainer extends React.Component {
     return (
       <DocumentTitle title="Jetpath">
         <div>
-          {this.props.auth.get('attempted')
-            ? <Switch>
-                <Route path="/auth" component={StonewallContainer} />
-                <Route path="/" component={BaseContainer} />
-              </Switch>
-            : <Stonewall subtitle="Loading" />}
+          {this.props.auth.get('attempted') ? (
+            <Switch>
+              <Route path="/auth" component={StonewallContainer} />
+              <Route path="/" component={BaseContainer} />
+            </Switch>
+          ) : (
+            <Stonewall subtitle="Loading" />
+          )}
         </div>
       </DocumentTitle>
     );
