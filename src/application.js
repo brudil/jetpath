@@ -77,4 +77,5 @@ try {
   });
 } catch (e) {
   console.warn('[webfonts] failed to load');
+  renderApp();
 }
