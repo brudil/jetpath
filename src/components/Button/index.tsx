@@ -6,14 +6,14 @@ import styles from './Button.css';
 function Button(props: {
   text: string,
   className?: string,
-  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void,
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,
   disabled?: boolean,
+  type?: string,
 }) {
   return (
     <button
       className={styles.button}
       {...omit(props, ['text', 'className'])}
-      onClick={props.onClick}
     >
       {props.text}
     </button>
