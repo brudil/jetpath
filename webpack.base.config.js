@@ -24,16 +24,6 @@ module.exports = {
   target: 'web',
 
   entry: {
-    vendor: [
-      'react',
-      'react-dom',
-      'react-router',
-      'react-router-dom',
-      'redux',
-      'redux-saga',
-      'immutable',
-      'react-redux-form',
-    ],
     main: ['./src/application.js'],
   },
 
@@ -60,7 +50,6 @@ module.exports = {
       __PRODUCTION__: env.production,
       __CURRENT_ENV__: `\\${NODE_ENV}\\`,
     }),
-    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
     new HtmlWebpackPlugin({
       title: 'Loading - Jetpath',
       template: './src/entry.ejs',
@@ -71,10 +60,6 @@ module.exports = {
       template: './src/entry.ejs',
       inject: false,
       filename: '200.html',
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChunks: Infinity,
     }),
     new webpack.IgnorePlugin(/unicode\/category\/So/),
 
@@ -122,7 +107,5 @@ module.exports = {
       },
       { test: /\.svg$/, loader: 'file-loader' },
     ],
-
-    noParse: /\.min\.js/,
   },
 };
