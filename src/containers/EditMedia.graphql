@@ -1,0 +1,9 @@
+mutation EditMedia($mediaId: Int, $creditTitle: String, $creditUrl: String) {
+  editMedia(mediaId: $mediaId, creditTitle: $creditTitle, creditUrl: $creditUrl) {
+    media {
+      id
+      creditTitle
+      creditUrl
+    }
+  }
+}

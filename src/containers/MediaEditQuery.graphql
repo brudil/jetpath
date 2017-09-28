@@ -1,0 +1,18 @@
+query MediaEdit($mediaId: Int) {
+  media(mediaId: $mediaId) {
+    id
+    mediaId
+    creditTitle
+    creditUrl
+    resourceName
+    fileType
+    mime
+    object {
+      __typename
+      ...on MultimediaImage {
+        width
+        height
+      }
+    }
+  }
+}

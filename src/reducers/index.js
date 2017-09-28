@@ -22,6 +22,7 @@ export function entities(
 
   return state;
 }
+export { reducer as form } from 'redux-form';
 
 export { default as contentList } from '../ducks/ContentList';
 export { default as mediaList } from '../ducks/MediaList';

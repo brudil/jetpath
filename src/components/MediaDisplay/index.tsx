@@ -12,7 +12,7 @@ interface IProps {
 function MediaDisplay({ className, media }: IProps) {
   return (
     <div className={cx(className, styles.root)}>
-      {media.file_type === 'image'
+      {media.file_type === 'image' || media.fileType === 'image'
         ? <div className={styles.image}>
             <Image image={media} />
           </div>

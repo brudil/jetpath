@@ -1,14 +1,6 @@
 const webpack = require('webpack');
 const config = require('./webpack.base.config.js');
 
-if (process.env.NODE_ENV !== 'test') {
-  config.entry.vendor = [
-    'webpack-dev-server/client?http://localhost:8080',
-    'webpack/hot/only-dev-server',
-    ...config.entry.vendor,
-  ];
-}
-
 config.devServer = {
   historyApiFallback: true,
 };
