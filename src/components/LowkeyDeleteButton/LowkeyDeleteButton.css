@@ -1,0 +1,17 @@
+.root {
+
+}
+
+.textButton {
+  color: var(--color__grey);
+  font-size: 0.8rem;
+  text-decoration: underline;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.popover {
+  box-shadow: 0 1px 4px rgba(30, 30, 30, 0.1);
+  padding: 0.5rem;
+}

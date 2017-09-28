@@ -90,18 +90,6 @@ textarea {
   border-radius: 2px;
   box-sizing: border-box;
 
-  &.danger {
-    background-color: var(--color__danger);
-
-    &:hover {
-      background-color: var(--color__danger--hover);
-    }
-
-    &:active {
-      background-color: var(--color__danger--active);
-    }
-  }
-
   &:hover {
     background-color: desaturate(var(--color__accent, 10%));
   }

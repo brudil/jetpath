@@ -1,6 +1,7 @@
 query MediaEdit($mediaId: Int) {
   media(mediaId: $mediaId) {
     id
+    deleted
     mediaId
     creditTitle
     creditUrl

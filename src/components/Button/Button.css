@@ -17,3 +17,15 @@
     background-color: var(--color__dull-grey);
   }
 }
+
+.buttonDanger {
+  background-color: var(--color__danger);
+
+  &:hover {
+    background-color: var(--color__danger--hover);
+  }
+
+  &:active {
+    background-color: var(--color__danger--active);
+  }
+}

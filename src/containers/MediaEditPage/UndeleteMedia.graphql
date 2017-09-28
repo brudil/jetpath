@@ -1,0 +1,8 @@
+mutation UndeleteMedia($mediaId: Int) {
+  undeleteMedia(mediaId: $mediaId) {
+    media {
+      id
+      deleted
+    }
+  }
+}
