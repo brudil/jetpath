@@ -17,6 +17,10 @@ query DashboardQuery($vertical: String) {
           editorialMetadata {
             currentRevision {
               headline
+              created
+              createdBy {
+                username
+              }
             }
           }
         }

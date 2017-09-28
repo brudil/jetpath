@@ -20,7 +20,11 @@ interface Content {
   contentId: number,
   editorialMetadata: {
     currentRevision: {
-      headline: string
+      headline: string,
+      created: string,
+      createdBy: {
+        username: string,
+      } | null
     }
   }
 }
@@ -85,7 +89,14 @@ class DashboardPage extends React.Component<IProps, {}> {
             >Start new</Link></h2>
           </div>
           <ul style={{ display: 'flex', flexWrap: 'wrap' }}>
-            {recentEdges.map((edge: { node: Content }) => <ContentCard key={edge.node.contentId} headline={edge.node.editorialMetadata.currentRevision.headline} link={`/@${vertical.identifier}/editor/${edge.node.contentId}`} />)}
+            {recentEdges.map((edge: { node: Content }) => (
+              <ContentCard
+                key={edge.node.contentId}
+                headline={edge.node.editorialMetadata.currentRevision.headline}
+                link={`/@${vertical.identifier}/editor/${edge.node.contentId}`}
+                currentRevision={edge.node.editorialMetadata.currentRevision}
+              />
+            ))}
           </ul>
         </div>
         </ViewContainer>

@@ -1,3 +1,5 @@
+@import '../../styles/core/colors.css';
+
 .root {
   padding: 0.4rem;
   box-shadow: 0 1px 3px rgba(40, 40, 40, 0.15);
@@ -6,4 +8,19 @@
   position: relative;
   margin-right: 1rem;
   margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.headline {
+  font-size: 1.3rem;
+  font-family: 'pragmatica-web-condensed', sans-serif;
+  font-weight: normal;
+}
+
+.meta {
+  margin-top: auto;
+  padding-top: 1rem;
+  font-size: 0.8rem;
+  color: var(--color__perfect-grey);
 }
