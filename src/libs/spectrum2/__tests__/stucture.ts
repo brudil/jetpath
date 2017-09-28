@@ -1,8 +1,12 @@
-import { createField } from '../helpers';
 
-it('creates field', () => {
-  const field = createField('text', {}, {});
-  expect(field).toEqual({
-    identifier: 'text',
+import { produceImmutableNode, serialiseDocument } from '../helpers';
+import { HeadingBlock } from "../structure";
+
+it('creates HeadingBlock', () => {
+  const headingBlockNode = produceImmutableNode(HeadingBlock);
+  console.log(headingBlockNode);
+  const asJS = headingBlockNode.toJS();
+  expect(asJS).toEqual({
+    identifier: 'heading',
   });
 });
