@@ -117,7 +117,7 @@ class EditorPage extends React.Component {
     const { url, params } = this.props.match;
 
     return (
-      <div>
+      <div style={{ paddingTop: '40px' }}>
         <EditorNav
           headline={workingRevision.get('headline')}
           isLocal={isLocal}

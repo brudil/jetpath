@@ -6,6 +6,11 @@ import JetpathLogo from '../JetpathLogo';
 import UserMenu from '../../components/UserMenu';
 import verticals from '../../verticals';
 
+import contentIcon from './content.svg';
+import dashboardIcon from './dashboard.svg';
+import mediaIcon from './media.svg';
+import organisationIcon from './organisation.svg';
+
 import * as styles from './GlobalHeader.css';
 
 const style = styles as any;
@@ -25,9 +30,9 @@ function GlobalHeader(props: { vertical: { identifier: string, name: string } | 
       <header className={styles.header}>
         <h1 className={styles.logoHeading}>
           {vertical ? (
-            <Link to="/">
-              <JetpathLogo />
-              <span className={styles.verticalJoiner}>+</span>
+            <Link to={verticalLinkTo(
+              'dashboard'
+            )}>
               <img
                 className={styles.verticalLogo}
                 src={verticals[vertical.identifier].logoHeader}
@@ -43,32 +48,32 @@ function GlobalHeader(props: { vertical: { identifier: string, name: string } | 
         {vertical ? (
           <menu className={styles.menu}>
             <ul>
-              <li className={styles.menuItem}>
+              <li className={styles.menuItem} title="Dashboard">
                 <Link
                   to={verticalLinkTo(
                     'dashboard'
                   )}
                 >
-                  <span>Dashboard</span>
+                  <img src={dashboardIcon} />
                 </Link>
               </li>
-              <li className={styles.menuItem}>
+              <li className={styles.menuItem} title="Content">
                 <Link
                   to={verticalLinkTo(
                     'content?order=updated_desc&state=internal&status'
                   )}
                 >
-                  <span>Content</span>
+                  <img src={contentIcon} />
                 </Link>
               </li>
-              <li className={styles.menuItem}>
+              <li className={styles.menuItem} title="Media">
                 <Link to={verticalLinkTo('media')}>
-                  <span>Media</span>
+                  <img src={mediaIcon} />
                 </Link>
               </li>
-              <li className={styles.menuItem}>
+              <li className={styles.menuItem} title="Organisation">
                 <Link to={verticalLinkTo('organisation')}>
-                  <span>Organisation</span>
+                  <img src={organisationIcon} />
                 </Link>
               </li>
             </ul>
@@ -77,18 +82,12 @@ function GlobalHeader(props: { vertical: { identifier: string, name: string } | 
       </header>
       <footer className={styles.footer}>
         <UserMenu />
-        <div className={styles.credits}>
-          <p>v7.0</p>
-          <p>bland</p>
-        </div>
-        <a href="http://draftymedia.com" className="awesomes-logo">
-          <img
-            className={styles.dmLogo}
-            src={require('drafty-logo.svg')}
-            title="We are, we really are."
-            alt="Drafty Media"
-          />
-        </a>
+        <Link className={styles.credits} to="/verticals">
+          <JetpathLogo />
+          <div>
+            <p>v8.0</p>
+          </div>
+        </Link>
       </footer>
     </div>
   );

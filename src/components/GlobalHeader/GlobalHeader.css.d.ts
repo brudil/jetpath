@@ -1,6 +1,6 @@
 export const root: string;
 export const vertical_thepratex: string;
-export const vertical_thedrab: string;
+export const vertical_thedrabx: string;
 export const logoHeading: string;
 export const menu: string;
 export const menuItem: string;

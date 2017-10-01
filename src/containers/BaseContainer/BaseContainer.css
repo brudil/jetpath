@@ -4,4 +4,10 @@
   background-color: var(--color__background);
   box-sizing: border-box;
   position: relative;
+  box-shadow: -2px 0 16px rgba(60, 60, 60, .15);
+  min-height: 100vh;
+
+  @media (min-width: 960px) {
+    margin-left: 68px;
+  }
 }

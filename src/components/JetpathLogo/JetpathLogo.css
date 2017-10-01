@@ -5,6 +5,11 @@
   display: block;
   float: left;
 
+  @media (min-width: 960px) {
+    margin: 0 auto;
+    float: none;
+  }
+
   &:hover {
     transform: scale(1.05);
     opacity: 0.8;

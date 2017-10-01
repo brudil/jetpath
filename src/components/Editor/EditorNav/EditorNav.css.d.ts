@@ -9,3 +9,4 @@ export const saveButton: string;
 export const list: string;
 export const listItem: string;
 export const listItemLink: string;
+export const listItemLink_active: string;

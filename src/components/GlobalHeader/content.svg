@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100pt" height="100pt" version="1.1" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+ <g>
+  <path d="m30 10h60v10h-60z"/>
+  <path d="m30 30h60v10h-60z"/>
+  <path d="m30 50h60v10h-60z"/>
+  <path d="m30 70h60v10h-60z"/>
+  <path d="m10 10h10v10h-10z"/>
+  <path d="m10 30h10v10h-10z"/>
+  <path d="m10 50h10v10h-10z"/>
+  <path d="m10 70h10v10h-10z"/>
+ </g>
+</svg>

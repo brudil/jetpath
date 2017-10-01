@@ -32,11 +32,6 @@ class UserMenu extends React.Component<IProps> {
           <a href="profile">{this.props.auth.get('auth').username}</a>{' '}
         </span>
         <span>
-          <a href="/logout" target="_self">
-            settings
-          </a>{' '}
-        </span>
-        <span>
           <a onClick={this.handleLogout} href="/logout" target="_self">
             logout
           </a>
