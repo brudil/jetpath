@@ -210,6 +210,7 @@ export default function EditorReducer(state = initialState, action) {
           .set('savedRevision', revision)
           .set('remoteId', action.contentId)
           .set('isLocal', false)
+          .set('hints', new EditorHints())
       );
     }
     case EDITOR_CREATE_EMTPY_DOCUMENT: {
@@ -224,6 +225,7 @@ export default function EditorReducer(state = initialState, action) {
           .set('savedRevision', revision)
           .set('isLocal', true)
           .set('remoteId', null)
+          .set('hints', new EditorHints())
       );
     }
     case EDITOR_CHANGE_SUBTYPE:
