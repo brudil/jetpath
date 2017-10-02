@@ -138,7 +138,10 @@ class EditorPage extends React.Component {
           </Switch>
         </div>
         {!isLocal ? (
-          <EditorComments contentId={params.id} revisionId={savedRevision.get('id')} />
+          <EditorComments
+            contentId={params.id}
+            revisionId={savedRevision.get('id')}
+          />
         ) : null}
       </div>
     );
@@ -147,7 +150,11 @@ class EditorPage extends React.Component {
   render() {
     let editor;
 
-    if (this.props.workingDocument === null) {
+    if (
+      this.props.workingDocument === null ||
+      (!this.props.isLocal &&
+        this.props.contentId !== parseInt(this.props.match.params.id))
+    ) {
       editor = <LoadingContent />;
     } else {
       editor = this.renderEditor();
