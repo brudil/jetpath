@@ -4,7 +4,6 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext as dragDropContext } from 'react-dnd';
 import { connect } from 'react-redux';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
-import { StickyContainer } from 'react-sticky';
 import GlobalHeader from '../../components/GlobalHeader';
 import Toasts from '../../components/Toasts';
 
@@ -44,26 +43,24 @@ class BaseContainer extends React.Component {
 
     return (
       <div>
-        <StickyContainer>
-          <GlobalHeader />
-          <div className={styles.rootSectionWrapper}>
-            <div className={styles.rootSection}>
-              <Switch>
-                <Route
-                  path={`${url}verticals`}
-                  component={VerticalSelectionPage}
-                />
-                <Route
-                  path={`${url}@:vertical`}
-                  component={InnerVerticalPage}
-                />
-                <Redirect from="/" to="verticals" />
-                <Route path="*" component={NotFoundPage} />
-              </Switch>
-              <Toasts />
-            </div>
+        <GlobalHeader />
+        <div className={styles.rootSectionWrapper}>
+          <div className={styles.rootSection}>
+            <Switch>
+              <Route
+                path={`${url}verticals`}
+                component={VerticalSelectionPage}
+              />
+              <Route
+                path={`${url}@:vertical`}
+                component={InnerVerticalPage}
+              />
+              <Redirect from="/" to="verticals" />
+              <Route path="*" component={NotFoundPage} />
+            </Switch>
+            <Toasts />
           </div>
-        </StickyContainer>
+        </div>
       </div>
     );
   }
