@@ -9,6 +9,7 @@ import DashboardQuery from './Dashboard.graphql';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ContentCard from '../components/ContentCard/index';
+import LoadingContent from "../components/LoadingContent/index";
 
 interface PageProps {
   vertical: {
@@ -56,14 +57,16 @@ interface IProps {
 
 // eslint-disable-next-line react/prefer-stateless-function
 class DashboardPage extends React.Component<IProps, {}> {
-  render() {
+
+  renderContent() {
     if (this.props.data.loading) {
-      return <h1>Loading</h1>
+      return <LoadingContent />
     }
 
     if (this.props.data.error) {
       return <h1>error</h1>
     }
+
     const { vertical } = this.props;
     const recentEdges = this.props.data.vertical.recent.edges;
     const { lastPublished, contentStats } = this.props.data.vertical;
@@ -72,33 +75,43 @@ class DashboardPage extends React.Component<IProps, {}> {
     return (
       <DocumentTitle title="Dashboard">
         <ViewContainer>
-        <div>
-          <h1>Hey, {this.props.auth.getIn(['auth', 'username'])}!</h1>
           <div>
-            <ul>
-              {lastPublished ? <li>{differenceInDays(new Date(), new Date(lastPublished.publishedDate))} days since last publish</li> : <li>Go publish something!</li>}
-              <li>{totalFinal} ready</li>
-              <li>{totalStubs} stubs</li>
-              <li>{totalDrafts} drafting</li>
+            <h1>Hey, {this.props.auth.getIn(['auth', 'username'])}!</h1>
+            <div>
+              <ul>
+                {lastPublished ? <li>{differenceInDays(new Date(), new Date(lastPublished.publishedDate))} days since last publish</li> : <li>Go publish something!</li>}
+                <li>{totalFinal} ready</li>
+                <li>{totalStubs} stubs</li>
+                <li>{totalDrafts} drafting</li>
+              </ul>
+            </div>
+            <div>
+              <h2>Pick up where you left off or <Link
+                to={`/@${vertical.identifier}/editor/new`}
+                className="Button"
+              >Start new</Link></h2>
+            </div>
+            <ul style={{ display: 'flex', flexWrap: 'wrap' }}>
+              {recentEdges.map((edge: { node: Content }) => (
+                <ContentCard
+                  key={edge.node.contentId}
+                  headline={edge.node.editorialMetadata.currentRevision.headline}
+                  link={`/@${vertical.identifier}/editor/${edge.node.contentId}`}
+                  currentRevision={edge.node.editorialMetadata.currentRevision}
+                />
+              ))}
             </ul>
           </div>
-          <div>
-            <h2>Pick up where you left off or <Link
-              to={`/@${vertical.identifier}/editor/new`}
-              className="Button"
-            >Start new</Link></h2>
-          </div>
-          <ul style={{ display: 'flex', flexWrap: 'wrap' }}>
-            {recentEdges.map((edge: { node: Content }) => (
-              <ContentCard
-                key={edge.node.contentId}
-                headline={edge.node.editorialMetadata.currentRevision.headline}
-                link={`/@${vertical.identifier}/editor/${edge.node.contentId}`}
-                currentRevision={edge.node.editorialMetadata.currentRevision}
-              />
-            ))}
-          </ul>
-        </div>
+        </ViewContainer>
+      </DocumentTitle>
+    );
+  }
+
+  render() {
+    return (
+      <DocumentTitle title="Dashboard">
+        <ViewContainer>
+          {this.renderContent()}
         </ViewContainer>
       </DocumentTitle>
     );
