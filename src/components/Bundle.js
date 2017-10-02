@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import LoadingContent from './LoadingContent';
 
 class Bundle extends Component {
   state = {
@@ -28,7 +29,11 @@ class Bundle extends Component {
   }
 
   render() {
-    return this.state.mod ? this.props.children(this.state.mod) : null;
+    return this.state.mod ? (
+      this.props.children(this.state.mod)
+    ) : (
+      <LoadingContent />
+    );
   }
 }
 

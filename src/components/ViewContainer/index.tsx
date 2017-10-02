@@ -3,7 +3,7 @@ import React from 'react';
 import styles from './ViewContainer.css';
 
 interface IProps {
-  children: JSX.Element | Array<JSX.Element>,
+  children: JSX.Element | Array<JSX.Element | null>,
 }
 
 function ViewContainer(props: IProps) {

@@ -56,10 +56,14 @@ class InnerVerticalPage extends React.Component {
   }
 
   render() {
-    const selectedVertical = this.props.verticals.selectedVertical;
+    const { selectedVertical, isLoading } = this.props.verticals;
     const { url } = this.props.match;
 
     if (!selectedVertical) {
+      if (isLoading) {
+        return null;
+      }
+
       return (
         <h1>
           {"This vertical doesn't exist, or you don't have access to it."}

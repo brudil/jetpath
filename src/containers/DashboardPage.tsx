@@ -9,7 +9,6 @@ import DashboardQuery from './Dashboard.graphql';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import ContentCard from '../components/ContentCard/index';
-import LoadingContent from "../components/LoadingContent/index";
 
 interface PageProps {
   vertical: {
@@ -60,7 +59,7 @@ class DashboardPage extends React.Component<IProps, {}> {
 
   renderContent() {
     if (this.props.data.loading) {
-      return <LoadingContent />
+      return null;
     }
 
     if (this.props.data.error) {
@@ -73,37 +72,32 @@ class DashboardPage extends React.Component<IProps, {}> {
     const { totalDrafts, totalFinal, totalStubs } = contentStats;
 
     return (
-      <DocumentTitle title="Dashboard">
-        <ViewContainer>
+      <div>
           <div>
-            <h1>Hey, {this.props.auth.getIn(['auth', 'username'])}!</h1>
-            <div>
-              <ul>
-                {lastPublished ? <li>{differenceInDays(new Date(), new Date(lastPublished.publishedDate))} days since last publish</li> : <li>Go publish something!</li>}
-                <li>{totalFinal} ready</li>
-                <li>{totalStubs} stubs</li>
-                <li>{totalDrafts} drafting</li>
-              </ul>
-            </div>
-            <div>
-              <h2>Pick up where you left off or <Link
-                to={`/@${vertical.identifier}/editor/new`}
-                className="Button"
-              >Start new</Link></h2>
-            </div>
-            <ul style={{ display: 'flex', flexWrap: 'wrap' }}>
-              {recentEdges.map((edge: { node: Content }) => (
-                <ContentCard
-                  key={edge.node.contentId}
-                  headline={edge.node.editorialMetadata.currentRevision.headline}
-                  link={`/@${vertical.identifier}/editor/${edge.node.contentId}`}
-                  currentRevision={edge.node.editorialMetadata.currentRevision}
-                />
-              ))}
-            </ul>
-          </div>
-        </ViewContainer>
-      </DocumentTitle>
+          <ul>
+            {lastPublished ? <li>{differenceInDays(new Date(), new Date(lastPublished.publishedDate))} days since last publish</li> : <li>Go publish something!</li>}
+            <li>{totalFinal} ready</li>
+            <li>{totalStubs} stubs</li>
+            <li>{totalDrafts} drafting</li>
+          </ul>
+        </div>
+        <div>
+          <h2>Pick up where you left off or <Link
+            to={`/@${vertical.identifier}/editor/new`}
+            className="Button"
+          >Start new</Link></h2>
+        </div>
+        <ul style={{ display: 'flex', flexWrap: 'wrap' }}>
+          {recentEdges.map((edge: { node: Content }) => (
+            <ContentCard
+              key={edge.node.contentId}
+              headline={edge.node.editorialMetadata.currentRevision.headline}
+              link={`/@${vertical.identifier}/editor/${edge.node.contentId}`}
+              currentRevision={edge.node.editorialMetadata.currentRevision}
+            />
+          ))}
+        </ul>
+      </div>
     );
   }
 
@@ -111,6 +105,7 @@ class DashboardPage extends React.Component<IProps, {}> {
     return (
       <DocumentTitle title="Dashboard">
         <ViewContainer>
+          <h1>Hey, {this.props.auth.getIn(['auth', 'username'])}!</h1>
           {this.renderContent()}
         </ViewContainer>
       </DocumentTitle>
