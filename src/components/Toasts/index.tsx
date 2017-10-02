@@ -4,11 +4,15 @@ import Toast from './Toast';
 import { removeToast, Toast as ToastObject } from '../../ducks/Toast';
 
 import styles from './ToastList.css';
+import {bindActionCreators} from "redux";
 
-function ToastList(props: {
+interface IProps {
   toastList: Array<ToastObject>,
-  removeToast: (id: number) => Object
-}) {
+  removeToast: (id: number) => Object,
+  dispatch: (action: Object) => void
+}
+
+function ToastList(props: IProps) {
   const handleRemove = (id: number) => props.removeToast(id);
 
   return (
@@ -20,6 +24,8 @@ function ToastList(props: {
           title={toast.get('title')}
           message={toast.get('message')}
           preset={toast.get('preset')}
+          actions={toast.get('actions')}
+          dispatch={props.dispatch}
           onRemove={handleRemove}
         />
       )}
@@ -29,6 +35,7 @@ function ToastList(props: {
 
 export default connect(state => ({
   toastList: state.toasts.get('toastList'),
-}), {
-  removeToast,
-})(ToastList);
+} as any), (dispatch) => ({
+  ...bindActionCreators({ removeToast }, dispatch),
+  dispatch
+}))(ToastList);

@@ -75,13 +75,7 @@ function EditorWorkflow(props) {
       const issues = getIssuesForRevision(workingRevision);
       return (
         <div>
-          <ul>
-            {issues.map(issue =>
-              <li>
-                {issue}
-              </li>
-            )}
-          </ul>
+          <ul>{issues.map(issue => <li>{issue}</li>)}</ul>
           <Button
             text="Move to final"
             disabled={issues.length > 0}
@@ -96,11 +90,12 @@ function EditorWorkflow(props) {
       const publishedWasUpdated =
         editorialMetadata.get('published_date') !==
         editorialMetadata.get('published_updated_date');
-      const renderPublishedData = () =>
+      const renderPublishedData = () => (
         <div>
           #{publishedRevision.get('revision_number')}
           <em>
-            {' '}({revisionNumberDifference > 0
+            {' '}
+            ({revisionNumberDifference > 0
               ? `${revisionNumberDifference} behind`
               : 'latest'})
           </em>
@@ -108,22 +103,23 @@ function EditorWorkflow(props) {
             Published:{' '}
             <SmartDate value={editorialMetadata.get('published_date')} />
           </div>
-          {publishedWasUpdated
-            ? <div>
-                Updated:{' '}
-                <SmartDate
-                  value={editorialMetadata.get('published_updated_date')}
-                />
-              </div>
-            : null}
-        </div>;
+          {publishedWasUpdated ? (
+            <div>
+              Updated:{' '}
+              <SmartDate
+                value={editorialMetadata.get('published_updated_date')}
+              />
+            </div>
+          ) : null}
+        </div>
+      );
 
       return (
         <div>
           {isPublished ? renderPublishedData() : null}
-          {revisionNumberDifference > 0 || !isPublished
-            ? <Button text="Publish" onClick={onPublish} />
-            : null}
+          {revisionNumberDifference > 0 || !isPublished ? (
+            <Button text="Publish" onClick={onPublish} />
+          ) : null}
         </div>
       );
     }
@@ -142,11 +138,11 @@ function EditorWorkflow(props) {
         >
           Now
         </h4>
-        {hasChangesFromSaved
-          ? <p>Unsaved changes!</p>
-          : <p>
-              Saved as revision #{savedRevision.get('revision_number')}
-            </p>}
+        {hasChangesFromSaved ? (
+          <p>Unsaved changes!</p>
+        ) : (
+          <p>Saved as revision #{savedRevision.get('revision_number')}</p>
+        )}
       </div>
       <div
         className={cx(styles.section, {

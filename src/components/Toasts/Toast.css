@@ -1,11 +1,16 @@
+@import '../../styles/core/colors.css';
+
 .root {
   border: 1px solid #dedede;
   background-color: #ffffff;
   color: #3e3e3e;
-  padding: 0.6rem;
   border-radius: 2px;
   box-shadow: 0 2px 5px rgba(50, 50, 50, 0.1);
   margin-bottom: 1rem;
+}
+
+.container {
+  padding: 0.6rem;
 }
 
 .title {
@@ -15,4 +20,27 @@
 
 .content {
 
+}
+
+.actionList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.actionButton {
+  text-align: center;
+  width: 100%;
+  padding: 0.4rem;
+  font-size: 1.1rem;
+  border: 0;
+  background: transparent;
+}
+
+.dull {
+  color: var(--color__perfect-grey);
+}
+
+.action {
+  color: var(--color__accent);
 }

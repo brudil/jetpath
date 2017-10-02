@@ -18,7 +18,12 @@ import {
 import { WorksClient, MediaClient, InteractivesClient } from '../serverAPI';
 import { action as makeAction, createRequestTypes } from '../utils';
 import getVertical from '../sagas/getVertical';
-import { createToast } from './Toast';
+import {
+  createToast,
+  createToastWithActionable,
+  dismissToastAction,
+  ButtonTypes
+} from './Toast';
 
 const EDITOR_LOAD_CONTENT = createRequestTypes('EDITOR_LOAD_CONTENT');
 const EDITOR_PUBLISH_CONTENT = createRequestTypes('EDITOR_PUBLISH_CONTENT');
@@ -39,6 +44,7 @@ const EDITOR_CREATE_REVISION = createRequestTypes('EDITOR_CREATE_REVISION');
 const EDITOR_CREATE_CONTENT = createRequestTypes('EDITOR_CREATE_CONTENT');
 const EDITOR_OPEN_COMMENT_PANEL = 'EDITOR_OPEN_COMMENTS_PANEL';
 const EDITOR_CLOSE_COMMENT_PANEL = 'EDITOR_CLOSE_COMMENTS_PANEL';
+const EDITOR_SEEN_HINT = 'EDITOR_SEEN_HINT';
 
 // ACTIONS
 export const loadContent = contentId =>
@@ -86,6 +92,12 @@ export const changeRevisionStatusSuccess = payload =>
 export const addAuthor = id => makeAction(EDITOR_ADD_AUTHOR, { id });
 export const removeAuthor = id => makeAction(EDITOR_REMOVE_AUTHOR, { id });
 
+export const seenHint = name => ({ type: EDITOR_SEEN_HINT, payload: { name } });
+
+const EditorHints = Immutable.Record({
+  moveToDraftingWordCount: false,
+});
+
 // REDUCER
 const initialState = new Immutable.Map({
   remoteId: null,
@@ -101,6 +113,7 @@ const initialState = new Immutable.Map({
   stats: new Immutable.Map({
     wordCount: null,
   }),
+  hints: new EditorHints(),
 });
 
 function createEmptyDocumentUtil() {
@@ -135,9 +148,9 @@ const applyDocumentChange = changeset => document => {
       const elementStructure = Immutable.fromJS(
         new fields.ElementField().toJS(changeset.element)
       );
-      return document.updateIn(changeset.path, arr => {
-        return arr.splice(changeset.position, 0, elementStructure);
-      });
+      return document.updateIn(changeset.path, arr =>
+        arr.splice(changeset.position, 0, elementStructure)
+      );
     }
     case 'update': {
       return document.setIn(changeset.path, changeset.value);
@@ -272,12 +285,17 @@ export default function EditorReducer(state = initialState, action) {
       return state.setIn(['workingRevision', ...action.path], action.value);
     }
     case EDITOR_CHANGE_REVISION_STATUS.SUCCESS: {
-      return state.setIn(['savedRevision', 'status'], action.status);
+      return state
+        .setIn(['savedRevision', 'status'], action.status)
+        .setIn(['workingRevision', 'status'], action.status);
     }
     case EDITOR_ADD_AUTHOR: {
       return state.update('workingRevision', rev =>
         rev.updateIn(['authors'], authorList => authorList.add(action.id))
       );
+    }
+    case EDITOR_SEEN_HINT: {
+      return state.setIn(['hints', action.payload.name], true);
     }
     case EDITOR_REMOVE_AUTHOR: {
       return state.updateIn(['workingRevision', 'authors'], authorList =>
@@ -492,7 +510,11 @@ function* handleLoadResourcesOnChange() {
   const workingRev = editorState.get('workingRevision');
   const workingDoc = editorState.get('workingDocument');
   if (workingRev && workingDoc) {
-    yield spawn(loadMissingResourcesForRevision, workingRev.toJS(), workingDoc.toJS());
+    yield spawn(
+      loadMissingResourcesForRevision,
+      workingRev.toJS(),
+      workingDoc.toJS()
+    );
   }
 }
 
@@ -521,7 +543,11 @@ function* handleEditorLoad({ contentId }) {
   const editorialMetadata =
     metaEntities[editorialMetadataPayload.payload.result];
   yield [
-    spawn(loadMissingResourcesForRevision, revision, revision.spectrum_document),
+    spawn(
+      loadMissingResourcesForRevision,
+      revision,
+      revision.spectrum_document
+    ),
     put(entities(revisionPayload.payload)),
     put(entities(editorialMetadataPayload.payload)),
     put(
@@ -545,9 +571,38 @@ function* updateStats() {
   const wordCount = filteredBlocks.reduce(
     (total, textBlock) =>
       total +
-      textBlock.text.text.trim().replace(/\s+/gi, ' ').split(' ').length,
+      textBlock.text.text
+        .trim()
+        .replace(/\s+/gi, ' ')
+        .split(' ').length,
     0
   );
+
+  if (
+    wordCount > 30 &&
+    editor.getIn(['hints', 'moveToDraftingWordCount']) !== true &&
+    editor.getIn(['savedRevision', 'status']) < 5
+  ) {
+    yield put(
+      createToastWithActionable({
+        title: 'Move to drafting?',
+        message: 'This is more than just an idea now!',
+        actions: [
+          {
+            title: 'Keep as idea',
+            action: dismissToastAction,
+            type: ButtonTypes.DULL,
+          },
+          {
+            title: 'Move to drafts',
+            action: () => changeRevisionStatus(5),
+            type: ButtonTypes.ACTION,
+          },
+        ],
+      })
+    );
+    yield put(seenHint('moveToDraftingWordCount'));
+  }
 
   yield put({ type: EDITOR_UPDATE_STATS, payload: { wordCount } });
 }

@@ -1,12 +1,28 @@
 import Immutable from 'immutable';
-import { action } from '../utils';
 
 export const CREATE_TOAST = 'CREATE_TOAST';
 export const REMOVE_TOAST = 'REMOVE_TOAST';
 
+export enum ButtonTypes {
+  DULL = 'dull',
+  ACTION = 'action'
+}
+
+export const dismissToastAction = 'DISMISS';
+
+export interface Actionable {
+  title: string,
+  action: (() => Object) | string,
+  type: ButtonTypes
+}
+
 export const createToast = (title: string, message: string, preset: string) =>
-  action(CREATE_TOAST, { title, message, preset });
-export const removeToast = (id: number) => action(REMOVE_TOAST, { id });
+  ({ type: CREATE_TOAST, payload: { title, message, preset }});
+
+export const createToastWithActionable = (payload: {title: string, message: string, preset: string, actions: Array<Actionable>}) =>
+  ({ type: CREATE_TOAST, payload });
+
+export const removeToast = (id: number) => ({ type: REMOVE_TOAST, payload: { id }});
 
 let toastCount = 0;
 
@@ -15,6 +31,7 @@ export interface ToastBase {
   title: string,
   message: string,
   preset: string,
+  actions?: Array<Actionable>
 }
 
 const ToastRecord = Immutable.Record({
@@ -22,6 +39,7 @@ const ToastRecord = Immutable.Record({
   title: '',
   message: null,
   preset: 'log',
+  actions: null,
 });
 
 export class Toast extends ToastRecord implements ToastBase {
@@ -29,6 +47,7 @@ export class Toast extends ToastRecord implements ToastBase {
   title: string;
   message: string;
   preset: string;
+  actions?: Array<Actionable>;
 
   constructor(props: ToastBase) {
     super(props);
@@ -36,11 +55,13 @@ export class Toast extends ToastRecord implements ToastBase {
 }
 
 interface Action {
-  id: number,
   type: string,
-  title: string,
-  message: string,
-  preset: string,
+  payload: {
+    id: number,
+    title: string,
+    message: string,
+    preset: string,
+  }
 }
 
 const initialState = Immutable.Map({
@@ -50,14 +71,11 @@ const initialState = Immutable.Map({
 export default function TopicsReducer(state = initialState, action: Action) {
   switch (action.type) {
     case CREATE_TOAST: {
-      const { title, message, preset } = action;
       return state.update('toastList', list =>
         list.push(
           new ToastRecord({
+            ...action.payload,
             id: (toastCount += 1),
-            title,
-            message,
-            preset,
           })
         )
       );
@@ -65,7 +83,7 @@ export default function TopicsReducer(state = initialState, action: Action) {
     case REMOVE_TOAST: {
       return state.update('toastList', (list: Immutable.List<Toast>) =>
         // todo: remove undefined check when facebook/immutable-js#1246 is fixed
-        <Immutable.List<Toast>>list.filter(toast => toast !== undefined && toast.get('id') !== action.id)
+        <Immutable.List<Toast>>list.filter(toast => toast !== undefined && toast.get('id') !== action.payload.id)
       );
     }
     default:
