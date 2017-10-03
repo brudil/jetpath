@@ -154,48 +154,6 @@ function EditorWorkflow(props) {
       </div>
     </div>
   );
-
-  /*
-  const renderWorkflowPublishSection = () => {
-    const publishedDetails = () => {
-      return (
-        <div />
-      );
-    };
-
-    return (
-      <div>
-        <h4>{isPublished ? 'Live' : 'Not live'}</h4>
-        {isPublished ? publishedDetails() : null}
-      </div>
-    );
-  };
-
-  return (
-    <div>
-      <h4>revision #{savedRevision.get('revision_number')}</h4>
-      <div>Saved <SmartDate value={savedRevision.get('created')} /></div>
-      <div>Created: <SmartDate value={editorialMetadata.get('created')} /></div>
-
-      <SegmentedControl
-        options={[
-          1, 'Stub',
-          5, 'Draft',
-          9, 'Final',
-        ]}
-        value={savedRevision.get('status')}
-        onChange={onChangeStatus}
-      />
-
-      <Button
-        text="Publish"
-        disabled={isLocal || hasChangesFromSaved || savedRevision.get('status') !== 9}
-        onClick={onPublish}
-      />
-
-        {renderWorkflowPublishSection()}
-    </div>
-  );*/
 }
 
 EditorWorkflow.propTypes = {
