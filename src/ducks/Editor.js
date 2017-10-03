@@ -600,6 +600,7 @@ function* updateStats() {
   );
 
   if (
+    !editor.get('isLocal') &&
     wordCount > 30 &&
     editor.getIn(['hints', 'moveToDraftingWordCount']) !== true &&
     editor.getIn(['savedRevision', 'status']) < 5
