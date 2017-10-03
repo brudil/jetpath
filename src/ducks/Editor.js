@@ -22,7 +22,7 @@ import {
   createToast,
   createToastWithActionable,
   dismissToastAction,
-  ButtonTypes
+  ButtonTypes,
 } from './Toast';
 
 const EDITOR_LOAD_CONTENT = createRequestTypes('EDITOR_LOAD_CONTENT');
@@ -376,6 +376,25 @@ function* handleEditorSave() {
       createRevisionSuccess({
         contentId: revisionResponse.content,
         revision: revisionResponse,
+      })
+    );
+
+    yield put(
+      createToastWithActionable({
+        title: 'New revisions are not published automatically',
+        message: 'Would you like to publish this revision?',
+        actions: [
+          {
+            title: 'Dismiss',
+            action: dismissToastAction,
+            type: ButtonTypes.DULL,
+          },
+          {
+            title: 'Publish new revision',
+            action: () => publish(),
+            type: ButtonTypes.ACTION,
+          },
+        ],
       })
     );
   } else {
