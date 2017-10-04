@@ -34,25 +34,19 @@ export interface ToastBase {
   actions?: Array<Actionable>
 }
 
-const ToastRecord = Immutable.Record({
+export const ToastRecord = Immutable.Record<{
+  id: number | null,
+  title: string | null,
+  message: string | null,
+  preset: string | null,
+  actions: Array<Actionable> | null
+}>({
   id: null,
   title: '',
   message: null,
   preset: 'log',
   actions: null,
-});
-
-export class Toast extends ToastRecord implements ToastBase {
-  id: number;
-  title: string;
-  message: string;
-  preset: string;
-  actions?: Array<Actionable>;
-
-  constructor(props: ToastBase) {
-    super(props);
-  }
-}
+}) ;
 
 interface Action {
   type: string,
@@ -81,9 +75,8 @@ export default function TopicsReducer(state = initialState, action: Action) {
       );
     }
     case REMOVE_TOAST: {
-      return state.update('toastList', (list: Immutable.List<Toast>) =>
-        // todo: remove undefined check when facebook/immutable-js#1246 is fixed
-        <Immutable.List<Toast>>list.filter(toast => toast !== undefined && toast.get('id') !== action.payload.id)
+      return state.update('toastList', (list) =>
+        list.filter(toast => toast.get('id') !== action.payload.id)
       );
     }
     default:

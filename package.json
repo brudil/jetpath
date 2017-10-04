@@ -98,7 +98,7 @@
     "deep-diff": "^0.3.8",
     "history": "^4.6.3",
     "imgix-core-js": "^1.0.6",
-    "immutable": "^3.8.1",
+    "immutable": "4.0.0-rc.4",
     "lodash": "^4.17.4",
     "lost": "^8.1.0",
     "mousetrap": "^1.6.1",
