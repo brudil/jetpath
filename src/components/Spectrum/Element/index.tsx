@@ -54,10 +54,11 @@ class Element extends React.Component<IProps, IState> {
     const { update, path, index, position, isInStream, data } = this.props;
 
     const element = data.get(index);
-    const elementName = element.get('_name');
-    if (element === null) {
+    if (element === null || element === undefined) {
       return <p>Element is empty.</p>;
     }
+
+    const elementName = element.get('_name');
 
     const ElementChild = nameToComponentMap.get(elementName);
     const elementPath = [...path, index];

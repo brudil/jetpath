@@ -1,25 +1,28 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import DebouncedAutosizeTextarea from '../../../DebouncedAutosizeTextarea';
-import * as SpectrumPropTypes from '../../SpectrumPropTypes';
 import TextIcon from '../../../icons/text.svg.react';
 
 import styles from './TextBlock.css';
+import {Changeset, ElementPath} from "../../../../libs/spectrum2/interfaces";
+import {update} from "../../../../libs/spectrum2/changes";
 
-class TextBlock extends React.Component {
-  constructor(props) {
+interface IProps {
+  update: (changeset: Changeset) => void,
+  data: any, // todo
+  path: ElementPath,
+}
+
+class TextBlock extends React.Component<IProps> {
+  static Icon: any;
+  constructor(props: IProps) {
     super(props);
 
-    this.handleInputBound = this.handleInput.bind(this);
+    this.handleInput = this.handleInput.bind(this);
   }
 
-  handleInput(e) {
+  handleInput(e: React.KeyboardEvent<HTMLInputElement>) {
     const { path } = this.props;
-    this.props.update({
-      command: 'update',
-      path: [...path, 'text', 'text'],
-      value: e.target.value,
-    });
+    this.props.update(update([...path, 'text', 'text'], e.currentTarget.value));
   }
 
   render() {
@@ -31,7 +34,7 @@ class TextBlock extends React.Component {
           className={styles.textarea}
           placeholder="Markdown supported text"
           value={data.getIn(['text', 'text'])}
-          onChange={this.handleInputBound}
+          onChange={this.handleInput}
         />
       </div>
     );
@@ -39,11 +42,5 @@ class TextBlock extends React.Component {
 }
 
 TextBlock.Icon = TextIcon;
-
-TextBlock.propTypes = {
-  update: PropTypes.func,
-  data: PropTypes.object,
-  path: SpectrumPropTypes.elementPath.isRequired,
-};
 
 export default TextBlock;

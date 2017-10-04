@@ -2,10 +2,11 @@ import React from 'react';
 import cx from 'classnames';
 
 import styles from './ElementPanel.css';
-import {ElementPath} from '../spectrumInterfaces';
+import {move, remove} from "../../../libs/spectrum2/changes";
+import {Changeset, ElementPath} from "../../../libs/spectrum2/interfaces";
 
 interface IProps {
-  update: (options: { command: string, path: ElementPath, value?: any, position?: number }) => void,
+  update: (changeset: Changeset) => void,
   streamIndex: Array<any>, // todo: fix
   path: ElementPath,
   data: any, // todo: fix
@@ -46,16 +47,16 @@ class ElementPanel extends React.Component<IProps, IState> {
   }
 
   handleUp() {
-    this.props.update({ command: 'move', path: this.props.path, position: -1 });
+    this.props.update(move(this.props.path, -1));
   }
 
   handleDown() {
-    this.props.update({ command: 'move', path: this.props.path, position: +1 });
+    this.props.update(move(this.props.path, +1));
   }
 
   handleRemove() {
     if (this.state.shownDeleteConfirm) {
-      this.props.update({ command: 'remove', path: this.props.path });
+      this.props.update(remove(this.props.path));
     } else {
       this.setState({ shownDeleteConfirm: true });
     }

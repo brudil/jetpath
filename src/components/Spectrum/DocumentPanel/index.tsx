@@ -37,7 +37,6 @@ class DocumentPanel extends React.Component<IProps, any> {
   }
 
   render() {
-    console.log(this.props.data);
     const { isOpen } = this.state;
     return isOpen ? (
       <div className="panel">

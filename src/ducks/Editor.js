@@ -8,13 +8,11 @@ import {
   throttle,
 } from 'redux-saga/effects';
 import find from 'lodash/find';
-import {
-  SpectrumDocument,
-  resources,
-  subtypes,
-  fields,
-  blocks,
-} from '@brudil/spectrum';
+import { resources, fields } from '@brudil/spectrum';
+import { ArticleSubtype, HeadingBlock } from '../libs/spectrum2/structure';
+import { applyChangeset, changeSubtype } from '../libs/spectrum2/changes';
+import { createDocument, filterDocument } from '../libs/spectrum2/helpers';
+import { getWordCount } from '../libs/spectrum2/utils';
 import { WorksClient, MediaClient, InteractivesClient } from '../serverAPI';
 import { action as makeAction, createRequestTypes } from '../utils';
 import getVertical from '../sagas/getVertical';
@@ -117,10 +115,7 @@ const initialState = new Immutable.Map({
 });
 
 function createEmptyDocumentUtil() {
-  const document = new SpectrumDocument();
-  document.content = new subtypes.ArticleSubtype();
-
-  return Immutable.fromJS(document.toJS());
+  return applyChangeset(createDocument(), changeSubtype(ArticleSubtype));
 }
 
 function createEmptyRevision() {
@@ -141,40 +136,6 @@ function createEmptyRevision() {
     byline_markup: '',
   });
 }
-
-const applyDocumentChange = changeset => document => {
-  switch (changeset.command) {
-    case 'insert': {
-      const elementStructure = Immutable.fromJS(
-        new fields.ElementField().toJS(changeset.element)
-      );
-      return document.updateIn(changeset.path, arr =>
-        arr.splice(changeset.position, 0, elementStructure)
-      );
-    }
-    case 'update': {
-      return document.setIn(changeset.path, changeset.value);
-    }
-    case 'remove': {
-      const last = changeset.path.pop();
-      const allBut = changeset.path;
-      return document.updateIn(allBut, stream => stream.delete(last));
-    }
-    case 'move': {
-      const last = changeset.path.pop();
-      const allBut = changeset.path;
-      return document.updateIn(allBut, stream => {
-        const selectedElement = stream.get(last);
-        return stream
-          .splice(last, 1)
-          .splice(last + changeset.position, 0, selectedElement);
-      });
-    }
-    default: {
-      throw new Error(`unsupported changeset command: ${changeset.command}`);
-    }
-  }
-};
 
 function createImmutableRevision(revision) {
   return Immutable.fromJS(revision, (key, value) => {
@@ -278,9 +239,8 @@ export default function EditorReducer(state = initialState, action) {
       );
     }
     case EDITOR_DOCUMENT_CHANGE: {
-      return state.updateIn(
-        ['workingDocument'],
-        applyDocumentChange(action.changeset)
+      return state.updateIn(['workingDocument'], document =>
+        applyChangeset(document, action.changeset)
       );
     }
     case EDITOR_REVISION_CHANGE: {
@@ -429,13 +389,17 @@ function* handleEditorPublish() {
 }
 
 function* loadMissingResourcesForRevision(revision, spectrum_document) {
-  const foundResources = SpectrumDocument.fromJS(spectrum_document)
-    .getElements()
-    .filter(
-      el =>
-        el instanceof resources.Resource ||
-        el instanceof resources.LowdownInteractiveResource
-    );
+  const foundResources = filterDocument(
+    spectrum_document,
+    el => {
+      console.log(el);
+      return true;
+    }
+    //      el instanceof resources.Resource ||
+    //      el instanceof resources.LowdownInteractiveResource
+  );
+
+  console.log('foundresources', foundResources);
 
   // IMAGES
   const imageEntities = yield select(state => state.entities.media);
@@ -531,11 +495,7 @@ function* handleLoadResourcesOnChange() {
   const workingRev = editorState.get('workingRevision');
   const workingDoc = editorState.get('workingDocument');
   if (workingRev && workingDoc) {
-    yield spawn(
-      loadMissingResourcesForRevision,
-      workingRev.toJS(),
-      workingDoc.toJS()
-    );
+    yield spawn(loadMissingResourcesForRevision, workingRev, workingDoc);
   }
 }
 
@@ -566,8 +526,8 @@ function* handleEditorLoad({ contentId }) {
   yield [
     spawn(
       loadMissingResourcesForRevision,
-      revision,
-      revision.spectrum_document
+      Immutable.fromJS(revision),
+      Immutable.fromJS(revision.spectrum_document)
     ),
     put(entities(revisionPayload.payload)),
     put(entities(editorialMetadataPayload.payload)),
@@ -584,20 +544,7 @@ function* handleEditorLoad({ contentId }) {
 function* updateStats() {
   const editor = yield select(state => state.editor);
 
-  const filteredBlocks = SpectrumDocument.fromJS(
-    editor.get('workingDocument').toJS()
-  )
-    .getElements()
-    .filter(element => element instanceof blocks.TextBlock);
-  const wordCount = filteredBlocks.reduce(
-    (total, textBlock) =>
-      total +
-      textBlock.text.text
-        .trim()
-        .replace(/\s+/gi, ' ')
-        .split(' ').length,
-    0
-  );
+  const wordCount = getWordCount(editor.get('workingDocument'));
 
   if (
     !editor.get('isLocal') &&

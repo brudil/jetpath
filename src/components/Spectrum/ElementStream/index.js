@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import { nameToElementMap } from '../elementsMap';
+import { getElementByName } from '../../../libs/spectrum2/structure';
 import ElementInserter from '../ElementInserter';
 import Element from '../Element';
 import * as SpectrumPropTypes from '../SpectrumPropTypes';
@@ -9,8 +10,7 @@ import * as SpectrumPropTypes from '../SpectrumPropTypes';
 function ElementStream(props) {
   const { data, index, path, update, className } = props;
 
-  const ElementFromMap = nameToElementMap.get(data.get('_name'));
-  const structure = new ElementFromMap()._fields[index].itemField;
+  const structure = getElementByName(data.get('_name')).fields[index];
 
   return (
     <ul className={cx(className, 'spectrum-stream')}>

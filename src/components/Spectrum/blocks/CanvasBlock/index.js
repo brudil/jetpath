@@ -5,6 +5,7 @@ import find from 'lodash/find';
 import InteractiveSelector from '../../../InteractiveSelector';
 import * as ModalManagerActions from '../../../../ducks/Modal';
 import * as SpectrumPropTypes from '../../SpectrumPropTypes';
+import { ChangesetInstruction } from '../../../../libs/spectrum2/interfaces';
 import Panel from './Panel';
 import CanvasIcon from '../../../icons/canvas.svg.react';
 
@@ -20,7 +21,7 @@ class CanvasBlock extends React.Component {
 
   handleInput(e) {
     this.props.update({
-      command: 'update',
+      instruction: ChangesetInstruction.UPDATE,
       path: [...this.props.path, 'text', 'data'],
       value: e.target.value,
     });
@@ -32,7 +33,7 @@ class CanvasBlock extends React.Component {
 
   handleSelection(slug) {
     this.props.update({
-      command: 'update',
+      instruction: ChangesetInstruction.UPDATE,
       path: [...this.props.path, 'resource', 'slug'],
       value: slug,
     });

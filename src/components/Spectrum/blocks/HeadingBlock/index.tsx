@@ -1,23 +1,29 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import {Changeset, ChangesetInstruction, ElementPath} from '../../../../libs/spectrum2/interfaces';
 import DebouncedAutosizeTextarea from '../../../DebouncedAutosizeTextarea';
-import * as SpectrumPropTypes from '../../SpectrumPropTypes';
 import HeadingIcon from '../../../icons/heading.svg.react';
 
 import styles from './HeadingBlock.css';
 
-class HeadingBlock extends React.Component {
-  constructor(props) {
+interface IProps {
+  update: (changeset: Changeset) => void,
+  data: any, // todo
+  path: ElementPath,
+}
+
+class HeadingBlock extends React.Component<IProps> {
+  static Icon: any;
+  constructor(props: IProps) {
     super(props);
 
-    this.handleInputBound = this.handleInput.bind(this);
+    this.handleInput = this.handleInput.bind(this);
   }
 
-  handleInput(e) {
+  handleInput(e: React.KeyboardEvent<HTMLInputElement>) {
     this.props.update({
-      command: 'update',
+      instruction: ChangesetInstruction.UPDATE,
       path: [...this.props.path, 'text', 'text'],
-      value: e.target.value,
+      value: e.currentTarget.value,
     });
   }
 
@@ -30,7 +36,7 @@ class HeadingBlock extends React.Component {
           className={styles.textarea}
           placeholder="Heading"
           value={data.getIn(['text', 'text'])}
-          onChange={this.handleInputBound}
+          onChange={this.handleInput}
         />
       </div>
     );
@@ -38,11 +44,5 @@ class HeadingBlock extends React.Component {
 }
 
 HeadingBlock.Icon = HeadingIcon;
-
-HeadingBlock.propTypes = {
-  update: PropTypes.func,
-  data: PropTypes.object,
-  path: SpectrumPropTypes.elementPath.isRequired,
-};
 
 export default HeadingBlock;

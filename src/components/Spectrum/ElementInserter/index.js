@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import has from 'lodash/has';
 import cx from 'classnames';
+import { ChangesetInstruction } from '../../../libs/spectrum2/interfaces'
 import * as SpectrumPropTypes from '../SpectrumPropTypes';
 import { nameToComponentMap } from '../elementsMap';
 
@@ -24,20 +25,6 @@ class ElementInserter extends React.Component {
   }
 
   getInsertType() {
-    if (has(this.props.structure.input, 'allowed.type')) {
-      return this.props.structure.input.allowed.type;
-    }
-
-    if (has(this.props.structure.input, 'default')) {
-      const defaultType = this.props.structure.input.default.elementType;
-
-      if (defaultType === 'itemwrapper') {
-        return 'item';
-      }
-
-      return defaultType;
-    }
-
     return 'element';
   }
 
@@ -47,8 +34,8 @@ class ElementInserter extends React.Component {
 
   handleInitialClick(e) {
     e.preventDefault();
-    const defaultElement = this.props.structure.defaultElement;
-    const allowed = this.props.structure.limitTo;
+    const defaultElement = this.props.structure.options.fields[0].options.defaultValue;
+    const allowed = this.props.structure.options.fields[0].options.elements;
 
     if (defaultElement) {
       this.handleInsertElement(defaultElement);
@@ -64,11 +51,11 @@ class ElementInserter extends React.Component {
     this.setState({ isOpen: false });
   }
 
-  handleInsertElement(Element) {
+  handleInsertElement(elementDef) {
     this.props.update({
-      command: 'insert',
+      instruction: ChangesetInstruction.INSERT,
       path: this.props.path,
-      element: new Element(),
+      element: elementDef,
       position: this.props.position,
     });
     this.setState({ isOpen: false });
@@ -97,17 +84,16 @@ class ElementInserter extends React.Component {
             Insert {this.state.name || ''}
           </div>
           <ul className={styles.list}>
-            {Object.keys(this.state.elements).map(key => {
-              const element = this.state.elements[key];
-              const component = nameToComponentMap.get(element._name);
+            {this.state.elements.map(element => {
+              const component = nameToComponentMap.get(element.identifier);
               if (component === undefined) {
-                console.warn(element._name, "isn't in element map");
+                console.warn(element.identifier, "isn't in element map");
                 return null;
               }
               const Icon = Object.hasOwnProperty.call(component, 'Icon')
                 ? component.Icon
                 : null;
-              console.log(component.Icon);
+
               return (
                 <li
                   className={styles.element}
@@ -120,7 +106,7 @@ class ElementInserter extends React.Component {
                     </i>
                   </div>
                   <div className={styles.elementLabel}>
-                    {element._name}
+                    {element.identifier}
                   </div>
                 </li>
               );
