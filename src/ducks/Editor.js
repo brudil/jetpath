@@ -386,7 +386,6 @@ function* loadMissingResourcesForRevision(revision, spectrum_document) {
   const foundResources = filterDocument(
     spectrum_document,
     el => {
-      console.log(el);
       return true;
     }
     //      el instanceof resources.Resource ||

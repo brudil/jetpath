@@ -1,10 +1,10 @@
 import React from 'react';
-import isEqual from 'lodash/isEqual';
 import { nameToComponentMap } from '../elementsMap';
 import ElementPanel from '../ElementPanel';
 
 import styles from './Element.css';
 import {ElementIndex, ElementPath} from "../../../libs/spectrum2/interfaces";
+import isEqual from "lodash/isEqual";
 
 interface IProps {
   update: (key: any) => void,
@@ -30,12 +30,6 @@ class Element extends React.Component<IProps, IState> {
     this.handleMouseOut = this.handleMouseOut.bind(this);
   }
 
-  shouldComponentUpdate(nextProps: IProps, nextState: IState) {
-    return (
-      this.state.show !== nextState.show || !isEqual(this.props, nextProps)
-    );
-  }
-
   handleMouseOver(e: React.MouseEvent<HTMLDivElement>) {
     e.stopPropagation();
     if (this.state.show !== true) {
@@ -48,6 +42,16 @@ class Element extends React.Component<IProps, IState> {
     if (this.state.show !== false) {
       this.setState({ show: false });
     }
+  }
+
+  shouldComponentUpdate(nextProps: IProps, nextState: IState) {
+    const shouldUpdate = !isEqual(this.props.position, nextProps.position) ||
+      !isEqual(this.props.path, nextProps.path) ||
+      this.props.index !== nextProps.index ||
+      this.props.data.get(this.props.index) !== nextProps.data.get(this.props.index) ||
+      this.state.show !== nextState.show;
+
+    return shouldUpdate;
   }
 
   render() {
