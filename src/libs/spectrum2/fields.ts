@@ -1,7 +1,8 @@
 import { List, Map } from 'immutable';
 import { createField } from "./helpers";
 import {Errors} from "./errors";
-import {ElementDefinition, FieldDefinition} from "./interfaces";
+import {ElementDefinition, FieldDefinition, ResourceDefinition} from "./interfaces";
+import {TextTransformer} from "./transformers";
 
 export function createChoiceValueField({ choices, defaultValue }: { choices: Array<any>, defaultValue: any }) {
   return createField('CHOICE', {
@@ -16,9 +17,9 @@ export function createChoiceValueField({ choices, defaultValue }: { choices: Arr
   })
 }
 
-export function createTextualContentField() {
+export function createTextualContentField(transformer: TextTransformer) {
   return createField('TEXT', {
-    defaultValue: Map({ text: ''}),
+    defaultValue: Map({ text: '', transformer }),
   }, {});
 }
 
@@ -26,6 +27,12 @@ export function createElementField(elements: Array<ElementDefinition> | ElementD
   return createField('ELEMENT', {
     elements,
     defaultValue: Array.isArray(elements) ? null : elements,
+  }, {});
+}
+export function createResourceField(resources: Array<ResourceDefinition> | ResourceDefinition) {
+  return createField('RESOURCE', {
+    resources,
+    defaultValue: Array.isArray(resources) ? null : resources,
   }, {});
 }
 

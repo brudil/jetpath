@@ -1,6 +1,7 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import SegmentedControl from '../../SegmentedControl';
+import {ChangesetApplier, ElementPath} from "../../../libs/spectrum2/interfaces";
+import {update} from "../../../libs/spectrum2/changes";
 
 const pointsSetup = [
   'none',
@@ -15,9 +16,15 @@ const pointsSetup = [
 
 const orderSetup = ['az', 'a-z', 'za', 'z-a'];
 
-class ListSectionPanel extends React.Component {
-  handleUpdate(key, value) {
-    this.props.update({ command: 'update', key, value });
+interface IProps {
+  path: ElementPath,
+  data: any,
+  update: ChangesetApplier
+}
+
+class ListSectionPanel extends React.Component<IProps> {
+  handleUpdate(key: string, value: string) {
+    this.props.update(update([...this.props.path, key], value));
   }
 
   render() {
@@ -44,10 +51,5 @@ class ListSectionPanel extends React.Component {
     );
   }
 }
-
-ListSectionPanel.propTypes = {
-  update: PropTypes.func,
-  data: PropTypes.object,
-};
 
 export default ListSectionPanel;

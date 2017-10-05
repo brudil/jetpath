@@ -1,24 +1,30 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import DebouncedAutosizeTextarea from '../../../DebouncedAutosizeTextarea';
-import * as SpectrumPropTypes from '../../SpectrumPropTypes';
+import { update } from '../../../../libs/spectrum2/changes';
 import HeadingIcon from '../../../icons/pull-quote.svg.react';
 
 import styles from './PullQuoteBlock.css';
+import {ChangesetApplier, ElementPath} from "../../../../libs/spectrum2/interfaces";
 
-class PullQuoteBlock extends React.Component {
-  constructor(props) {
+interface IProps {
+  data: any,
+  path: ElementPath,
+  update: ChangesetApplier,
+}
+
+class PullQuoteBlock extends React.Component<IProps> {
+  public static Icon: any;
+
+  constructor(props: IProps) {
     super(props);
 
-    this.handleInputBound = this.handleInput.bind(this);
+    this.handleInput = this.handleInput.bind(this);
   }
 
-  handleInput(e) {
-    this.props.update({
-      command: 'update',
-      path: [...this.props.path, 'quote', 'text'],
-      value: e.target.value,
-    });
+  handleInput(e: React.KeyboardEvent<HTMLInputElement>) {
+    this.props.update(
+      update([...this.props.path, 'quote', 'text'], e.currentTarget.value)
+    );
   }
 
   render() {
@@ -30,7 +36,7 @@ class PullQuoteBlock extends React.Component {
           className={styles.textarea}
           placeholder="Pull Quote"
           value={data.getIn(['quote', 'text'])}
-          onChange={this.handleInputBound}
+          onChange={this.handleInput}
         />
       </div>
     );
@@ -38,11 +44,5 @@ class PullQuoteBlock extends React.Component {
 }
 
 PullQuoteBlock.Icon = HeadingIcon;
-
-PullQuoteBlock.propTypes = {
-  update: PropTypes.func,
-  data: PropTypes.object,
-  path: SpectrumPropTypes.elementPath.isRequired,
-};
 
 export default PullQuoteBlock;

@@ -4,7 +4,7 @@ import { nameToComponentMap } from '../elementsMap';
 import ElementPanel from '../ElementPanel';
 
 import styles from './Element.css';
-import {ElementIndex, ElementPath, SingleElementData} from "../spectrumInterfaces";
+import {ElementIndex, ElementPath} from "../../../libs/spectrum2/interfaces";
 
 interface IProps {
   update: (key: any) => void,
@@ -12,7 +12,7 @@ interface IProps {
   path: ElementPath,
   isInStream: boolean,
   index: ElementIndex,
-  data: SingleElementData,
+  data: any,
 }
 
 interface IState {

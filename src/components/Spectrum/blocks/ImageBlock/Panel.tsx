@@ -1,24 +1,38 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import DebouncedInput from '../../../DebouncedInput';
-import * as SpectrumPropTypes from '../../SpectrumPropTypes';
 
 import styles from '../../ElementPanel/Panel.css';
+import {
+  ChangesetApplier, ChangesetInstruction,
+  ElementPath
+} from "../../../../libs/spectrum2/interfaces";
 
-class ImageBlockPanel extends React.Component {
-  constructor(props) {
+interface IProps {
+  update: ChangesetApplier,
+  data: any, // todo
+  path: ElementPath,
+}
+
+type InputUpdater = (e: React.KeyboardEvent<HTMLInputElement>) => void;
+
+class ImageBlockPanel extends React.Component<IProps> {
+  private handleCaption: InputUpdater;
+  private handleTitle: InputUpdater;
+  private handleAlt: InputUpdater;
+
+  constructor(props: IProps) {
     super(props);
 
-    this.handleCaptionBound = this.handleInput.bind(this, ['caption', 'text']);
-    this.handleTitleBound = this.handleInput.bind(this, ['title', 'text']);
-    this.handleAltBound = this.handleInput.bind(this, ['alt', 'text']);
+    this.handleCaption = this.handleInput.bind(this, ['caption', 'text']);
+    this.handleTitle = this.handleInput.bind(this, ['title', 'text']);
+    this.handleAlt = this.handleInput.bind(this, ['alt', 'text']);
   }
 
-  handleInput(path, e) {
+  handleInput(path: ElementPath, e: React.KeyboardEvent<HTMLInputElement>) {
     this.props.update({
-      command: 'update',
+      instruction: ChangesetInstruction.UPDATE,
       path: [...this.props.path, ...path],
-      value: e.target.value,
+      value: e.currentTarget.value,
     });
   }
 
@@ -41,7 +55,7 @@ class ImageBlockPanel extends React.Component {
             id="caption"
             placeholder="Everest 2013"
             value={caption.get('text')}
-            onChange={this.handleCaptionBound}
+            onChange={this.handleCaption}
           />
         </div>
         <div className={styles.control}>
@@ -54,7 +68,7 @@ class ImageBlockPanel extends React.Component {
             id="titletext"
             placeholder="Cor, blimey"
             value={title.get('text')}
-            onChange={this.handleTitleBound}
+            onChange={this.handleTitle}
           />
         </div>
         <div className={styles.control}>
@@ -67,18 +81,12 @@ class ImageBlockPanel extends React.Component {
             id="alttext"
             placeholder="Everest at sunset"
             value={alt.get('text')}
-            onChange={this.handleAltBound}
+            onChange={this.handleAlt}
           />
         </div>
       </div>
     );
   }
 }
-
-ImageBlockPanel.propTypes = {
-  data: PropTypes.object.isRequired,
-  update: PropTypes.func.isRequired,
-  path: SpectrumPropTypes.elementPath.isRequired,
-};
 
 export default ImageBlockPanel;

@@ -1,4 +1,4 @@
-import { subtypes, sections, blocks } from '@brudil/spectrum';
+import * as Elements from '../../libs/spectrum2/structure';
 // subtypes
 import ArticleSubtype from './subtypes/ArticleSubtype';
 import CanvasSubtype from './subtypes/CanvasSubtype';
@@ -21,31 +21,25 @@ import CanvasBlock from './blocks/CanvasBlock';
 const elementMap = new Map();
 
 // subtypes
-elementMap.set(subtypes.ArticleSubtype, ArticleSubtype);
-elementMap.set(subtypes.CanvasSubtype, CanvasSubtype);
+elementMap.set(Elements.ArticleSubtype, ArticleSubtype);
+elementMap.set(Elements.CanvasSubtype, CanvasSubtype);
 
 // sections
-elementMap.set(sections.FreeformSection, FreeformSection);
-elementMap.set(sections.ListSection, ListSection);
-elementMap.set(sections.ListSectionItem, ListSectionItem);
+elementMap.set(Elements.FreeformSection, FreeformSection);
+elementMap.set(Elements.ListSection, ListSection);
+elementMap.set(Elements.ListSectionItem, ListSectionItem);
 
 // blocks
-elementMap.set(blocks.HeadingBlock, HeadingBlock);
-elementMap.set(blocks.ImageBlock, ImageBlock);
-elementMap.set(blocks.TextBlock, TextBlock);
-elementMap.set(blocks.PullQuoteBlock, PullQuoteBlock);
-elementMap.set(blocks.CanvasBlock, CanvasBlock);
+elementMap.set(Elements.HeadingBlock, HeadingBlock);
+elementMap.set(Elements.ImageBlock, ImageBlock);
+elementMap.set(Elements.TextBlock, TextBlock);
+elementMap.set(Elements.PullQuoteBlock, PullQuoteBlock);
+elementMap.set(Elements.CanvasBlock, CanvasBlock);
 
 export default elementMap;
 
-export const nameToElementMap = new Map();
-for (const [key] of elementMap.entries()) {
-  const name = key._name;
-  nameToElementMap.set(name, key);
-}
-
 export const nameToComponentMap = new Map();
 for (const [key, value] of elementMap.entries()) {
-  const name = key._name;
+  const name = key.identifier;
   nameToComponentMap.set(name, value);
 }

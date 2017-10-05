@@ -1,9 +1,11 @@
 import { createElement } from "./helpers";
 import {
-  createChoiceValueField, createElementField, createStreamField,
+  createChoiceValueField, createElementField, createResourceField, createStreamField,
   createTextualContentField
 } from "./fields";
 import { ElementDefinition } from "./interfaces";
+import {TextTransformer} from "./transformers";
+import {LowdownImageResource, LowdownInteractiveResource} from "./resources";
 
 // TODO: resources
 
@@ -16,26 +18,46 @@ export const HeadingBlock = createElement('heading', {
     choices: [1, 2, 3, 4, 5, 6],
     defaultValue: 1,
   }),
-  // text: createTextualContentField(transformer)
+  text: createTextualContentField(TextTransformer.INLINEDOWN)
 });
 
 export const TextBlock = createElement('text', {
-  text: createTextualContentField()
+  text: createTextualContentField(TextTransformer.MARKDOWN)
 });
 
-// TODO: pull quote block
+export const PullQuoteBlock = createElement('pullquote', {
+  quote: createTextualContentField(TextTransformer.INLINEDOWN),
+  attribution: createTextualContentField(TextTransformer.INLINEDOWN)
+});
+
+export const ImageBlock = createElement('image', {
+  resource: createResourceField(LowdownImageResource),
+  alt: createTextualContentField(TextTransformer.PLAIN_TEXT),
+  title: createTextualContentField(TextTransformer.PLAIN_TEXT),
+  caption: createTextualContentField(TextTransformer.INLINEDOWN),
+  source: createTextualContentField(TextTransformer.INLINEDOWN),
+  sourceURL: createTextualContentField(TextTransformer.PLAIN_TEXT),
+});
+
+export const CanvasBlock = createElement('canvas', {
+  resource: createResourceField(LowdownInteractiveResource),
+  container: createChoiceValueField({
+    choices: ['CONTENT', 'CONTAINER', 'BLEED'],
+    defaultValue: 'CONTAINER',
+  }),
+});
+
 // TODO: image block
 // TODO: canvas block
 
 
-sets.blocks = [HeadingBlock, TextBlock];
+sets.blocks = [HeadingBlock, TextBlock, PullQuoteBlock, ImageBlock, CanvasBlock];
 
 
 export const FreeformSection = createElement('freeform', {
   stream: createStreamField({
     fields: [createElementField(sets.blocks)]
   })
-  // text: createTextualContentField(transformer)
 });
 
 export const ListSectionItem = createElement('listitem', {
@@ -48,13 +70,16 @@ export const ListSectionItem = createElement('listitem', {
 export const ListSection = createElement('list', {
   stream: createStreamField({
     fields: [createElementField(ListSectionItem)]
+  }),
+  points: createChoiceValueField({
+    choices: ['alpha', 'numbers', 'roman', null],
+    defaultValue: null
+  }),
+  order: createChoiceValueField({
+    choices: ['az', 'za'],
+    defaultValue: 'az'
   })
-  // text: createTextualContentField(transformer)
 });
-
-// TODO: list section
-// TODO: list section item
-
 
 sets.sections = [FreeformSection, ListSection];
 sets.sectionitems = [ListSectionItem];
@@ -63,12 +88,19 @@ export const ArticleSubtype = createElement('article', {
   stream: createStreamField({
     fields: [createElementField(sets.sections)]
   })
-  // text: createTextualContentField(transformer)
+});
+
+export const CanvasSubtype = createElement('canvas_subtype', {
+  resource: createResourceField(LowdownInteractiveResource),
+  viewMode: createChoiceValueField({
+    choices: ['CONTENT', 'CONTAINER', 'CANVAS'],
+    defaultValue: 'CONTAINER',
+  }),
 });
 
 // TODO: canvas subtype
 
-sets.subtypes = [ArticleSubtype, ];
+sets.subtypes = [ArticleSubtype, CanvasSubtype];
 
 const nameMap = new Map();
 

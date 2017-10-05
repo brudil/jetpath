@@ -1,13 +1,19 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import ElementStream from '../ElementStream';
-import * as SpectrumPropTypes from '../SpectrumPropTypes';
 import ListSectionPanel from './ListSectionPanel';
 import ListIcon from '../../icons/list.svg.react';
 
 import styles from './Section.css';
+import {ChangesetApplier, ElementPath} from "../../../libs/spectrum2/interfaces";
+import {SpectrumRenderElement} from "../interfaces";
 
-function ListSection(props) {
+interface IProps {
+  path: ElementPath,
+  data: any,
+  update: ChangesetApplier
+}
+
+const ListSection: SpectrumRenderElement<IProps> = (props: IProps) => {
   const { data, path, update } = props;
 
   return (
@@ -18,19 +24,13 @@ function ListSection(props) {
         data={data}
         path={path}
         update={update}
+        index="stream"
       />
     </div>
   );
-}
-
-ListSectionPanel.panel = ListSectionPanel;
-
-ListSection.Icon = ListIcon;
-
-ListSection.propTypes = {
-  update: PropTypes.func,
-  data: PropTypes.object,
-  path: SpectrumPropTypes.elementPath.isRequired,
 };
+
+ListSection.panel = ListSectionPanel;
+ListSection.Icon = ListIcon;
 
 export default ListSection;

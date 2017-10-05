@@ -15,6 +15,9 @@ export interface ElementDefinition {
   fields: FieldMap
 }
 
+export interface ResourceDefinition extends ElementDefinition {
+}
+
 export interface OptionsMap {
   defaultValue: any,
 }
@@ -70,5 +73,7 @@ export interface MoveChangeset extends BaseChangeset {
 export interface RemoveChangeset extends BaseChangeset {
 
 }
+
+export type ChangesetApplier = (changeset: Changeset) => void
 
 export type Changeset = UpdateChangeset | InsertChangeset | MoveChangeset | RemoveChangeset;

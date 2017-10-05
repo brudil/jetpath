@@ -19,7 +19,6 @@ interface IProps {
 
 class SpectrumEditor extends React.Component<IProps, any> {
   private boundUpdate: (changeset: any) => void;
-  private changeDocumentSubtype: (element: any) => void;
 
   constructor(props: IProps) {
     super(props);
@@ -28,9 +27,6 @@ class SpectrumEditor extends React.Component<IProps, any> {
       this.props.updateSpectrumDocument(changeset);
     };
 
-    this.changeDocumentSubtype = element => {
-      this.props.changeDocumentSubtype(element);
-    };
   }
 
   render() {
@@ -41,7 +37,7 @@ class SpectrumEditor extends React.Component<IProps, any> {
       <div className={styles.root}>
         <DocumentPanel
           data={document}
-          changeSubtype={this.changeDocumentSubtype}
+          applyChangeset={this.props.updateSpectrumDocument}
         />
         {hasContent
           ? <Element

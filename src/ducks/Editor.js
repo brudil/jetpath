@@ -8,7 +8,6 @@ import {
   throttle,
 } from 'redux-saga/effects';
 import find from 'lodash/find';
-import { resources, fields } from '@brudil/spectrum';
 import { ArticleSubtype, HeadingBlock } from '../libs/spectrum2/structure';
 import { applyChangeset, changeSubtype } from '../libs/spectrum2/changes';
 import { createDocument, filterDocument } from '../libs/spectrum2/helpers';
@@ -189,11 +188,6 @@ export default function EditorReducer(state = initialState, action) {
           .set('hints', new EditorHints())
       );
     }
-    case EDITOR_CHANGE_SUBTYPE:
-      const subtype = action.payload.element;
-      const subtypeVanilla = new fields.ElementField().toJS(subtype);
-      const subtypeImmutable = Immutable.fromJS(subtypeVanilla);
-      return state.setIn(['workingDocument', 'content'], subtypeImmutable);
     case EDITOR_SAVE: {
       return state.set('isSaving', true);
     }

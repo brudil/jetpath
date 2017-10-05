@@ -1,29 +1,30 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import * as SpectrumPropTypes from '../SpectrumPropTypes';
 import InteractiveSelector from '../../InteractiveSelector';
-import ElementStream from '../ElementStream';
 import { connect } from 'react-redux';
 import find from 'lodash/find';
 import SegmentedControl from '../../SegmentedControl/index';
+import {ChangesetApplier, ElementPath} from "../../../libs/spectrum2/interfaces";
+import {update} from "../../../libs/spectrum2/changes";
 
-class CanvasSubtype extends React.Component {
-  constructor(props) {
+interface IProps {
+  update: ChangesetApplier,
+  data: any,
+  path: ElementPath,
+  interactiveEntities: any,
+}
+
+class CanvasSubtype extends React.Component<IProps> {
+  private handleSelection: (slug: string) => void;
+  private handleViewModeChange: (value: string) => void;
+
+  constructor(props: IProps) {
     super(props);
 
     this.handleSelection = slug => {
-      this.props.update({
-        command: 'update',
-        path: [...this.props.path, 'resource', 'slug'],
-        value: slug,
-      });
+      this.props.update(update([...this.props.path, 'resource', 'slug'], slug));
     };
     this.handleViewModeChange = value => {
-      this.props.update({
-        command: 'update',
-        path: [...this.props.path, 'viewMode'],
-        value,
-      });
+      this.props.update(update([...this.props.path, 'viewMode'], value));
     };
   }
 
@@ -51,12 +52,6 @@ class CanvasSubtype extends React.Component {
     );
   }
 }
-
-CanvasSubtype.propTypes = {
-  update: PropTypes.func,
-  data: PropTypes.object,
-  path: SpectrumPropTypes.elementPath.isRequired,
-};
 
 export default connect(state => ({
   interactiveEntities: state.entities.interactives,

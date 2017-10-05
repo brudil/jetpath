@@ -1,16 +1,29 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import has from 'lodash/has';
 import cx from 'classnames';
-import { ChangesetInstruction } from '../../../libs/spectrum2/interfaces'
-import * as SpectrumPropTypes from '../SpectrumPropTypes';
+import {
+  ChangesetApplier, ChangesetInstruction, ElementDefinition,
+  ElementPath
+} from '../../../libs/spectrum2/interfaces';
 import { nameToComponentMap } from '../elementsMap';
 
 import styles from './ElementInserter.css';
 import stylesInsertElement from './InsertElement.css';
 
-class ElementInserter extends React.Component {
-  constructor(props) {
+interface IProps {
+  structure: any, // todo
+  update: ChangesetApplier,
+  position: number,
+  path: ElementPath,
+}
+
+interface IState {
+  isOpen: boolean,
+  elements: Array<ElementDefinition>,
+  name: string,
+}
+
+class ElementInserter extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
 
     this.state = {
@@ -25,16 +38,17 @@ class ElementInserter extends React.Component {
   }
 
   getInsertType() {
-    return 'element';
+    return 'element'; // todo
   }
 
-  handleStopPropagation(e) {
+  handleStopPropagation(e: React.MouseEvent<HTMLDivElement>) {
     e.stopPropagation();
   }
 
-  handleInitialClick(e) {
+  handleInitialClick(e: React.MouseEvent<HTMLAnchorElement>) {
     e.preventDefault();
-    const defaultElement = this.props.structure.options.fields[0].options.defaultValue;
+    const defaultElement = this.props.structure.options.fields[0].options
+      .defaultValue;
     const allowed = this.props.structure.options.fields[0].options.elements;
 
     if (defaultElement) {
@@ -51,7 +65,7 @@ class ElementInserter extends React.Component {
     this.setState({ isOpen: false });
   }
 
-  handleInsertElement(elementDef) {
+  handleInsertElement(elementDef: ElementDefinition) {
     this.props.update({
       instruction: ChangesetInstruction.INSERT,
       path: this.props.path,
@@ -80,9 +94,7 @@ class ElementInserter extends React.Component {
     } else {
       inner = (
         <div className={styles.root}>
-          <div className={styles.title}>
-            Insert {this.state.name || ''}
-          </div>
+          <div className={styles.title}>Insert {this.state.name || ''}</div>
           <ul className={styles.list}>
             {this.state.elements.map(element => {
               const component = nameToComponentMap.get(element.identifier);
@@ -97,11 +109,11 @@ class ElementInserter extends React.Component {
               return (
                 <li
                   className={styles.element}
-                  key={element._name}
+                  key={element.identifier}
                   onClick={this.handleInsertElement.bind(this, element)}
                 >
                   <div className={styles.elementIcon}>
-                    <i className={`icon icon-${element.elementName}`}>
+                    <i className={`icon icon-${element.identifier}`}>
                       {Icon !== null ? <Icon /> : null}
                     </i>
                   </div>
@@ -118,7 +130,6 @@ class ElementInserter extends React.Component {
               <div className={styles.elementIcon}>
                 <i className="icon icon-cross">
                   <img
-                    // eslint-disable-next-line
                     src={require('icons/cross.svg')}
                     alt="Remove element"
                   />
@@ -141,12 +152,5 @@ class ElementInserter extends React.Component {
     );
   }
 }
-
-ElementInserter.propTypes = {
-  structure: PropTypes.object.isRequired,
-  update: PropTypes.func.isRequired,
-  position: PropTypes.number.isRequired,
-  path: SpectrumPropTypes.elementPath.isRequired,
-};
 
 export default ElementInserter;

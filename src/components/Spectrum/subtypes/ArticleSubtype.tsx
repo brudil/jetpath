@@ -1,10 +1,10 @@
 import React from 'react';
 import ElementStream from '../ElementStream';
-import {ElementData, ElementPath} from "../spectrumInterfaces";
+import {ElementPath} from "../../../libs/spectrum2/interfaces";
 
 interface IProps {
   update: () => void,
-  data: ElementData,
+  data: any,
   path: ElementPath,
 }
 

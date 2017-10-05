@@ -1,12 +1,15 @@
 import React from 'react';
-import {Changeset, ChangesetInstruction, ElementPath} from '../../../../libs/spectrum2/interfaces';
+import {
+  ChangesetApplier, ChangesetInstruction,
+  ElementPath
+} from '../../../../libs/spectrum2/interfaces';
 import DebouncedAutosizeTextarea from '../../../DebouncedAutosizeTextarea';
 import HeadingIcon from '../../../icons/heading.svg.react';
 
 import styles from './HeadingBlock.css';
 
 interface IProps {
-  update: (changeset: Changeset) => void,
+  update: ChangesetApplier,
   data: any, // todo
   path: ElementPath,
 }
