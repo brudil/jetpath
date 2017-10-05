@@ -37,6 +37,10 @@ function moveElement(document: Document, changeset: MoveChangeset) {
 }
 
 export function isElementDefinition(test: any) {
+  if (!test) {
+    return false;
+  }
+
   return !!Object.hasOwnProperty.call(test, 'identifier');
 }
 
@@ -107,7 +111,7 @@ export function remove(path: ElementPath): RemoveChangeset {
 
 export function move(path: ElementPath, position: number): MoveChangeset {
   return {
-    instruction: ChangesetInstruction.REMOVE,
+    instruction: ChangesetInstruction.MOVE,
     path,
     position
   }

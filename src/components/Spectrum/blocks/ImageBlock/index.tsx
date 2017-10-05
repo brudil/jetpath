@@ -17,7 +17,7 @@ interface IProps {
   data: any,
   update: ChangesetApplier,
   mediaEntities: any,
-  dispatch: (action: Object) => void,
+  dispatch: any
 }
 
 class ImageBlock extends React.Component<IProps> {
