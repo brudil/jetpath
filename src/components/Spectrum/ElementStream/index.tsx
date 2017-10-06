@@ -1,29 +1,36 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
-import { nameToElementMap } from '../elementsMap';
+import { getElementByName } from '../../../libs/spectrum2/structure';
 import ElementInserter from '../ElementInserter';
 import Element from '../Element';
-import * as SpectrumPropTypes from '../SpectrumPropTypes';
+import {ChangesetApplier, ElementIndex, ElementPath} from "../../../libs/spectrum2/interfaces";
 
-function ElementStream(props) {
-  const { data, index, path, update, className } = props;
+interface IProps {
+  update: ChangesetApplier,
+  data: any,
+  index: ElementIndex,
+  className?: string,
+  path: ElementPath,
+  focus: any,
+}
 
-  const ElementFromMap = nameToElementMap.get(data.get('_name'));
-  const structure = new ElementFromMap()._fields[index].itemField;
+const ElementStream: React.SFC<IProps> = (props: IProps) => {
+  const { data, index, path, update, className, focus } = props;
+
+  const structure = getElementByName(data.get('_name')).fields[index];
 
   return (
     <ul className={cx(className, 'spectrum-stream')}>
-      {data.get(index).map((item, itemIndex) => {
+      {data.get(index).map((item: any, itemIndex: number) => {
         const position = [itemIndex, data.get(index).size];
         return (
           <li key={item.get('_id')}>
             <ElementInserter
-              filter={{ type: 'section' }}
               structure={structure}
               update={update}
               path={[...path, index]}
               position={itemIndex}
+              focus={focus}
             />
             <Element
               data={data.get(index)}
@@ -31,6 +38,7 @@ function ElementStream(props) {
               path={[...path, index]}
               index={itemIndex}
               position={position}
+              focus={focus}
               isInStream
             />
           </li>
@@ -38,29 +46,16 @@ function ElementStream(props) {
       })}
       <li>
         <ElementInserter
-          filter={{ type: 'section' }}
           structure={structure}
           update={update}
           path={[...path, index]}
           position={data.get(index).size}
+          focus={focus}
         />
       </li>
     </ul>
   );
 }
-
-ElementStream.propTypes = {
-  update: PropTypes.func.isRequired,
-  data: PropTypes.oneOfType([
-    PropTypes.shape({
-      setupStructure: PropTypes.object,
-    }).isRequired,
-    PropTypes.array.isRequired,
-  ]),
-  index: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  className: PropTypes.string,
-  path: SpectrumPropTypes.elementPath.isRequired,
-};
 
 ElementStream.defaultProps = {
   index: 'stream',

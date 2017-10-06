@@ -4,7 +4,7 @@ import cx from 'classnames';
 
 import styles from './SegmentedControl.css';
 
-type controlId = string | number;
+type controlId = string | number | null;
 type optionTuple = [controlId, string];
 
 function SegmentedControl(props: {
@@ -23,7 +23,7 @@ function SegmentedControl(props: {
   return (
     <div className={cx(styles.root, props.className)}>
       {options.map(option => {
-        const [id, lang] = option;
+        const [id, lang]: [any, string] = option;
         const classNames = cx(styles.option, {
           [styles.optionActive]: id === props.value,
         });

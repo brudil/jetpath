@@ -1,6 +1,7 @@
 import React from 'react';
 import keyBy from 'lodash/keyBy';
-import { subtypes } from '@brudil/spectrum';
+import { sets } from '../../../libs/spectrum2/structure';
+import { changeSubtype } from '../../../libs/spectrum2/changes';
 import SegmentedControl from '../../SegmentedControl';
 
 import cogIcon from './cog.svg';
@@ -9,7 +10,7 @@ import styles from './DocumentPanel.css';
 
 interface IProps {
   data: any,
-  changeSubtype: any
+  applyChangeset: any
 }
 
 class DocumentPanel extends React.Component<IProps, any> {
@@ -19,10 +20,11 @@ class DocumentPanel extends React.Component<IProps, any> {
   constructor(props: IProps) {
     super(props);
 
-    this.subtypeMap = keyBy(subtypes.sets.all, subtype => subtype._name);
+    this.subtypeMap = keyBy(sets.subtypes, subtype => subtype.identifier);
 
     this.handleChangeSubtype = value => {
-      this.props.changeSubtype(new this.subtypeMap[value]());
+      console.log(value, this.subtypeMap);
+      this.props.applyChangeset(changeSubtype(this.subtypeMap[value]));
     };
 
     this.state = {
@@ -37,7 +39,6 @@ class DocumentPanel extends React.Component<IProps, any> {
   }
 
   render() {
-    console.log(this.props.data);
     const { isOpen } = this.state;
     return isOpen ? (
       <div className="panel">

@@ -12,10 +12,11 @@ import mediaIcon from './media.svg';
 import organisationIcon from './organisation.svg';
 
 import * as styles from './GlobalHeader.css';
+import {compose, pure} from "recompose";
 
 const style = styles as any;
 
-function GlobalHeader(props: { vertical: { identifier: string, name: string } | null }) {
+function GlobalHeader(props: { vertical: { identifier: string, name: string } | null, children?: any }) {
   const { vertical } = props;
 
   if (!vertical) {
@@ -93,7 +94,10 @@ function GlobalHeader(props: { vertical: { identifier: string, name: string } | 
   );
 }
 
-export default connect(state => ({
-  vertical: state.verticals.selectedVertical,
-  state,
-}))(GlobalHeader);
+export default compose(
+  connect(state => ({
+    vertical: state.verticals.selectedVertical,
+    state,
+  })),
+  pure,
+)(GlobalHeader);

@@ -1,3 +1,5 @@
+@import '../../../styles/core/colors.css';
+
 .root {
   font-size: 0.8rem;
 }
@@ -10,12 +12,27 @@
 
 .control {
   margin-bottom: 1em;
+
+  & input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.2rem;
+    font-size: 0.9rem;
+    border-radius: 2px;
+    border: 1px solid var(--color__dull-grey);
+    background: #ffffff;
+
+    &:focus {
+      border: 1px solid var(--color__accent);
+      outline: none;
+    }
+  }
 }
 
 .controlName {
   font-size: 1em;
-  margin-bottom: 0.25em;
-  color: $color__grey;
+  margin-bottom: 0.2em;
+  color: var(--color__grey);
 }
 
 

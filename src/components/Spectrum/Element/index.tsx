@@ -1,10 +1,12 @@
 import React from 'react';
-import isEqual from 'lodash/isEqual';
 import { nameToComponentMap } from '../elementsMap';
 import ElementPanel from '../ElementPanel';
 
 import styles from './Element.css';
-import {ElementIndex, ElementPath, SingleElementData} from "../spectrumInterfaces";
+import {ElementIndex, ElementPath} from "../../../libs/spectrum2/interfaces";
+import isEqual from "lodash/isEqual";
+import {connect} from "react-redux";
+import * as EditorActions from '../../../ducks/Editor';
 
 interface IProps {
   update: (key: any) => void,
@@ -12,7 +14,10 @@ interface IProps {
   path: ElementPath,
   isInStream: boolean,
   index: ElementIndex,
-  data: SingleElementData,
+  data: any,
+  focus: any,
+  setElementFocus: any,
+  togglePanel: any,
 }
 
 interface IState {
@@ -28,12 +33,7 @@ class Element extends React.Component<IProps, IState> {
 
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
-  }
-
-  shouldComponentUpdate(nextProps: IProps, nextState: IState) {
-    return (
-      this.state.show !== nextState.show || !isEqual(this.props, nextProps)
-    );
+    this.handleElementSelect = this.handleElementSelect.bind(this);
   }
 
   handleMouseOver(e: React.MouseEvent<HTMLDivElement>) {
@@ -50,14 +50,29 @@ class Element extends React.Component<IProps, IState> {
     }
   }
 
+  handleElementSelect() {
+    this.props.setElementFocus([...this.props.path, this.props.position])
+  }
+
+  shouldComponentUpdate(nextProps: IProps, nextState: IState) {
+    const shouldUpdate = !isEqual(this.props.position, nextProps.position)
+      || !isEqual(this.props.path, nextProps.path)
+      || this.props.index !== nextProps.index
+      || this.props.focus !== nextProps.focus
+      || this.props.data.get(this.props.index) !== nextProps.data.get(this.props.index)
+      || this.state.show !== nextState.show;
+    return shouldUpdate;
+  }
+
   render() {
-    const { update, path, index, position, isInStream, data } = this.props;
+    const { update, path, index, position, isInStream, data, focus, togglePanel } = this.props;
 
     const element = data.get(index);
-    const elementName = element.get('_name');
-    if (element === null) {
+    if (element === null || element === undefined) {
       return <p>Element is empty.</p>;
     }
+
+    const elementName = element.get('_name');
 
     const ElementChild = nameToComponentMap.get(elementName);
     const elementPath = [...path, index];
@@ -67,6 +82,8 @@ class Element extends React.Component<IProps, IState> {
           path: elementPath,
           update,
           index,
+          focus,
+          setFocus: this.handleElementSelect,
         })
       : <pre>
           "{elementName}" not found!
@@ -75,6 +92,8 @@ class Element extends React.Component<IProps, IState> {
     const hasCustomPanel =
       ElementChild !== undefined &&
       Object.hasOwnProperty.call(ElementChild, 'panel');
+
+    const hasFocus = isEqual([...this.props.path, this.props.position], this.props.focus.get('focusPath').toJS());
 
     return (
       <div
@@ -91,10 +110,16 @@ class Element extends React.Component<IProps, IState> {
           data={element}
           streamIndex={position}
           isInStream={isInStream}
+          togglePanel={togglePanel}
+          setFocus={this.handleElementSelect}
+          isOpen={hasFocus && this.props.focus.get('hasPanelOpen')}
         /> : null}
       </div>
     );
   }
 }
 
-export default Element;
+export default connect(null, {
+  setElementFocus: EditorActions.setElementFocus,
+  togglePanel: EditorActions.togglePanel,
+})(Element);

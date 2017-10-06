@@ -8,13 +8,11 @@ import {
   throttle,
 } from 'redux-saga/effects';
 import find from 'lodash/find';
-import {
-  SpectrumDocument,
-  resources,
-  subtypes,
-  fields,
-  blocks,
-} from '@brudil/spectrum';
+import { ChangesetInstruction } from '../libs/spectrum2/interfaces';
+import { ArticleSubtype, HeadingBlock } from '../libs/spectrum2/structure';
+import { applyChangeset, changeSubtype } from '../libs/spectrum2/changes';
+import { createDocument, filterDocument } from '../libs/spectrum2/helpers';
+import { getWordCount } from '../libs/spectrum2/utils';
 import { WorksClient, MediaClient, InteractivesClient } from '../serverAPI';
 import { action as makeAction, createRequestTypes } from '../utils';
 import getVertical from '../sagas/getVertical';
@@ -45,6 +43,9 @@ const EDITOR_CREATE_CONTENT = createRequestTypes('EDITOR_CREATE_CONTENT');
 const EDITOR_OPEN_COMMENT_PANEL = 'EDITOR_OPEN_COMMENTS_PANEL';
 const EDITOR_CLOSE_COMMENT_PANEL = 'EDITOR_CLOSE_COMMENTS_PANEL';
 const EDITOR_SEEN_HINT = 'EDITOR_SEEN_HINT';
+const EDITOR_SET_FOCUS = 'EDITOR_SET_FOCUS';
+const EDITOR_TOGGLE_COMMAND_PALETTE = 'EDITOR_TOGGLE_COMMAND_PALETTE';
+const EDITOR_ELEMENT_PANEL = 'EDITOR_ELEMENT_PANEL';
 
 // ACTIONS
 export const loadContent = contentId =>
@@ -94,6 +95,26 @@ export const removeAuthor = id => makeAction(EDITOR_REMOVE_AUTHOR, { id });
 
 export const seenHint = name => ({ type: EDITOR_SEEN_HINT, payload: { name } });
 
+export const setInsertFocus = path => ({
+  type: EDITOR_SET_FOCUS,
+  payload: { path, focusType: 'INSERTER' },
+});
+
+export const setElementFocus = path => ({
+  type: EDITOR_SET_FOCUS,
+  payload: { path, focusType: 'ELEMENT' },
+});
+
+export const togglePanel = options => ({
+  type: EDITOR_ELEMENT_PANEL,
+  payload: { open: options.open },
+});
+
+export const toggleCommandPalette = options => ({
+  type: EDITOR_TOGGLE_COMMAND_PALETTE,
+  payload: { open: options.open },
+});
+
 const EditorHints = Immutable.Record({
   moveToDraftingWordCount: false,
 });
@@ -114,13 +135,17 @@ const initialState = new Immutable.Map({
     wordCount: null,
   }),
   hints: new EditorHints(),
+  focus: Immutable.Map({
+    focusPath: Immutable.List(['content']),
+    focusType: 'INSERTER',
+    hasPanelOpen: false,
+    commandPaletteOpen: false,
+    commandPaletteCommand: '',
+  }),
 });
 
 function createEmptyDocumentUtil() {
-  const document = new SpectrumDocument();
-  document.content = new subtypes.ArticleSubtype();
-
-  return Immutable.fromJS(document.toJS());
+  return applyChangeset(createDocument(), changeSubtype(ArticleSubtype));
 }
 
 function createEmptyRevision() {
@@ -141,40 +166,6 @@ function createEmptyRevision() {
     byline_markup: '',
   });
 }
-
-const applyDocumentChange = changeset => document => {
-  switch (changeset.command) {
-    case 'insert': {
-      const elementStructure = Immutable.fromJS(
-        new fields.ElementField().toJS(changeset.element)
-      );
-      return document.updateIn(changeset.path, arr =>
-        arr.splice(changeset.position, 0, elementStructure)
-      );
-    }
-    case 'update': {
-      return document.setIn(changeset.path, changeset.value);
-    }
-    case 'remove': {
-      const last = changeset.path.pop();
-      const allBut = changeset.path;
-      return document.updateIn(allBut, stream => stream.delete(last));
-    }
-    case 'move': {
-      const last = changeset.path.pop();
-      const allBut = changeset.path;
-      return document.updateIn(allBut, stream => {
-        const selectedElement = stream.get(last);
-        return stream
-          .splice(last, 1)
-          .splice(last + changeset.position, 0, selectedElement);
-      });
-    }
-    default: {
-      throw new Error(`unsupported changeset command: ${changeset.command}`);
-    }
-  }
-};
 
 function createImmutableRevision(revision) {
   return Immutable.fromJS(revision, (key, value) => {
@@ -228,16 +219,24 @@ export default function EditorReducer(state = initialState, action) {
           .set('hints', new EditorHints())
       );
     }
-    case EDITOR_CHANGE_SUBTYPE:
-      const subtype = action.payload.element;
-      const subtypeVanilla = new fields.ElementField().toJS(subtype);
-      const subtypeImmutable = Immutable.fromJS(subtypeVanilla);
-      return state.setIn(['workingDocument', 'content'], subtypeImmutable);
     case EDITOR_SAVE: {
       return state.set('isSaving', true);
     }
     case EDITOR_SAVE_FAILURE: {
       return state.set('isSaving', false);
+    }
+    case EDITOR_SET_FOCUS: {
+      const prevElement = state.getIn(['focus', 'focusPath']);
+      let nextState = state
+        .setIn(['focus', 'focusPath'], Immutable.fromJS(action.payload.path))
+        .setIn(['focus', 'focusType'], action.payload.focusType)
+        .setIn(['focus', 'commandPaletteOpen'], false);
+
+      if (prevElement.equals(state.getIn(['focus', 'focusPath']))) {
+        nextState = nextState.setIn(['focus', 'hasPanelOpen'], false);
+      }
+
+      return nextState;
     }
     case EDITOR_UPDATE_STATS: {
       return state.set('stats', Immutable.fromJS(action.payload));
@@ -278,10 +277,29 @@ export default function EditorReducer(state = initialState, action) {
       );
     }
     case EDITOR_DOCUMENT_CHANGE: {
-      return state.updateIn(
-        ['workingDocument'],
-        applyDocumentChange(action.changeset)
+      let newState = state.updateIn(['workingDocument'], document =>
+        applyChangeset(document, action.changeset)
       );
+
+      if (action.changeset.instruction === ChangesetInstruction.INSERT) {
+        newState = newState
+          .setIn(
+            ['focus', 'focusPath'],
+            Immutable.fromJS(action.changeset.path).push(
+              action.changeset.position
+            )
+          )
+          .setIn(['focus', 'focusType'], 'ELEMENT')
+          .setIn(['focus', 'commandPaletteOpen'], false);
+      }
+
+      return newState;
+    }
+    case EDITOR_TOGGLE_COMMAND_PALETTE: {
+      return state.setIn(['focus', 'commandPaletteOpen'], action.payload.open);
+    }
+    case EDITOR_ELEMENT_PANEL: {
+      return state.setIn(['focus', 'hasPanelOpen'], action.payload.open);
     }
     case EDITOR_REVISION_CHANGE: {
       return state.setIn(['workingRevision', ...action.path], action.value);
@@ -429,13 +447,14 @@ function* handleEditorPublish() {
 }
 
 function* loadMissingResourcesForRevision(revision, spectrum_document) {
-  const foundResources = SpectrumDocument.fromJS(spectrum_document)
-    .getElements()
-    .filter(
-      el =>
-        el instanceof resources.Resource ||
-        el instanceof resources.LowdownInteractiveResource
-    );
+  const foundResources = filterDocument(
+    spectrum_document,
+    el => true
+    //      el instanceof resources.Resource ||
+    //      el instanceof resources.LowdownInteractiveResource
+  );
+
+  console.log('foundresources', foundResources);
 
   // IMAGES
   const imageEntities = yield select(state => state.entities.media);
@@ -531,11 +550,7 @@ function* handleLoadResourcesOnChange() {
   const workingRev = editorState.get('workingRevision');
   const workingDoc = editorState.get('workingDocument');
   if (workingRev && workingDoc) {
-    yield spawn(
-      loadMissingResourcesForRevision,
-      workingRev.toJS(),
-      workingDoc.toJS()
-    );
+    yield spawn(loadMissingResourcesForRevision, workingRev, workingDoc);
   }
 }
 
@@ -566,8 +581,8 @@ function* handleEditorLoad({ contentId }) {
   yield [
     spawn(
       loadMissingResourcesForRevision,
-      revision,
-      revision.spectrum_document
+      Immutable.fromJS(revision),
+      Immutable.fromJS(revision.spectrum_document)
     ),
     put(entities(revisionPayload.payload)),
     put(entities(editorialMetadataPayload.payload)),
@@ -584,20 +599,7 @@ function* handleEditorLoad({ contentId }) {
 function* updateStats() {
   const editor = yield select(state => state.editor);
 
-  const filteredBlocks = SpectrumDocument.fromJS(
-    editor.get('workingDocument').toJS()
-  )
-    .getElements()
-    .filter(element => element instanceof blocks.TextBlock);
-  const wordCount = filteredBlocks.reduce(
-    (total, textBlock) =>
-      total +
-      textBlock.text.text
-        .trim()
-        .replace(/\s+/gi, ' ')
-        .split(' ').length,
-    0
-  );
+  const wordCount = getWordCount(editor.get('workingDocument'));
 
   if (
     !editor.get('isLocal') &&

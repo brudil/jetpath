@@ -1,13 +1,20 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import ElementStream from '../ElementStream';
-import * as SpectrumPropTypes from '../SpectrumPropTypes';
 import FreeformIcon from '../../icons/freeform.svg.react';
 
 import styles from './Section.css';
+import {ChangesetApplier, ElementPath} from "../../../libs/spectrum2/interfaces";
+import {SpectrumRenderElement} from "../interfaces";
 
-function FreeformSection(props) {
-  const { data, path, update } = props;
+interface IProps {
+  path: ElementPath,
+  data: any,
+  update: ChangesetApplier,
+  focus: any,
+}
+
+const FreeformSection: SpectrumRenderElement<IProps> = (props: IProps) => {
+  const { data, path, update, focus } = props;
   return (
     <div className={styles.root}>
       <header className={styles.header}>Freeform Section</header>
@@ -16,17 +23,13 @@ function FreeformSection(props) {
         data={data}
         path={path}
         update={update}
+        index="stream"
+        focus={focus}
       />
     </div>
   );
-}
+} ;
 
 FreeformSection.Icon = FreeformIcon;
-
-FreeformSection.propTypes = {
-  update: PropTypes.func,
-  data: PropTypes.object,
-  path: SpectrumPropTypes.elementPath.isRequired,
-};
 
 export default FreeformSection;

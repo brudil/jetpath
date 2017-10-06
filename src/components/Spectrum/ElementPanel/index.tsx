@@ -2,20 +2,23 @@ import React from 'react';
 import cx from 'classnames';
 
 import styles from './ElementPanel.css';
-import {ElementPath} from '../spectrumInterfaces';
+import {move, remove} from "../../../libs/spectrum2/changes";
+import {Changeset, ElementPath} from "../../../libs/spectrum2/interfaces";
 
 interface IProps {
-  update: (options: { command: string, path: ElementPath, value?: any, position?: number }) => void,
+  update: (changeset: Changeset) => void,
   streamIndex: Array<any>, // todo: fix
   path: ElementPath,
   data: any, // todo: fix
   customElementPanel: any, // todo: search for react component type
   isHovering: boolean,
   isInStream: boolean,
+  isOpen: boolean,
+  setFocus(): void,
+  togglePanel(options: { open: boolean }): void,
 }
 
 interface IState {
-  isOpen: boolean,
   shownDeleteConfirm: boolean,
 }
 
@@ -24,38 +27,31 @@ class ElementPanel extends React.Component<IProps, IState> {
     super(props);
 
     this.state = {
-      isOpen: false,
       shownDeleteConfirm: false,
     };
 
-    this.handleClickOutside = this.handleClickOutside.bind(this);
     this.handlePrefsOpen = this.handlePrefsOpen.bind(this);
     this.handleUp = this.handleUp.bind(this);
     this.handleDown = this.handleDown.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
   }
 
-  handleClickOutside() {
-    if (this.state.isOpen) {
-      this.setState({ isOpen: false, shownDeleteConfirm: false });
-    }
-  }
-
   handlePrefsOpen() {
-    this.setState({ isOpen: true });
+    this.props.setFocus();
+    this.props.togglePanel({ open: true });
   }
 
   handleUp() {
-    this.props.update({ command: 'move', path: this.props.path, position: -1 });
+    this.props.update(move(this.props.path, -1));
   }
 
   handleDown() {
-    this.props.update({ command: 'move', path: this.props.path, position: +1 });
+    this.props.update(move(this.props.path, +1));
   }
 
   handleRemove() {
     if (this.state.shownDeleteConfirm) {
-      this.props.update({ command: 'remove', path: this.props.path });
+      this.props.update(remove(this.props.path));
     } else {
       this.setState({ shownDeleteConfirm: true });
     }
@@ -139,13 +135,13 @@ class ElementPanel extends React.Component<IProps, IState> {
 
   render() {
     const classNames = cx(styles.root, {
-      [styles.root_open]: this.state.isOpen,
+      [styles.root_open]: this.props.isOpen,
       [styles.root_visible]: this.props.isHovering,
     });
     return (
       <div className={classNames}>
         <div className={styles.inner}>
-          {this.state.isOpen ? this.renderOpenPanel() : this.renderHoverPanel()}
+          {this.props.isOpen ? this.renderOpenPanel() : this.renderHoverPanel()}
         </div>
       </div>
     );

@@ -1,13 +1,14 @@
 import React from 'react';
+import Immutable from 'immutable';
 import { connect } from 'react-redux';
 import Toast from './Toast';
-import { removeToast, Toast as ToastObject } from '../../ducks/Toast';
+import { removeToast } from '../../ducks/Toast';
 
 import styles from './ToastList.css';
 import {bindActionCreators} from "redux";
 
 interface IProps {
-  toastList: Array<ToastObject>,
+  toastList: Array<Immutable.Record.Instance<any>>,
   removeToast: (id: number) => Object,
   dispatch: (action: Object) => void
 }

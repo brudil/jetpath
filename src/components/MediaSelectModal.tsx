@@ -17,4 +17,4 @@ class MediaSelectModal extends React.Component<IProps, any> {
   }
 }
 
-export default modalWrapper()(MediaSelectModal);
+export default modalWrapper()(MediaSelectModal) as any;

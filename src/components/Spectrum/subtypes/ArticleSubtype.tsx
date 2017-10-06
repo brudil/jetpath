@@ -1,15 +1,16 @@
 import React from 'react';
 import ElementStream from '../ElementStream';
-import {ElementData, ElementPath} from "../spectrumInterfaces";
+import {ElementPath} from "../../../libs/spectrum2/interfaces";
 
 interface IProps {
   update: () => void,
-  data: ElementData,
+  data: any,
   path: ElementPath,
+  focus: any,
 }
 
 function ArticleSubtype(props: IProps) {
-  const { data, path, update } = props;
+  const { data, path, update, focus } = props;
   return (
     <ElementStream
       className="spectrum__top-stream"
@@ -17,6 +18,7 @@ function ArticleSubtype(props: IProps) {
       index="stream"
       path={path}
       update={update}
+      focus={focus}
     />
   );
 }

@@ -1,8 +1,3 @@
-// Documents - a Spectrum Document
-// Sections  - top level container of elements, with optionally ridgid structure
-// Blocks    - a display format. e.g: image, text, heading
-// Resources - data request that uses IO
-// Transformers - simple function for converting
 import React from 'react';
 import { connect } from 'react-redux';
 import Element from '../Element';
@@ -15,11 +10,11 @@ interface IProps {
   updateSpectrumDocument: any,
   changeDocumentSubtype: any,
   document: any,
+  focus: any,
 }
 
 class SpectrumEditor extends React.Component<IProps, any> {
   private boundUpdate: (changeset: any) => void;
-  private changeDocumentSubtype: (element: any) => void;
 
   constructor(props: IProps) {
     super(props);
@@ -28,20 +23,21 @@ class SpectrumEditor extends React.Component<IProps, any> {
       this.props.updateSpectrumDocument(changeset);
     };
 
-    this.changeDocumentSubtype = element => {
-      this.props.changeDocumentSubtype(element);
-    };
+  }
+
+  componentDidMount() {
+
   }
 
   render() {
-    const { document } = this.props;
+    const { document, focus } = this.props;
     const hasContent = document.getIn(['content']) !== null;
 
     return (
       <div className={styles.root}>
         <DocumentPanel
           data={document}
-          changeSubtype={this.changeDocumentSubtype}
+          applyChangeset={this.props.updateSpectrumDocument}
         />
         {hasContent
           ? <Element
@@ -50,6 +46,7 @@ class SpectrumEditor extends React.Component<IProps, any> {
               path={[]}
               update={this.boundUpdate}
               isInStream={false}
+              focus={focus}
             />
           : null}
       </div>
