@@ -1,11 +1,10 @@
 import React from 'react';
 import DebouncedInput from '../../../DebouncedInput';
-
-import styles from '../../ElementPanel/Panel.css';
 import {
   ChangesetApplier, ChangesetInstruction,
   ElementPath
 } from "../../../../libs/spectrum2/interfaces";
+import Panel, {PanelControl} from "../../ElementPanel/Panel";
 
 interface IProps {
   update: ChangesetApplier,
@@ -43,12 +42,8 @@ class ImageBlockPanel extends React.Component<IProps> {
     const alt = data.get('alt');
 
     return (
-      <div className={styles.root}>
-        <h1 className={styles.title}>Image</h1>
-        <div className={styles.control}>
-          <label className={styles.controlName} htmlFor="caption">
-            Caption
-          </label>
+      <Panel title="Image">
+        <PanelControl title="Caption">
           <DebouncedInput
             type="text"
             name="caption"
@@ -57,11 +52,8 @@ class ImageBlockPanel extends React.Component<IProps> {
             value={caption.get('text')}
             onChange={this.handleCaption}
           />
-        </div>
-        <div className={styles.control}>
-          <label className={styles.controlName} htmlFor="titletext">
-            Tool tip text
-          </label>
+        </PanelControl>
+        <PanelControl title="Tool tip text">
           <DebouncedInput
             type="text"
             name="titletext"
@@ -70,11 +62,8 @@ class ImageBlockPanel extends React.Component<IProps> {
             value={title.get('text')}
             onChange={this.handleTitle}
           />
-        </div>
-        <div className={styles.control}>
-          <label className={styles.controlName} htmlFor="alttext">
-            Alt text
-          </label>
+        </PanelControl>
+        <PanelControl title="Alt text">
           <DebouncedInput
             type="text"
             name="alttext"
@@ -83,8 +72,8 @@ class ImageBlockPanel extends React.Component<IProps> {
             value={alt.get('text')}
             onChange={this.handleAlt}
           />
-        </div>
-      </div>
+        </PanelControl>
+      </Panel>
     );
   }
 }

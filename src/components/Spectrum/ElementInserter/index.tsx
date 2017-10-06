@@ -1,19 +1,23 @@
 import React from 'react';
-import cx from 'classnames';
 import {
   ChangesetApplier, ChangesetInstruction, ElementDefinition,
   ElementPath
 } from '../../../libs/spectrum2/interfaces';
+import * as EditorActions from '../../../ducks/Editor';
+import isEqual from 'lodash/isEqual';
 import { nameToComponentMap } from '../elementsMap';
 
 import styles from './ElementInserter.css';
 import stylesInsertElement from './InsertElement.css';
+import {connect} from 'react-redux';
 
 interface IProps {
   structure: any, // todo
   update: ChangesetApplier,
   position: number,
   path: ElementPath,
+  focus: any,
+  setInsertFocus: any,
 }
 
 interface IState {
@@ -34,7 +38,19 @@ class ElementInserter extends React.Component<IProps, IState> {
 
     this.handleInitialClick = this.handleInitialClick.bind(this);
     this.handleStopPropagation = this.handleStopPropagation.bind(this);
-    this.handleClose = this.handleClose.bind(this);
+  }
+
+  shouldComponentUpdate(nextProps: IProps, nextState: IState) {
+    if (
+      nextState !== this.state
+      || !isEqual(this.props.path, nextProps.path)
+      || this.props.position !== nextProps.position
+      || this.props.focus !== nextProps.focus // todo: this means every focus change will rerender, focus on if change effects element path given
+    ) {
+      return true;
+    }
+
+    return false;
   }
 
   getInsertType() {
@@ -45,8 +61,9 @@ class ElementInserter extends React.Component<IProps, IState> {
     e.stopPropagation();
   }
 
-  handleInitialClick(e: React.MouseEvent<HTMLAnchorElement>) {
+  handleInitialClick(e: React.MouseEvent<HTMLAnchorElement> | React.FocusEvent<HTMLAnchorElement>) {
     e.preventDefault();
+    e.stopPropagation();
     const defaultElement = this.props.structure.options.fields[0].options
       .defaultValue;
     const allowed = this.props.structure.options.fields[0].options.elements;
@@ -57,12 +74,9 @@ class ElementInserter extends React.Component<IProps, IState> {
     }
 
     if (allowed) {
-      this.setState({ isOpen: true, elements: allowed });
+      this.setState({ elements: allowed });
+      this.props.setInsertFocus([...this.props.path, this.props.position]);
     }
-  }
-
-  handleClose() {
-    this.setState({ isOpen: false });
   }
 
   handleInsertElement(elementDef: ElementDefinition) {
@@ -72,19 +86,23 @@ class ElementInserter extends React.Component<IProps, IState> {
       element: elementDef,
       position: this.props.position,
     });
-    this.setState({ isOpen: false });
+
   }
 
   render() {
     let inner = null;
 
-    if (!this.state.isOpen) {
+    if (
+      !isEqual(this.props.focus.get('focusPath').toJS(), [...this.props.path, this.props.position])
+      || this.props.focus.get('focusType') !== 'INSERTER'
+    ) {
       inner = (
         <a
           href=""
           className={stylesInsertElement.root}
           onClick={this.handleInitialClick}
           title={`Insert ${this.state.name}`}
+          onFocus={this.handleInitialClick}
         >
           <span className={stylesInsertElement.label}>
             Insert {this.state.name || ''}
@@ -96,7 +114,7 @@ class ElementInserter extends React.Component<IProps, IState> {
         <div className={styles.root}>
           <div className={styles.title}>Insert {this.state.name || ''}</div>
           <ul className={styles.list}>
-            {this.state.elements.map(element => {
+            {this.props.structure.options.fields[0].options.elements.map((element: ElementDefinition) => {
               const component = nameToComponentMap.get(element.identifier);
               if (component === undefined) {
                 console.warn(element.identifier, "isn't in element map");
@@ -108,35 +126,25 @@ class ElementInserter extends React.Component<IProps, IState> {
 
               return (
                 <li
-                  className={styles.element}
-                  key={element.identifier}
-                  onClick={this.handleInsertElement.bind(this, element)}
+                  className={styles.elementListItem}
                 >
-                  <div className={styles.elementIcon}>
-                    <i className={`icon icon-${element.identifier}`}>
-                      {Icon !== null ? <Icon /> : null}
-                    </i>
-                  </div>
-                  <div className={styles.elementLabel}>
-                    {element.identifier}
-                  </div>
+                  <button
+                    className={styles.elementButton}
+                    key={element.identifier}
+                    onClick={this.handleInsertElement.bind(this, element)}
+                  >
+                    <div className={styles.elementIcon}>
+                      <i className={`icon icon-${element.identifier}`}>
+                        {Icon !== null ? <Icon /> : null}
+                      </i>
+                    </div>
+                    <div className={styles.elementLabel}>
+                      {element.identifier}
+                    </div>
+                  </button>
                 </li>
               );
             })}
-            <li
-              className={cx(styles.element, styles.element_close)}
-              onClick={this.handleClose}
-            >
-              <div className={styles.elementIcon}>
-                <i className="icon icon-cross">
-                  <img
-                    src={require('icons/cross.svg')}
-                    alt="Remove element"
-                  />
-                </i>
-              </div>
-              <div className={styles.elementLabel}>Close</div>
-            </li>
           </ul>
         </div>
       );
@@ -153,4 +161,6 @@ class ElementInserter extends React.Component<IProps, IState> {
   }
 }
 
-export default ElementInserter;
+export default connect(null, {
+  setInsertFocus: EditorActions.setInsertFocus,
+})(ElementInserter);

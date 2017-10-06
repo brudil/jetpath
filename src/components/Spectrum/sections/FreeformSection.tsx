@@ -9,11 +9,12 @@ import {SpectrumRenderElement} from "../interfaces";
 interface IProps {
   path: ElementPath,
   data: any,
-  update: ChangesetApplier
+  update: ChangesetApplier,
+  focus: any,
 }
 
 const FreeformSection: SpectrumRenderElement<IProps> = (props: IProps) => {
-  const { data, path, update } = props;
+  const { data, path, update, focus } = props;
   return (
     <div className={styles.root}>
       <header className={styles.header}>Freeform Section</header>
@@ -23,6 +24,7 @@ const FreeformSection: SpectrumRenderElement<IProps> = (props: IProps) => {
         path={path}
         update={update}
         index="stream"
+        focus={focus}
       />
     </div>
   );

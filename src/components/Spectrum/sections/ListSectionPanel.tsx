@@ -2,9 +2,10 @@ import React from 'react';
 import SegmentedControl from '../../SegmentedControl';
 import {ChangesetApplier, ElementPath} from "../../../libs/spectrum2/interfaces";
 import {update} from "../../../libs/spectrum2/changes";
+import Panel, { PanelControl } from "../ElementPanel/Panel";
 
 const pointsSetup = [
-  'none',
+  null,
   'None',
   'alpha',
   'Alpha',
@@ -29,25 +30,22 @@ class ListSectionPanel extends React.Component<IProps> {
 
   render() {
     return (
-      <div className="panel">
-        <h1 className="panel__title">List section</h1>
-        <div className="panel__control">
-          <div className="panel__control-name">Item Points</div>
+      <Panel title="List section">
+        <PanelControl title="Style">
           <SegmentedControl
-            value={this.props.data.points}
+            value={this.props.data.get('points')}
             options={pointsSetup}
             onChange={this.handleUpdate.bind(this, 'points')}
           />
-        </div>
-        <div className="panel__control">
-          <div className="panel__control-name">Points Order</div>
+        </PanelControl>
+        <PanelControl title="Order">
           <SegmentedControl
-            value={this.props.data.order}
+            value={this.props.data.get('order')}
             options={orderSetup}
             onChange={this.handleUpdate.bind(this, 'order')}
           />
-        </div>
-      </div>
+        </PanelControl>
+      </Panel>
     );
   }
 }

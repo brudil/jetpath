@@ -12,6 +12,7 @@ interface IProps {
   update: ChangesetApplier,
   data: any, // todo
   path: ElementPath,
+  setFocus: () => void
 }
 
 class HeadingBlock extends React.Component<IProps> {
@@ -31,7 +32,7 @@ class HeadingBlock extends React.Component<IProps> {
   }
 
   render() {
-    const { data } = this.props;
+    const { data, setFocus } = this.props;
 
     return (
       <div className={styles.root}>
@@ -40,6 +41,7 @@ class HeadingBlock extends React.Component<IProps> {
           placeholder="Heading"
           value={data.getIn(['text', 'text'])}
           onChange={this.handleInput}
+          onFocus={setFocus}
         />
       </div>
     );

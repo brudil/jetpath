@@ -4,14 +4,15 @@ import SpectrumEditor from '../components/Spectrum/Editor';
 
 interface IProps {
   workingDocument: any // todo
+  editorFocus: any // todo
 }
 
 class EditorSectionContent extends React.Component<IProps> {
   render() {
-    const { workingDocument } = this.props;
+    const { workingDocument, editorFocus } = this.props;
     return (
       <div>
-        <SpectrumEditor document={workingDocument} />
+        <SpectrumEditor document={workingDocument} focus={editorFocus} />
       </div>
     );
   }
@@ -19,4 +20,5 @@ class EditorSectionContent extends React.Component<IProps> {
 
 export default connect(state => ({
   workingDocument: state.editor.get('workingDocument'),
+  editorFocus: state.editor.get('focus'),
 }))(EditorSectionContent);

@@ -10,6 +10,7 @@ interface IProps {
   data: any,
   path: ElementPath,
   update: ChangesetApplier,
+  setFocus: () => void,
 }
 
 class PullQuoteBlock extends React.Component<IProps> {
@@ -28,7 +29,7 @@ class PullQuoteBlock extends React.Component<IProps> {
   }
 
   render() {
-    const { data } = this.props;
+    const { data, setFocus } = this.props;
 
     return (
       <div className={styles.root}>
@@ -37,7 +38,8 @@ class PullQuoteBlock extends React.Component<IProps> {
           placeholder="Pull Quote"
           value={data.getIn(['quote', 'text'])}
           onChange={this.handleInput}
-        />
+          onFocus={setFocus}
+      />
       </div>
     );
   }

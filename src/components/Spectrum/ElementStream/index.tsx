@@ -11,10 +11,11 @@ interface IProps {
   index: ElementIndex,
   className?: string,
   path: ElementPath,
+  focus: any,
 }
 
 const ElementStream: React.SFC<IProps> = (props: IProps) => {
-  const { data, index, path, update, className } = props;
+  const { data, index, path, update, className, focus } = props;
 
   const structure = getElementByName(data.get('_name')).fields[index];
 
@@ -29,6 +30,7 @@ const ElementStream: React.SFC<IProps> = (props: IProps) => {
               update={update}
               path={[...path, index]}
               position={itemIndex}
+              focus={focus}
             />
             <Element
               data={data.get(index)}
@@ -36,6 +38,7 @@ const ElementStream: React.SFC<IProps> = (props: IProps) => {
               path={[...path, index]}
               index={itemIndex}
               position={position}
+              focus={focus}
               isInStream
             />
           </li>
@@ -47,6 +50,7 @@ const ElementStream: React.SFC<IProps> = (props: IProps) => {
           update={update}
           path={[...path, index]}
           position={data.get(index).size}
+          focus={focus}
         />
       </li>
     </ul>

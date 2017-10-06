@@ -10,6 +10,7 @@ interface IProps {
   update: (changeset: Changeset) => void,
   data: any, // todo
   path: ElementPath,
+  setFocus: () => void,
 }
 
 class TextBlock extends React.Component<IProps> {
@@ -26,7 +27,7 @@ class TextBlock extends React.Component<IProps> {
   }
 
   render() {
-    const { data } = this.props;
+    const { data, setFocus } = this.props;
 
     return (
       <div className={styles.root}>
@@ -35,6 +36,7 @@ class TextBlock extends React.Component<IProps> {
           placeholder="Markdown supported text"
           value={data.getIn(['text', 'text'])}
           onChange={this.handleInput}
+          onFocus={setFocus}
         />
       </div>
     );

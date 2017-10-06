@@ -9,6 +9,7 @@ import DebouncedAutosizeTextarea from '../components/DebouncedAutosizeTextarea';
 import DocumentTitle from '../components/DocumentTitle';
 import EditorSidebar from '../components/Editor/EditorSidebar';
 import EditorNav from '../components/Editor/EditorNav';
+import EditorCommandPalette from '../components/Editor/EditorCommandPalette';
 import EditorComments from '../components/Editor/EditorComments';
 import * as EditorActions from '../ducks/Editor';
 import { formly, createChangeHandler } from '../libs/form';
@@ -54,6 +55,13 @@ class EditorPage extends React.Component {
     Mousetrap.bind('mod+s', e => {
       e.preventDefault();
       this.handleSave();
+    });
+
+    const editorTrap = new Mousetrap(this.editorEl);
+
+    editorTrap.bind('mod+/', e => {
+      e.preventDefault();
+      this.props.dispatch(EditorActions.toggleCommandPalette({ open: true }));
     });
   }
 
@@ -108,6 +116,7 @@ class EditorPage extends React.Component {
       stats,
       isLocal,
       isSaving,
+      commandPaletteOpen,
     } = this.props;
     const revisionChangeHandler = createChangeHandler(
       this.props.dispatch,
@@ -117,7 +126,12 @@ class EditorPage extends React.Component {
     const { url, params } = this.props.match;
 
     return (
-      <div style={{ paddingTop: '40px' }}>
+      <div
+        style={{ paddingTop: '40px' }}
+        ref={el => {
+          this.editorEl = el;
+        }}
+      >
         <EditorNav
           headline={workingRevision.get('headline')}
           isLocal={isLocal}
@@ -137,6 +151,7 @@ class EditorPage extends React.Component {
             <Route path={`${url}/preview`} component={EditorSectionPreview} />
           </Switch>
         </div>
+        {commandPaletteOpen ? <EditorCommandPalette /> : null}
         {!isLocal ? (
           <EditorComments
             contentId={params.id}
@@ -153,7 +168,7 @@ class EditorPage extends React.Component {
     if (
       this.props.workingDocument === null ||
       (!this.props.isLocal &&
-        this.props.contentId !== parseInt(this.props.match.params.id))
+        this.props.contentId !== parseInt(this.props.match.params.id, 10))
     ) {
       editor = <LoadingContent />;
     } else {
@@ -180,6 +195,7 @@ EditorPage.propTypes = {
   isLocal: PropTypes.bool.isRequired,
   hasChangesFromSaved: PropTypes.bool.isRequired,
   location: PropTypes.object.isRequired,
+  commandPaletteOpen: PropTypes.bool.isRequired,
 };
 
 export default withRouter(
@@ -195,5 +211,6 @@ export default withRouter(
     hasChangesFromSaved: state.editor.get('hasChangesFromSaved'),
     editorialMetadata: state.editor.get('editorialMetadata'),
     contentId: state.editor.get('remoteId'),
+    commandPaletteOpen: state.editor.getIn(['focus', 'commandPaletteOpen']),
   }))(EditorPage)
 );

@@ -8,6 +8,7 @@ import {
   throttle,
 } from 'redux-saga/effects';
 import find from 'lodash/find';
+import { ChangesetInstruction } from '../libs/spectrum2/interfaces';
 import { ArticleSubtype, HeadingBlock } from '../libs/spectrum2/structure';
 import { applyChangeset, changeSubtype } from '../libs/spectrum2/changes';
 import { createDocument, filterDocument } from '../libs/spectrum2/helpers';
@@ -42,6 +43,9 @@ const EDITOR_CREATE_CONTENT = createRequestTypes('EDITOR_CREATE_CONTENT');
 const EDITOR_OPEN_COMMENT_PANEL = 'EDITOR_OPEN_COMMENTS_PANEL';
 const EDITOR_CLOSE_COMMENT_PANEL = 'EDITOR_CLOSE_COMMENTS_PANEL';
 const EDITOR_SEEN_HINT = 'EDITOR_SEEN_HINT';
+const EDITOR_SET_FOCUS = 'EDITOR_SET_FOCUS';
+const EDITOR_TOGGLE_COMMAND_PALETTE = 'EDITOR_TOGGLE_COMMAND_PALETTE';
+const EDITOR_ELEMENT_PANEL = 'EDITOR_ELEMENT_PANEL';
 
 // ACTIONS
 export const loadContent = contentId =>
@@ -91,6 +95,26 @@ export const removeAuthor = id => makeAction(EDITOR_REMOVE_AUTHOR, { id });
 
 export const seenHint = name => ({ type: EDITOR_SEEN_HINT, payload: { name } });
 
+export const setInsertFocus = path => ({
+  type: EDITOR_SET_FOCUS,
+  payload: { path, focusType: 'INSERTER' },
+});
+
+export const setElementFocus = path => ({
+  type: EDITOR_SET_FOCUS,
+  payload: { path, focusType: 'ELEMENT' },
+});
+
+export const togglePanel = options => ({
+  type: EDITOR_ELEMENT_PANEL,
+  payload: { open: options.open },
+});
+
+export const toggleCommandPalette = options => ({
+  type: EDITOR_TOGGLE_COMMAND_PALETTE,
+  payload: { open: options.open },
+});
+
 const EditorHints = Immutable.Record({
   moveToDraftingWordCount: false,
 });
@@ -111,6 +135,13 @@ const initialState = new Immutable.Map({
     wordCount: null,
   }),
   hints: new EditorHints(),
+  focus: Immutable.Map({
+    focusPath: Immutable.List(['content']),
+    focusType: 'INSERTER',
+    hasPanelOpen: false,
+    commandPaletteOpen: false,
+    commandPaletteCommand: '',
+  }),
 });
 
 function createEmptyDocumentUtil() {
@@ -194,6 +225,19 @@ export default function EditorReducer(state = initialState, action) {
     case EDITOR_SAVE_FAILURE: {
       return state.set('isSaving', false);
     }
+    case EDITOR_SET_FOCUS: {
+      const prevElement = state.getIn(['focus', 'focusPath']);
+      let nextState = state
+        .setIn(['focus', 'focusPath'], Immutable.fromJS(action.payload.path))
+        .setIn(['focus', 'focusType'], action.payload.focusType)
+        .setIn(['focus', 'commandPaletteOpen'], false);
+
+      if (prevElement.equals(state.getIn(['focus', 'focusPath']))) {
+        nextState = nextState.setIn(['focus', 'hasPanelOpen'], false);
+      }
+
+      return nextState;
+    }
     case EDITOR_UPDATE_STATS: {
       return state.set('stats', Immutable.fromJS(action.payload));
     }
@@ -233,9 +277,29 @@ export default function EditorReducer(state = initialState, action) {
       );
     }
     case EDITOR_DOCUMENT_CHANGE: {
-      return state.updateIn(['workingDocument'], document =>
+      let newState = state.updateIn(['workingDocument'], document =>
         applyChangeset(document, action.changeset)
       );
+
+      if (action.changeset.instruction === ChangesetInstruction.INSERT) {
+        newState = newState
+          .setIn(
+            ['focus', 'focusPath'],
+            Immutable.fromJS(action.changeset.path).push(
+              action.changeset.position
+            )
+          )
+          .setIn(['focus', 'focusType'], 'ELEMENT')
+          .setIn(['focus', 'commandPaletteOpen'], false);
+      }
+
+      return newState;
+    }
+    case EDITOR_TOGGLE_COMMAND_PALETTE: {
+      return state.setIn(['focus', 'commandPaletteOpen'], action.payload.open);
+    }
+    case EDITOR_ELEMENT_PANEL: {
+      return state.setIn(['focus', 'hasPanelOpen'], action.payload.open);
     }
     case EDITOR_REVISION_CHANGE: {
       return state.setIn(['workingRevision', ...action.path], action.value);
@@ -385,9 +449,7 @@ function* handleEditorPublish() {
 function* loadMissingResourcesForRevision(revision, spectrum_document) {
   const foundResources = filterDocument(
     spectrum_document,
-    el => {
-      return true;
-    }
+    el => true
     //      el instanceof resources.Resource ||
     //      el instanceof resources.LowdownInteractiveResource
   );

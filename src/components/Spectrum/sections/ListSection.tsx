@@ -11,10 +11,11 @@ interface IProps {
   path: ElementPath,
   data: any,
   update: ChangesetApplier
+  focus: any
 }
 
 const ListSection: SpectrumRenderElement<IProps> = (props: IProps) => {
-  const { data, path, update } = props;
+  const { data, path, update, focus } = props;
 
   return (
     <div className={styles.root}>
@@ -25,6 +26,7 @@ const ListSection: SpectrumRenderElement<IProps> = (props: IProps) => {
         path={path}
         update={update}
         index="stream"
+        focus={focus}
       />
     </div>
   );
