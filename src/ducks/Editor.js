@@ -381,6 +381,7 @@ function* handleEditorSave() {
         'error'
       )
     );
+
     yield put({
       type: EDITOR_SAVE_FAILURE,
     });
@@ -400,24 +401,24 @@ function* handleEditorSave() {
       })
     );
 
-    yield put(
-      createToastWithActionable({
-        title: 'New revisions are not published automatically',
-        message: 'Would you like to publish this revision?',
-        actions: [
-          {
-            title: 'Dismiss',
-            action: dismissToastAction,
-            type: ButtonTypes.DULL,
-          },
-          {
-            title: 'Publish new revision',
-            action: () => publish(),
-            type: ButtonTypes.ACTION,
-          },
-        ],
-      })
-    );
+    // yield put(
+    //   createToastWithActionable({
+    //     title: 'New revisions are not published automatically',
+    //     message: 'Would you like to publish this revision?',
+    //     actions: [
+    //       {
+    //         title: 'Dismiss',
+    //         action: dismissToastAction,
+    //         type: ButtonTypes.DULL,
+    //       },
+    //       {
+    //         title: 'Publish new revision',
+    //         action: () => publish(),
+    //         type: ButtonTypes.ACTION,
+    //       },
+    //     ],
+    //   })
+    // );
   } else {
     const metadataResponse = yield call(
       WorksClient.getEditorialMetadata,
