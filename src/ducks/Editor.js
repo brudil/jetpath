@@ -392,7 +392,6 @@ function* handleEditorSave() {
 
   if (
     !isLocal &&
-    editorState.getIn(['editorialMetadata', 'published_revision']) !== null
   ) {
     yield put(
       createRevisionSuccess({
@@ -401,24 +400,26 @@ function* handleEditorSave() {
       })
     );
 
-    // yield put(
-    //   createToastWithActionable({
-    //     title: 'New revisions are not published automatically',
-    //     message: 'Would you like to publish this revision?',
-    //     actions: [
-    //       {
-    //         title: 'Dismiss',
-    //         action: dismissToastAction,
-    //         type: ButtonTypes.DULL,
-    //       },
-    //       {
-    //         title: 'Publish new revision',
-    //         action: () => publish(),
-    //         type: ButtonTypes.ACTION,
-    //       },
-    //     ],
-    //   })
-    // );
+    if (editorState.getIn(['editorialMetadata', 'published_revision']) !== (null || undefined)) {
+      yield put(
+        createToastWithActionable({
+          title: 'New revisions are not published automatically',
+          message: 'Would you like to publish this revision?',
+          actions: [
+            {
+              title: 'Dismiss',
+              action: dismissToastAction,
+              type: ButtonTypes.DULL,
+            },
+            {
+              title: 'Publish new revision',
+              action: () => publish(),
+              type: ButtonTypes.ACTION,
+            },
+          ],
+        })
+      );
+    }
   } else {
     const metadataResponse = yield call(
       WorksClient.getEditorialMetadata,
