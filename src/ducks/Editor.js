@@ -390,9 +390,7 @@ function* handleEditorSave() {
   const revisionResponse =
     response.payload.entities.contentRevision[response.payload.result];
 
-  if (
-    !isLocal &&
-  ) {
+  if (!isLocal) {
     yield put(
       createRevisionSuccess({
         contentId: revisionResponse.content,
