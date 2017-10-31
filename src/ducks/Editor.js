@@ -398,7 +398,10 @@ function* handleEditorSave() {
       })
     );
 
-    if (editorState.getIn(['editorialMetadata', 'published_revision']) !== (null || undefined)) {
+    if (
+      editorState.getIn(['editorialMetadata', 'published_revision']) !==
+      (null || undefined)
+    ) {
       yield put(
         createToastWithActionable({
           title: 'New revisions are not published automatically',
