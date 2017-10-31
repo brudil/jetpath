@@ -609,14 +609,14 @@ function* updateStats() {
 
   if (
     !editor.get('isLocal') &&
-    wordCount > 30 &&
+    wordCount > 60 &&
     editor.getIn(['hints', 'moveToDraftingWordCount']) !== true &&
     editor.getIn(['savedRevision', 'status']) < 5
   ) {
     yield put(
       createToastWithActionable({
         title: 'Move to drafting?',
-        message: 'This is more than just an idea now!',
+        message: 'There are words now! Stubs are just for headline ideas.',
         actions: [
           {
             title: 'Keep as idea',
