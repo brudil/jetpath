@@ -10,7 +10,7 @@ query DashboardQuery($vertical: String) {
       publishedDate
     }
 
-    recent: allContent(watching: true) {
+    recent: allContent(watching: true, published: false) {
       edges {
         node {
           contentId
