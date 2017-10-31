@@ -399,8 +399,7 @@ function* handleEditorSave() {
     );
 
     if (
-      editorState.getIn(['editorialMetadata', 'published_revision']) !==
-      (null || undefined)
+      editorState.getIn(['editorialMetadata', 'published_revision']) !== null
     ) {
       yield put(
         createToastWithActionable({
