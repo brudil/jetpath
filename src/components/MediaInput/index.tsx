@@ -1,14 +1,25 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
-import * as ModalManagerActions from '../ducks/Modal';
-import MediaDisplay from './MediaDisplay';
-import MediaEditModal from './MediaEditModal';
-import MediaSelectModal from './MediaSelectModal';
-import Button from './Button';
+import * as ModalManagerActions from '../../ducks/Modal';
+import MediaDisplay from '../MediaDisplay';
+import MediaEditModal from '../MediaEditModal';
+import MediaSelectModal from '../MediaSelectModal';
+import Button from '../Button';
+import {compose} from "recompose";
 
-class MediaInput extends React.Component {
-  constructor(props) {
+interface IProps {
+  filter: object,
+  mediaEntities: object[],
+  onChange: (imageId: number) => void,
+  open: (imageId: number) => void,
+  close: (imageId: number) => void,
+  value: number,
+}
+
+class MediaInput extends React.Component<IProps> {
+  private _selectModal: any;
+
+  constructor(props: IProps) {
     super(props);
 
     this.handleOpenLibrary = this.handleOpenLibrary.bind(this);
@@ -16,11 +27,11 @@ class MediaInput extends React.Component {
   }
 
   handleOpenLibrary() {
-    this.props.dispatch(ModalManagerActions.open(this._selectModal));
+    this.props.open(this._selectModal);
   }
 
-  handleSelection(imageId) {
-    this.props.dispatch(ModalManagerActions.close(this._selectModal));
+  handleSelection(imageId: number) {
+    this.props.close(this._selectModal);
     this.props.onChange(imageId);
   }
 
@@ -35,7 +46,7 @@ class MediaInput extends React.Component {
           ? <MediaDisplay media={mediaObject} />
           : null}
         <MediaSelectModal
-          ref={el => {
+          ref={(el: any) => {
             this._selectModal = el;
           }}
           filter={filter}
@@ -47,14 +58,10 @@ class MediaInput extends React.Component {
   }
 }
 
-MediaInput.propTypes = {
-  filter: PropTypes.object,
-  mediaEntities: PropTypes.object,
-  onChange: PropTypes.func.isRequired,
-  value: PropTypes.number,
-  dispatch: PropTypes.func.isRequired,
-};
-
-export default connect(state => ({
+export default compose(
+  connect(state => ({
   mediaEntities: state.entities.media,
+}), {
+  close: ModalManagerActions.close,
+  open: ModalManagerActions.open,
 }))(MediaInput);
