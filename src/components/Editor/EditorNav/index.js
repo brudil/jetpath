@@ -46,6 +46,7 @@ class EditorNav extends React.Component {
             value={headline}
             type="text"
             onChange={this.handleHeadlineChange}
+            placeholder="Headline of content"
           />
           <ul className={styles.list}>
             <li className={styles.listItem}>

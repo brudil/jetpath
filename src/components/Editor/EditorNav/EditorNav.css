@@ -59,6 +59,10 @@
   text-transform: none;
   outline: 0;
   box-sizing: border-box;
+
+  &::placeholder {
+    color: var(--color__grey);
+  }
 }
 
 .saveButton {
