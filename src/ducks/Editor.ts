@@ -8,8 +8,8 @@ import {
   throttle,
 } from 'redux-saga/effects';
 import find from 'lodash/find';
-import { ChangesetInstruction } from '../libs/spectrum2/interfaces';
-import { ArticleSubtype, HeadingBlock } from '../libs/spectrum2/structure';
+import {ChangesetInstruction, ElementPath} from '../libs/spectrum2/interfaces';
+import { ArticleSubtype } from '../libs/spectrum2/structure';
 import { applyChangeset, changeSubtype } from '../libs/spectrum2/changes';
 import { createDocument, filterDocument } from '../libs/spectrum2/helpers';
 import { getWordCount } from '../libs/spectrum2/utils';
@@ -48,23 +48,23 @@ const EDITOR_TOGGLE_COMMAND_PALETTE = 'EDITOR_TOGGLE_COMMAND_PALETTE';
 const EDITOR_ELEMENT_PANEL = 'EDITOR_ELEMENT_PANEL';
 
 // ACTIONS
-export const loadContent = contentId =>
+export const loadContent = (contentId: number) =>
   makeAction(EDITOR_LOAD_CONTENT.REQUEST, { contentId });
 export const publish = () => makeAction(EDITOR_PUBLISH_CONTENT.REQUEST);
-export const publishSuccess = payload =>
+export const publishSuccess = (payload: any) => // todo: these payload: any
   makeAction(EDITOR_PUBLISH_CONTENT.SUCCESS, payload);
 
-export const loadContentSuccess = payload =>
+export const loadContentSuccess = (payload: any) =>
   makeAction(EDITOR_LOAD_CONTENT.SUCCESS, payload);
 
 export const createEmptyDocument = () =>
   makeAction(EDITOR_CREATE_EMTPY_DOCUMENT);
-export const updateSpectrumDocument = changeset =>
+export const updateSpectrumDocument = (changeset: any) =>
   makeAction(EDITOR_DOCUMENT_CHANGE, { changeset });
-export const updateRevision = (path, value) =>
+export const updateRevision = (path: any, value: any) =>
   makeAction(EDITOR_REVISION_CHANGE, { path, value });
 
-export const changeDocumentSubtype = subtypeElement => ({
+export const changeDocumentSubtype = (subtypeElement: any) => ({
   type: EDITOR_CHANGE_SUBTYPE,
   payload: {
     element: subtypeElement,
@@ -80,37 +80,37 @@ export const closeCommentPanel = () => ({
 });
 
 export const save = () => makeAction(EDITOR_SAVE);
-export const createRevisionSuccess = payload =>
+export const createRevisionSuccess = (payload: any) =>
   makeAction(EDITOR_CREATE_REVISION.SUCCESS, payload);
-export const createContentSuccess = payload =>
+export const createContentSuccess = (payload: any) =>
   makeAction(EDITOR_CREATE_CONTENT.SUCCESS, payload);
 
-export const changeRevisionStatus = status =>
+export const changeRevisionStatus = (status: any) =>
   makeAction(EDITOR_CHANGE_REVISION_STATUS.REQUEST, { status });
-export const changeRevisionStatusSuccess = payload =>
+export const changeRevisionStatusSuccess = (payload: any) =>
   makeAction(EDITOR_CHANGE_REVISION_STATUS.SUCCESS, payload);
 
-export const addAuthor = id => makeAction(EDITOR_ADD_AUTHOR, { id });
-export const removeAuthor = id => makeAction(EDITOR_REMOVE_AUTHOR, { id });
+export const addAuthor = (id: number) => makeAction(EDITOR_ADD_AUTHOR, { id });
+export const removeAuthor = (id: number) => makeAction(EDITOR_REMOVE_AUTHOR, { id });
 
-export const seenHint = name => ({ type: EDITOR_SEEN_HINT, payload: { name } });
+export const seenHint = (name: string) => ({ type: EDITOR_SEEN_HINT, payload: { name } });
 
-export const setInsertFocus = path => ({
+export const setInsertFocus = (path: ElementPath) => ({
   type: EDITOR_SET_FOCUS,
   payload: { path, focusType: 'INSERTER' },
 });
 
-export const setElementFocus = path => ({
+export const setElementFocus = (path: ElementPath) => ({
   type: EDITOR_SET_FOCUS,
   payload: { path, focusType: 'ELEMENT' },
 });
 
-export const togglePanel = options => ({
+export const togglePanel = (options: { open: boolean }) => ({
   type: EDITOR_ELEMENT_PANEL,
   payload: { open: options.open },
 });
 
-export const toggleCommandPalette = options => ({
+export const toggleCommandPalette = (options: { open: boolean }) => ({
   type: EDITOR_TOGGLE_COMMAND_PALETTE,
   payload: { open: options.open },
 });
@@ -120,7 +120,7 @@ const EditorHints = Immutable.Record({
 });
 
 // REDUCER
-const initialState = new Immutable.Map({
+const initialState = Immutable.Map({
   remoteId: null,
   isLocal: true,
   workingRevision: null,
@@ -131,7 +131,7 @@ const initialState = new Immutable.Map({
   editorialMetadata: null,
   isSaving: false,
   hasChangesFromSaved: false,
-  stats: new Immutable.Map({
+  stats: Immutable.Map({
     wordCount: null,
   }),
   hints: new EditorHints(),
@@ -149,8 +149,8 @@ function createEmptyDocumentUtil() {
 }
 
 function createEmptyRevision() {
-  return new Immutable.Map({
-    authors: new Immutable.Set(),
+  return Immutable.Map({
+    authors: Immutable.Set(),
     form: 1,
     headline: '',
     short_headline: '',
@@ -161,16 +161,16 @@ function createEmptyRevision() {
     tone: 1,
     section: null,
     series: null,
-    topics: new Immutable.Set(),
+    topics: Immutable.Set(),
     status: 1,
     byline_markup: '',
   });
 }
 
-function createImmutableRevision(revision) {
+function createImmutableRevision(revision: Object) {
   return Immutable.fromJS(revision, (key, value) => {
-    if (Immutable.Iterable.isIndexed(value)) {
-      if (['topics', 'authors'].indexOf(key) !== -1) {
+    if (Immutable.isIndexed(value)) {
+      if (['topics', 'authors'].indexOf(`${key}`) !== -1) {
         return value.toSet();
       }
       return value.toList();
@@ -180,7 +180,7 @@ function createImmutableRevision(revision) {
   });
 }
 
-export default function EditorReducer(state = initialState, action) {
+export default function EditorReducer(state = initialState, action: any) {
   switch (action.type) {
     case EDITOR_LOAD_CONTENT.REQUEST: {
       return state;
@@ -211,9 +211,9 @@ export default function EditorReducer(state = initialState, action) {
         map
           .set('editorialMetadata', null)
           .set('workingDocument', document)
-          .set('workingRevision', revision)
+          .set('workingRevision', revision as any) // todo: anys
           .set('savedDocument', document)
-          .set('savedRevision', revision)
+          .set('savedRevision', revision as any)
           .set('isLocal', true)
           .set('remoteId', null)
           .set('hints', new EditorHints())
@@ -310,8 +310,8 @@ export default function EditorReducer(state = initialState, action) {
         .setIn(['workingRevision', 'status'], action.status);
     }
     case EDITOR_ADD_AUTHOR: {
-      return state.update('workingRevision', rev =>
-        rev.updateIn(['authors'], authorList => authorList.add(action.id))
+      return state.update('workingRevision', (rev: any) => // todo: anys
+        rev.updateIn(['authors'], (authorList: any) => authorList.add(action.id))
       );
     }
     case EDITOR_SEEN_HINT: {
@@ -342,15 +342,15 @@ export default function EditorReducer(state = initialState, action) {
  spectrumResourcesMap.set(resources.LowdownImageResouce)
  */
 
-const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-function entities(payload) {
+function entities(payload: any) {
   return { type: 'ENTITIES', payload };
 }
 
 function* handleEditorSave() {
   const vertical = yield getVertical();
-  const editorState = yield select(state => state.editor);
+  const editorState = yield select((state: any) => state.editor);
   const isLocal = editorState.get('isLocal');
   let response;
 
@@ -405,6 +405,7 @@ function* handleEditorSave() {
         createToastWithActionable({
           title: 'New revisions are not published automatically',
           message: 'Would you like to publish this revision?',
+          preset: 'info',
           actions: [
             {
               title: 'Dismiss',
@@ -440,7 +441,7 @@ function* handleEditorSave() {
 }
 
 function* handleEditorPublish() {
-  const editorState = yield select(state => state.editor);
+  const editorState = yield select((state: any) => state.editor);
 
   const response = yield call(
     WorksClient.publishRevision,
@@ -451,10 +452,10 @@ function* handleEditorPublish() {
   yield put(publishSuccess({ editorialMetadata }));
 }
 
-function* loadMissingResourcesForRevision(revision, spectrum_document) {
+function* loadMissingResourcesForRevision(revision: any, spectrum_document: any) { // todo: anys
   const foundResources = filterDocument(
     spectrum_document,
-    el => true
+    _el => true
     //      el instanceof resources.Resource ||
     //      el instanceof resources.LowdownInteractiveResource
   );
@@ -462,9 +463,9 @@ function* loadMissingResourcesForRevision(revision, spectrum_document) {
   console.log('foundresources', foundResources);
 
   // IMAGES
-  const imageEntities = yield select(state => state.entities.media);
+  const imageEntities = yield select((state: any) => state.entities.media);
 
-  const missingIds = [];
+  const missingIds: number[] = [];
 
   const usedIds = foundResources.map(resource => resource.id);
   usedIds.push(revision.poster_image);
@@ -484,10 +485,10 @@ function* loadMissingResourcesForRevision(revision, spectrum_document) {
 
   // INTERACTIVES
   const interactivesEntities = yield select(
-    state => state.entities.interactivees
+    (state: any) => state.entities.interactivees
   );
 
-  const missingSlugs = [];
+  const missingSlugs: string[] = [];
 
   const usedSlugs = foundResources.map(resource => resource.slug);
   usedSlugs.forEach(interactiveSlug => {
@@ -509,7 +510,7 @@ function* loadMissingResourcesForRevision(revision, spectrum_document) {
 
 function* handleEditorChange() {
   yield call(delay, 200);
-  const editorState = yield select(state => state.editor);
+  const editorState = yield select((state: any) => state.editor);
 
   const serverMutableFields = [
     'updated',
@@ -518,11 +519,11 @@ function* handleEditorChange() {
     'content',
     'revision_number',
   ];
-  const removeServerMutableFields = rev =>
+  const removeServerMutableFields = (rev: any) => // todo
     rev.merge(
       serverMutableFields.reduce(
-        (state, fieldName) => state.set(fieldName, null),
-        new Immutable.Map()
+        (state: any, fieldName) => state.set(fieldName, null), // todo: state: any
+        Immutable.Map()
       )
     );
 
@@ -550,7 +551,7 @@ function* handleEditorChange() {
 }
 
 function* handleLoadResourcesOnChange() {
-  const editorState = yield select(state => state.editor);
+  const editorState = yield select((state: any) => state.editor);
 
   const workingRev = editorState.get('workingRevision');
   const workingDoc = editorState.get('workingDocument');
@@ -559,8 +560,8 @@ function* handleLoadResourcesOnChange() {
   }
 }
 
-function* handleEditorChangeRevisionStatus({ status }) {
-  const editorState = yield select(state => state.editor);
+function* handleEditorChangeRevisionStatus({ status }: { status: number }) {
+  const editorState = yield select((state: any) => state.editor);
 
   yield call(
     WorksClient.revisionStatusChange,
@@ -570,7 +571,7 @@ function* handleEditorChangeRevisionStatus({ status }) {
   yield put(changeRevisionStatusSuccess({ status }));
 }
 
-function* handleEditorLoad({ contentId }) {
+function* handleEditorLoad({ contentId }: { contentId: string }) {
   const [revisionPayload, editorialMetadataPayload] = yield [
     call(WorksClient.getRevision, contentId),
     call(WorksClient.getEditorialMetadata, contentId),
@@ -602,7 +603,7 @@ function* handleEditorLoad({ contentId }) {
 }
 
 function* updateStats() {
-  const editor = yield select(state => state.editor);
+  const editor = yield select((state: any) => state.editor);
 
   const wordCount = getWordCount(editor.get('workingDocument'));
 
@@ -616,6 +617,7 @@ function* updateStats() {
       createToastWithActionable({
         title: 'Move to drafting?',
         message: 'There are words now! Stubs are just for headline ideas.',
+        preset: 'info',
         actions: [
           {
             title: 'Keep as idea',
