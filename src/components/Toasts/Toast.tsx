@@ -9,7 +9,7 @@ interface IProps extends ToastBase {
   dispatch: (action: Object) => void,
 }
 
-function Toast(props: IProps) {
+export function Toast(props: IProps) {
   const { title, message, onRemove, actions, dispatch } = props;
 
   const handleRemove = () => onRemove(props.id);

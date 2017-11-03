@@ -16,7 +16,7 @@ interface IProps {
   }
 }
 
-function ContentCard(props: IProps) {
+export function ContentCard(props: IProps) {
   return (
     <div className={styles.root}>
       <FauxRouterLink to={props.link} />

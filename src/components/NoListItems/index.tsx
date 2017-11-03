@@ -6,7 +6,7 @@ interface IProps {
   text: string,
 }
 
-function NoListItems(props: IProps) {
+export function NoListItems(props: IProps) {
   return (
     <div className={styles.root}>
       <span className={styles.sad}>:(</span>

@@ -4,7 +4,7 @@ import omit from 'lodash/omit';
 
 import styles from './Button.css';
 
-function Button(props: {
+export function Button(props: {
   text: string,
   className?: string,
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void,

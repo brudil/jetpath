@@ -15,7 +15,7 @@ interface IProps {
   }
 }
 
-class NotificationBell extends React.Component<IProps> {
+export class NotificationBell extends React.Component<IProps> {
   componentDidMount() {
     this.props.loadUnreadCount();
   }

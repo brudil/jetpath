@@ -7,7 +7,7 @@ import styles from './SegmentedControl.css';
 type controlId = string | number | null;
 type optionTuple = [controlId, string];
 
-function SegmentedControl(props: {
+export function SegmentedControl(props: {
   className?: string,
   value: controlId,
   options: Array<controlId | string>,

@@ -3,7 +3,7 @@ import Button from '../Button';
 
 import styles from './PaginationNav.css';
 
-function PaginationNav(props: {
+export function PaginationNav(props: {
   currentPage: number,
   hasNext: boolean,
   total: number,

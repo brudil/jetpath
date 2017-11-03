@@ -9,7 +9,7 @@ interface IProps {
 }
 
 
-function Stonewall(props: IProps) {
+export function Stonewall(props: IProps) {
   return (
     <div className={styles.root}>
       <h1>
