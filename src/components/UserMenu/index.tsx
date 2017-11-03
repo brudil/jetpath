@@ -5,8 +5,8 @@ import * as AuthActions from '../../ducks/Auth';
 import styles from './UserMenu.css';
 
 interface IProps {
-  logout: () => any,
-  auth: any, // todo
+  logout: () => any;
+  auth: any; // todo
 }
 
 class UserMenu extends React.Component<IProps> {
@@ -41,8 +41,11 @@ class UserMenu extends React.Component<IProps> {
   }
 }
 
-export default connect(state => ({
-  auth: state.auth,
-}), {
-  logout: AuthActions.logout
-})(UserMenu);
+export default connect(
+  state => ({
+    auth: state.auth,
+  }),
+  {
+    logout: AuthActions.logout,
+  }
+)(UserMenu);

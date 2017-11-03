@@ -3,14 +3,17 @@ import InteractiveSelector from '../../InteractiveSelector';
 import { connect } from 'react-redux';
 import find from 'lodash/find';
 import SegmentedControl from '../../SegmentedControl/index';
-import {ChangesetApplier, ElementPath} from "../../../libs/spectrum2/interfaces";
-import {update} from "../../../libs/spectrum2/changes";
+import {
+  ChangesetApplier,
+  ElementPath,
+} from '../../../libs/spectrum2/interfaces';
+import { update } from '../../../libs/spectrum2/changes';
 
 interface IProps {
-  update: ChangesetApplier,
-  data: any,
-  path: ElementPath,
-  interactiveEntities: any,
+  update: ChangesetApplier;
+  data: any;
+  path: ElementPath;
+  interactiveEntities: any;
 }
 
 class CanvasSubtype extends React.Component<IProps> {

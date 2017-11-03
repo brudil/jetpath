@@ -11,30 +11,35 @@ import ContentListPage from './ContentListPage';
 
 import Bundle from '../components/Bundle';
 
-const DashboardPage = props =>
+const DashboardPage = props => (
   <Bundle load={loadDashboardPage}>
     {DashboardPageL => <DashboardPageL {...props} />}
-  </Bundle>;
+  </Bundle>
+);
 
-const EditorPage = props =>
+const EditorPage = props => (
   <Bundle load={loadEditorPage}>
     {EditorPageL => <EditorPageL {...props} />}
-  </Bundle>;
+  </Bundle>
+);
 
-const OrganisationPage = props =>
+const OrganisationPage = props => (
   <Bundle load={loadOrganisationPage}>
     {OrganisationPageL => <OrganisationPageL {...props} />}
-  </Bundle>;
+  </Bundle>
+);
 
-const MediaListPage = props =>
+const MediaListPage = props => (
   <Bundle load={loadMediaListPage}>
     {MediaListPageL => <MediaListPageL {...props} />}
-  </Bundle>;
+  </Bundle>
+);
 
-const MediaEditPage = props =>
+const MediaEditPage = props => (
   <Bundle load={loadMediaEditPage}>
     {MediaEditPageL => <MediaEditPageL {...props} />}
-  </Bundle>;
+  </Bundle>
+);
 
 class InnerVerticalPage extends React.Component {
   componentDidMount() {

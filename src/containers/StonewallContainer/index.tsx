@@ -6,8 +6,8 @@ import LoginPage from '../LoginPage';
 
 interface IProps {
   match: {
-    url: string,
-  },
+    url: string;
+  };
 }
 
 function StonewallContainer({ match }: IProps) {

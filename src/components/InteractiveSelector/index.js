@@ -7,7 +7,6 @@ import * as InteractivesActions from '../../ducks/Interactives';
 import styles from './InteractiveSelector.css';
 
 class InteractiveSelector extends React.Component {
-
   componentWillMount() {
     this.props.dispatch(
       InteractivesActions.loadInteractivesList({ order: 'created_desc' }, 5)
@@ -31,14 +30,14 @@ class InteractiveSelector extends React.Component {
           value={value ? value.slug : null}
         />
 
-        {value !== undefined
-          ? <div>
-              <iframe
-                className={styles.interactiveFrame}
-                src={`https://thedrab.co/interactive-frame/${value.slug}/v${value.latest_public_release_number}`}
-              />
-            </div>
-          : null}
+        {value !== undefined ? (
+          <div>
+            <iframe
+              className={styles.interactiveFrame}
+              src={`https://thedrab.co/interactive-frame/${value.slug}/v${value.latest_public_release_number}`}
+            />
+          </div>
+        ) : null}
       </div>
     );
   }

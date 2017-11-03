@@ -10,14 +10,17 @@ import Button from '../../../Button';
 import ImageIcon from '../../../icons/image.svg.react';
 
 import styles from './ImageBlock.css';
-import {ChangesetApplier, ElementPath} from "../../../../libs/spectrum2/interfaces";
+import {
+  ChangesetApplier,
+  ElementPath,
+} from '../../../../libs/spectrum2/interfaces';
 
 interface IProps {
-  path: ElementPath,
-  data: any,
-  update: ChangesetApplier,
-  mediaEntities: any,
-  dispatch: any
+  path: ElementPath;
+  data: any;
+  update: ChangesetApplier;
+  mediaEntities: any;
+  dispatch: any;
 }
 
 class ImageBlock extends React.Component<IProps> {
@@ -56,10 +59,7 @@ class ImageBlock extends React.Component<IProps> {
 
     return (
       <div className={styles.root}>
-        <Button
-          onClick={this.handleOpenLibrary}
-          text={'Select from Library'}
-        />
+        <Button onClick={this.handleOpenLibrary} text={'Select from Library'} />
         {item !== null ? (
           <MediaDisplay className={styles.mediaDisplay} media={item} />
         ) : (

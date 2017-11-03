@@ -1,7 +1,8 @@
 import React from 'react';
 import {
-  ChangesetApplier, ChangesetInstruction,
-  ElementPath
+  ChangesetApplier,
+  ChangesetInstruction,
+  ElementPath,
 } from '../../../../libs/spectrum2/interfaces';
 import DebouncedAutosizeTextarea from '../../../DebouncedAutosizeTextarea';
 import HeadingIcon from '../../../icons/heading.svg.react';
@@ -9,10 +10,10 @@ import HeadingIcon from '../../../icons/heading.svg.react';
 import styles from './HeadingBlock.css';
 
 interface IProps {
-  update: ChangesetApplier,
-  data: any, // todo
-  path: ElementPath,
-  setFocus: () => void
+  update: ChangesetApplier;
+  data: any; // todo
+  path: ElementPath;
+  setFocus: () => void;
 }
 
 class HeadingBlock extends React.Component<IProps> {

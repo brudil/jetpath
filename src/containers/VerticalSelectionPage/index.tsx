@@ -8,18 +8,17 @@ import verticalConfig from '../../verticals';
 import style from './style.css';
 
 interface Vertical {
-  identifier: string,
-  name: string,
-  audience: string,
+  identifier: string;
+  name: string;
+  audience: string;
 }
 
 interface IProps {
-  getVerticals: any, // TODO: i think this is technically () => void as it's being bound to dispatch
-  verticals: Array<Vertical>,
-  children?: Element,
-  context?: any
+  getVerticals: any; // TODO: i think this is technically () => void as it's being bound to dispatch
+  verticals: Array<Vertical>;
+  children?: Element;
+  context?: any;
 }
-
 
 class VerticalSelectionPage extends React.Component<IProps, any> {
   componentDidMount() {
@@ -55,8 +54,11 @@ class VerticalSelectionPage extends React.Component<IProps, any> {
   }
 }
 
-export default connect(state => ({
-  verticals: state.verticals.list,
-}), {
-  getVerticals: VerticalActions.getVerticals,
-})(VerticalSelectionPage);
+export default connect(
+  state => ({
+    verticals: state.verticals.list,
+  }),
+  {
+    getVerticals: VerticalActions.getVerticals,
+  }
+)(VerticalSelectionPage);

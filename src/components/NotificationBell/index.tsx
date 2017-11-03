@@ -9,10 +9,10 @@ import bellIcon from 'icons/bell.svg';
 import styles from './NotificationBell.css';
 
 interface IProps {
-  loadUnreadCount: () => any,
+  loadUnreadCount: () => any;
   notification: {
-    unreadCount: number,
-  }
+    unreadCount: number;
+  };
 }
 
 export class NotificationBell extends React.Component<IProps> {
@@ -34,8 +34,11 @@ export class NotificationBell extends React.Component<IProps> {
   }
 }
 
-export default connect(state => ({
-  notification: state.notification,
-}), {
-  loadUnreadCount,
-})(NotificationBell);
+export default connect(
+  state => ({
+    notification: state.notification,
+  }),
+  {
+    loadUnreadCount,
+  }
+)(NotificationBell);

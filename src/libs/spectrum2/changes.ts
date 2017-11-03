@@ -1,9 +1,15 @@
 import {
-  Changeset, ChangesetInstruction, Document, ElementDefinition, ElementPath, InsertChangeset,
+  Changeset,
+  ChangesetInstruction,
+  Document,
+  ElementDefinition,
+  ElementPath,
+  InsertChangeset,
   MoveChangeset,
-  RemoveChangeset, UpdateChangeset
-} from "./interfaces";
-import {produceImmutableNode} from "./helpers";
+  RemoveChangeset,
+  UpdateChangeset,
+} from './interfaces';
+import { produceImmutableNode } from './helpers';
 
 function removeElement(document: Document, changeset: RemoveChangeset) {
   const last = changeset.path.pop();
@@ -14,9 +20,9 @@ function removeElement(document: Document, changeset: RemoveChangeset) {
 function insertElement(document: Document, changeset: InsertChangeset) {
   const elementStructure = produceImmutableNode(changeset.element);
 
-  return document.updateIn(changeset.path, (arr: any) => // todo
-    arr.splice(changeset.position, 0, elementStructure)
-  );
+  return document.updateIn(changeset.path, (
+    arr: any // todo
+  ) => arr.splice(changeset.position, 0, elementStructure));
 }
 
 function moveElement(document: Document, changeset: MoveChangeset) {
@@ -24,11 +30,14 @@ function moveElement(document: Document, changeset: MoveChangeset) {
   const allBut = changeset.path;
 
   if (typeof last !== 'number') {
-    console.error('failed to move element due to current position not being in stream');
+    console.error(
+      'failed to move element due to current position not being in stream'
+    );
     return document;
   }
 
-  return document.updateIn(allBut, (stream: any) => { // todo
+  return document.updateIn(allBut, (stream: any) => {
+    // todo
     const selectedElement = stream.get(last);
     return stream
       .splice(last, 1)
@@ -73,7 +82,10 @@ function runChangeset(document: Document, changeset: Changeset) {
   }
 }
 
-export function applyChangeset(document: Document, changeset: Array<Changeset> | Changeset): Document {
+export function applyChangeset(
+  document: Document,
+  changeset: Array<Changeset> | Changeset
+): Document {
   let doc = document;
 
   if (!Array.isArray(changeset)) {
@@ -81,7 +93,7 @@ export function applyChangeset(document: Document, changeset: Array<Changeset> |
   } else {
     changeset.forEach(change => {
       doc = runChangeset(doc, change);
-    })
+    });
   }
 
   return doc;
@@ -99,20 +111,20 @@ export function update(path: ElementPath, value: any): UpdateChangeset {
   return {
     instruction: ChangesetInstruction.UPDATE,
     path,
-    value
-  }
+    value,
+  };
 }
 export function remove(path: ElementPath): RemoveChangeset {
   return {
     instruction: ChangesetInstruction.REMOVE,
     path,
-  }
+  };
 }
 
 export function move(path: ElementPath, position: number): MoveChangeset {
   return {
     instruction: ChangesetInstruction.MOVE,
     path,
-    position
-  }
+    position,
+  };
 }

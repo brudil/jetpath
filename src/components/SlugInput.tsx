@@ -8,7 +8,18 @@ function performRemoveStopWords(text: string): string {
   return text;
 }
 
-function SlugInput({ onChange, removeStopWords, value, ...props }: { onChange: Function, removeStopWords: boolean, autoValue: string, className: string, value: string }) {
+function SlugInput({
+  onChange,
+  removeStopWords,
+  value,
+  ...props,
+}: {
+  onChange: Function;
+  removeStopWords: boolean;
+  autoValue: string;
+  className: string;
+  value: string;
+}) {
   function handleChange(event: React.FormEvent<HTMLInputElement>) {
     let text = event.currentTarget.value;
     if (removeStopWords) {

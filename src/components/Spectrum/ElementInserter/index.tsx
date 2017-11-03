@@ -1,7 +1,9 @@
 import React from 'react';
 import {
-  ChangesetApplier, ChangesetInstruction, ElementDefinition,
-  ElementPath
+  ChangesetApplier,
+  ChangesetInstruction,
+  ElementDefinition,
+  ElementPath,
 } from '../../../libs/spectrum2/interfaces';
 import * as EditorActions from '../../../ducks/Editor';
 import isEqual from 'lodash/isEqual';
@@ -9,21 +11,21 @@ import { nameToComponentMap } from '../elementsMap';
 
 import styles from './ElementInserter.css';
 import stylesInsertElement from './InsertElement.css';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 interface IProps {
-  structure: any, // todo
-  update: ChangesetApplier,
-  position: number,
-  path: ElementPath,
-  focus: any,
-  setInsertFocus: any,
+  structure: any; // todo
+  update: ChangesetApplier;
+  position: number;
+  path: ElementPath;
+  focus: any;
+  setInsertFocus: any;
 }
 
 interface IState {
-  isOpen: boolean,
-  elements: Array<ElementDefinition>,
-  name: string,
+  isOpen: boolean;
+  elements: Array<ElementDefinition>;
+  name: string;
 }
 
 class ElementInserter extends React.Component<IProps, IState> {
@@ -42,10 +44,10 @@ class ElementInserter extends React.Component<IProps, IState> {
 
   shouldComponentUpdate(nextProps: IProps, nextState: IState) {
     if (
-      nextState !== this.state
-      || !isEqual(this.props.path, nextProps.path)
-      || this.props.position !== nextProps.position
-      || this.props.focus !== nextProps.focus // todo: this means every focus change will rerender, focus on if change effects element path given
+      nextState !== this.state ||
+      !isEqual(this.props.path, nextProps.path) ||
+      this.props.position !== nextProps.position ||
+      this.props.focus !== nextProps.focus // todo: this means every focus change will rerender, focus on if change effects element path given
     ) {
       return true;
     }
@@ -61,7 +63,9 @@ class ElementInserter extends React.Component<IProps, IState> {
     e.stopPropagation();
   }
 
-  handleInitialClick(e: React.MouseEvent<HTMLAnchorElement> | React.FocusEvent<HTMLAnchorElement>) {
+  handleInitialClick(
+    e: React.MouseEvent<HTMLAnchorElement> | React.FocusEvent<HTMLAnchorElement>
+  ) {
     e.preventDefault();
     e.stopPropagation();
     const defaultElement = this.props.structure.options.fields[0].options
@@ -86,15 +90,17 @@ class ElementInserter extends React.Component<IProps, IState> {
       element: elementDef,
       position: this.props.position,
     });
-
   }
 
   render() {
     let inner = null;
 
     if (
-      !isEqual(this.props.focus.get('focusPath').toJS(), [...this.props.path, this.props.position])
-      || this.props.focus.get('focusType') !== 'INSERTER'
+      !isEqual(
+        this.props.focus.get('focusPath').toJS(),
+        [...this.props.path, this.props.position]
+      ) ||
+      this.props.focus.get('focusType') !== 'INSERTER'
     ) {
       inner = (
         <a
@@ -114,37 +120,37 @@ class ElementInserter extends React.Component<IProps, IState> {
         <div className={styles.root}>
           <div className={styles.title}>Insert {this.state.name || ''}</div>
           <ul className={styles.list}>
-            {this.props.structure.options.fields[0].options.elements.map((element: ElementDefinition) => {
-              const component = nameToComponentMap.get(element.identifier);
-              if (component === undefined) {
-                console.warn(element.identifier, "isn't in element map");
-                return null;
-              }
-              const Icon = Object.hasOwnProperty.call(component, 'Icon')
-                ? component.Icon
-                : null;
+            {this.props.structure.options.fields[0].options.elements.map(
+              (element: ElementDefinition) => {
+                const component = nameToComponentMap.get(element.identifier);
+                if (component === undefined) {
+                  console.warn(element.identifier, "isn't in element map");
+                  return null;
+                }
+                const Icon = Object.hasOwnProperty.call(component, 'Icon')
+                  ? component.Icon
+                  : null;
 
-              return (
-                <li
-                  className={styles.elementListItem}
-                >
-                  <button
-                    className={styles.elementButton}
-                    key={element.identifier}
-                    onClick={this.handleInsertElement.bind(this, element)}
-                  >
-                    <div className={styles.elementIcon}>
-                      <i className={`icon icon-${element.identifier}`}>
-                        {Icon !== null ? <Icon /> : null}
-                      </i>
-                    </div>
-                    <div className={styles.elementLabel}>
-                      {element.identifier}
-                    </div>
-                  </button>
-                </li>
-              );
-            })}
+                return (
+                  <li className={styles.elementListItem}>
+                    <button
+                      className={styles.elementButton}
+                      key={element.identifier}
+                      onClick={this.handleInsertElement.bind(this, element)}
+                    >
+                      <div className={styles.elementIcon}>
+                        <i className={`icon icon-${element.identifier}`}>
+                          {Icon !== null ? <Icon /> : null}
+                        </i>
+                      </div>
+                      <div className={styles.elementLabel}>
+                        {element.identifier}
+                      </div>
+                    </button>
+                  </li>
+                );
+              }
+            )}
           </ul>
         </div>
       );

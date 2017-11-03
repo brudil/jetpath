@@ -9,12 +9,12 @@ import cogIcon from './cog.svg';
 import styles from './DocumentPanel.css';
 
 interface IProps {
-  data: any,
-  applyChangeset: any
+  data: any;
+  applyChangeset: any;
 }
 
 class DocumentPanel extends React.Component<IProps, any> {
-  private subtypeMap: {[key: string]: any}; // todo
+  private subtypeMap: { [key: string]: any }; // todo
   private handleChangeSubtype: (subtypeName: string) => void;
 
   constructor(props: IProps) {
@@ -55,7 +55,9 @@ class DocumentPanel extends React.Component<IProps, any> {
         </div>
       </div>
     ) : (
-      <button className={styles.button} onClick={this.handleVisibilityToggle}><img src={cogIcon} alt="Document preferences" width="24" /></button>
+      <button className={styles.button} onClick={this.handleVisibilityToggle}>
+        <img src={cogIcon} alt="Document preferences" width="24" />
+      </button>
     );
   }
 }

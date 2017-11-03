@@ -5,12 +5,12 @@ import Toast from './Toast';
 import { removeToast } from '../../ducks/Toast';
 
 import styles from './ToastList.css';
-import {bindActionCreators} from "redux";
+import { bindActionCreators } from 'redux';
 
 interface IProps {
-  toastList: Array<Immutable.Record.Instance<any>>,
-  removeToast: (id: number) => Object,
-  dispatch: (action: Object) => void
+  toastList: Array<Immutable.Record.Instance<any>>;
+  removeToast: (id: number) => Object;
+  dispatch: (action: Object) => void;
 }
 
 function ToastList(props: IProps) {
@@ -18,7 +18,7 @@ function ToastList(props: IProps) {
 
   return (
     <ul className={styles.root}>
-      {props.toastList.map(toast =>
+      {props.toastList.map(toast => (
         <Toast
           key={toast.get('id')}
           id={toast.get('id')}
@@ -29,14 +29,18 @@ function ToastList(props: IProps) {
           dispatch={props.dispatch}
           onRemove={handleRemove}
         />
-      )}
+      ))}
     </ul>
   );
 }
 
-export default connect(state => ({
-  toastList: state.toasts.get('toastList'),
-} as any), (dispatch) => ({
-  ...bindActionCreators({ removeToast }, dispatch),
-  dispatch
-}))(ToastList);
+export default connect(
+  state =>
+    ({
+      toastList: state.toasts.get('toastList'),
+    } as any),
+  dispatch => ({
+    ...bindActionCreators({ removeToast }, dispatch),
+    dispatch,
+  })
+)(ToastList);

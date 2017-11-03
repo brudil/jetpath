@@ -6,15 +6,15 @@ import { update } from '../../../../libs/spectrum2/changes';
 import CanvasIcon from '../../../icons/canvas.svg.react';
 
 import styles from './CanvasBlock.css';
-import {Changeset, ElementPath} from "../../../../libs/spectrum2/interfaces";
+import { Changeset, ElementPath } from '../../../../libs/spectrum2/interfaces';
 
 interface IProps {
-  update: (changeset: Changeset) => void,
-  data: any,
-  interactiveEntities: any,
-  listLoading: boolean,
-  interactiveItems: Object,
-  path: ElementPath,
+  update: (changeset: Changeset) => void;
+  data: any;
+  interactiveEntities: any;
+  listLoading: boolean;
+  interactiveItems: Object;
+  path: ElementPath;
 }
 
 class CanvasBlock extends React.Component<IProps> {

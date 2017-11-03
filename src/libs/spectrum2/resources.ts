@@ -1,6 +1,6 @@
-import {createElement } from "./helpers";
-import {createTextualContentField} from "./fields";
-import {TextTransformer} from "./transformers";
+import { createElement } from './helpers';
+import { createTextualContentField } from './fields';
+import { TextTransformer } from './transformers';
 
 export const LowdownImageResource = createElement('lowdownimage', {
   id: createTextualContentField(TextTransformer.PLAIN_TEXT),

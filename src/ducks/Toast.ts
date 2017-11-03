@@ -5,57 +5,67 @@ export const REMOVE_TOAST = 'REMOVE_TOAST';
 
 export enum ButtonTypes {
   DULL = 'dull',
-  ACTION = 'action'
+  ACTION = 'action',
 }
 
 export const dismissToastAction = 'DISMISS';
 
 export interface Actionable {
-  title: string,
-  action: (() => Object) | string,
-  type: ButtonTypes
+  title: string;
+  action: (() => Object) | string;
+  type: ButtonTypes;
 }
 
-export const createToast = (title: string, message: string, preset: string) =>
-  ({ type: CREATE_TOAST, payload: { title, message, preset }});
+export const createToast = (
+  title: string,
+  message: string,
+  preset: string
+) => ({ type: CREATE_TOAST, payload: { title, message, preset } });
 
-export const createToastWithActionable = (payload: {title: string, message: string, preset: string, actions: Array<Actionable>}) =>
-  ({ type: CREATE_TOAST, payload });
+export const createToastWithActionable = (payload: {
+  title: string;
+  message: string;
+  preset: string;
+  actions: Array<Actionable>;
+}) => ({ type: CREATE_TOAST, payload });
 
-export const removeToast = (id: number) => ({ type: REMOVE_TOAST, payload: { id }});
+export const removeToast = (id: number) => ({
+  type: REMOVE_TOAST,
+  payload: { id },
+});
 
 let toastCount = 0;
 
 export interface ToastBase {
-  id: number,
-  title: string,
-  message: string,
-  preset: string,
-  actions?: Array<Actionable>
+  id: number;
+  title: string;
+  message: string;
+  preset: string;
+  actions?: Array<Actionable>;
 }
 
 export const ToastRecord = Immutable.Record<{
-  id: number | null,
-  title: string | null,
-  message: string | null,
-  preset: string | null,
-  actions: Array<Actionable> | null
+  id: number | null;
+  title: string | null;
+  message: string | null;
+  preset: string | null;
+  actions: Array<Actionable> | null;
 }>({
   id: null,
   title: '',
   message: null,
   preset: 'log',
   actions: null,
-}) ;
+});
 
 interface Action {
-  type: string,
+  type: string;
   payload: {
-    id: number,
-    title: string,
-    message: string,
-    preset: string,
-  }
+    id: number;
+    title: string;
+    message: string;
+    preset: string;
+  };
 }
 
 const initialState = Immutable.Map({
@@ -75,7 +85,7 @@ export default function TopicsReducer(state = initialState, action: Action) {
       );
     }
     case REMOVE_TOAST: {
-      return state.update('toastList', (list) =>
+      return state.update('toastList', list =>
         list.filter(toast => toast.get('id') !== action.payload.id)
       );
     }

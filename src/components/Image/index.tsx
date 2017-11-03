@@ -3,21 +3,21 @@ import qs from 'query-string';
 import Imgix from 'react-imgix';
 
 import styles from './ImagePop.css';
-import {MediaObject} from "../MediaGrid/MediaGridItem";
+import { MediaObject } from '../MediaGrid/MediaGridItem';
 
 function imgix(resource: string, options: Object) {
   return `https://drafty.imgix.net/${resource}?${qs.stringify(options)}`;
 }
 
 interface IProps {
-  image: MediaObject,
-  className?: string
+  image: MediaObject;
+  className?: string;
 }
 
 interface IState {
-  img: HTMLImageElement | null,
-  bound: () => void,
-  src?: string,
+  img: HTMLImageElement | null;
+  bound: () => void;
+  src?: string;
 }
 
 class ImageContainer extends React.Component<IProps, IState> {
@@ -85,7 +85,9 @@ class ImageContainer extends React.Component<IProps, IState> {
         }}
       >
         <div className={styles.imageContainer}>
-          <Imgix as any
+          <Imgix
+            as
+            any
             precision={20}
             src={`https://drafty.imgix.net/${this.props.image.resourceName}`}
           />

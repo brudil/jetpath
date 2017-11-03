@@ -1,6 +1,6 @@
 import { takeLatest, put, call } from 'redux-saga/effects';
 import { AuthorClient } from '../serverAPI';
-import getVertical from "../sagas/getVertical";
+import getVertical from '../sagas/getVertical';
 
 export const AUTHOR_SUGGESTIONS_REQUEST = 'AUTHOR_SUGGESTIONS_REQUEST';
 export const AUTHOR_SUGGESTIONS_FAILURE = 'AUTHOR_SUGGESTIONS_FAILURE';

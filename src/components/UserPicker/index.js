@@ -29,18 +29,16 @@ class UsersPicker extends React.Component {
     return (
       <div className={classes}>
         <div className={styles.currentList}>
-          {this.props.users.length <= 0
-            ? <div className={styles.noUsers}>
-                {this.props.noUsersText}
-              </div>
-            : null}
-          {this.props.users.map(userId =>
+          {this.props.users.length <= 0 ? (
+            <div className={styles.noUsers}>{this.props.noUsersText}</div>
+          ) : null}
+          {this.props.users.map(userId => (
             <UserListItem
               user={this.props.userEntities[userId]}
               onRemove={this.handleUserRemove}
               key={userId}
             />
-          )}
+          ))}
         </div>
         <div className={styles.selector}>
           <UserSelector

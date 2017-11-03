@@ -1,42 +1,40 @@
-import {Errors} from "./errors";
+import { Errors } from './errors';
 
 export interface ActionOverrides {
-  validate?: (value: any) => IterableIterator<ValidationError> | void
+  validate?: (value: any) => IterableIterator<ValidationError> | void;
 }
 
 export type ValidationError = [Errors, String];
 
 export interface ElementActions {
-  validate: (value: any) => IterableIterator<ValidationError> | void
+  validate: (value: any) => IterableIterator<ValidationError> | void;
 }
 
 export interface ElementDefinition {
-  identifier: string,
-  fields: FieldMap
+  identifier: string;
+  fields: FieldMap;
 }
 
-export interface ResourceDefinition extends ElementDefinition {
-}
+export interface ResourceDefinition extends ElementDefinition {}
 
 export interface OptionsMap {
-  defaultValue: any,
+  defaultValue: any;
 }
 
 export interface FieldDefinition {
-  identifier: string,
-    options: OptionsMap & Object,
-    actions: ElementActions,
+  identifier: string;
+  options: OptionsMap & Object;
+  actions: ElementActions;
 }
 
 export interface FieldMap {
-  [fieldName: string]: FieldDefinition
+  [fieldName: string]: FieldDefinition;
 }
-
 
 export interface Element {
   fields: {
-    [key: string]: Element
-  }
+    [key: string]: Element;
+  };
 }
 
 export type Document = any; // todo
@@ -48,32 +46,34 @@ export enum ChangesetInstruction {
   UPDATE,
   INSERT,
   REMOVE,
-  MOVE
+  MOVE,
 }
 
 // Changesets
 export interface BaseChangeset {
-  instruction: ChangesetInstruction,
-  path: ElementPath
+  instruction: ChangesetInstruction;
+  path: ElementPath;
 }
 
 export interface UpdateChangeset extends BaseChangeset {
-  value: any
+  value: any;
 }
 
 export interface InsertChangeset extends BaseChangeset {
-  element: ElementDefinition,
-  position: number,
+  element: ElementDefinition;
+  position: number;
 }
 
 export interface MoveChangeset extends BaseChangeset {
-  position: number,
+  position: number;
 }
 
-export interface RemoveChangeset extends BaseChangeset {
+export interface RemoveChangeset extends BaseChangeset {}
 
-}
+export type ChangesetApplier = (changeset: Changeset) => void;
 
-export type ChangesetApplier = (changeset: Changeset) => void
-
-export type Changeset = UpdateChangeset | InsertChangeset | MoveChangeset | RemoveChangeset;
+export type Changeset =
+  | UpdateChangeset
+  | InsertChangeset
+  | MoveChangeset
+  | RemoveChangeset;

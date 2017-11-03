@@ -1,36 +1,36 @@
 import React from 'react';
-import Button from "../Button";
-import { compose } from "recompose";
-import { graphql } from "react-apollo";
+import Button from '../Button';
+import { compose } from 'recompose';
+import { graphql } from 'react-apollo';
 
 import ContentWatchersQuery from './ContentWatchers.graphql';
 import WatchContentMutation from './WatchContent.graphql';
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
 interface ContentWatcher {
-  slient: boolean,
+  slient: boolean;
   user: {
-    userId: number
-    username: string,
-  }
+    userId: number;
+    username: string;
+  };
 }
 
 interface IProps {
-  contentId: number,
+  contentId: number;
   auth: {
-    id: number,
-  }
+    id: number;
+  };
   data: {
-    loading: boolean,
-    error: boolean,
+    loading: boolean;
+    error: boolean;
     content: {
       editorialMetadata: {
-        watchers: Array<ContentWatcher>
-      }
-    }
-  },
-  watchContent: () => void,
-  children?: Element,
+        watchers: Array<ContentWatcher>;
+      };
+    };
+  };
+  watchContent: () => void;
+  children?: Element;
 }
 
 function ContentWatchManager(props: IProps) {
@@ -41,31 +41,38 @@ function ContentWatchManager(props: IProps) {
     return <div>error!</div>;
   }
 
-  const isWatching = props.data.content.editorialMetadata.watchers.map(watcher => watcher.user.userId).indexOf(props.auth.id) >= 0;
+  const isWatching =
+    props.data.content.editorialMetadata.watchers
+      .map(watcher => watcher.user.userId)
+      .indexOf(props.auth.id) >= 0;
 
   return (
     <div>
       <h3>Watchers</h3>
-      <Button text={isWatching ? 'Slience' : 'Watch'} onClick={props.watchContent} />
+      <Button
+        text={isWatching ? 'Slience' : 'Watch'}
+        onClick={props.watchContent}
+      />
 
       <ul>
-        {props.data.content.editorialMetadata.watchers.map(watcher => <li key={watcher.user.userId}>{watcher.user.username}</li>)}
+        {props.data.content.editorialMetadata.watchers.map(watcher => (
+          <li key={watcher.user.userId}>{watcher.user.username}</li>
+        ))}
       </ul>
     </div>
   );
 }
 
-
 export default compose(
   connect((state: any) => ({
     auth: state.auth.get('auth'),
   })),
- graphql(WatchContentMutation, { name: 'watchContent' }),
- graphql(ContentWatchersQuery, {
-   options: (props: IProps) => ({
-     variables: {
-       contentId: props.contentId,
-     },
-   }),
- }),
+  graphql(WatchContentMutation, { name: 'watchContent' }),
+  graphql(ContentWatchersQuery, {
+    options: (props: IProps) => ({
+      variables: {
+        contentId: props.contentId,
+      },
+    }),
+  })
 )(ContentWatchManager);

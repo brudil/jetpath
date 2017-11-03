@@ -1,4 +1,4 @@
-module Organisation {
+namespace Organisation {
   export function saveSection(modelData: Object): Object;
   export type saveSection = (modelData: Object) => Object;
   export function getAllSections(): Object;

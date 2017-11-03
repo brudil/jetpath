@@ -29,12 +29,7 @@ class AuthorsSelector extends React.Component {
   }
 
   render() {
-    const {
-      isLoading = false,
-      suggestions,
-      authors,
-      value,
-    } = this.props;
+    const { isLoading = false, suggestions, authors, value } = this.props;
 
     const options = suggestions.map(id => authors[id]).map(author => ({
       value: author.id,

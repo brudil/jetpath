@@ -22,9 +22,7 @@ function UserListItem(props) {
       <div className={styles.name}>
         {props.user.first_name} {props.user.last_name}
       </div>
-      <div className={styles.handle}>
-        {props.user.username}
-      </div>
+      <div className={styles.handle}>{props.user.username}</div>
     </div>
   );
 }

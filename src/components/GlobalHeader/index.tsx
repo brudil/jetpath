@@ -12,11 +12,14 @@ import mediaIcon from './media.svg';
 import organisationIcon from './organisation.svg';
 
 import * as styles from './GlobalHeader.css';
-import {compose, pure} from "recompose";
+import { compose, pure } from 'recompose';
 
 const style = styles as any;
 
-function GlobalHeader(props: { vertical: { identifier: string, name: string } | null, children?: any }) {
+function GlobalHeader(props: {
+  vertical: { identifier: string; name: string } | null;
+  children?: any;
+}) {
   const { vertical } = props;
 
   if (!vertical) {
@@ -25,15 +28,12 @@ function GlobalHeader(props: { vertical: { identifier: string, name: string } | 
 
   const verticalLinkTo = (part: string) => `/@${vertical.identifier}/${part}`;
 
-
   return (
     <div className={cx(styles.root, style[`vertical_${vertical.identifier}`])}>
       <header className={styles.header}>
         <h1 className={styles.logoHeading}>
           {vertical ? (
-            <Link to={verticalLinkTo(
-              'dashboard'
-            )}>
+            <Link to={verticalLinkTo('dashboard')}>
               <img
                 className={styles.verticalLogo}
                 src={verticals[vertical.identifier].logoHeader}
@@ -50,11 +50,7 @@ function GlobalHeader(props: { vertical: { identifier: string, name: string } | 
           <menu className={styles.menu}>
             <ul>
               <li className={styles.menuItem} title="Dashboard">
-                <Link
-                  to={verticalLinkTo(
-                    'dashboard'
-                  )}
-                >
+                <Link to={verticalLinkTo('dashboard')}>
                   <img src={dashboardIcon} />
                 </Link>
               </li>
@@ -99,5 +95,5 @@ export default compose(
     vertical: state.verticals.selectedVertical,
     state,
   })),
-  pure,
+  pure
 )(GlobalHeader);

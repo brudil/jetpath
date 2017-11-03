@@ -3,9 +3,9 @@ import cx from 'classnames';
 import DumbGravatar from '../DumbGravatar';
 
 interface IProps {
-  user: any, // todo
-  className?: string,
-  size: number,
+  user: any; // todo
+  className?: string;
+  size: number;
 }
 
 function UserAvatar(props: IProps) {

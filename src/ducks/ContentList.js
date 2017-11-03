@@ -1,7 +1,7 @@
 import { takeLatest, fork } from 'redux-saga/effects';
 import { action as makeAction, fetchEntity } from '../utils';
 import { WorksClient } from '../serverAPI';
-import getVertical from "../sagas/getVertical";
+import getVertical from '../sagas/getVertical';
 
 const CONTENT_LIST_FETCH_REQUEST = 'CONTENT_LIST_FETCH_REQUEST';
 const CONTENT_LIST_FETCH_FAILURE = 'CONTENT_LIST_FETCH_FAILURE';

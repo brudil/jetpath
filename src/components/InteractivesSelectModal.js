@@ -54,11 +54,13 @@ class InteractivesSelectModal extends React.Component {
         <div className="modal__body">
           {pagination}
           <ul>
-            {interactiveItems.map(item =>
+            {interactiveItems.map(item => (
               <li>
-                <button onClick={this.props.onSelect.bind(null, item.slug)}>{item.slug}</button>
+                <button onClick={this.props.onSelect.bind(null, item.slug)}>
+                  {item.slug}
+                </button>
               </li>
-            )}
+            ))}
           </ul>
           {pagination}
         </div>
@@ -67,11 +69,7 @@ class InteractivesSelectModal extends React.Component {
   }
 
   render() {
-    return (
-      <div className="media-select-modal">
-        {this.renderModal()}
-      </div>
-    );
+    return <div className="media-select-modal">{this.renderModal()}</div>;
   }
 }
 

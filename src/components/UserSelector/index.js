@@ -86,12 +86,10 @@ class UserSelector extends React.Component {
         <span className={styles.suggestionName}>
           {user.first_name} {user.last_name}
         </span>
-        <span className={styles.suggestionUsername}>
-          {user.username}
-        </span>
-        {user.id === this.props.currentUser.id
-          ? <span className={styles.suggestionCurrentUser}>(you!)</span>
-          : null}
+        <span className={styles.suggestionUsername}>{user.username}</span>
+        {user.id === this.props.currentUser.id ? (
+          <span className={styles.suggestionCurrentUser}>(you!)</span>
+        ) : null}
       </li>
     );
   }

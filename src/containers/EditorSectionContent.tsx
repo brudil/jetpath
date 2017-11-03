@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import SpectrumEditor from '../components/Spectrum/Editor';
 
 interface IProps {
-  workingDocument: any // todo
-  editorFocus: any // todo
+  workingDocument: any; // todo
+  editorFocus: any; // todo
 }
 
 class EditorSectionContent extends React.Component<IProps> {

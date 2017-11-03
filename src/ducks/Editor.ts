@@ -8,7 +8,10 @@ import {
   throttle,
 } from 'redux-saga/effects';
 import find from 'lodash/find';
-import {ChangesetInstruction, ElementPath} from '../libs/spectrum2/interfaces';
+import {
+  ChangesetInstruction,
+  ElementPath,
+} from '../libs/spectrum2/interfaces';
 import { ArticleSubtype } from '../libs/spectrum2/structure';
 import { applyChangeset, changeSubtype } from '../libs/spectrum2/changes';
 import { createDocument, filterDocument } from '../libs/spectrum2/helpers';
@@ -51,8 +54,9 @@ const EDITOR_ELEMENT_PANEL = 'EDITOR_ELEMENT_PANEL';
 export const loadContent = (contentId: number) =>
   makeAction(EDITOR_LOAD_CONTENT.REQUEST, { contentId });
 export const publish = () => makeAction(EDITOR_PUBLISH_CONTENT.REQUEST);
-export const publishSuccess = (payload: any) => // todo: these payload: any
-  makeAction(EDITOR_PUBLISH_CONTENT.SUCCESS, payload);
+export const publishSuccess = (
+  payload: any // todo: these payload: any
+) => makeAction(EDITOR_PUBLISH_CONTENT.SUCCESS, payload);
 
 export const loadContentSuccess = (payload: any) =>
   makeAction(EDITOR_LOAD_CONTENT.SUCCESS, payload);
@@ -91,9 +95,13 @@ export const changeRevisionStatusSuccess = (payload: any) =>
   makeAction(EDITOR_CHANGE_REVISION_STATUS.SUCCESS, payload);
 
 export const addAuthor = (id: number) => makeAction(EDITOR_ADD_AUTHOR, { id });
-export const removeAuthor = (id: number) => makeAction(EDITOR_REMOVE_AUTHOR, { id });
+export const removeAuthor = (id: number) =>
+  makeAction(EDITOR_REMOVE_AUTHOR, { id });
 
-export const seenHint = (name: string) => ({ type: EDITOR_SEEN_HINT, payload: { name } });
+export const seenHint = (name: string) => ({
+  type: EDITOR_SEEN_HINT,
+  payload: { name },
+});
 
 export const setInsertFocus = (path: ElementPath) => ({
   type: EDITOR_SET_FOCUS,
@@ -310,8 +318,12 @@ export default function EditorReducer(state = initialState, action: any) {
         .setIn(['workingRevision', 'status'], action.status);
     }
     case EDITOR_ADD_AUTHOR: {
-      return state.update('workingRevision', (rev: any) => // todo: anys
-        rev.updateIn(['authors'], (authorList: any) => authorList.add(action.id))
+      return state.update('workingRevision', (
+        rev: any // todo: anys
+      ) =>
+        rev.updateIn(['authors'], (authorList: any) =>
+          authorList.add(action.id)
+        )
       );
     }
     case EDITOR_SEEN_HINT: {
@@ -452,7 +464,11 @@ function* handleEditorPublish() {
   yield put(publishSuccess({ editorialMetadata }));
 }
 
-function* loadMissingResourcesForRevision(revision: any, spectrum_document: any) { // todo: anys
+function* loadMissingResourcesForRevision(
+  revision: any,
+  spectrum_document: any
+) {
+  // todo: anys
   const foundResources = filterDocument(
     spectrum_document,
     _el => true
@@ -519,7 +535,9 @@ function* handleEditorChange() {
     'content',
     'revision_number',
   ];
-  const removeServerMutableFields = (rev: any) => // todo
+  const removeServerMutableFields = (
+    rev: any // todo
+  ) =>
     rev.merge(
       serverMutableFields.reduce(
         (state: any, fieldName) => state.set(fieldName, null), // todo: state: any

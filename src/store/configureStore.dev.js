@@ -16,7 +16,7 @@ export default function configureStore({ apolloClient }) {
         collapsed: true,
       })
     ),
-    applyMiddleware(apolloClient.middleware()),
+    applyMiddleware(apolloClient.middleware())
   )(createStore);
 
   const store = finalCreateStore(

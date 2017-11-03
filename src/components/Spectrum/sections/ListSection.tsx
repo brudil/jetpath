@@ -4,14 +4,17 @@ import ListSectionPanel from './ListSectionPanel';
 import ListIcon from '../../icons/list.svg.react';
 
 import styles from './Section.css';
-import {ChangesetApplier, ElementPath} from "../../../libs/spectrum2/interfaces";
-import {SpectrumRenderElement} from "../interfaces";
+import {
+  ChangesetApplier,
+  ElementPath,
+} from '../../../libs/spectrum2/interfaces';
+import { SpectrumRenderElement } from '../interfaces';
 
 interface IProps {
-  path: ElementPath,
-  data: any,
-  update: ChangesetApplier
-  focus: any
+  path: ElementPath;
+  data: any;
+  update: ChangesetApplier;
+  focus: any;
 }
 
 const ListSection: SpectrumRenderElement<IProps> = (props: IProps) => {

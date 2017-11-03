@@ -4,13 +4,16 @@ import { update } from '../../../../libs/spectrum2/changes';
 import HeadingIcon from '../../../icons/pull-quote.svg.react';
 
 import styles from './PullQuoteBlock.css';
-import {ChangesetApplier, ElementPath} from "../../../../libs/spectrum2/interfaces";
+import {
+  ChangesetApplier,
+  ElementPath,
+} from '../../../../libs/spectrum2/interfaces';
 
 interface IProps {
-  data: any,
-  path: ElementPath,
-  update: ChangesetApplier,
-  setFocus: () => void,
+  data: any;
+  path: ElementPath;
+  update: ChangesetApplier;
+  setFocus: () => void;
 }
 
 class PullQuoteBlock extends React.Component<IProps> {
@@ -39,7 +42,7 @@ class PullQuoteBlock extends React.Component<IProps> {
           value={data.getIn(['quote', 'text'])}
           onChange={this.handleInput}
           onFocus={setFocus}
-      />
+        />
       </div>
     );
   }

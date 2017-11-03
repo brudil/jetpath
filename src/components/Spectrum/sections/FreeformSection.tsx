@@ -3,14 +3,17 @@ import ElementStream from '../ElementStream';
 import FreeformIcon from '../../icons/freeform.svg.react';
 
 import styles from './Section.css';
-import {ChangesetApplier, ElementPath} from "../../../libs/spectrum2/interfaces";
-import {SpectrumRenderElement} from "../interfaces";
+import {
+  ChangesetApplier,
+  ElementPath,
+} from '../../../libs/spectrum2/interfaces';
+import { SpectrumRenderElement } from '../interfaces';
 
 interface IProps {
-  path: ElementPath,
-  data: any,
-  update: ChangesetApplier,
-  focus: any,
+  path: ElementPath;
+  data: any;
+  update: ChangesetApplier;
+  focus: any;
 }
 
 const FreeformSection: SpectrumRenderElement<IProps> = (props: IProps) => {
@@ -28,7 +31,7 @@ const FreeformSection: SpectrumRenderElement<IProps> = (props: IProps) => {
       />
     </div>
   );
-} ;
+};
 
 FreeformSection.Icon = FreeformIcon;
 

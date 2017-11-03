@@ -1,15 +1,16 @@
 import React from 'react';
 import DebouncedInput from '../../../DebouncedInput';
 import {
-  ChangesetApplier, ChangesetInstruction,
-  ElementPath
-} from "../../../../libs/spectrum2/interfaces";
-import Panel, {PanelControl} from "../../ElementPanel/Panel";
+  ChangesetApplier,
+  ChangesetInstruction,
+  ElementPath,
+} from '../../../../libs/spectrum2/interfaces';
+import Panel, { PanelControl } from '../../ElementPanel/Panel';
 
 interface IProps {
-  update: ChangesetApplier,
-  data: any, // todo
-  path: ElementPath,
+  update: ChangesetApplier;
+  data: any; // todo
+  path: ElementPath;
 }
 
 type InputUpdater = (e: React.KeyboardEvent<HTMLInputElement>) => void;

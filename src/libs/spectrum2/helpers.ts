@@ -2,41 +2,50 @@ import { Map } from 'immutable';
 
 import { v4 } from 'uuid';
 import {
-  ActionOverrides, ElementActions, ElementDefinition, FieldDefinition, FieldMap,
-  OptionsMap, Document
-} from "./interfaces";
-import {isElementDefinition} from "./changes";
-import {getElementByName} from "./structure";
+  ActionOverrides,
+  ElementActions,
+  ElementDefinition,
+  FieldDefinition,
+  FieldMap,
+  OptionsMap,
+  Document,
+} from './interfaces';
+import { isElementDefinition } from './changes';
+import { getElementByName } from './structure';
 
-export function createElement(identifier: string, fields: FieldMap): ElementDefinition {
+export function createElement(
+  identifier: string,
+  fields: FieldMap
+): ElementDefinition {
   return {
     identifier,
     fields,
-  }
+  };
 }
 
 const defaultActions: ElementActions = {
   validate() {
     return;
-  }
+  },
 };
 
 const defaultOptions: OptionsMap = {
   defaultValue: null,
 };
 
-
-export function createField(identifier: string, options: Object, actions: ActionOverrides): FieldDefinition {
-
+export function createField(
+  identifier: string,
+  options: Object,
+  actions: ActionOverrides
+): FieldDefinition {
   return {
     identifier,
     options: { ...defaultOptions, ...options },
-    actions: { ...defaultActions, ...actions }
-  }
+    actions: { ...defaultActions, ...actions },
+  };
 }
 
 function produceFieldNode(field: FieldDefinition) {
-
   if (isElementDefinition(field.options.defaultValue)) {
     return produceImmutableNode(field.options.defaultValue);
   }
@@ -56,9 +65,13 @@ export function createDocument() {
   });
 }
 
-function produceImmutableFieldNodes(element: ElementDefinition): Map<string, any> {
+function produceImmutableFieldNodes(
+  element: ElementDefinition
+): Map<string, any> {
   let output: Map<string, any> = Map();
-  Object.entries(element.fields).forEach(([fieldKey, fieldDefinition]: [string, FieldDefinition]) => {
+  Object.entries(
+    element.fields
+  ).forEach(([fieldKey, fieldDefinition]: [string, FieldDefinition]) => {
     output = output.set(fieldKey, produceFieldNode(fieldDefinition));
   });
   return output;
@@ -71,7 +84,10 @@ export function produceImmutableNode(element: ElementDefinition) {
   }).merge(produceImmutableFieldNodes(element));
 }
 
-export function filterNode(node: any, predicate: (element: ElementDefinition, node: any) => boolean) {
+export function filterNode(
+  node: any,
+  predicate: (element: ElementDefinition, node: any) => boolean
+) {
   const def = getElementByName(node.get('_name'));
 
   let found: Array<any> = [];
@@ -80,7 +96,7 @@ export function filterNode(node: any, predicate: (element: ElementDefinition, no
     found.push(node);
   }
 
-  Object.entries(def.fields).forEach((entry) => {
+  Object.entries(def.fields).forEach(entry => {
     const [fieldName, fieldDefinition] = entry;
 
     if (fieldDefinition.identifier === 'STREAM') {
@@ -89,7 +105,7 @@ export function filterNode(node: any, predicate: (element: ElementDefinition, no
         if (innerFound.length > 0) {
           found = found.concat(innerFound);
         }
-      })
+      });
     } else if (fieldDefinition.identifier === 'ELEMENT') {
       const innerFound = filterNode(node.get(fieldName), predicate);
       if (innerFound.length > 0) {
@@ -101,7 +117,10 @@ export function filterNode(node: any, predicate: (element: ElementDefinition, no
   return found;
 }
 
-export function filterDocument(document: Document, predicate: (element: ElementDefinition) => boolean) {
+export function filterDocument(
+  document: Document,
+  predicate: (element: ElementDefinition) => boolean
+) {
   // todo: implement filtering
   console.log(document);
   return filterNode(document.get('content'), predicate);

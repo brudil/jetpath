@@ -1,30 +1,30 @@
 import React from 'react';
 import MediaUploadContainer from '../MediaUploadContainer';
-import MediaGrid from "../MediaGrid";
-import LoadingContent from "../LoadingContent";
-import NoListItems from "../NoListItems";
-import {graphql} from "react-apollo";
-import {compose} from "recompose";
-import {connect} from "react-redux";
+import MediaGrid from '../MediaGrid';
+import LoadingContent from '../LoadingContent';
+import NoListItems from '../NoListItems';
+import { graphql } from 'react-apollo';
+import { compose } from 'recompose';
+import { connect } from 'react-redux';
 
 import MediaListQuery from './MediaList.graphql';
-import {MediaClient} from '../../serverAPI';
-import {MediaObject} from "../MediaGrid/MediaGridItem";
+import { MediaClient } from '../../serverAPI';
+import { MediaObject } from '../MediaGrid/MediaGridItem';
 
 interface IProps {
   vertical: {
-    identifier: string,
-  },
+    identifier: string;
+  };
   data: {
-    loading: boolean,
+    loading: boolean;
     vertical: {
-      allMedia: any
-    },
-    refetch: () => void,
-  },
-  onSelect: (mediaId: number) => void,
-  wrap?: (media: MediaObject, children: JSX.Element) => Element
-  children?: Element,
+      allMedia: any;
+    };
+    refetch: () => void;
+  };
+  onSelect: (mediaId: number) => void;
+  wrap?: (media: MediaObject, children: JSX.Element) => Element;
+  children?: Element;
 }
 
 function MediaGridContainer(props: IProps) {
@@ -35,7 +35,9 @@ function MediaGridContainer(props: IProps) {
   const { data: { vertical: { allMedia } } } = props;
 
   function handleFile(file: any) {
-    MediaClient.upload(props.vertical.identifier, file).then(() => props.data.refetch())
+    MediaClient.upload(props.vertical.identifier, file).then(() =>
+      props.data.refetch()
+    );
   }
 
   return (
@@ -44,15 +46,20 @@ function MediaGridContainer(props: IProps) {
         <div>
           {allMedia.edges.length > 0 ? (
             <div>
-              <MediaGrid media={allMedia.edges} onSelect={props.onSelect} wrap={props.wrap} />
+              <MediaGrid
+                media={allMedia.edges}
+                onSelect={props.onSelect}
+                wrap={props.wrap}
+              />
             </div>
-          ) : <NoListItems text="No media meets criteria" />}
+          ) : (
+            <NoListItems text="No media meets criteria" />
+          )}
         </div>
       </MediaUploadContainer>
     </div>
   );
 }
-
 
 export default compose(
   connect(state => ({

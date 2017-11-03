@@ -4,10 +4,10 @@ import Button from '../Button';
 import styles from './PaginationNav.css';
 
 export function PaginationNav(props: {
-  currentPage: number,
-  hasNext: boolean,
-  total: number,
-  onChange: (page: number) => void,
+  currentPage: number;
+  hasNext: boolean;
+  total: number;
+  onChange: (page: number) => void;
 }) {
   const { hasNext, currentPage, onChange, total } = props;
 
@@ -36,9 +36,7 @@ export function PaginationNav(props: {
         Page {currentPage}
         {total ? ` of ~${total}` : null}
       </div>
-      <div className={styles.button}>
-        {hasNext ? renderNext() : null}
-      </div>
+      <div className={styles.button}>{hasNext ? renderNext() : null}</div>
     </div>
   );
 }

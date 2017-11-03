@@ -3,15 +3,19 @@ import cx from 'classnames';
 import { getElementByName } from '../../../libs/spectrum2/structure';
 import ElementInserter from '../ElementInserter';
 import Element from '../Element';
-import {ChangesetApplier, ElementIndex, ElementPath} from "../../../libs/spectrum2/interfaces";
+import {
+  ChangesetApplier,
+  ElementIndex,
+  ElementPath,
+} from '../../../libs/spectrum2/interfaces';
 
 interface IProps {
-  update: ChangesetApplier,
-  data: any,
-  index: ElementIndex,
-  className?: string,
-  path: ElementPath,
-  focus: any,
+  update: ChangesetApplier;
+  data: any;
+  index: ElementIndex;
+  className?: string;
+  path: ElementPath;
+  focus: any;
 }
 
 const ElementStream: React.SFC<IProps> = (props: IProps) => {
@@ -55,7 +59,7 @@ const ElementStream: React.SFC<IProps> = (props: IProps) => {
       </li>
     </ul>
   );
-}
+};
 
 ElementStream.defaultProps = {
   index: 'stream',

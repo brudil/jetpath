@@ -12,20 +12,20 @@ import { compose } from 'recompose';
 import styles from './LoginPage.css';
 
 interface IProps {
-  login(username: string, password: string): void,
+  login(username: string, password: string): void;
   location: {
-    search: string,
-  },
-  auth: any,
+    search: string;
+  };
+  auth: any;
   history: {
-    replace(path: string): void
-  },
+    replace(path: string): void;
+  };
 }
 
-interface IState  {
-  loginPhrase: string,
-  username: string,
-  password: string,
+interface IState {
+  loginPhrase: string;
+  username: string;
+  password: string;
 }
 
 class LoginPage extends React.Component<IProps, IState> {
@@ -35,7 +35,7 @@ class LoginPage extends React.Component<IProps, IState> {
     this.state = {
       loginPhrase: sample(loginButtonOptions) as string,
       username: '',
-      password: ''
+      password: '',
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -58,7 +58,9 @@ class LoginPage extends React.Component<IProps, IState> {
 
   handleCorrectRoute(props: IProps) {
     if (props.auth.get('auth') !== null) {
-      const nextPath = new URLSearchParams(this.props.location.search).get('nextLocation');
+      const nextPath = new URLSearchParams(this.props.location.search).get(
+        'nextLocation'
+      );
       this.props.history.replace(nextPath || '/');
     }
   }
@@ -106,8 +108,9 @@ class LoginPage extends React.Component<IProps, IState> {
               className={buttonClass}
               type="submit"
               disabled={this.props.auth.get('loading')}
-              text={`${this.props.auth.get('loading') ? 'Logging in' : 'Log in'} ${this
-                .state.loginPhrase}`}
+              text={`${this.props.auth.get('loading')
+                ? 'Logging in'
+                : 'Log in'} ${this.state.loginPhrase}`}
             />
           </form>
         </div>
@@ -118,9 +121,12 @@ class LoginPage extends React.Component<IProps, IState> {
 
 export default compose(
   withRouter,
-  connect(state => ({
-    auth: state.auth,
-  }), {
-    login: AuthActions.login,
-  })
+  connect(
+    state => ({
+      auth: state.auth,
+    }),
+    {
+      login: AuthActions.login,
+    }
+  )
 )(LoginPage);

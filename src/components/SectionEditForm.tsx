@@ -5,8 +5,8 @@ import { SidebarControl } from './Sidebar';
 import * as OrgansiationActions from '../ducks/Organisation';
 
 interface Props {
-  model: Object,
-  saveSection: OrgansiationActions.saveSection,
+  model: Object;
+  saveSection: OrgansiationActions.saveSection;
 }
 
 class SectionEditForm extends React.Component<Props, {}> {

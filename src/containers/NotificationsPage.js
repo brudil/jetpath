@@ -19,11 +19,9 @@ class NotificationsPage extends React.Component {
             <div className="view-container__content">
               Your notifications!
               <ul>
-                {this.props.notificationsList.map(notification =>
-                  <li>
-                    ID: {notification.id}
-                  </li>
-                )}
+                {this.props.notificationsList.map(notification => (
+                  <li>ID: {notification.id}</li>
+                ))}
               </ul>
             </div>
           </div>

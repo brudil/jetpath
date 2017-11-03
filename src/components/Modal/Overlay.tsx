@@ -12,7 +12,6 @@ class Overlay extends React.Component<any, any> {
   }
 
   render() {
-
     return (
       <div
         className={styles.back}

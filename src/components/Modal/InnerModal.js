@@ -47,14 +47,15 @@ class Modal extends React.Component {
   render() {
     const InnerModal = this.props.innerModal;
 
-    const modal = () =>
+    const modal = () => (
       <div className={cx(stylesModal.root, stylesOverlay.front)}>
         <InnerModal
           {...this.props.innerProps}
           close={this.handleClose.bind(this)}
           conf={this.props.conf}
         />
-      </div>;
+      </div>
+    );
 
     const overlay = (
       <div

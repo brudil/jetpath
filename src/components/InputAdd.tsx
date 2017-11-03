@@ -1,13 +1,13 @@
 import React from 'react';
 
 interface IProps {
-  save: (value: string) => void,
-  value: string,
-  type: string,
+  save: (value: string) => void;
+  value: string;
+  type: string;
 }
 
 interface IState {
-  value: string,
+  value: string;
 }
 
 class InputAdd extends React.Component<IProps, IState> {

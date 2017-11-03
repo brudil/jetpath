@@ -83,7 +83,7 @@ class OrganisationPage extends React.Component {
     return (
       <ul className={stylesShelter.col}>
         <li className={stylesShelter.colHeader}>Sections</li>
-        {filteredList.map(item =>
+        {filteredList.map(item => (
           <li
             className={cx(stylesShelter.item, {
               [stylesShelter.item_selected]:
@@ -94,12 +94,10 @@ class OrganisationPage extends React.Component {
             key={item.id}
             onClick={this.handleSelectSection.bind(this, item.id)}
           >
-            <div>
-              {item.title}
-            </div>
+            <div>{item.title}</div>
             <ul className="bus-shelter__sub-col" />
           </li>
-        )}
+        ))}
         <li className="bus-shelter__item-add">
           <Button text="Add section" onClick={this.handleSelectNewSection} />
         </li>
@@ -118,7 +116,7 @@ class OrganisationPage extends React.Component {
           Topics in {this.props.selectedSection.title}
         </li>
         {list
-          ? list.map(item =>
+          ? list.map(item => (
               <li
                 className={cx(stylesShelter.item, {
                   [stylesShelter.item_selected]:
@@ -127,11 +125,9 @@ class OrganisationPage extends React.Component {
                 key={item.id}
                 onClick={this.handleSelectTopic.bind(this, item.id)}
               >
-                <div>
-                  {item.title}
-                </div>
+                <div>{item.title}</div>
               </li>
-            )
+            ))
           : null}
         {!list ? <em>Loading</em> : null}
         {list.length <= 0 ? <em>Nothing here</em> : null}
@@ -210,9 +206,7 @@ class OrganisationPage extends React.Component {
               </div>
             </div>
             <div className={stylesView.sidebar}>
-              <div className="sidebar">
-                {this.renderSidebar()}
-              </div>
+              <div className="sidebar">{this.renderSidebar()}</div>
             </div>
           </div>
         </ViewContainer>

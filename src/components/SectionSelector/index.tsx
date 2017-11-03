@@ -7,9 +7,9 @@ import * as OrgansiationActions from '../../ducks/Organisation';
 import 'style-loader!css-loader!postcss-loader!react-select/dist/react-select.css';
 
 interface IProps {
-  getAllSections: OrgansiationActions.getAllSections,
-  isLoading: boolean,
-  sections: Array<{ id: number, title: string }>
+  getAllSections: OrgansiationActions.getAllSections;
+  isLoading: boolean;
+  sections: Array<{ id: number; title: string }>;
 }
 
 class SectionSelector extends React.Component<IProps, {}> {
@@ -29,19 +29,22 @@ class SectionSelector extends React.Component<IProps, {}> {
   }
 }
 
-export default connect((state: {
-  organisation: {
-    loading: boolean,
-    sectionList: Array<number>,
-  },
-  entities: {
-    sections: {[key: number]: Object}
+export default connect(
+  (state: {
+    organisation: {
+      loading: boolean;
+      sectionList: Array<number>;
+    };
+    entities: {
+      sections: { [key: number]: Object };
+    };
+  }) => ({
+    isLoading: state.organisation.loading,
+    sections: state.organisation.sectionList.map(
+      id => state.entities.sections[id]
+    ),
+  }),
+  {
+    getAllSections: OrgansiationActions.getAllSections,
   }
-}) => ({
-  isLoading: state.organisation.loading,
-  sections: state.organisation.sectionList.map(
-    id => state.entities.sections[id]
-  ),
-}), {
-  getAllSections: OrgansiationActions.getAllSections,
-})(SectionSelector);
+)(SectionSelector);

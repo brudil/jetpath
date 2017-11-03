@@ -3,14 +3,14 @@ import DebouncedAutosizeTextarea from '../../../DebouncedAutosizeTextarea';
 import TextIcon from '../../../icons/text.svg.react';
 
 import styles from './TextBlock.css';
-import {Changeset, ElementPath} from "../../../../libs/spectrum2/interfaces";
-import {update} from "../../../../libs/spectrum2/changes";
+import { Changeset, ElementPath } from '../../../../libs/spectrum2/interfaces';
+import { update } from '../../../../libs/spectrum2/changes';
 
 interface IProps {
-  update: (changeset: Changeset) => void,
-  data: any, // todo
-  path: ElementPath,
-  setFocus: () => void,
+  update: (changeset: Changeset) => void;
+  data: any; // todo
+  path: ElementPath;
+  setFocus: () => void;
 }
 
 class TextBlock extends React.Component<IProps> {

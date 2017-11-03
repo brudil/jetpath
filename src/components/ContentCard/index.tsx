@@ -1,19 +1,19 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 import styles from './ContentCard.css';
 import FauxRouterLink from '../FauxLink/FauxRouterLink';
-import SmartDate from "../SmartDate";
+import SmartDate from '../SmartDate';
 
 interface IProps {
-  headline: string,
-  link: string,
+  headline: string;
+  link: string;
   currentRevision: {
-    created: string,
+    created: string;
     createdBy: {
-      username: string
-    } | null
-  }
+      username: string;
+    } | null;
+  };
 }
 
 export function ContentCard(props: IProps) {
@@ -24,8 +24,9 @@ export function ContentCard(props: IProps) {
         <Link to={props.link}>{props.headline}</Link>
       </h1>
       <div className={styles.meta}>
-        last edited <SmartDate value={props.currentRevision.created} /> ago
-        by {props.currentRevision.createdBy && props.currentRevision.createdBy.username}
+        last edited <SmartDate value={props.currentRevision.created} /> ago by{' '}
+        {props.currentRevision.createdBy &&
+          props.currentRevision.createdBy.username}
       </div>
     </div>
   );

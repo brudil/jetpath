@@ -72,11 +72,14 @@ function EditorSidebar(props) {
           value={revision.get('form')}
           onChange={revisionChangeHandler('form', formly.event, formly.int)}
         >
-          {intersection(vertical.content_forms, values(contentForm)).map(key =>
+          {intersection(
+            vertical.content_forms,
+            values(contentForm)
+          ).map(key => (
             <option value={key} key={key}>
               {contentLang.contentForm[key]}
             </option>
-          )}
+          ))}
         </select>
       </SidebarControl>
       <SidebarControl title="Tone">
@@ -84,11 +87,14 @@ function EditorSidebar(props) {
           value={revision.get('tone')}
           onChange={revisionChangeHandler('tone', formly.event, formly.int)}
         >
-          {intersection(vertical.content_tones, values(contentTone)).map(key =>
+          {intersection(
+            vertical.content_tones,
+            values(contentTone)
+          ).map(key => (
             <option value={key} key={key}>
               {contentLang.contentTone[key]}
             </option>
-          )}
+          ))}
         </select>
       </SidebarControl>
       <SidebarControl

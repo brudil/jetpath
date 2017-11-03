@@ -7,10 +7,10 @@ import * as EditorActions from '../../../ducks/Editor';
 import styles from './SpectrumEditor.css';
 
 interface IProps {
-  updateSpectrumDocument: any,
-  changeDocumentSubtype: any,
-  document: any,
-  focus: any,
+  updateSpectrumDocument: any;
+  changeDocumentSubtype: any;
+  document: any;
+  focus: any;
 }
 
 class SpectrumEditor extends React.Component<IProps, any> {
@@ -22,12 +22,9 @@ class SpectrumEditor extends React.Component<IProps, any> {
     this.boundUpdate = changeset => {
       this.props.updateSpectrumDocument(changeset);
     };
-
   }
 
-  componentDidMount() {
-
-  }
+  componentDidMount() {}
 
   render() {
     const { document, focus } = this.props;
@@ -39,21 +36,20 @@ class SpectrumEditor extends React.Component<IProps, any> {
           data={document}
           applyChangeset={this.props.updateSpectrumDocument}
         />
-        {hasContent
-          ? <Element
-              data={document}
-              index="content"
-              path={[]}
-              update={this.boundUpdate}
-              isInStream={false}
-              focus={focus}
-            />
-          : null}
+        {hasContent ? (
+          <Element
+            data={document}
+            index="content"
+            path={[]}
+            update={this.boundUpdate}
+            isInStream={false}
+            focus={focus}
+          />
+        ) : null}
       </div>
     );
   }
 }
-
 
 export default connect(null, {
   changeDocumentSubtype: EditorActions.changeDocumentSubtype,

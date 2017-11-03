@@ -1,5 +1,8 @@
 // eslint-disable-next-line
-export function generateFromConstants(langMap: {[key: string]: string}, constantIds: Array<number>) {
+export function generateFromConstants(
+  langMap: { [key: string]: string },
+  constantIds: Array<number>
+) {
   const list: Array<string | number> = [];
 
   constantIds.forEach(id => {

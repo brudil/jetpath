@@ -1,9 +1,8 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form'
-
+import { Field, reduxForm } from 'redux-form';
 
 let MediaEditForm = props => {
-  const { handleSubmit } = props
+  const { handleSubmit } = props;
   return (
     <form onSubmit={handleSubmit}>
       <div>
@@ -17,7 +16,7 @@ let MediaEditForm = props => {
       <button type="submit">Save</button>
     </form>
   );
-}
+};
 
 export default reduxForm({
   form: 'media',

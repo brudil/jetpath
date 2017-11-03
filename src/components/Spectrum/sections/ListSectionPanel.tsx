@@ -1,8 +1,11 @@
 import React from 'react';
 import SegmentedControl from '../../SegmentedControl';
-import {ChangesetApplier, ElementPath} from "../../../libs/spectrum2/interfaces";
-import {update} from "../../../libs/spectrum2/changes";
-import Panel, { PanelControl } from "../ElementPanel/Panel";
+import {
+  ChangesetApplier,
+  ElementPath,
+} from '../../../libs/spectrum2/interfaces';
+import { update } from '../../../libs/spectrum2/changes';
+import Panel, { PanelControl } from '../ElementPanel/Panel';
 
 const pointsSetup = [
   null,
@@ -18,9 +21,9 @@ const pointsSetup = [
 const orderSetup = ['az', 'a-z', 'za', 'z-a'];
 
 interface IProps {
-  path: ElementPath,
-  data: any,
-  update: ChangesetApplier
+  path: ElementPath;
+  data: any;
+  update: ChangesetApplier;
 }
 
 class ListSectionPanel extends React.Component<IProps> {

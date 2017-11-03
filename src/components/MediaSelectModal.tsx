@@ -3,13 +3,13 @@ import { modalWrapper } from './Modal';
 import MediaGridContainer from './MediaGridContainer';
 
 interface IProps {
-  onSelect: (mediaId: number) => void,
-  close: () => void,
+  onSelect: (mediaId: number) => void;
+  close: () => void;
 }
 
 class MediaSelectModal extends React.Component<IProps, any> {
   constructor(props: IProps) {
-    super(props)
+    super(props);
   }
 
   render() {

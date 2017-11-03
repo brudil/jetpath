@@ -65,14 +65,14 @@ class TitleSelection extends React.Component {
             {this.state.items[this.props.value].title}
           </h2>
           <ul className={styles.choices}>
-            {this.state.itemsIds.map(id =>
+            {this.state.itemsIds.map(id => (
               <TitleSelectionItem
                 key={id}
                 id={id}
                 title={this.state.items[id].title}
                 onItemClick={this.handleSelect}
               />
-            )}
+            ))}
           </ul>
         </div>
       </div>

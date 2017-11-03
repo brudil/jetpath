@@ -1,12 +1,12 @@
 import React from 'react';
 import ElementStream from '../ElementStream';
-import {ElementPath} from "../../../libs/spectrum2/interfaces";
+import { ElementPath } from '../../../libs/spectrum2/interfaces';
 
 interface IProps {
-  update: () => void,
-  data: any,
-  path: ElementPath,
-  focus: any,
+  update: () => void;
+  data: any;
+  path: ElementPath;
+  focus: any;
 }
 
 function ArticleSubtype(props: IProps) {

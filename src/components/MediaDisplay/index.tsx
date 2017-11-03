@@ -5,18 +5,18 @@ import Image from '../Image';
 import styles from './MediaDisplay.css';
 
 interface IProps {
-  className?: string,
-  media: any, // todo
+  className?: string;
+  media: any; // todo
 }
 
 function MediaDisplay({ className, media }: IProps) {
   return (
     <div className={cx(className, styles.root)}>
-      {media.file_type === 'image' || media.fileType === 'image'
-        ? <div className={styles.image}>
-            <Image image={media} />
-          </div>
-        : null}
+      {media.file_type === 'image' || media.fileType === 'image' ? (
+        <div className={styles.image}>
+          <Image image={media} />
+        </div>
+      ) : null}
     </div>
   );
 }

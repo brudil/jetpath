@@ -11,9 +11,7 @@ function DocumentTitle({ title, children }) {
   }
 
   return (
-    <ReactDocumentTitle title={appendedTitle}>
-      {children}
-    </ReactDocumentTitle>
+    <ReactDocumentTitle title={appendedTitle}>{children}</ReactDocumentTitle>
   );
 }
 

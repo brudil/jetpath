@@ -77,7 +77,9 @@ function WorksList(props) {
               </span>
               <span className={styles.itemMetaBit}>
                 last edited: <SmartDate value={currentRevision.created} /> ago
-                by {currentRevision.created_by && currentRevision.created_by.username}
+                by{' '}
+                {currentRevision.created_by &&
+                  currentRevision.created_by.username}
               </span>
               <span className={styles.itemMetaBit}>
                 revision: #{work.revision_count}

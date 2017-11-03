@@ -57,14 +57,14 @@ class TopicsSelector extends React.Component {
     return (
       <div>
         <ul>
-          {currentTopics.map(topic =>
+          {currentTopics.map(topic => (
             <li
               key={topic.id}
               onClick={this.handleRemoveChange.bind(this, topic.id)}
             >
               {topic.title}
             </li>
-          )}
+          ))}
         </ul>
         <Select
           isLoading={isLoading}
