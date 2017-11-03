@@ -7,6 +7,7 @@
     "test": "NODE_ENV=test && jest",
     "lintfix": "`npm bin`/eslint ./src/ --fix;exit 0",
     "lint": "`npm bin`/eslint ./src/;exit 0",
+    "format": "prettier --single-quote --print-width 80 --trailing-comma es5 --write \"./src/**/*.{ts,tsx,js}\"",
     "runprod": "http-server ./dist --push-state -p 3474 -o -a localhost",
     "coverage": "babel-node node_modules/.bin/isparta cover --report text --report html node_modules/.bin/_mocha -- --reporter dot",
     "clean": "rimraf dist",
