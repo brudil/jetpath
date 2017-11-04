@@ -116,7 +116,7 @@ Object.values(sets).forEach(elements => {
 
 export function getElementByName(name: string) {
   if (!nameMap.has(name)) {
-    console.log(`[spectrum] element "${name}" not in map.`);
+    console.warn(`[spectrum] element "${name}" not in map.`);
   }
   return nameMap.get(name);
 }

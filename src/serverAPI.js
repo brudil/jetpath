@@ -95,7 +95,6 @@ export class WorksClient {
   }
 
   static revisionStatusChange(revisionId, status) {
-    console.log(status);
     return api.post(`/content/revisions/${revisionId}/status`, {
       status,
       name: 'james',

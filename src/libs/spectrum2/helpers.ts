@@ -122,6 +122,5 @@ export function filterDocument(
   predicate: (element: ElementDefinition) => boolean
 ) {
   // todo: implement filtering
-  console.log(document);
   return filterNode(document.get('content'), predicate);
 }

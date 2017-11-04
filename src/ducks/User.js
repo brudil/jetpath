@@ -38,7 +38,6 @@ export default function UserReducer(state = initialState, action) {
   const { payload } = action;
   switch (action.type) {
     case USER_SUGGESTIONS_SUCCESS:
-      console.log(action);
       return {
         ...state,
         suggestions: payload.result,

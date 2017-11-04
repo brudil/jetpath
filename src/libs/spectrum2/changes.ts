@@ -64,8 +64,6 @@ function updateElement(document: Document, changeset: UpdateChangeset) {
 }
 
 function runChangeset(document: Document, changeset: Changeset) {
-  console.log('[spectrum2] changeset', { changeset });
-
   switch (changeset.instruction) {
     case ChangesetInstruction.MOVE: {
       return moveElement(document, changeset as MoveChangeset);

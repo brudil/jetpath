@@ -23,7 +23,6 @@ class DocumentPanel extends React.Component<IProps, any> {
     this.subtypeMap = keyBy(sets.subtypes, subtype => subtype.identifier);
 
     this.handleChangeSubtype = value => {
-      console.log(value, this.subtypeMap);
       this.props.applyChangeset(changeSubtype(this.subtypeMap[value]));
     };
 

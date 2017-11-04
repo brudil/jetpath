@@ -13,7 +13,6 @@ const render = (loading: undefined | boolean, value: any) =>
   loading ? '0' : value;
 
 function Stat(props: IProps) {
-  console.log(props);
   return (
     <div className={style.root}>
       <div className={cx(style.value, { [style.valueLoading]: props.loading })}>

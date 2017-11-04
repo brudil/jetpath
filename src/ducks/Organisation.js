@@ -291,7 +291,6 @@ function* handleGetAllSections() {
 }
 
 function* handleSelectSection({ id }) {
-  console.log(id);
   const response = yield call(SectionsClient.getTopicsFor, id);
   yield put(fetchTopicsForSectionSuccess(id, response));
   const section = yield select(state => state.entities.sections[id]);
@@ -299,7 +298,6 @@ function* handleSelectSection({ id }) {
 }
 
 function* handleSelectTopic({ id }) {
-  console.log(id);
   const topic = yield select(state => state.entities.topics[id]);
   yield put(formActions.change('topicEdit', topic));
 }
@@ -318,7 +316,7 @@ function* handleSaveTopic({ data }) {
     state.organisation.selectedSectionId,
     state.organisation.selectedTopicId,
   ]);
-  console.log({ selectedSectionId, selectedTopicId });
+
   if (selectedTopicId === null) {
     response = yield call(TopicsClient.create, selectedSectionId, data);
   } else {

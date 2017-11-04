@@ -476,8 +476,6 @@ function* loadMissingResourcesForRevision(
     //      el instanceof resources.LowdownInteractiveResource
   );
 
-  console.log('foundresources', foundResources);
-
   // IMAGES
   const imageEntities = yield select((state: any) => state.entities.media);
 
@@ -519,7 +517,6 @@ function* loadMissingResourcesForRevision(
 
   if (missingSlugs.length > 0) {
     const payload = yield call(InteractivesClient.getMultiple, missingSlugs);
-    console.log('missingSlugs', missingSlugs, payload);
     yield put(entities(payload));
   }
 }
