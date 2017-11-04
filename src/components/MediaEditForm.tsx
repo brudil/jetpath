@@ -1,7 +1,11 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form';
+import {Field, reduxForm, SubmitHandler} from 'redux-form';
 
-let MediaEditForm = props => {
+interface IProps {
+  handleSubmit: SubmitHandler
+}
+
+let MediaEditForm = (props: IProps) => {
   const { handleSubmit } = props;
   return (
     <form onSubmit={handleSubmit}>
