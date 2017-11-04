@@ -6,6 +6,7 @@ import {
   ElementPath,
 } from '../../../../libs/spectrum2/interfaces';
 import Panel, { PanelControl } from '../../ElementPanel/Panel';
+import {SegmentedControl} from "../../../SegmentedControl/index";
 
 interface IProps {
   update: ChangesetApplier;
@@ -23,6 +24,7 @@ class ImageBlockPanel extends React.Component<IProps> {
   constructor(props: IProps) {
     super(props);
 
+    this.handleContainerChange = this.handleContainerChange.bind(this);
     this.handleCaption = this.handleInput.bind(this, ['caption', 'text']);
     this.handleTitle = this.handleInput.bind(this, ['title', 'text']);
     this.handleAlt = this.handleInput.bind(this, ['alt', 'text']);
@@ -36,14 +38,31 @@ class ImageBlockPanel extends React.Component<IProps> {
     });
   }
 
+  handleContainerChange(value: string) {
+    this.props.update({
+      instruction: ChangesetInstruction.UPDATE,
+      path: [...this.props.path, 'container'],
+      value
+    });
+  }
+
+
   render() {
     const { data } = this.props;
     const caption = data.get('caption');
     const title = data.get('title');
     const alt = data.get('alt');
+    const container = data.get('container');
 
     return (
       <Panel title="Image">
+        <PanelControl title="Sizing">
+          <SegmentedControl
+            value={container}
+            options={['CONTENT','Content', 'CONTAINER', 'Container', 'BLEED', 'Bleed']}
+            onChange={this.handleContainerChange}
+          />
+        </PanelControl>
         <PanelControl title="Caption">
           <DebouncedInput
             type="text"

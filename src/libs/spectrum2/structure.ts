@@ -39,6 +39,10 @@ export const ImageBlock = createElement('image', {
   caption: createTextualContentField(TextTransformer.INLINEDOWN),
   source: createTextualContentField(TextTransformer.INLINEDOWN),
   sourceURL: createTextualContentField(TextTransformer.PLAIN_TEXT),
+  container: createChoiceValueField({
+    choices: ['CONTENT', 'CONTAINER', 'BLEED'],
+    defaultValue: 'CONTAINER',
+  }),
 });
 
 export const CanvasBlock = createElement('canvas', {
