@@ -1,0 +1,40 @@
+.root {
+  position: relative;
+}
+
+.rootHasMedia {
+
+}
+
+.rootHasMedia .buttonSet, .rootHasMedia .editMediaButton {
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+
+.rootHasMedia:hover .buttonSet, .rootHasMedia:hover .editMediaButton {
+  opacity: 1;
+}
+
+.buttonSet {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.display {
+  min-height: 100px;
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAAAAAA6mKC9AAAAGElEQVQYV2N4DwX/oYBhgARgDJjEAAkAAEC99wFuu0VFAAAAAElFTkSuQmCC') repeat scroll 0% 0% #ffffff;
+}
+
+.editMediaButton {
+  border: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: #ffffff;
+  font-size: 1rem;
+  padding: 0.2rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}

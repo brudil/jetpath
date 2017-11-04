@@ -10,6 +10,8 @@
   opacity: 1;
   transform: scale(1) translateY(0);
   flex: 1 1 auto;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .body {

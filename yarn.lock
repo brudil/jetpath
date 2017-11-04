@@ -42,6 +42,12 @@
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/@types/query-string/-/query-string-5.0.1.tgz#6cb41c724cb1644d56c2d1dae7c7b204e706b39e"
 
+"@types/react-modal@^2.2.2":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@types/react-modal/-/react-modal-2.2.2.tgz#651157522ba45c1ffd8831a2e7bbd8094390a925"
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-redux@^5.0.9":
   version "5.0.12"
   resolved "https://registry.yarnpkg.com/@types/react-redux/-/react-redux-5.0.12.tgz#c066812eb970009b373372f439d08265ed2a6f8e"
@@ -79,6 +85,13 @@
   resolved "https://registry.yarnpkg.com/@types/recompose/-/recompose-0.24.2.tgz#642c136c3d421b315d48b5c39d66e4e93174c600"
   dependencies:
     "@types/react" "*"
+
+"@types/redux-form@^7.0.8":
+  version "7.0.8"
+  resolved "https://registry.yarnpkg.com/@types/redux-form/-/redux-form-7.0.8.tgz#bda2fd9dc10287ec7534946e9e42f4944fc9cb63"
+  dependencies:
+    "@types/react" "*"
+    redux "^3.6.0"
 
 "@types/slug@^0.9.0":
   version "0.9.0"
@@ -3339,7 +3352,7 @@ execa@^0.7.0:
     signal-exit "^3.0.0"
     strip-eof "^1.0.0"
 
-exenv@^1.2.1:
+exenv@^1.2.0, exenv@^1.2.1:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
 
@@ -7856,6 +7869,13 @@ react-input-autosize@^1.1.3:
   dependencies:
     create-react-class "^15.5.2"
     prop-types "^15.5.8"
+
+react-modal@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-3.1.0.tgz#ce594f88f9ab7338ee265cfec4be3cc5253f5baa"
+  dependencies:
+    exenv "^1.2.0"
+    prop-types "^15.5.10"
 
 react-redux-form@^1.13.0:
   version "1.15.0"

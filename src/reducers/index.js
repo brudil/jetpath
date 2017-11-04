@@ -26,8 +26,6 @@ export { reducer as form } from 'redux-form';
 
 export { default as contentList } from '../ducks/ContentList';
 export { default as mediaList } from '../ducks/MediaList';
-export { default as modalManager } from '../ducks/Modal';
-export { default as mediamodal } from '../ducks/MediaEdit';
 export { default as auth } from '../ducks/Auth';
 export { default as topics } from '../ducks/Topic';
 export { default as organisation } from '../ducks/Organisation';

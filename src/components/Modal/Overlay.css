@@ -7,11 +7,10 @@
   left: 0;
   right: 0;
   bottom: 0;
-  overflow-y: scroll;
-  overflow-x: hidden;
   opacity: 1;
   z-index: var(--layer__overlay);
   display: flex;
+  background: rgba(0, 0, 0, 0.6);
 }
 
 .root_invisible {
@@ -20,8 +19,6 @@
 
 .back {
   transition: all 300ms ease-out;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: var(--layer__overlay-back);
   position: fixed;
   top: 0;
   left: 0;

@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import ContentCard from '../components/ContentCard/index';
 import BigStats from '../components/BigStats/index';
 import Stat from '../components/BigStats/Stat';
+import {startOfDay} from 'date-fns';
 
 interface PageProps {
   vertical: {
@@ -108,8 +109,8 @@ class DashboardPage extends React.Component<IProps, {}> {
                 }
 
                 return differenceInDays(
-                  new Date(),
-                  new Date(value.publishedDate)
+                  startOfDay(new Date()),
+                  startOfDay(new Date(value.publishedDate))
                 );
               }}
             />

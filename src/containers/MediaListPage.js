@@ -9,9 +9,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { TitleSelection, SelectionItem } from '../components/TitleSelection';
 import UsersPicker from '../components/UserPicker';
 import MediaGridContainer from '../components/MediaGridContainer';
-import MediaEditModal from '../components/MediaEditModal';
 import * as MediaListActions from '../ducks/MediaList';
-import * as ModalManagerActions from '../ducks/Modal';
 import ViewContainer from '../components/ViewContainer';
 import DocumentTitle from '../components/DocumentTitle';
 import SegmentedControl from '../components/SegmentedControl';
@@ -39,7 +37,6 @@ class MediaListPage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.handleItemSelect = this.handleItemSelect.bind(this);
     this.handlePagination = this.handlePagination.bind(this);
     this.handleFilterPresetChange = this.handleFilterPresetChange.bind(this);
     this.handleFile = this.handleFile.bind(this);
@@ -87,10 +84,6 @@ class MediaListPage extends React.Component {
     }
 
     this.handleQueryChange(query);
-  }
-
-  handleItemSelect(id) {
-    this.props.dispatch(ModalManagerActions.open(this._mediaEditModal, { id }));
   }
 
   handleFile(file) {
@@ -190,12 +183,6 @@ class MediaListPage extends React.Component {
               </Sidebar>
             </div>
           </div>
-
-          <MediaEditModal
-            ref={el => {
-              this._mediaEditModal = el;
-            }}
-          />
         </ViewContainer>
       </DocumentTitle>
     );
@@ -205,7 +192,6 @@ class MediaListPage extends React.Component {
 MediaListPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
   media: PropTypes.object.isRequired,
-  mediamodal: PropTypes.object.isRequired,
   mediaItems: PropTypes.array.isRequired,
   uploadProgress: PropTypes.object.isRequired,
   isLoading: PropTypes.bool.isRequired,
@@ -217,7 +203,6 @@ MediaListPage.propTypes = {
 export default compose(
   withRouter,
   connect(state => ({
-    mediamodal: state.mediamodal,
     uploadProgress: state.uploadProgress,
     vertical: state.verticals.selectedVertical,
   }))

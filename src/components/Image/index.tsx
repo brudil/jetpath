@@ -12,6 +12,7 @@ function imgix(resource: string, options: Object) {
 interface IProps {
   image: MediaObject;
   className?: string;
+  width?: number
 }
 
 interface IState {
@@ -89,6 +90,7 @@ class ImageContainer extends React.Component<IProps, IState> {
             as
             any
             precision={20}
+            {...this.props}
             src={`https://drafty.imgix.net/${this.props.image.resourceName}`}
           />
         </div>

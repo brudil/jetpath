@@ -14,7 +14,7 @@ function MediaDisplay({ className, media }: IProps) {
     <div className={cx(className, styles.root)}>
       {media.file_type === 'image' || media.fileType === 'image' ? (
         <div className={styles.image}>
-          <Image image={media} />
+          <Image image={media} width={600} />
         </div>
       ) : null}
     </div>

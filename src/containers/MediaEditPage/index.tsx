@@ -14,17 +14,38 @@ import MediaEditQuery from './MediaEditQuery.graphql';
 import EditMediaMutation from './EditMedia.graphql';
 import DeleteMediaMutation from './DeleteMedia.graphql';
 import UndeleteMediaMutation from './UndeleteMedia.graphql';
+import * as Router from "react-router-dom";
 
-function MediaEditPage(props) {
+interface IParams {
+  id: string,
+}
+
+interface IProps {
+  data: {
+    loading: boolean,
+    error: Error,
+    media: {
+      mediaId: number,
+      deleted: boolean,
+    }
+  },
+  editMedia(data: any): void,
+  deleteMedia(data: any): void,
+  undeleteMedia(data: any): void,
+  match: Router.match<IParams>,
+  children?: any,
+}
+
+function MediaEditPage(props: IProps) {
   if (props.data.loading) {
     return <LoadingContent />;
   }
 
-  if (props.data.loading) {
+  if (props.data.error) {
     return <h1>Error</h1>;
   }
 
-  const handleSubmit = ({ creditTitle, creditUrl }) =>
+  const handleSubmit = ({ creditTitle, creditUrl }: { creditTitle: string, creditUrl: string }) =>
     props.editMedia({
       variables: {
         mediaId: props.data.media.mediaId,
@@ -82,7 +103,7 @@ function MediaEditPage(props) {
 
 export default compose(
   graphql(MediaEditQuery, {
-    options: props => ({
+    options: (props: IProps) => ({
       variables: {
         mediaId: props.match.params.id,
       },

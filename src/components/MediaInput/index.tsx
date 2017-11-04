@@ -1,58 +1,96 @@
 import React from 'react';
+import cx from 'classnames';
 import { connect } from 'react-redux';
-import * as ModalManagerActions from '../../ducks/Modal';
 import MediaDisplay from '../MediaDisplay';
-import MediaEditModal from '../MediaEditModal';
 import MediaSelectModal from '../MediaSelectModal';
 import Button from '../Button';
 import { compose } from 'recompose';
+
+import style from './MediaInput.css';
+import MediaEditModal from "../MediaEditModal/index";
 
 interface IProps {
   filter: object;
   mediaEntities: object[];
   onChange: (imageId: number) => void;
-  open: (imageId: number) => void;
-  close: (imageId: number) => void;
   value: number;
 }
 
-class MediaInput extends React.Component<IProps> {
-  private _selectModal: any;
+interface IState {
+  selectModalOpen: boolean,
+  editModalOpen: boolean,
+}
 
+class MediaInput extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
     this.handleOpenLibrary = this.handleOpenLibrary.bind(this);
     this.handleSelection = this.handleSelection.bind(this);
+    this.handleSelectClose = this.handleSelectClose.bind(this);
+    this.handleEditOpen = this.handleEditOpen.bind(this);
+    this.handleEditClose = this.handleEditClose.bind(this);
+
+    this.state = {
+      selectModalOpen: false,
+      editModalOpen: false,
+    };
   }
 
   handleOpenLibrary() {
-    this.props.open(this._selectModal);
+    this.setState({ selectModalOpen: true });
   }
 
   handleSelection(imageId: number) {
-    this.props.close(this._selectModal);
+    this.setState({ selectModalOpen: false });
     this.props.onChange(imageId);
   }
 
-  render() {
-    const { value, mediaEntities, filter } = this.props;
-    const mediaObject = mediaEntities[value];
+  handleEditOpen() {
+    this.setState({ editModalOpen: true });
+  }
 
+  handleEditClose() {
+    this.setState({ editModalOpen: false });
+  }
+
+  handleSelectClose() {
+    this.setState({ selectModalOpen: false });
+  }
+
+  render() {
+    const { selectModalOpen, editModalOpen } = this.state;
+    const { value, mediaEntities } = this.props;
+    const mediaObject = mediaEntities[value];
+    const hasMedia = mediaObject !== undefined;
     return (
-      <div>
-        <Button onClick={this.handleOpenLibrary} text={'Select from Library'} />
-        {mediaObject !== undefined ? (
-          <MediaDisplay media={mediaObject} />
-        ) : null}
+      <div className={cx(style.root, {[style.rootHasMedia]: hasMedia })}>
+        <div className={style.display}>
+          {hasMedia ? (
+            <button className={style.editMediaButton} onClick={this.handleEditOpen}>Edit media</button>
+          ) : null}
+          {hasMedia ? (
+            <MediaDisplay media={mediaObject} />
+          ) : null}
+        </div>
+
+        <div className={style.buttonSet}>
+          <Button onClick={this.handleOpenLibrary} text={'Select media from library'} />
+        </div>
+
         <MediaSelectModal
-          ref={(el: any) => {
-            this._selectModal = el;
-          }}
-          filter={filter}
           onSelect={this.handleSelection}
+          isOpen={selectModalOpen}
+          contentLabel="Media select"
+          onRequestClose={this.handleSelectClose}
         />
-        <MediaEditModal />
+
+        <MediaEditModal
+          value={this.props.value}
+          isOpen={editModalOpen}
+          contentLabel="Media edit"
+          onRequestClose={this.handleEditClose}
+        />
       </div>
     );
   }
@@ -62,10 +100,6 @@ export default compose(
   connect(
     state => ({
       mediaEntities: state.entities.media,
-    }),
-    {
-      close: ModalManagerActions.close,
-      open: ModalManagerActions.open,
-    }
+    })
   )
-)(MediaInput);
+)(MediaInput) as any;

@@ -1,12 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as ModalManagerActions from '../../../../ducks/Modal';
 import { update } from '../../../../libs/spectrum2/changes';
-import MediaDisplay from '../../../MediaDisplay';
-import MediaEditModal from '../../../MediaEditModal';
-import MediaSelectModal from '../../../MediaSelectModal';
+import MediaInput from '../../../MediaInput';
 import Panel from './Panel';
-import Button from '../../../Button';
 import ImageIcon from '../../../icons/image.svg.react';
 
 import styles from './ImageBlock.css';
@@ -23,16 +19,22 @@ interface IProps {
   dispatch: any;
 }
 
-class ImageBlock extends React.Component<IProps> {
-  private _selectModal: any;
+interface IState {
+  selectModalOpen: boolean,
+}
+
+class ImageBlock extends React.Component<IProps, IState> {
   public static panel: any;
   public static Icon: any;
 
   constructor(props: IProps) {
     super(props);
     this.handleInput = this.handleInput.bind(this);
-    this.handleOpenLibrary = this.handleOpenLibrary.bind(this);
-    this.handleSelection = this.handleSelection.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+
+    this.state = {
+      selectModalOpen: false,
+    }
   }
 
   handleInput(e: React.KeyboardEvent<HTMLInputElement>) {
@@ -41,38 +43,17 @@ class ImageBlock extends React.Component<IProps> {
     );
   }
 
-  handleOpenLibrary() {
-    this.props.dispatch(ModalManagerActions.open(this._selectModal));
-  }
-
-  handleSelection(imageId: number) {
-    this.props.dispatch(ModalManagerActions.close(this._selectModal));
+  handleChange(imageId: number) {
     this.props.update(update([...this.props.path, 'resource', 'id'], imageId));
   }
 
   render() {
-    const { mediaEntities, data } = this.props;
+    const { data } = this.props;
     const id = data.getIn(['resource', 'id']);
-    const item = {}.hasOwnProperty.call(mediaEntities, id)
-      ? mediaEntities[id]
-      : null;
 
     return (
       <div className={styles.root}>
-        <Button onClick={this.handleOpenLibrary} text={'Select from Library'} />
-        {item !== null ? (
-          <MediaDisplay className={styles.mediaDisplay} media={item} />
-        ) : (
-          <em>No image selected</em>
-        )}
-
-        <MediaSelectModal
-          ref={(el: any) => {
-            this._selectModal = el;
-          }}
-          onSelect={this.handleSelection}
-        />
-        <MediaEditModal />
+        <MediaInput value={id} onChange={this.handleChange} />
       </div>
     );
   }
