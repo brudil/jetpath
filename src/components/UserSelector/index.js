@@ -2,11 +2,12 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import cx from 'classnames';
-import Mousetrap from 'mousetrap';
+import Combokeys from 'combokeys';
 import loSome from 'lodash/some';
 import * as UserActions from '../../ducks/User';
 
 import styles from './UserSelector.css';
+const combokeys = new Combokeys(document.documentElement);
 
 class UserSelector extends React.Component {
   constructor(props) {
@@ -38,28 +39,27 @@ class UserSelector extends React.Component {
 
   handleInputFocus(focus) {
     this.setState({ hasFocus: focus });
-
     if (focus) {
-      Mousetrap.bind('down', () => {
+      combokeys.bind('down', () => {
         if (this.state.selectedIndex < this.props.usersList.length - 1) {
           this.setState({ selectedIndex: this.state.selectedIndex + 1 });
         }
       });
 
-      Mousetrap.bind('up', () => {
+      combokeys.bind('up', () => {
         if (this.state.selectedIndex > 0) {
           this.setState({ selectedIndex: this.state.selectedIndex - 1 });
         }
       });
 
-      Mousetrap.bind('esc', () => {
+      combokeys.bind('esc', () => {
         this._inputField.blur();
         this.setState({ value: '' });
       });
     } else {
-      Mousetrap.unbind('esc');
-      Mousetrap.unbind('down');
-      Mousetrap.unbind('up');
+      combokeys.unbind('esc');
+      combokeys.unbind('down');
+      combokeys.unbind('up');
     }
   }
 
@@ -129,7 +129,7 @@ class UserSelector extends React.Component {
       <div className={styles.root}>
         <form onSubmit={this.handleSubmit}>
           <input
-            className="mousetrap"
+            className="combokeys"
             type="text"
             placeholder={this.props.placeholderText}
             value={this.state.value}

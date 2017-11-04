@@ -3,7 +3,7 @@ import React from 'react';
 import cx from 'classnames';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import Mousetrap from 'mousetrap';
+import Combokeys from 'combokeys';
 import { Route, Switch } from 'react-router-dom';
 import DebouncedAutosizeTextarea from '../components/DebouncedAutosizeTextarea';
 import DocumentTitle from '../components/DocumentTitle';
@@ -21,6 +21,7 @@ import EditorSectionContent from './EditorSectionContent';
 import EditorSectionMetadata from './EditorSectionMetadata';
 import EditorSectionWorkflow from './EditorSectionWorkflow';
 import EditorSectionPreview from './EditorSectionPreview';
+import globalPlugin from 'combokeys/plugins/global-bind';
 
 class EditorPage extends React.Component {
   constructor(props) {
@@ -52,16 +53,21 @@ class EditorPage extends React.Component {
     /*
     Keyboard shortcut bindings for editor-wide actions
     */
-    Mousetrap.bind('mod+s', e => {
-      e.preventDefault();
-      this.handleSave();
-    });
 
-    const editorTrap = new Mousetrap(this.editorEl);
+    this.editorTrap = globalPlugin(new Combokeys(document));
 
-    editorTrap.bind('mod+/', e => {
+    this.editorTrap.bindGlobal('mod+/', e => {
       e.preventDefault();
       this.props.dispatch(EditorActions.toggleCommandPalette({ open: true }));
+    });
+
+    this.editorTrap.bindGlobal('esc', e => {
+      this.props.dispatch(EditorActions.toggleCommandPalette({ open: false }));
+    });
+
+    this.editorTrap.bindGlobal('mod+s', e => {
+      e.preventDefault();
+      this.handleSave();
     });
   }
 
@@ -87,7 +93,9 @@ class EditorPage extends React.Component {
   }
 
   componentWillUnmount() {
-    Mousetrap.unbind('mod+s');
+    if (this.editorTrap) {
+      this.editorTrap.detach();
+    }
   }
 
   handleSave() {
@@ -128,9 +136,6 @@ class EditorPage extends React.Component {
     return (
       <div
         style={{ paddingTop: '40px' }}
-        ref={el => {
-          this.editorEl = el;
-        }}
       >
         <EditorNav
           headline={workingRevision.get('headline')}
@@ -177,7 +182,11 @@ class EditorPage extends React.Component {
 
     return (
       <DocumentTitle title="Editor">
-        <div>{editor}</div>
+        <div
+          ref={el => {
+            this.editorEl = el;
+          }}
+        >{editor}</div>
       </DocumentTitle>
     );
   }
