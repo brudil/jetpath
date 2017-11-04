@@ -9,27 +9,27 @@ import {match} from "react-router-dom";
 import {compose} from "recompose";
 
 const LoadableDashboardPage = Loadable({
-  loader: () => import(/* webpackChunkName: DashboardPage */ './DashboardPage'),
+  loader: () => import(/* webpackChunkName: 'DashboardPage' */ './DashboardPage'),
   loading: LoadableLoading
 });
 
 const LoadableEditorPage = Loadable({
-  loader: () => import(/* webpackChunkName: EditorPage */ './EditorPage'),
+  loader: () => import(/* webpackChunkName: 'EditorPage' */ './EditorPage'),
   loading: LoadableLoading
 });
 
 const LoadableOrganisationPage = Loadable({
-  loader: () => import(/* webpackChunkName: OrganisationPage */ './OrganisationPage'),
+  loader: () => import(/* webpackChunkName: 'OrganisationPage' */ './OrganisationPage'),
   loading: LoadableLoading
 });
 
 const LoadableMediaListPage = Loadable({
-  loader: () => import(/* webpackChunkName: MediaListPage */ './MediaListPage'),
+  loader: () => import(/* webpackChunkName: 'MediaListPage' */ './MediaListPage'),
   loading: LoadableLoading
 });
 
 const LoadableMediaEditPage = Loadable({
-  loader: () => import(/* webpackChunkName: MediaEditPage */ './MediaEditPage'),
+  loader: () => import(/* webpackChunkName: 'MediaEditPage' */ './MediaEditPage'),
   loading: LoadableLoading
 });
 
