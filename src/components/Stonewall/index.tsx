@@ -5,7 +5,7 @@ import styles from './Stonewall.css';
 
 interface IProps {
   subtitle?: string;
-  children: JSX.Element;
+  children?: any;
 }
 
 export function Stonewall(props: IProps) {

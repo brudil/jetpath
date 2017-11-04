@@ -1,22 +1,34 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ErrorInfo} from 'react';
+import Loadable from 'react-loadable';
 import { connect } from 'react-redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import loadBaseContainer from 'bundle-loader?name=Base&lazy!./BaseContainer';
 import DocumentTitle from '../components/DocumentTitle';
 import Stonewall from '../components/Stonewall';
+import LoadableLoading from '../components/LoadableLoading';
 import * as AuthActions from '../ducks/Auth';
 import StonewallContainer from './StonewallContainer';
-import Bundle from '../components/Bundle';
+import {compose} from "recompose";
 
-const BaseContainer = props => (
-  <Bundle load={loadBaseContainer}>
-    {BaseContainerL => <BaseContainerL {...props} />}
-  </Bundle>
-);
+const LoadableBaseContainer = Loadable({
+  loader: () => import(/* webpackChunkName: 'Base' */ './BaseContainer'),
+  loading: LoadableLoading,
+});
 
-class ApplicationContainer extends React.Component {
-  constructor(props) {
+interface IProps {
+  restoreAuth(): void;
+  auth: any // todo: auth shape
+}
+
+interface IState {
+  hasError: boolean;
+  error: null | {
+    error: Error,
+    info: ErrorInfo
+  };
+}
+
+class ApplicationContainer extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
 
     this.state = {
@@ -26,10 +38,10 @@ class ApplicationContainer extends React.Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(AuthActions.restoreAuth());
+    this.props.restoreAuth();
   }
 
-  componentDidCatch(error, info) {
+  componentDidCatch(error: Error, info: ErrorInfo) {
     this.setState({ hasError: true, error: { error, info } });
     console.log({ error, info });
   }
@@ -52,7 +64,7 @@ class ApplicationContainer extends React.Component {
           {this.props.auth.get('attempted') ? (
             <Switch>
               <Route path="/auth" component={StonewallContainer} />
-              <Route path="/" component={BaseContainer} />
+              <Route path="/" component={LoadableBaseContainer} />
             </Switch>
           ) : (
             <Stonewall subtitle="Loading" />
@@ -63,13 +75,11 @@ class ApplicationContainer extends React.Component {
   }
 }
 
-ApplicationContainer.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-};
-
-export default withRouter(
+export default compose(
+  withRouter,
   connect(state => ({
     auth: state.auth,
-  }))(ApplicationContainer)
-);
+  }), {
+    restoreAuth: AuthActions.restoreAuth
+  }),
+)(ApplicationContainer);
