@@ -1,5 +1,15 @@
+@import '../../styles/core/colors.css';
+
 .root {
   display: inline;
   font-weight: lighter;
   opacity: 0.5;
+}
+
+.warning {
+  color: var(--color__warning-accent)
+}
+
+.danger {
+  color: var(--color__danger-accent)
 }

@@ -24,6 +24,9 @@
   --font__family--title: 'pragmatica-web-condensed';
 
 
+  --color__warning-accent: #f7db15;
+  --color__danger-accent: #ff3b31;
+
   --color__content-status__stub: #f7db15;
   --color__content-status__writing: #fd8603;
   --color__content-status__finished: #00cbe7;

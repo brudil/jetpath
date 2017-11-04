@@ -1,4 +1,5 @@
 import React from 'react';
+import cx from 'classnames';
 
 import styles from './Sidebar.css';
 
@@ -25,13 +26,15 @@ function SidebarControl({
   charCount?: number;
   buttonTreats?: Array<Object>;
 }) {
+
+  const charCountStyles = (charLimit && charCount) ? {[styles.warning]: charCount > (charLimit * 0.8), [styles.danger]: charCount > charLimit,  } : {};
   return (
     <div className={styles.control}>
       <h2 className={styles.controlTitle}>
         {title}
 
         {charCount !== null ? (
-          <span className={styles.controlTitleLimit}>
+          <span className={cx(styles.controlTitleLimit, charCountStyles)}>
             {charCount}
             {charLimit !== null ? `/${charLimit}` : null}
           </span>

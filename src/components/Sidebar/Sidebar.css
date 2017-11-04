@@ -51,3 +51,12 @@
   font-weight: bold;
   text-transform: uppercase;
 }
+
+
+.warning {
+  color: var(--color__warning-accent)
+}
+
+.danger {
+  color: var(--color__danger-accent)
+}

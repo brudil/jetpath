@@ -6,3 +6,5 @@ export const controlTitleLimit: string;
 export const input: string;
 export const treats: string;
 export const treatButton: string;
+export const warning: string;
+export const danger: string;
