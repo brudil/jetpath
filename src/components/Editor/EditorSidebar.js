@@ -103,6 +103,14 @@ function EditorSidebar(props) {
         title="Short Headline"
         charLimit={60}
         charCount={revision.get('short_headline').length}
+        buttonTreats={[
+          {
+            children: 'Auto from headline',
+            onClick: () => {
+              revisionChangeHandler('short_headline')(revision.get('headline'));
+            },
+          },
+        ]}
       >
         <DebouncedInput
           className={stylesSidebar.input}
