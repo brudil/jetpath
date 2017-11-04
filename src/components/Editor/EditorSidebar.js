@@ -13,14 +13,11 @@ import TopicsSelector from '../TopicsSelector';
 import { formly } from '../../libs/form';
 import {
   contentForm,
-  contentStatus,
-  contentState,
   contentTone,
 } from '@brudil/drafty-constants';
 import * as contentLang from '../../lang/content_attrs';
 
 import stylesSidebar from '../Sidebar/Sidebar.css';
-import slugify from '../../libs/slugify';
 
 function EditorSidebar(props) {
   const {
@@ -30,7 +27,6 @@ function EditorSidebar(props) {
     isLocal,
     revisionChangeHandler,
   } = props;
-  const { onAddAuthor, onRemoveAuthor } = props;
   const revision = workingRevision;
 
   if (!isLocal && !editorialMetadata) {
@@ -47,7 +43,13 @@ function EditorSidebar(props) {
           {
             children: 'Auto from headline',
             onClick: () => {
-              revisionChangeHandler('slug')(slugify(revision.get('headline')));
+              import(/* webpackChunkName: 'slugify' */ '../../libs/slugify').then(
+                slugify => {
+                  revisionChangeHandler('slug')(
+                    slugify.default(revision.get('headline'))
+                  );
+                }
+              );
             },
           },
         ]}
