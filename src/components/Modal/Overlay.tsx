@@ -14,7 +14,7 @@ class Overlay extends React.Component<any, any> {
   render() {
     return (
       <div
-        className={styles.back}
+        className={styles.root_active}
         onClick={this.handleOverlayClick.bind(this)}
         ref={overlayElement => {
           this.overlayElement = overlayElement;

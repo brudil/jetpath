@@ -101,7 +101,7 @@ class DashboardPage extends React.Component<IProps, {}> {
               subtitle="Days since publish"
               render={(loading, value) => {
                 if (loading) {
-                  return null;
+                  return '0';
                 }
 
                 if (value === null) {

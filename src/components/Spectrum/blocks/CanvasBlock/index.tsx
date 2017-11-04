@@ -7,6 +7,7 @@ import CanvasIcon from '../../../icons/canvas.svg.react';
 
 import styles from './CanvasBlock.css';
 import { Changeset, ElementPath } from '../../../../libs/spectrum2/interfaces';
+import CanvasPanel from "./Panel";
 
 interface IProps {
   update: (changeset: Changeset) => void;
@@ -45,6 +46,7 @@ class CanvasBlock extends React.Component<IProps> {
 }
 
 CanvasBlock.Icon = CanvasIcon;
+CanvasBlock.panel = CanvasPanel;
 
 export default connect(state => ({
   interactiveEntities: state.entities.interactives,

@@ -36,7 +36,13 @@
   left: 68px;
   border: 0;
   padding: 0.1rem;
-  background-color: #ffffff;
+  background-color: transparent;
   top: 200px;
+  transition: transform ease 200ms;
+  cursor: pointer;
   z-index: var(--layer__overlay-back);
+
+  &:hover {
+    transform: scale(1.1);
+  }
 }

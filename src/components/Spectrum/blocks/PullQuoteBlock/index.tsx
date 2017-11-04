@@ -8,6 +8,7 @@ import {
   ChangesetApplier,
   ElementPath,
 } from '../../../../libs/spectrum2/interfaces';
+import PullQuotePanel from "./Panel";
 
 interface IProps {
   data: any;
@@ -17,6 +18,7 @@ interface IProps {
 }
 
 class PullQuoteBlock extends React.Component<IProps> {
+  public static panel: any;
   public static Icon: any;
 
   constructor(props: IProps) {
@@ -49,5 +51,6 @@ class PullQuoteBlock extends React.Component<IProps> {
 }
 
 PullQuoteBlock.Icon = HeadingIcon;
+PullQuoteBlock.panel = PullQuotePanel;
 
 export default PullQuoteBlock;
