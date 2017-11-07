@@ -5,11 +5,10 @@ import * as rootReducer from '../reducers/index';
 
 const sagaMiddleware = createSagaMiddleware();
 
-export default function configureStore({ apolloClient }) {
+export default function configureStore() {
   const finalCreateStore = compose(
     applyMiddleware(sagaMiddleware),
     applyMiddleware(ReduxThunk),
-    applyMiddleware(apolloClient.middleware()),
     // If you are using the devToolsExtension, you can add it here also
     typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined'
       ? window.__REDUX_DEVTOOLS_EXTENSION__()
@@ -19,7 +18,6 @@ export default function configureStore({ apolloClient }) {
   const store = finalCreateStore(
     combineReducers({
       ...rootReducer,
-      apollo: apolloClient.reducer(),
     })
   );
 

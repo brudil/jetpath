@@ -24,7 +24,7 @@ module.exports = {
   target: 'web',
 
   entry: {
-    main: ['./src/application.js'],
+    main: ['./src/application.tsx'],
   },
 
   output: {

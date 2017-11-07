@@ -4,7 +4,7 @@ import createSagaMiddleware from 'redux-saga';
 import { createLogger } from 'redux-logger';
 import * as rootReducer from '../reducers/index';
 
-export default function configureStore({ apolloClient }) {
+export default function configureStore() {
   const sagaMiddleware = createSagaMiddleware();
   const composeEnhancers =
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -16,13 +16,11 @@ export default function configureStore({ apolloClient }) {
         collapsed: true,
       })
     ),
-    applyMiddleware(apolloClient.middleware())
   )(createStore);
 
   const store = finalCreateStore(
     combineReducers({
       ...rootReducer,
-      apollo: apolloClient.reducer(),
     })
   );
 
