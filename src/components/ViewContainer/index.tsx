@@ -1,13 +1,20 @@
 import React from 'react';
+import styled from 'react-emotion';
 
-import styles from './ViewContainer.css';
+const Container = styled.div`
+  padding: 1rem;
+
+  @media(min-width: 960px) {
+    padding: 1rem 1.5rem;
+  }
+`;
 
 interface IProps {
   children: JSX.Element | Array<JSX.Element | null>;
 }
 
 function ViewContainer(props: IProps) {
-  return <div className={styles.root}>{props.children}</div>;
+  return <Container>{props.children}</Container>;
 }
 
 export default ViewContainer;

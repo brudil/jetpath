@@ -1,10 +1,18 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Select from 'react-select';
 import { connect } from 'react-redux';
+import styled from 'react-emotion';
 import * as InteractivesActions from '../../ducks/Interactives';
 
-import styles from './InteractiveSelector.css';
+const InteractiveIframe = styled.iframe`
+  margin: 1rem 0;
+  width: 100%;
+  height: 500px;
+  opacity: 0.8;
+  pointer-events: none;
+  box-sizing: border-box;
+  border: 1px solid #3e3e3e;
+`;
 
 class InteractiveSelector extends React.Component {
   componentWillMount() {
@@ -18,7 +26,7 @@ class InteractiveSelector extends React.Component {
   render() {
     const { value, listLoading, interactiveItems } = this.props;
     return (
-      <div className={styles.root}>
+      <div>
         <Select
           isLoading={listLoading}
           options={interactiveItems.map(interactiveItem => ({
@@ -32,8 +40,7 @@ class InteractiveSelector extends React.Component {
 
         {value !== undefined ? (
           <div>
-            <iframe
-              className={styles.interactiveFrame}
+            <InteractiveIframe
               src={`https://thedrab.co/interactive-frame/${value.slug}/v${value.latest_public_release_number}`}
             />
           </div>

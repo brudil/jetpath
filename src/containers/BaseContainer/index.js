@@ -6,12 +6,25 @@ import { connect } from 'react-redux';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import GlobalHeader from '../../components/GlobalHeader';
 import Toasts from '../../components/Toasts';
-
-import styles from './BaseContainer.css';
 import VerticalSelectionPage from '../VerticalSelectionPage';
 import InnerVerticalPage from '../InnerVerticalPage';
 import NotFoundPage from '../NotFoundPage';
 import LoadingContent from '../../components/LoadingContent/index';
+import styled from 'react-emotion';
+import { ThemeProvider } from 'emotion-theming';
+import defaultTheme from '../../themes/default';
+
+const Section = styled.div`
+  background-color: ${props => props.theme.colors.background};
+  box-sizing: border-box;
+  position: relative;
+  box-shadow: -2px 0 16px rgba(60, 60, 60, .15);
+  min-height: 100vh;
+
+  @media (min-width: 960px) {
+    margin-left: 68px;
+  }
+`;
 
 class BaseContainer extends React.Component {
   componentWillMount() {
@@ -42,23 +55,25 @@ class BaseContainer extends React.Component {
     }
 
     return (
-      <div>
-        <GlobalHeader />
-        <div className={styles.rootSectionWrapper}>
-          <div className={styles.rootSection}>
-            <Switch>
-              <Route
-                path={`${url}verticals`}
-                component={VerticalSelectionPage}
-              />
-              <Route path={`${url}@:vertical`} component={InnerVerticalPage} />
-              <Redirect from="/" to="verticals" />
-              <Route path="*" component={NotFoundPage} />
-            </Switch>
-            <Toasts />
+      <ThemeProvider theme={defaultTheme}>
+        <div>
+          <GlobalHeader />
+          <div>
+            <Section>
+              <Switch>
+                <Route
+                  path={`${url}verticals`}
+                  component={VerticalSelectionPage}
+                />
+                <Route path={`${url}@:vertical`} component={InnerVerticalPage} />
+                <Redirect from="/" to="verticals" />
+                <Route path="*" component={NotFoundPage} />
+              </Switch>
+              <Toasts />
+            </Section>
           </div>
         </div>
-      </div>
+      </ThemeProvider>
     );
   }
 }

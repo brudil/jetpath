@@ -1,6 +1,20 @@
 import React from 'react';
-import cx from 'classnames';
-import style from './Stat.css';
+import styled from 'react-emotion';
+
+const Subtitle = styled.div`
+  text-transform: uppercase;
+  font-size: 0.9rem;
+`;
+
+const Value:any = styled.div`
+  font-size: 2rem;
+  ${(props: any) => props.loading && 'visibility: hidden;'}
+`;
+
+const Container = styled.div`
+  flex: 1 1 auto;
+  text-align: center;
+`;
 
 interface IProps {
   subtitle: string;
@@ -14,15 +28,17 @@ const render = (loading: undefined | boolean, value: any) =>
 
 function Stat(props: IProps) {
   return (
-    <div className={style.root}>
-      <div className={cx(style.value, { [style.valueLoading]: props.loading })}>
+    <Container>
+      <Value loading={props.loading}>
         {props.render
           ? props.render(props.loading, props.value)
           : render(props.loading, props.value)}
-      </div>
-      <div className={style.subtitle}>{props.subtitle}</div>
-    </div>
+      </Value>
+      <Subtitle>{props.subtitle}</Subtitle>
+    </Container>
   );
 }
 
+
 export default Stat;
+

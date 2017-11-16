@@ -2,11 +2,9 @@
 
 }
 
-.section {
-  &_disabled {
-    opacity: 0.4;
-    pointer-events: none;
-  }
+.sectionDisabled {
+  opacity: 0.4;
+  pointer-events: none;
 }
 
 .sectionTitle {

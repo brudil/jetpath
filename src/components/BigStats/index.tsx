@@ -1,7 +1,11 @@
 import React from 'react';
 import Stat from './Stat';
+import styled from "react-emotion";
 
-import style from './BigStats.css';
+const Container = styled.div`
+  display: flex;
+  align-content: space-between;
+`;
 
 interface IProps {
   data: null | any[];
@@ -10,14 +14,14 @@ interface IProps {
 
 function BigStats(props: IProps) {
   return (
-    <div className={style.root}>
+    <Container>
       {props.children.map((child: any, index: number) =>
         React.cloneElement(child, {
           loading: props.data === null,
           value: props.data === null ? null : props.data[index],
         })
       )}
-    </div>
+    </Container>
   );
 }
 

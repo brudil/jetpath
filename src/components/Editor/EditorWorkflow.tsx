@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import upperFirst from 'lodash/upperFirst';
@@ -7,8 +6,9 @@ import SmartDate from '../SmartDate';
 import SaveBeforeWorkflowMessage from '../SaveBeforeWorkflowMessage';
 
 import styles from './EditorWorkflow.css';
+import ContentStageTimeline from "../ContentStageTimeline/index";
 
-function getIssuesForRevision(revision) {
+function getIssuesForRevision(revision: any) {
   const issues = [];
 
   if (revision.get('authors').size <= 0) {
@@ -31,7 +31,18 @@ function getIssuesForRevision(revision) {
   return issues;
 }
 
-function EditorWorkflow(props) {
+interface IProps {
+  savedRevision: any; // todo
+  workingRevision: any; // todo
+  editorialMetadata: any; // todo
+  isLocal: boolean,
+  hasChangesFromSaved: boolean,
+  onPublish: any; // todo
+  onChangeStatus: any; // todo
+
+}
+
+function EditorWorkflow(props: IProps) {
   const {
     hasChangesFromSaved,
     isLocal,
@@ -129,11 +140,10 @@ function EditorWorkflow(props) {
 
   return (
     <div className={styles.root}>
-      <div className={styles.section}>
+      <div>
         <h4
           className={cx(
             styles.sectionTitle,
-            styles[`sectionTitle_${hasChangesFromSaved ? 'issue' : 'ok'}`]
           )}
         >
           Now
@@ -145,25 +155,16 @@ function EditorWorkflow(props) {
         )}
       </div>
       <div
-        className={cx(styles.section, {
-          [styles.section_disabled]: hasChangesFromSaved,
+        className={cx({
+          [styles.sectionDisabled]: hasChangesFromSaved,
         })}
       >
         <h4 className={styles.sectionTitle}>Next</h4>
+        <ContentStageTimeline />
         {renderNextSection()}
       </div>
     </div>
   );
 }
-
-EditorWorkflow.propTypes = {
-  savedRevision: PropTypes.object,
-  workingRevision: PropTypes.object,
-  editorialMetadata: PropTypes.object,
-  isLocal: PropTypes.bool.isRequired,
-  hasChangesFromSaved: PropTypes.bool.isRequired,
-  onPublish: PropTypes.func.isRequired,
-  onChangeStatus: PropTypes.func.isRequired,
-};
 
 export default EditorWorkflow;

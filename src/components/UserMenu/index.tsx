@@ -1,8 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import styled from 'react-emotion';
 import * as AuthActions from '../../ducks/Auth';
 
-import styles from './UserMenu.css';
+const Container = styled.div`
+  text-align: right;
+  font-size: 0.8em;
+  opacity: 0.6;
+  padding-right: 10px;
+
+  & a {
+    color: var(--color__black);
+    text-decoration: underline;
+  }
+
+  & span {
+    vertical-align: middle;
+  }
+`;
 
 interface IProps {
   logout: () => any;
@@ -27,7 +42,7 @@ class UserMenu extends React.Component<IProps> {
     }
 
     return (
-      <div className={styles.root}>
+      <Container>
         <span>
           <a href="profile">{this.props.auth.get('auth').username}</a>{' '}
         </span>
@@ -36,7 +51,7 @@ class UserMenu extends React.Component<IProps> {
             logout
           </a>
         </span>
-      </div>
+      </Container>
     );
   }
 }
