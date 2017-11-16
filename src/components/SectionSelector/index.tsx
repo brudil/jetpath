@@ -10,6 +10,8 @@ interface IProps {
   getAllSections: OrgansiationActions.getAllSections;
   isLoading: boolean;
   sections: Array<{ id: number; title: string }>;
+  value: any;
+  onChange: any;
 }
 
 class SectionSelector extends React.Component<IProps, {}> {

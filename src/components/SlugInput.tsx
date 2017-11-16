@@ -8,18 +8,20 @@ function performRemoveStopWords(text: string): string {
   return text;
 }
 
-function SlugInput({
-  onChange,
-  removeStopWords,
-  value,
-  ...props,
-}: {
-  onChange: Function;
+interface IProps extends React.HTMLProps<HTMLInputElement> {
+  whenChange: Function;
   removeStopWords: boolean;
   autoValue: string;
   className: string;
   value: string;
-}) {
+}
+
+function SlugInput({
+  whenChange,
+  removeStopWords,
+  value,
+  ...props,
+}: IProps) {
   function handleChange(event: React.FormEvent<HTMLInputElement>) {
     let text = event.currentTarget.value;
     if (removeStopWords) {
@@ -27,12 +29,12 @@ function SlugInput({
     }
     text = slugify(text);
 
-    onChange(text);
+    whenChange(text);
   }
 
   function handleBlur() {
     const text = slug(value);
-    onChange(text);
+    whenChange(text);
   }
 
   return (

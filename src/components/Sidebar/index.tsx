@@ -3,7 +3,7 @@ import cx from 'classnames';
 
 import styles from './Sidebar.css';
 
-function Sidebar(props: { children: React.ReactChildren }) {
+function Sidebar(props: { children: any }) {
   return <div className={styles.root}>{props.children}</div>;
 }
 
@@ -21,7 +21,7 @@ function SidebarControl({
   buttonTreats = null,
 }: {
   title: string;
-  children: JSX.Element;
+  children: any;
   charLimit?: number;
   charCount?: number;
   buttonTreats?: Array<Object>;

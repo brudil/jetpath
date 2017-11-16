@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import values from 'lodash/values';
 import intersection from 'lodash/intersection';
@@ -14,12 +13,20 @@ import { formly } from '../../libs/form';
 import {
   contentForm,
   contentTone,
-} from '@brudil/drafty-constants';
+} from '../../libs/constants';
 import * as contentLang from '../../lang/content_attrs';
 
 import stylesSidebar from '../Sidebar/Sidebar.css';
 
-function EditorSidebar(props) {
+interface IProps {
+  workingRevision: any; // todo
+  editorialMetadata: any; // todo
+  vertical: any; // todo
+  isLocal: any; // todo
+  revisionChangeHandler: any; // todo
+}
+
+function EditorSidebar(props: IProps) {
   const {
     workingRevision,
     editorialMetadata,
@@ -59,7 +66,7 @@ function EditorSidebar(props) {
           value={revision.get('slug')}
           autoValue={revision.headline}
           removeStopWords
-          onChange={revisionChangeHandler('slug')}
+          whenChange={revisionChangeHandler('slug')}
           maxLength={60}
         />
       </SidebarControl>
@@ -166,20 +173,5 @@ function EditorSidebar(props) {
     </Sidebar>
   );
 }
-
-EditorSidebar.propTypes = {
-  workingRevision: PropTypes.object,
-  savedRevision: PropTypes.object,
-  vertical: PropTypes.object.isRequired,
-  editorialMetadata: PropTypes.object,
-  isLocal: PropTypes.bool.isRequired,
-  hasChangesFromSaved: PropTypes.bool.isRequired,
-  revisionChangeHandler: PropTypes.func.isRequired,
-  onSave: PropTypes.func.isRequired,
-  onChangeStatus: PropTypes.func.isRequired,
-  onPublish: PropTypes.func.isRequired,
-  onAddAuthor: PropTypes.func.isRequired,
-  onRemoveAuthor: PropTypes.func.isRequired,
-};
 
 export default EditorSidebar;

@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import CopyToClipboard from 'react-copy-to-clipboard';
@@ -9,19 +8,40 @@ import SegmentedControl from '../SegmentedControl/index';
 import Button from '../Button/index';
 import ViewContainer from '../ViewContainer/index';
 
-class EditorPreview extends React.Component {
-  constructor(props) {
+enum Sizing {
+  FULL,
+  DESKTOP,
+  TABLET,
+  MOBILE
+}
+
+interface IProps {
+  hasChangesFromSaved: boolean;
+  isLocal: boolean;
+  savedRevision: any; // todo
+  editorialMetadata: any; // todo
+  workingRevision: any; // todo
+  onChangeStatus: any; // todo
+  onPublish: any; // todo
+}
+
+interface IState {
+  mode: Sizing;
+  copiedPreviewUrl: boolean
+}
+
+class EditorPreview extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
 
     this.state = {
-      mode: 'FULL',
+      mode: Sizing.FULL,
       copiedPreviewUrl: false,
     };
   }
 
   render() {
     const {
-      hasChangesFromSaved,
       isLocal,
       savedRevision,
       editorialMetadata,
@@ -63,23 +83,23 @@ class EditorPreview extends React.Component {
           <SegmentedControl
             value={mode}
             options={[
-              'FULL',
+              Sizing.FULL,
               'Full',
-              'DESKTOP',
+              Sizing.FULL,
               'Desktop',
-              'TABLET',
+              Sizing.TABLET,
               'Tablet',
-              'MOBILE',
+              Sizing.MOBILE,
               'Mobile',
             ]}
-            onChange={value => this.setState({ mode: value })}
+            onChange={(value: Sizing) => this.setState({ mode: value })}
           />
         </ViewContainer>
         <iframe
           className={cx(styles.frame, {
-            [styles.frameDesktop]: this.state.mode === 'DESKTOP',
-            [styles.frameTablet]: this.state.mode === 'TABLET',
-            [styles.frameMobile]: this.state.mode === 'MOBILE',
+            [styles.frameDesktop]: this.state.mode === Sizing.DESKTOP,
+            [styles.frameTablet]: this.state.mode === Sizing.TABLET,
+            [styles.frameMobile]: this.state.mode === Sizing.MOBILE,
           })}
           src={previewUrl}
         />
@@ -87,15 +107,5 @@ class EditorPreview extends React.Component {
     );
   }
 }
-
-EditorPreview.propTypes = {
-  savedRevision: PropTypes.object,
-  workingRevision: PropTypes.object,
-  editorialMetadata: PropTypes.object,
-  isLocal: PropTypes.bool.isRequired,
-  hasChangesFromSaved: PropTypes.bool.isRequired,
-  onPublish: PropTypes.func.isRequired,
-  onChangeStatus: PropTypes.func.isRequired,
-};
 
 export default EditorPreview;
