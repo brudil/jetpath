@@ -4,8 +4,6 @@ import { update } from '../../../../libs/spectrum2/changes';
 import MediaInput from '../../../MediaInput';
 import Panel from './Panel';
 import ImageIcon from '../../../icons/image.svg.react';
-
-import styles from './ImageBlock.css';
 import {
   ChangesetApplier,
   ElementPath,
@@ -52,7 +50,7 @@ class ImageBlock extends React.Component<IProps, IState> {
     const id = data.getIn(['resource', 'id']);
 
     return (
-      <div className={styles.root}>
+      <div>
         <MediaInput value={id} onChange={this.handleChange} />
       </div>
     );

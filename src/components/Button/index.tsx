@@ -1,8 +1,27 @@
 import React from 'react';
-import cx from 'classnames';
 import omit from 'lodash/omit';
+import styled from "react-emotion";
 
-import styles from './Button.css';
+const getColor = (props: any) => props.danger ? props.theme.colors.danger : props.theme.colors.accent;
+
+const ButtonStyled = styled.button`
+  display: block;
+  width: 100%;
+  padding: 6px;
+  background-color: ${getColor};
+  box-shadow: 0 1px 2px ${(props: any) => props.theme.colors.shadow_soft};
+  border: 0;
+  text-align: left;
+  color: ${(props: any) => props.theme.colors.accentOnTop};
+  font-size: 1em;
+  border-radius: 2px;
+  box-sizing: border-box;
+
+  &[disabled] {
+    background-color: ${(props: any) => props.theme.colors.grey_winter};
+  }
+`;
+
 
 export function Button(props: {
   text: string;
@@ -13,14 +32,11 @@ export function Button(props: {
   danger?: boolean;
 }) {
   return (
-    <button
-      className={cx(styles.button, {
-        [styles.buttonDanger]: props.danger === true,
-      })}
+    <ButtonStyled
       {...omit(props, ['text', 'className'])}
     >
       {props.text}
-    </button>
+    </ButtonStyled>
   );
 }
 

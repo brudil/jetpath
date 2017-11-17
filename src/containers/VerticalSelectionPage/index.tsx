@@ -4,8 +4,47 @@ import { Link } from 'react-router-dom';
 import DocumentTitle from '../../components/DocumentTitle';
 import * as VerticalActions from '../../ducks/Vertical';
 import verticalConfig from '../../verticals';
+import styled from "react-emotion";
 
-import style from './style.css';
+const Title = styled.div`
+  text-align: center;
+  padding: 1rem 0;
+`;
+
+const VerticalList = styled.ul`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  & li {
+    padding: 1rem;
+    flex: 1 1 auto;
+    max-width: 300px;
+    display: block;
+  }
+`;
+
+const VerticalLogo = styled.img`
+  width: 100%;
+  margin-bottom: 1rem;
+`;
+
+const VerticalLink = styled(Link)`
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  color: darkgray;
+  font-style: italic;
+  padding: 1rem;
+  background-color: #ffffff;
+  box-shadow: 0 1px 4px rgba(30, 30, 30, 0.1);
+  box-sizing: border-box;
+`;
+
+const AudienceTag = styled.span`
+  font-style: italic;
+`;
 
 interface Vertical {
   identifier: string;
@@ -30,24 +69,22 @@ class VerticalSelectionPage extends React.Component<IProps, any> {
     return (
       <DocumentTitle title="Select a vertical">
         <div>
-          <h1 className={style.title}>Select a vertical</h1>
-          <ul className={style.list}>
+          <Title>Select a vertical</Title>
+          <VerticalList>
             {verticals.map(vertical => (
               <li key={vertical.identifier}>
-                <Link
-                  className={style.item}
+                <VerticalLink
                   to={`/@${vertical.identifier}/dashboard`}
                 >
-                  <img
-                    className={style.logo}
+                  <VerticalLogo
                     src={verticalConfig[vertical.identifier].logoHeader}
                     alt={vertical.name}
                   />
-                  <span className={style.audience}>{vertical.audience}</span>
-                </Link>
+                  <AudienceTag>{vertical.audience}</AudienceTag>
+                </VerticalLink>
               </li>
             ))}
-          </ul>
+          </VerticalList>
         </div>
       </DocumentTitle>
     );

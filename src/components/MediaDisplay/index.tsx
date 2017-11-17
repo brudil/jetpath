@@ -1,8 +1,18 @@
 import React from 'react';
-import cx from 'classnames';
 import Image from '../Image';
+import styled from "react-emotion";
 
-import styles from './MediaDisplay.css';
+const Container = styled.div`
+  width: 100%;
+`;
+
+const ImageContainer = styled.div`
+  width: 100%;
+  max-width: 600px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+`;
 
 interface IProps {
   className?: string;
@@ -11,13 +21,13 @@ interface IProps {
 
 function MediaDisplay({ className, media }: IProps) {
   return (
-    <div className={cx(className, styles.root)}>
+    <Container className={className}>
       {media.file_type === 'image' || media.fileType === 'image' ? (
-        <div className={styles.image}>
+        <ImageContainer>
           <Image image={media} width={600} />
-        </div>
+        </ImageContainer>
       ) : null}
-    </div>
+    </Container>
   );
 }
 

@@ -4,8 +4,6 @@ import find from 'lodash/find';
 import InteractiveSelector from '../../../InteractiveSelector';
 import { update } from '../../../../libs/spectrum2/changes';
 import CanvasIcon from '../../../icons/canvas.svg.react';
-
-import styles from './CanvasBlock.css';
 import { Changeset, ElementPath } from '../../../../libs/spectrum2/interfaces';
 import CanvasPanel from "./Panel";
 
@@ -38,7 +36,7 @@ class CanvasBlock extends React.Component<IProps> {
     const item = find(interactiveEntities, { slug });
 
     return (
-      <div className={styles.root}>
+      <div>
         <InteractiveSelector value={item} onChange={this.handleSelection} />
       </div>
     );

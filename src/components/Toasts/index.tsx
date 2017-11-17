@@ -3,9 +3,19 @@ import Immutable from 'immutable';
 import { connect } from 'react-redux';
 import Toast from './Toast';
 import { removeToast } from '../../ducks/Toast';
-
-import styles from './ToastList.css';
 import { bindActionCreators } from 'redux';
+import {css} from "emotion";
+
+const toastListStyles = css`
+  list-style: none;
+
+  position: fixed;
+  top: 0;
+  right: 0;
+  margin-top: 5rem;
+  margin-right: 0.7rem;
+  max-width: 300px;
+`;
 
 interface IProps {
   toastList: Array<Immutable.Record.Instance<any>>;
@@ -17,7 +27,7 @@ function ToastList(props: IProps) {
   const handleRemove = (id: number) => props.removeToast(id);
 
   return (
-    <ul className={styles.root}>
+    <ul className={toastListStyles}>
       {props.toastList.map(toast => (
         <Toast
           key={toast.get('id')}

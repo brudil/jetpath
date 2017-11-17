@@ -3,8 +3,15 @@ import { connect } from 'react-redux';
 import Element from '../Element';
 import DocumentPanel from '../DocumentPanel';
 import * as EditorActions from '../../../ducks/Editor';
+import {css} from "emotion";
 
-import styles from './SpectrumEditor.css';
+const rootStyles = css`
+  margin: 0 auto;
+  max-width: 820px;
+  position: relative;
+  padding-bottom: 5rem;
+  padding-right: 260px;
+`;
 
 interface IProps {
   updateSpectrumDocument: any;
@@ -31,7 +38,7 @@ class SpectrumEditor extends React.Component<IProps, any> {
     const hasContent = document.getIn(['content']) !== null;
 
     return (
-      <div className={styles.root}>
+      <div className={rootStyles}>
         <DocumentPanel
           data={document}
           applyChangeset={this.props.updateSpectrumDocument}

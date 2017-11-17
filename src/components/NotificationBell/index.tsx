@@ -1,12 +1,37 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import styled from "react-emotion";
 import { loadUnreadCount } from '../../ducks/Notification';
-
 // eslint-disable-next-line
 import bellIcon from 'icons/bell.svg';
 
-import styles from './NotificationBell.css';
+const Container = styled.div`
+  display: inline-block;
+  margin-right: 0.5em;
+`;
+
+const Icon = styled.img`
+  width: 25px;
+  display: inline-block;
+  float: left;
+`;
+
+const Badge = styled.span`
+  display: inline-block;
+  background-color: ${(props: any) => props.theme.colors.danger};
+  border-radius: 50%;
+  text-align: center;
+  line-height: 10px;
+  margin-left: -10px;
+  margin-top: -10px;
+  vertical-align: middle;
+  padding: 4px;
+  width: 10px;
+  height: 10px;
+  color: #ffffff;
+  font-size: 0.8em;
+`;
 
 interface IProps {
   loadUnreadCount: () => any;
@@ -23,12 +48,12 @@ export class NotificationBell extends React.Component<IProps> {
   render() {
     return (
       <Link to="/notifications">
-        <div className={styles.root}>
-          <img className={styles.icon} src={bellIcon} role="presentation" />
-          <span className={styles.badge}>
+        <Container>
+          <Icon src={bellIcon} role="presentation" />
+          <Badge>
             {this.props.notification.unreadCount}
-          </span>
-        </div>
+          </Badge>
+        </Container>
       </Link>
     );
   }

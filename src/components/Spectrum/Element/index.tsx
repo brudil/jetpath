@@ -1,12 +1,16 @@
 import React from 'react';
 import { nameToComponentMap } from '../elementsMap';
 import ElementPanel from '../ElementPanel';
-
-import styles from './Element.css';
 import { ElementIndex, ElementPath } from '../../../libs/spectrum2/interfaces';
 import isEqual from 'lodash/isEqual';
 import { connect } from 'react-redux';
 import * as EditorActions from '../../../ducks/Editor';
+import {css} from "emotion";
+
+const elementStyles = css`
+  position: relative;
+  text-align: right;
+`;
 
 interface IProps {
   update: (key: any) => void;
@@ -111,7 +115,7 @@ class Element extends React.Component<IProps, IState> {
 
     return (
       <div
-        className={styles.root}
+        className={elementStyles}
         onMouseOut={this.handleMouseOut}
         onMouseOver={this.handleMouseOver}
       >

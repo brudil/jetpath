@@ -8,8 +8,15 @@ import loginButtonOptions from '../../lang/login';
 import * as AuthActions from '../../ducks/Auth';
 import Button from '../../components/Button';
 import { compose } from 'recompose';
+import {Input} from "../../Textbox/index";
+import styled from "react-emotion";
 
-import styles from './LoginPage.css';
+const InputLabel = styled.span`
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: ${(props: any) => props.theme.colors.grey_spring};
+`;
 
 interface IProps {
   login(username: string, password: string): void;
@@ -81,10 +88,9 @@ class LoginPage extends React.Component<IProps, IState> {
           {this.props.auth.get('error') ? 'Error!' : ''}
           <form onSubmit={this.handleSubmit}>
             <label htmlFor="usernameInput">
-              <span className={styles.inputLabel}>Username</span>
-              <input
+              <InputLabel>Username</InputLabel>
+              <Input
                 id="usernameInput"
-                className={styles.input}
                 type="text"
                 placeholder="Username"
                 value={this.state.username}
@@ -93,10 +99,9 @@ class LoginPage extends React.Component<IProps, IState> {
               />
             </label>
             <label htmlFor="passwordInput">
-              <span className={styles.inputLabel}>Password</span>
-              <input
+              <InputLabel>Password</InputLabel>
+              <Input
                 id="passwordInput"
-                className={styles.input}
                 type="password"
                 placeholder="Password"
                 value={this.state.password}

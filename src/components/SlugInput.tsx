@@ -12,7 +12,7 @@ interface IProps extends React.HTMLProps<HTMLInputElement> {
   whenChange: Function;
   removeStopWords: boolean;
   autoValue: string;
-  className: string;
+  className?: string;
   value: string;
 }
 

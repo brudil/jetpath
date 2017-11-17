@@ -1,12 +1,22 @@
 import React from 'react';
+import styled from "react-emotion";
 
-import contentStyles from './LoadingContent.css';
+const Container = styled.div`
+  color: var(--color__grey);
+`;
+const Message = styled.span`
+  font-style: italic;
+  text-align: center;
+  padding-top: 20vh;
+  display: block;
+  font-size: 1.8em;
+`;
 
 function LoadingContent() {
   return (
-    <div className={contentStyles.root}>
-      <span className={contentStyles.message}>Loading</span>
-    </div>
+    <Container>
+      <Message>Loading</Message>
+    </Container>
   );
 }
 

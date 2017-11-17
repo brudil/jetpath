@@ -5,8 +5,17 @@ import { changeSubtype } from '../../../libs/spectrum2/changes';
 import SegmentedControl from '../../SegmentedControl';
 
 import cogIcon from './cog.svg';
+import {css} from "emotion";
 
-import styles from './DocumentPanel.css';
+const prefButtonStyles = css`
+  border: 0;
+  background: transparent;
+  opacity: 0.4;
+
+  &:hover {
+    opacity: 0.7;
+  }
+`;
 
 interface IProps {
   data: any;
@@ -54,7 +63,7 @@ class DocumentPanel extends React.Component<IProps, any> {
         </div>
       </div>
     ) : (
-      <button className={styles.button} onClick={this.handleVisibilityToggle}>
+      <button className={prefButtonStyles} onClick={this.handleVisibilityToggle}>
         <img src={cogIcon} alt="Document preferences" width="24" />
       </button>
     );

@@ -16,7 +16,11 @@ import {
 } from '../../libs/constants';
 import * as contentLang from '../../lang/content_attrs';
 
-import stylesSidebar from '../Sidebar/Sidebar.css';
+import { SidebarInput } from '../Sidebar';
+
+const SidebarSlugInput: any = SidebarInput.withComponent(SlugInput);
+const SidebarDebouncedAutosizeTextarea: any = SidebarInput.withComponent(DebouncedAutosizeTextarea);
+const SidebarDebouncedInput: any = SidebarInput.withComponent(DebouncedInput);
 
 interface IProps {
   workingRevision: any; // todo
@@ -61,8 +65,7 @@ function EditorSidebar(props: IProps) {
           },
         ]}
       >
-        <SlugInput
-          className={stylesSidebar.input}
+        <SidebarSlugInput
           value={revision.get('slug')}
           autoValue={revision.headline}
           removeStopWords
@@ -119,8 +122,7 @@ function EditorSidebar(props: IProps) {
           },
         ]}
       >
-        <DebouncedInput
-          className={stylesSidebar.input}
+        <SidebarDebouncedInput
           type="text"
           value={revision.get('short_headline')}
           onChange={revisionChangeHandler('short_headline', formly.event)}
@@ -132,8 +134,7 @@ function EditorSidebar(props: IProps) {
         charLimit={60}
         charCount={revision.get('kicker').length}
       >
-        <DebouncedInput
-          className={stylesSidebar.input}
+        <SidebarDebouncedInput
           type="text"
           value={revision.get('kicker')}
           onChange={revisionChangeHandler('kicker', formly.event)}
@@ -145,8 +146,7 @@ function EditorSidebar(props: IProps) {
         charLimit={140}
         charCount={revision.get('standfirst').length}
       >
-        <DebouncedAutosizeTextarea
-          className={stylesSidebar.input}
+        <SidebarDebouncedAutosizeTextarea
           value={revision.get('standfirst')}
           onChange={revisionChangeHandler('standfirst', formly.event)}
           maxLength={140}
