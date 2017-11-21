@@ -16,7 +16,9 @@ const InputLabel = styled.span`
   text-transform: uppercase;
   font-size: 0.9rem;
   font-weight: bold;
-  color: ${(props: any) => props.theme.colors.grey_spring};
+  padding-top: 1rem;
+  display: block;
+  color: ${(props: any) => props.theme.colors.grey_winter};
 `;
 
 interface IProps {
