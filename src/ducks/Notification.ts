@@ -3,7 +3,7 @@ import { createRequestTypes } from '../utils';
 import { NotificationClient } from '../serverAPI';
 
 const NOTIFICATION_UNREAD_COUNT_REQUEST = 'NOTIFICATION_UNREAD_COUNT_REQUEST';
-const NOTIFICATION_UNREAD_COUNT_FAILURE = 'NOTIFICATION_UNREAD_COUNT_FAILURE';
+// const NOTIFICATION_UNREAD_COUNT_FAILURE = 'NOTIFICATION_UNREAD_COUNT_FAILURE';
 const NOTIFICATION_UNREAD_COUNT_SUCCESS = 'NOTIFICATION_UNREAD_COUNT_SUCCESS';
 
 // seemingly this was missing?
@@ -15,7 +15,8 @@ export const loadUnreadCount = () => ({
 });
 
 // HELPERS
-const loadUnreadCountSuccess = payload => ({
+const loadUnreadCountSuccess = (payload: any) => ({
+  // todo
   type: NOTIFICATION_UNREAD_COUNT_SUCCESS,
   payload,
 });
@@ -25,7 +26,12 @@ const initialState = {
   unreadList: [],
 };
 
-export default function NotificationReducer(state = initialState, action) {
+type Action = any;
+
+export default function NotificationReducer(
+  state = initialState,
+  action: Action
+) {
   switch (action.type) {
     case NOTIFICATION_UNREAD_COUNT_SUCCESS:
       return {

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Element from '../Element';
 import DocumentPanel from '../DocumentPanel';
 import * as EditorActions from '../../../ducks/Editor';
-import {css} from "emotion";
+import { css } from 'emotion';
 
 const rootStyles = css`
   margin: 0 auto;

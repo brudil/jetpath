@@ -5,7 +5,7 @@ import { ElementIndex, ElementPath } from '../../../libs/spectrum2/interfaces';
 import isEqual from 'lodash/isEqual';
 import { connect } from 'react-redux';
 import * as EditorActions from '../../../ducks/Editor';
-import {css} from "emotion";
+import { css } from 'emotion';
 
 const elementStyles = css`
   position: relative;

@@ -1,6 +1,6 @@
 import React from 'react';
 import Stat from './Stat';
-import styled from "react-emotion";
+import styled from 'react-emotion';
 
 const Container = styled.div`
   display: flex;

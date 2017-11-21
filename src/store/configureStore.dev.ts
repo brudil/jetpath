@@ -7,7 +7,7 @@ import * as rootReducer from '../reducers/index';
 export default function configureStore() {
   const sagaMiddleware = createSagaMiddleware();
   const composeEnhancers =
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+    (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   const finalCreateStore = composeEnhancers(
     applyMiddleware(sagaMiddleware),
     applyMiddleware(ReduxThunk),
@@ -15,7 +15,7 @@ export default function configureStore() {
       createLogger({
         collapsed: true,
       })
-    ),
+    )
   )(createStore);
 
   const store = finalCreateStore(

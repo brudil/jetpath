@@ -16,12 +16,7 @@ interface IProps extends React.HTMLProps<HTMLInputElement> {
   value: string;
 }
 
-function SlugInput({
-  whenChange,
-  removeStopWords,
-  value,
-  ...props,
-}: IProps) {
+function SlugInput({ whenChange, removeStopWords, value, ...props }: IProps) {
   function handleChange(event: React.FormEvent<HTMLInputElement>) {
     let text = event.currentTarget.value;
     if (removeStopWords) {

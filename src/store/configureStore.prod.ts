@@ -10,9 +10,9 @@ export default function configureStore() {
     applyMiddleware(sagaMiddleware),
     applyMiddleware(ReduxThunk),
     // If you are using the devToolsExtension, you can add it here also
-    typeof window.__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined'
-      ? window.__REDUX_DEVTOOLS_EXTENSION__()
-      : f => f
+    typeof (<any>window).__REDUX_DEVTOOLS_EXTENSION__ !== 'undefined'
+      ? (<any>window).__REDUX_DEVTOOLS_EXTENSION__()
+      : (f: any) => f
   )(createStore);
 
   const store = finalCreateStore(
@@ -21,7 +21,7 @@ export default function configureStore() {
     })
   );
 
-  store.sagaMiddleware = sagaMiddleware;
+  (store as any).sagaMiddleware = sagaMiddleware;
 
   return store;
 }

@@ -1,12 +1,12 @@
 import React from 'react';
-import styled from "react-emotion";
+import styled from 'react-emotion';
 
 const Container = styled.div`
   color: ${(props: any) => props.theme.colors.grey_winter};
 `;
 
 const Face = styled.span`
-   display: block;
+  display: block;
   text-align: center;
   font-size: 6em;
   margin-bottom: 0.5em;

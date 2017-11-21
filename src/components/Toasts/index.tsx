@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import Toast from './Toast';
 import { removeToast } from '../../ducks/Toast';
 import { bindActionCreators } from 'redux';
-import {css} from "emotion";
+import { css } from 'emotion';
+import { RootState } from '../../types';
 
 const toastListStyles = css`
   list-style: none;
@@ -45,10 +46,9 @@ function ToastList(props: IProps) {
 }
 
 export default connect(
-  state =>
-    ({
-      toastList: state.toasts.get('toastList'),
-    } as any),
+  (state: RootState) => ({
+    toastList: state.toasts.get('toastList'),
+  }),
   dispatch => ({
     ...bindActionCreators({ removeToast }, dispatch),
     dispatch,

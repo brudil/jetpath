@@ -1,7 +1,20 @@
 import React from 'react';
-
-import styles from './LowkeyDeleteButton.css';
 import Button from '../Button/index';
+import styled from 'react-emotion';
+
+const TextButton = styled.button`
+  color: var(--color__grey);
+  font-size: 0.8rem;
+  text-decoration: underline;
+  padding: 0;
+  border: 0;
+  background: transparent;
+`;
+
+const Popover = styled.div`
+  box-shadow: 0 1px 4px rgba(30, 30, 30, 0.1);
+  padding: 0.5rem;
+`;
 
 interface IProps {
   text: string;
@@ -34,14 +47,12 @@ class LowkeyDeleteButton extends React.Component<IProps, IState> {
 
     return (
       <div>
-        <button className={styles.textButton} onClick={this.handleInitialClick}>
-          {text}
-        </button>
+        <TextButton onClick={this.handleInitialClick}>{text}</TextButton>
         {showingConfirm ? (
-          <div className={styles.popover}>
+          <Popover>
             <div>{confirmText}</div>
             <Button text={text} onClick={onDelete} danger />
-          </div>
+          </Popover>
         ) : null}
       </div>
     );

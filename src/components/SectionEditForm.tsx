@@ -4,13 +4,13 @@ import { Form, Field } from 'react-redux-form';
 import { SidebarControl } from './Sidebar';
 import * as OrgansiationActions from '../ducks/Organisation';
 
-interface Props {
+interface IProps {
   model: Object;
-  saveSection: OrgansiationActions.saveSection;
+  saveSection: any; // todo
 }
 
-class SectionEditForm extends React.Component<Props, {}> {
-  constructor(props: Props) {
+class SectionEditForm extends React.Component<IProps> {
+  constructor(props: IProps) {
     super(props);
 
     this.handleSubmit = this.handleSubmit.bind(this);

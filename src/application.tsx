@@ -42,15 +42,15 @@ const link = middlewareLink.concat(httpLink);
 
 const client = new ApolloClient({
   link,
-  cache: (new InMemoryCache() as any),
+  cache: new InMemoryCache() as any,
 }) as any;
 
 const store = configureStore();
-store.sagaMiddleware.run(rootSaga);
+(store as any).sagaMiddleware.run(rootSaga);
 
 function renderApp() {
   ReactDOM.render(
-    <div>
+    (
       <ApolloProvider client={client}>
         <Provider store={store}>
           <Router>
@@ -58,7 +58,7 @@ function renderApp() {
           </Router>
         </Provider>
       </ApolloProvider>
-    </div>,
+    ) as any,
     document.getElementById('app')
   );
 }

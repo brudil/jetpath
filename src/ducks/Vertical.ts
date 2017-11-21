@@ -10,13 +10,15 @@ export const SET_VERTICAL = 'SET_VERTICAL';
 // ACTIONS
 export const getVerticals = () => ({ type: FETCH_VERTICALS_REQUEST });
 
-export const setVertical = vertical => ({
+export const setVertical = (vertical: any) => ({
+  // todo
   type: SET_VERTICAL,
   payload: { vertical },
 });
 
 // HELPERS
-const getVerticalsSuccess = payload => ({
+const getVerticalsSuccess = (payload: any) => ({
+  // todo
   type: FETCH_VERTICALS_SUCCESS,
   payload,
 });
@@ -28,7 +30,7 @@ const initialState = {
   selectedVerticalIdentifier: null,
 };
 
-export default function VerticalReducer(state = initialState, action) {
+export default function VerticalReducer(state = initialState, action: any) {
   switch (action.type) {
     case FETCH_VERTICALS_SUCCESS: {
       const found =

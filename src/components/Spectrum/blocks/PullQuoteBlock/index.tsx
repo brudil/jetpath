@@ -6,12 +6,12 @@ import {
   ChangesetApplier,
   ElementPath,
 } from '../../../../libs/spectrum2/interfaces';
-import PullQuotePanel from "./Panel";
-import styled from "react-emotion";
+import PullQuotePanel from './Panel';
+import styled from 'react-emotion';
 
 const Container = styled.div`
   &:before {
-    content: "“";
+    content: '“';
     display: block;
     position: absolute;
     left: 0;
@@ -34,10 +34,9 @@ const PullQuoteInput = styled(DebouncedAutosizeTextarea)`
   padding-right: 4rem;
 
   &:focus {
-    box-shadow: 0 0 2px rgba(50, 50, 50,  0.1);
+    box-shadow: 0 0 2px rgba(50, 50, 50, 0.1);
   }
 `;
-
 
 interface IProps {
   data: any;

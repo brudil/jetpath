@@ -4,21 +4,61 @@ import { connect } from 'react-redux';
 import MediaDisplay from '../MediaDisplay';
 import MediaSelectModal from '../MediaSelectModal';
 import Button from '../Button';
-import { compose } from 'recompose';
+import MediaEditModal from '../MediaEditModal/index';
+import styled from 'react-emotion';
+import { css } from 'emotion';
+import { RootState } from '../../types';
 
-import style from './MediaInput.css';
-import MediaEditModal from "../MediaEditModal/index";
+const EditMediaButton = styled.button`
+  border: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: #ffffff;
+  font-size: 1rem;
+  padding: 0.2rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+`;
+
+const ButtonSet = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+`;
+
+const displayContainerStyles = css`
+  min-height: 100px;
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAAAAAA6mKC9AAAAGElEQVQYV2N4DwX/oYBhgARgDJjEAAkAAEC99wFuu0VFAAAAAElFTkSuQmCC')
+    repeat scroll 0% 0% #ffffff;
+`;
+
+const containerStyles = css`
+  position: relative;
+`;
+
+const containerHasMedia = css`
+  & .${ButtonSet.name}, & .${EditMediaButton.name} {
+    opacity: 0;
+    transition: opacity 300ms ease;
+  }
+
+  &:hover .${ButtonSet.name}, &:hover .${EditMediaButton.name} {
+    opacity: 1;
+  }
+`;
 
 interface IProps {
-  filter: object;
+  filter?: object;
   mediaEntities: object[];
   onChange: (imageId: number) => void;
   value: number;
 }
 
 interface IState {
-  selectModalOpen: boolean,
-  editModalOpen: boolean,
+  selectModalOpen: boolean;
+  editModalOpen: boolean;
 }
 
 class MediaInput extends React.Component<IProps, IState> {
@@ -64,19 +104,22 @@ class MediaInput extends React.Component<IProps, IState> {
     const mediaObject = mediaEntities[value];
     const hasMedia = mediaObject !== undefined;
     return (
-      <div className={cx(style.root, {[style.rootHasMedia]: hasMedia })}>
-        <div className={style.display}>
+      <div className={cx(containerStyles, { [containerHasMedia]: hasMedia })}>
+        <div className={displayContainerStyles}>
           {hasMedia ? (
-            <button className={style.editMediaButton} onClick={this.handleEditOpen}>Edit media</button>
+            <EditMediaButton onClick={this.handleEditOpen}>
+              Edit media
+            </EditMediaButton>
           ) : null}
-          {hasMedia ? (
-            <MediaDisplay media={mediaObject} />
-          ) : null}
+          {hasMedia ? <MediaDisplay media={mediaObject} /> : null}
         </div>
 
-        <div className={style.buttonSet}>
-          <Button onClick={this.handleOpenLibrary} text={'Select media from library'} />
-        </div>
+        <ButtonSet>
+          <Button
+            onClick={this.handleOpenLibrary}
+            text={'Select media from library'}
+          />
+        </ButtonSet>
 
         <MediaSelectModal
           onSelect={this.handleSelection}
@@ -96,10 +139,6 @@ class MediaInput extends React.Component<IProps, IState> {
   }
 }
 
-export default compose(
-  connect(
-    state => ({
-      mediaEntities: state.entities.media,
-    })
-  )
-)(MediaInput) as any;
+export default connect((state: RootState) => ({
+  mediaEntities: state.entities.media,
+}))(MediaInput);

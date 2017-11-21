@@ -69,11 +69,11 @@ function produceImmutableFieldNodes(
   element: ElementDefinition
 ): Map<string, any> {
   let output: Map<string, any> = Map();
-  Object.entries(
-    element.fields
-  ).forEach(([fieldKey, fieldDefinition]: [string, FieldDefinition]) => {
-    output = output.set(fieldKey, produceFieldNode(fieldDefinition));
-  });
+  Object.entries(element.fields).forEach(
+    ([fieldKey, fieldDefinition]: [string, FieldDefinition]) => {
+      output = output.set(fieldKey, produceFieldNode(fieldDefinition));
+    }
+  );
   return output;
 }
 

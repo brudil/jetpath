@@ -15,7 +15,7 @@ function StonewallContainer({ match }: IProps) {
     <Stonewall>
       <Switch>
         <Route path={`${match.url}/login`} component={LoginPage} />
-        <Route path="*" component={NotFoundPage} />
+        <Route component={NotFoundPage} />
       </Switch>
     </Stonewall>
   );

@@ -22,7 +22,9 @@ export function createRequestTypes(base) {
 export function createTransaction(dispatch, actionType, sequenceData = {}) {
   const transactionId = uuid();
   console.warn(
-    `${actionType} is using deprecated transactions and thunk. Use React Saga for async.`
+    `${
+      actionType
+    } is using deprecated transactions and thunk. Use React Saga for async.`
   );
 
   dispatch({

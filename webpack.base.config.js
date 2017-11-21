@@ -96,14 +96,7 @@ module.exports = {
       {
         test: /\.ts(x?)$/,
         exclude: /node_modules/,
-        use: [
-          {
-            loader: 'babel-loader',
-          },
-          {
-            loader: 'ts-loader',
-          },
-        ],
+        loader: 'awesome-typescript-loader?useBabel',
       },
       { test: /\.svg$/, loader: 'file-loader' },
     ],

@@ -4,10 +4,9 @@ import qs from 'query-string';
 import without from 'lodash/without';
 import TagsInput from 'react-tagsinput';
 import { connect } from 'react-redux';
-import { compose } from 'recompose';
+import { compose } from 'redux';
 import { Link, withRouter } from 'react-router-dom';
 import { TitleSelection, SelectionItem } from '../components/TitleSelection';
-import UsersPicker from '../components/UserPicker';
 import MediaGridContainer from '../components/MediaGridContainer';
 import * as MediaListActions from '../ducks/MediaList';
 import ViewContainer from '../components/ViewContainer';
@@ -126,8 +125,9 @@ class MediaListPage extends React.Component {
               <MediaGridContainer
                 wrap={(media, children) => (
                   <Link
-                    to={`${this.props.match &&
-                      this.props.match.url}/${media.mediaId}`}
+                    to={`${this.props.match && this.props.match.url}/${
+                      media.mediaId
+                    }`}
                   >
                     {children}
                   </Link>
@@ -144,13 +144,7 @@ class MediaListPage extends React.Component {
                 </SidebarControl>
 
                 <SidebarControl title="Uploader">
-                  <UsersPicker
-                    users={query.uploaders}
-                    onAdd={this.handleUserFilter.bind(this, 'add')}
-                    onRemove={this.handleUserFilter.bind(this, 'remove')}
-                    noUsersText={''}
-                    placeholderText="Search for users or me"
-                  />
+                  <em>to be reimplemented</em>
                 </SidebarControl>
 
                 <SidebarControl title="File type">

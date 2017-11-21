@@ -5,9 +5,10 @@ import * as OrgansiationActions from '../../ducks/Organisation';
 
 // eslint-disable-next-line
 import 'style-loader!css-loader!postcss-loader!react-select/dist/react-select.css';
+import { RootState } from '../../types';
 
 interface IProps {
-  getAllSections: OrgansiationActions.getAllSections;
+  getAllSections: any; // todo
   isLoading: boolean;
   sections: Array<{ id: number; title: string }>;
   value: any;
@@ -24,7 +25,7 @@ class SectionSelector extends React.Component<IProps, {}> {
     const sectionOptions = sections.map(section => ({
       value: section.id,
       label: section.title,
-    })) as any;
+    }));
     return (
       <Select isLoading={isLoading} options={sectionOptions} {...this.props} />
     );
@@ -32,15 +33,7 @@ class SectionSelector extends React.Component<IProps, {}> {
 }
 
 export default connect(
-  (state: {
-    organisation: {
-      loading: boolean;
-      sectionList: Array<number>;
-    };
-    entities: {
-      sections: { [key: number]: Object };
-    };
-  }) => ({
+  (state: RootState) => ({
     isLoading: state.organisation.loading,
     sections: state.organisation.sectionList.map(
       id => state.entities.sections[id]

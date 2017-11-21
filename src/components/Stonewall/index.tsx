@@ -1,7 +1,7 @@
 import React from 'react';
 import jetpathLogo from 'logo.svg';
-import styled from "react-emotion";
-import {keyframes} from "emotion";
+import styled from 'react-emotion';
+import { keyframes } from 'emotion';
 
 const tardis = keyframes`
   0% {
@@ -43,9 +43,7 @@ export function Stonewall(props: IProps) {
       <h1>
         <Logo src={jetpathLogo} role="presentation" />
       </h1>
-      {props.subtitle ? (
-        <Subtitle>{props.subtitle}</Subtitle>
-      ) : null}
+      {props.subtitle ? <Subtitle>{props.subtitle}</Subtitle> : null}
       {props.children ? props.children : null}
     </Container>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 import DocumentTitle from '../components/DocumentTitle';
 import ViewContainer from '../components/ViewContainer';
-import { compose, lifecycle } from 'recompose';
+import { lifecycle } from 'recompose';
 import { graphql } from 'react-apollo';
 import differenceInDays from 'date-fns/differenceInDays';
 import DashboardQuery from './Dashboard.graphql';
@@ -10,7 +10,9 @@ import { Link } from 'react-router-dom';
 import ContentCard from '../components/ContentCard/index';
 import BigStats from '../components/BigStats/index';
 import Stat from '../components/BigStats/Stat';
-import {startOfDay} from 'date-fns';
+import { startOfDay } from 'date-fns';
+import { RootState } from '../types';
+import { compose } from 'redux';
 
 interface PageProps {
   vertical: {
@@ -147,7 +149,7 @@ class DashboardPage extends React.Component<IProps, {}> {
 }
 
 export default compose(
-  connect(state => ({
+  connect((state: RootState) => ({
     vertical: state.verticals.selectedVertical,
     auth: state.auth,
   })),

@@ -5,32 +5,37 @@ import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import * as VerticalActions from '../ducks/Vertical';
 import LoadableLoading from '../components/LoadableLoading';
 import ContentListPage from './ContentListPage';
-import {match} from "react-router-dom";
-import {compose} from "recompose";
+import { match } from 'react-router-dom';
+import { compose } from 'redux';
+import { RootState } from '../types';
 
 const LoadableDashboardPage = Loadable({
-  loader: () => import(/* webpackChunkName: 'DashboardPage' */ './DashboardPage'),
-  loading: LoadableLoading
+  loader: () =>
+    import(/* webpackChunkName: 'DashboardPage' */ './DashboardPage') as any,
+  loading: LoadableLoading,
 });
 
 const LoadableEditorPage = Loadable({
   loader: () => import(/* webpackChunkName: 'EditorPage' */ './EditorPage'),
-  loading: LoadableLoading
+  loading: LoadableLoading,
 });
 
 const LoadableOrganisationPage = Loadable({
-  loader: () => import(/* webpackChunkName: 'OrganisationPage' */ './OrganisationPage'),
-  loading: LoadableLoading
+  loader: () =>
+    import(/* webpackChunkName: 'OrganisationPage' */ './OrganisationPage'),
+  loading: LoadableLoading,
 });
 
 const LoadableMediaListPage = Loadable({
-  loader: () => import(/* webpackChunkName: 'MediaListPage' */ './MediaListPage'),
-  loading: LoadableLoading
+  loader: () =>
+    import(/* webpackChunkName: 'MediaListPage' */ './MediaListPage'),
+  loading: LoadableLoading,
 });
 
 const LoadableMediaEditPage = Loadable({
-  loader: () => import(/* webpackChunkName: 'MediaEditPage' */ './MediaEditPage'),
-  loading: LoadableLoading
+  loader: () =>
+    import(/* webpackChunkName: 'MediaEditPage' */ './MediaEditPage'),
+  loading: LoadableLoading,
 });
 
 interface IParams {
@@ -38,18 +43,17 @@ interface IParams {
 }
 
 interface IProps {
-  match: match<IParams>,
+  match: match<IParams>;
   getVerticals(): void;
   setVertical(vertical: string): void;
   verticals: {
     selectedVerticalIdentifier: string;
     selectedVertical: {
-      identifier: string
+      identifier: string;
     };
-    isLoading: boolean
-  }
+    isLoading: boolean;
+  };
 }
-
 
 class InnerVerticalPage extends React.Component<IProps> {
   componentDidMount() {
@@ -96,7 +100,10 @@ class InnerVerticalPage extends React.Component<IProps> {
         <Route path={`${url}/content`} component={ContentListPage} />
         <Route path={`${url}/media`} exact component={LoadableMediaListPage} />
         <Route path={`${url}/media/:id`} component={LoadableMediaEditPage} />
-        <Route path={`${url}/organisation`} component={LoadableOrganisationPage} />
+        <Route
+          path={`${url}/organisation`}
+          component={LoadableOrganisationPage}
+        />
         <Route path={`${url}/editor/:id`} component={LoadableEditorPage} />
         <Redirect from={`${url}/editor`} to="editor/new" />
       </Switch>
@@ -106,10 +113,13 @@ class InnerVerticalPage extends React.Component<IProps> {
 
 export default compose(
   withRouter,
-  connect(state => ({
-    verticals: state.verticals,
-  }), {
-    setVertical: VerticalActions.setVertical,
-    getVerticals: VerticalActions.getVerticals,
-  }),
+  connect(
+    (state: RootState) => ({
+      verticals: state.verticals,
+    }),
+    {
+      setVertical: VerticalActions.setVertical,
+      getVerticals: VerticalActions.getVerticals,
+    }
+  )
 )(InnerVerticalPage);

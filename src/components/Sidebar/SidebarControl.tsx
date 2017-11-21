@@ -1,9 +1,6 @@
 import React from 'react';
-import cx from 'classnames';
-
-import styles from './Sidebar.css';
-import {SidebarControlTreats} from "./SidebarControlTreats";
-import styled from "react-emotion";
+import { SidebarControlTreats } from './SidebarControlTreats';
+import styled from 'react-emotion';
 
 const Container = styled.div`
   margin-bottom: 1em;
@@ -17,6 +14,13 @@ const ControlTitle = styled.h2`
   color: ${(props: any) => props.theme.colors.grey_winter};
 `;
 
+const ControlTitleLimit = styled.span`
+  margin-left: 1em;
+  color: ${(props: any) =>
+    props.danger ? props.theme.colors.danger : props.theme.colors.grey_winter};
+  font-size: 0.9em;
+`;
+
 interface IProps {
   title: string;
   children: any;
@@ -26,27 +30,30 @@ interface IProps {
 }
 
 function SidebarControl({
-                          title,
-                          children,
-                          charLimit = null,
-                          charCount = null,
-                          buttonTreats = null,
-                        }: IProps) {
-
-  const charCountStyles = (charLimit && charCount) ? {[styles.warning]: charCount > (charLimit * 0.8), [styles.danger]: charCount > charLimit,  } : {};
+  title,
+  children,
+  charLimit = null,
+  charCount = null,
+  buttonTreats = null,
+}: IProps) {
   return (
     <Container>
       <ControlTitle>
         {title}
 
-        {charCount !== null ? (
-          <span className={cx(styles.controlTitleLimit, charCountStyles)}>
+        {charCount !== null && charLimit !== null ? (
+          <ControlTitleLimit
+            warning={charCount > charLimit * 0.8}
+            danger={charCount > charLimit}
+          >
             {charCount}
             {charLimit !== null ? `/${charLimit}` : null}
-          </span>
+          </ControlTitleLimit>
         ) : null}
 
-        {buttonTreats !== null ? <SidebarControlTreats buttonTreats={buttonTreats} /> : null}
+        {buttonTreats !== null ? (
+          <SidebarControlTreats buttonTreats={buttonTreats} />
+        ) : null}
       </ControlTitle>
       {children}
     </Container>

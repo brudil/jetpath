@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'react-emotion';
 import * as AuthActions from '../../ducks/Auth';
+import { RootState } from '../../types';
 
 const Container = styled.div`
   text-align: right;
@@ -20,11 +21,11 @@ const Container = styled.div`
 `;
 
 interface IProps {
-  logout: () => any;
+  logout: any;
   auth: any; // todo
 }
 
-class UserMenu extends React.Component<IProps> {
+class UserMenu extends React.Component<IProps, {}> {
   constructor(props: IProps) {
     super(props);
 
@@ -57,7 +58,7 @@ class UserMenu extends React.Component<IProps> {
 }
 
 export default connect(
-  state => ({
+  (state: RootState) => ({
     auth: state.auth,
   }),
   {

@@ -14,7 +14,7 @@ export function entities(
     vertical: {},
     contentRevision: {},
   },
-  action
+  action: any // todo
 ) {
   if (action.payload && action.payload.entities) {
     return merge({}, state, action.payload.entities);

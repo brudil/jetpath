@@ -8,6 +8,7 @@ import {
   ChangesetApplier,
   ElementPath,
 } from '../../../../libs/spectrum2/interfaces';
+import { RootState } from '../../../../types';
 
 interface IProps {
   path: ElementPath;
@@ -18,7 +19,7 @@ interface IProps {
 }
 
 interface IState {
-  selectModalOpen: boolean,
+  selectModalOpen: boolean;
 }
 
 class ImageBlock extends React.Component<IProps, IState> {
@@ -32,7 +33,7 @@ class ImageBlock extends React.Component<IProps, IState> {
 
     this.state = {
       selectModalOpen: false,
-    }
+    };
   }
 
   handleInput(e: React.KeyboardEvent<HTMLInputElement>) {
@@ -60,6 +61,6 @@ class ImageBlock extends React.Component<IProps, IState> {
 ImageBlock.panel = Panel;
 ImageBlock.Icon = ImageIcon;
 
-export default connect(state => ({
+export default connect((state: RootState) => ({
   mediaEntities: state.entities.media,
 }))(ImageBlock);

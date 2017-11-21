@@ -41,7 +41,9 @@ class InteractiveSelector extends React.Component {
         {value !== undefined ? (
           <div>
             <InteractiveIframe
-              src={`https://thedrab.co/interactive-frame/${value.slug}/v${value.latest_public_release_number}`}
+              src={`https://thedrab.co/interactive-frame/${value.slug}/v${
+                value.latest_public_release_number
+              }`}
             />
           </div>
         ) : null}

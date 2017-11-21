@@ -12,7 +12,9 @@ import mediaIcon from './media.svg';
 import organisationIcon from './organisation.svg';
 
 import * as styles from './GlobalHeader.css';
-import { compose, pure } from 'recompose';
+import { pure } from 'recompose';
+import { RootState } from '../../types';
+import { compose } from 'redux';
 
 const style = styles as any;
 
@@ -91,7 +93,7 @@ function GlobalHeader(props: {
 }
 
 export default compose(
-  connect(state => ({
+  connect((state: RootState) => ({
     vertical: state.verticals.selectedVertical,
     state,
   })),

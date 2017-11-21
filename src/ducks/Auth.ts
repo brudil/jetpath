@@ -1,7 +1,8 @@
 import { Map, Record } from 'immutable';
 import { takeLatest, put } from 'redux-saga/effects';
 import { AuthClient } from '../serverAPI';
-import { createToast } from '../ducks/Toast';
+import { createToast } from './Toast';
+import { Action, AnyAction } from 'redux';
 
 // CONSTANTS
 const AUTH_RESTORE_REQUEST = 'AUTH_RESTORE_REQUEST';
@@ -9,12 +10,19 @@ const AUTH_RESTORE_FAILURE = 'AUTH_RESTORE_FAILURE';
 const AUTH_RESTORE_SUCCESS = 'AUTH_RESTORE_SUCCESS';
 
 const AUTH_LOGOUT_REQUEST = 'AUTH_LOGOUT_REQUEST';
-const AUTH_LOGOUT_FAILURE = 'AUTH_LOGOUT_FAILURE';
+// const AUTH_LOGOUT_FAILURE = 'AUTH_LOGOUT_FAILURE';
 const AUTH_LOGOUT_SUCCESS = 'AUTH_LOGOUT_SUCCESS';
 
 const AUTH_LOGIN_REQUEST = 'AUTH_LOGIN_REQUEST';
 const AUTH_LOGIN_FAILURE = 'AUTH_LOGIN_FAILURE';
 const AUTH_LOGIN_SUCCESS = 'AUTH_LOGIN_SUCCESS';
+
+interface LoginAction extends Action {
+  payload: {
+    username: string;
+    password: string;
+  };
+}
 
 // ACTIONS
 export const restoreAuth = () => ({
@@ -23,20 +31,23 @@ export const restoreAuth = () => ({
 export const logout = () => ({
   type: AUTH_LOGOUT_REQUEST,
 });
-export const login = (username, password) => ({
+export const login = (username: string, password: string) => ({
   type: AUTH_LOGIN_REQUEST,
   payload: { username, password },
 });
 
 // HELPERS
-const restoreAuthFailure = error => ({
+const restoreAuthFailure = (error: Error) => ({
   type: AUTH_RESTORE_FAILURE,
   payload: error,
 });
-const restoreAuthSuccess = payload => ({ type: AUTH_RESTORE_SUCCESS, payload });
+const restoreAuthSuccess = (payload: any) => ({
+  type: AUTH_RESTORE_SUCCESS,
+  payload,
+}); // todo
 const logoutSuccess = () => ({ type: AUTH_LOGOUT_SUCCESS });
-const loginSuccess = payload => ({ type: AUTH_LOGIN_SUCCESS, payload });
-const loginFailure = error => ({
+const loginSuccess = (payload: any) => ({ type: AUTH_LOGIN_SUCCESS, payload }); // todo
+const loginFailure = (error: Error) => ({
   type: AUTH_LOGIN_FAILURE,
   payload: error,
   error: true,
@@ -54,14 +65,15 @@ const AuthUser = Record(
   'AuthUser'
 );
 
-const initialState = Map({
+const initialState = Map<any>({
+  // todo
   auth: null,
   loading: false,
   attempted: false,
   error: null,
 });
 
-export default function AuthReducer(state = initialState, action) {
+export default function AuthReducer(state = initialState, action: AnyAction) {
   switch (action.type) {
     case AUTH_LOGIN_REQUEST:
       return state.set('loading', true);
@@ -110,7 +122,7 @@ function* logoutAuth() {
   yield put(logoutSuccess());
 }
 
-function* loginAuth({ payload: { username, password } }) {
+function* loginAuth({ payload: { username, password } }: LoginAction) {
   try {
     const payload = yield AuthClient.login(username, password);
     yield put(loginSuccess(payload));

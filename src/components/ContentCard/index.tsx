@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styled from "react-emotion";
+import styled from 'react-emotion';
 import FauxRouterLink from '../FauxLink/FauxRouterLink';
 import SmartDate from '../SmartDate';
 
@@ -28,7 +28,6 @@ const Meta = styled.div`
   font-size: 0.8rem;
   color: ${(props: any) => props.theme.colors.grey_autumn};
 `;
-
 
 interface IProps {
   headline: string;

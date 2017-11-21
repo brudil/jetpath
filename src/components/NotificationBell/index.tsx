@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import styled from "react-emotion";
+import styled from 'react-emotion';
 import { loadUnreadCount } from '../../ducks/Notification';
 // eslint-disable-next-line
 import bellIcon from 'icons/bell.svg';
+import { RootState } from '../../types';
 
 const Container = styled.div`
   display: inline-block;
@@ -33,12 +34,17 @@ const Badge = styled.span`
   font-size: 0.8em;
 `;
 
-interface IProps {
-  loadUnreadCount: () => any;
+interface DispatchProps {
+  loadUnreadCount: any;
+}
+
+interface ComponentProps {
   notification: {
     unreadCount: number;
   };
 }
+
+type IProps = ComponentProps & DispatchProps;
 
 export class NotificationBell extends React.Component<IProps> {
   componentDidMount() {
@@ -50,9 +56,7 @@ export class NotificationBell extends React.Component<IProps> {
       <Link to="/notifications">
         <Container>
           <Icon src={bellIcon} role="presentation" />
-          <Badge>
-            {this.props.notification.unreadCount}
-          </Badge>
+          <Badge>{this.props.notification.unreadCount}</Badge>
         </Container>
       </Link>
     );
@@ -60,7 +64,7 @@ export class NotificationBell extends React.Component<IProps> {
 }
 
 export default connect(
-  state => ({
+  (state: RootState) => ({
     notification: state.notification,
   }),
   {

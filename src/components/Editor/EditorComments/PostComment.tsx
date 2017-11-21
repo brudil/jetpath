@@ -2,14 +2,20 @@ import React from 'react';
 
 import DebouncedAutosizeTextarea from '../../DebouncedAutosizeTextarea';
 import Button from '../../Button';
-import { compose, withState } from 'recompose';
+import { withState } from 'recompose';
 
-function PostComment(props: {
+interface ComponentProps {
+  onPost: (comment: string) => void;
+}
+
+interface HOCProps {
   comment: string;
   updateComment: (value: any) => void;
-  onPost: (comment: string) => void;
-  children: Element;
-}) {
+}
+
+type IProps = ComponentProps & HOCProps;
+
+function PostComment(props: IProps) {
   const handlePost = () => {
     props.onPost(props.comment);
     props.updateComment('');
@@ -20,7 +26,8 @@ function PostComment(props: {
       <DebouncedAutosizeTextarea
         value={props.comment}
         onChange={(e: React.FormEvent<HTMLTextAreaElement>) =>
-          props.updateComment(e.currentTarget.value)}
+          props.updateComment(e.currentTarget.value)
+        }
       />
       <Button
         text="Post comment"
@@ -31,6 +38,6 @@ function PostComment(props: {
   );
 }
 
-export default compose(withState('comment', 'updateComment', ''))(
-  PostComment
-) as any; // todo: pretty sure it is this TypeScript#13288
+export default withState('comment', 'updateComment', '')(
+  PostComment as any
+) as React.SFC<ComponentProps>;

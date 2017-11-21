@@ -13,13 +13,16 @@ import styles from './ElementInserter.css';
 import stylesInsertElement from './InsertElement.css';
 import { connect } from 'react-redux';
 
-interface IProps {
+interface DispatchProps {
+  setInsertFocus: any;
+}
+
+interface ComponentProps {
   structure: any; // todo
   update: ChangesetApplier;
   position: number;
   path: ElementPath;
   focus: any;
-  setInsertFocus: any;
 }
 
 interface IState {
@@ -27,6 +30,8 @@ interface IState {
   elements: Array<ElementDefinition>;
   name: string;
 }
+
+type IProps = DispatchProps & ComponentProps;
 
 class ElementInserter extends React.Component<IProps, IState> {
   constructor(props: IProps) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from '../Image';
-import styled from "react-emotion";
+import styled from 'react-emotion';
 
 const Container = styled.div`
   width: 100%;

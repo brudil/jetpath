@@ -7,9 +7,10 @@ import DocumentTitle from '../../components/DocumentTitle';
 import loginButtonOptions from '../../lang/login';
 import * as AuthActions from '../../ducks/Auth';
 import Button from '../../components/Button';
-import { compose } from 'recompose';
-import {Input} from "../../Textbox/index";
-import styled from "react-emotion";
+import { compose } from 'redux';
+import { Input } from '../../Textbox/index';
+import styled from 'react-emotion';
+import { RootState } from '../../types';
 
 const InputLabel = styled.span`
   text-transform: uppercase;
@@ -113,9 +114,9 @@ class LoginPage extends React.Component<IProps, IState> {
               className={buttonClass}
               type="submit"
               disabled={this.props.auth.get('loading')}
-              text={`${this.props.auth.get('loading')
-                ? 'Logging in'
-                : 'Log in'} ${this.state.loginPhrase}`}
+              text={`${
+                this.props.auth.get('loading') ? 'Logging in' : 'Log in'
+              } ${this.state.loginPhrase}`}
             />
           </form>
         </div>
@@ -127,7 +128,7 @@ class LoginPage extends React.Component<IProps, IState> {
 export default compose(
   withRouter,
   connect(
-    state => ({
+    (state: RootState) => ({
       auth: state.auth,
     }),
     {

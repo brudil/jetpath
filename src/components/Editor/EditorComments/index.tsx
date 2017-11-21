@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import { connect } from 'react-redux';
-import { compose } from 'recompose';
+import { compose } from 'redux';
 import { graphql } from 'react-apollo';
 
 import { openCommentPanel, closeCommentPanel } from '../../../ducks/Editor';

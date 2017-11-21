@@ -6,9 +6,9 @@ const Subtitle = styled.div`
   font-size: 0.9rem;
 `;
 
-const Value:any = styled.div`
+const Value: any = styled.div`
   font-size: 2rem;
-  ${(props: any) => props.loading && 'visibility: hidden;'}
+  ${(props: any) => props.loading && 'visibility: hidden;'};
 `;
 
 const Container = styled.div`
@@ -39,6 +39,4 @@ function Stat(props: IProps) {
   );
 }
 
-
 export default Stat;
-

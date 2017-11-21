@@ -5,6 +5,7 @@ import {
   fetchEntity,
 } from '../utils';
 import { InteractivesClient } from '../serverAPI';
+import { Action, AnyAction } from 'redux';
 
 export const LOAD_INTERACTIVES_LIST = 'LOAD_INTERACTIVES_LIST';
 export const INTERACTIVES_LIST_FETCH_REQUEST =
@@ -16,17 +17,18 @@ export const INTERACTIVES_LIST_FETCH_SUCCESS =
 
 export const MEDIA_UPLOAD = createRequestTypes('MEDIA_UPLOAD');
 
-export const loadInteractivesList = (query, limit) => ({
+export const loadInteractivesList = (query: string, limit: number) => ({
   type: LOAD_INTERACTIVES_LIST,
   query,
   limit,
 });
 
 export const interactive = {
-  request: query => makeAction(INTERACTIVES_LIST_FETCH_REQUEST, { query }),
-  success: (query, payload) =>
+  request: (query: string) =>
+    makeAction(INTERACTIVES_LIST_FETCH_REQUEST, { query }),
+  success: (query: string, payload: any) =>
     makeAction(INTERACTIVES_LIST_FETCH_SUCCESS, { query, payload }),
-  failure: (query, error) =>
+  failure: (query: string, error: Error) =>
     makeAction(INTERACTIVES_LIST_FETCH_FAILURE, { query, error }),
 };
 
@@ -44,7 +46,10 @@ const initialState = {
   hasPrevious: false,
 };
 
-export default function MediaListReducer(state = initialState, action) {
+export default function MediaListReducer(
+  state = initialState,
+  action: AnyAction
+) {
   const { payload } = action;
 
   switch (action.type) {
@@ -64,7 +69,12 @@ export default function MediaListReducer(state = initialState, action) {
 
 // SAGA
 
-function* handleLoadInteractivesList(action) {
+interface InteractiveLoadAction extends Action {
+  query: string;
+  limit: number;
+}
+
+function* handleLoadInteractivesList(action: InteractiveLoadAction) {
   yield fork(fetchInteractivesList, action.query, action.limit);
 }
 

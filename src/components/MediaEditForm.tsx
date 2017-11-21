@@ -1,8 +1,8 @@
 import React from 'react';
-import {Field, reduxForm, SubmitHandler} from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 
 interface IProps {
-  handleSubmit: SubmitHandler
+  handleSubmit: any; // SubmitHandler for internal redux form, external is something else?
 }
 
 let MediaEditForm = (props: IProps) => {
@@ -24,4 +24,4 @@ let MediaEditForm = (props: IProps) => {
 
 export default reduxForm({
   form: 'media',
-})(MediaEditForm);
+})(MediaEditForm) as any;

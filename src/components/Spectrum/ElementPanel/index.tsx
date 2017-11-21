@@ -61,9 +61,9 @@ class ElementPanel extends React.Component<IProps, IState> {
     return (
       <li className={styles.item} title="Remove" onClick={this.handleRemove}>
         <img
-          src={require(`icons/cross${this.state.shownDeleteConfirm
-            ? '-danger'
-            : ''}.svg`)}
+          src={require(`icons/cross${
+            this.state.shownDeleteConfirm ? '-danger' : ''
+          }.svg`)}
           alt="Remove element"
         />
       </li>

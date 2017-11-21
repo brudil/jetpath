@@ -2,6 +2,7 @@ import { call, put, takeEvery } from 'redux-saga/effects';
 import { action as makeAction } from '../utils';
 import { TopicsClient } from '../serverAPI';
 import getVertical from '../sagas/getVertical';
+import { Action, AnyAction } from 'redux';
 
 // CONSTANTS
 const FETCH_SUGGESTED_TOPICS_REQUEST = 'FETCH_SUGGESTED_TOPICS_REQUEST';
@@ -16,16 +17,16 @@ const FETCH_TOPICS_FOR_KEYWORD_SUCCESS = 'FETCH_TOPICS_FOR_KEYWORD_SUCCESS';
 export const getSuggestedTopics = () =>
   makeAction(FETCH_SUGGESTED_TOPICS_REQUEST);
 
-export const getTopicsForKeyword = keyword =>
+export const getTopicsForKeyword = (keyword: string) =>
   makeAction(FETCH_TOPICS_FOR_KEYWORD_REQUEST, { keyword });
 
 // HELPERS
-export const getSuggestedTopicsSuccess = payload =>
+export const getSuggestedTopicsSuccess = (payload: any) =>
   makeAction(FETCH_SUGGESTED_TOPICS_SUCCESS, { payload });
 export const getSuggestedTopicsFailure = () =>
   makeAction(FETCH_SUGGESTED_TOPICS_FAILURE);
 
-export const getTopicsForKeywordSuccess = payload =>
+export const getTopicsForKeywordSuccess = (payload: any) =>
   makeAction(FETCH_TOPICS_FOR_KEYWORD_SUCCESS, { payload });
 export const getTopicsForKeywordFailure = () =>
   makeAction(FETCH_TOPICS_FOR_KEYWORD_FAILURE);
@@ -36,7 +37,17 @@ const initialState = {
   isLoading: true,
 };
 
-export default function TopicsReducer(state = initialState, action) {
+export interface TopicsStore {
+  keywordMap: {
+    [keyword: string]: Object;
+  };
+  isLoading: boolean;
+}
+
+export default function TopicsReducer(
+  state: TopicsStore = initialState,
+  action: AnyAction
+) {
   switch (action.type) {
     case FETCH_TOPICS_FOR_KEYWORD_SUCCESS:
       return {
@@ -52,8 +63,14 @@ export default function TopicsReducer(state = initialState, action) {
   }
 }
 
+interface FetchTopicsForKeywordAction extends Action {
+  keyword: string;
+}
+
 // SAGA
-function* handleFetchTopicsForKeyword({ keyword }) {
+function* handleFetchTopicsForKeyword({
+  keyword,
+}: FetchTopicsForKeywordAction) {
   const vertical = yield getVertical();
   const payload = yield call(TopicsClient.forKeyword, vertical, keyword);
   if (!payload.error) {

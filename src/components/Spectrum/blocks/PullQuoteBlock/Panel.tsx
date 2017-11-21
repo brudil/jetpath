@@ -21,7 +21,10 @@ class PullQuotePanel extends React.Component<IProps> {
   constructor(props: IProps) {
     super(props);
 
-    this.handleAttribution = this.handleInput.bind(this, ['attribution', 'text']);
+    this.handleAttribution = this.handleInput.bind(this, [
+      'attribution',
+      'text',
+    ]);
   }
 
   handleInput(path: ElementPath, e: React.KeyboardEvent<HTMLInputElement>) {

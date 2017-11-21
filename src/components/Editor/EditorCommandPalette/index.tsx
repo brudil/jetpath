@@ -1,8 +1,23 @@
 import React from 'react';
 import Fuse from 'fuse.js';
 
-import style from './EditorCommandPalette.css';
-import { compose, withState } from 'recompose';
+import { withState } from 'recompose';
+import styled from 'react-emotion';
+import { compose } from 'redux';
+
+const Container = styled.div`
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 68px;
+`;
+
+const Input = styled.input`
+  font-size: 1.2rem;
+  padding: 0.2rem;
+  width: 100%;
+  box-sizing: border-box;
+`;
 
 interface CommandArgument {
   name: string;
@@ -99,21 +114,20 @@ interface IProps {
 
 function EditorCommandPalette(props: IProps) {
   return (
-    <div className={style.root}>
+    <Container>
       {props.commandQuery !== '' ? (
         <ul>
           {fuse
             .search(props.commandQuery)
-            .map((command: Command) => <li>{command.command}</li>)}
+            .map(((command: Command) => <li>{command.command}</li>) as any)}
         </ul>
       ) : null}
-      <input
-        className={style.input}
+      <Input
         autoFocus
         value={props.commandQuery}
         onChange={e => props.updateQuery(e.currentTarget.value)}
       />
-    </div>
+    </Container>
   );
 }
 

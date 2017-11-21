@@ -1,4 +1,4 @@
-import qs from 'qs';
+import qs from 'query-string';
 import settings from './settings';
 
 function mk() {
@@ -6,7 +6,7 @@ function mk() {
   return {
     getToken: () => token,
     removeToken: () => localStorage.removeItem('auth-token'),
-    setToken: aToken => {
+    setToken: (aToken: string) => {
       localStorage.setItem('auth-token', aToken);
       token = aToken;
     },
@@ -15,8 +15,12 @@ function mk() {
 
 export const clientAuth = mk();
 
-export function fetchWrapper(method, resource, dataOrParams = null) {
-  const isFile = dataOrParams instanceof FormData;
+export function fetchWrapper(
+  method: string,
+  resource: string,
+  dataOrParams: Object | FormData | null = null
+) {
+  const isFile = dataOrParams !== null && dataOrParams instanceof FormData;
 
   const headers = new Headers();
   if (clientAuth.getToken()) {
@@ -29,7 +33,7 @@ export function fetchWrapper(method, resource, dataOrParams = null) {
 
   const urlPath = `${resource}/`;
 
-  const additional = {
+  const additional: { method: string; body?: Object; headers: Headers } = {
     method,
     headers,
   };
@@ -41,7 +45,7 @@ export function fetchWrapper(method, resource, dataOrParams = null) {
       additional.body = JSON.stringify(dataOrParams);
     }
   } else if (dataOrParams) {
-    qss = `?${qs.stringify(dataOrParams, { arrayFormat: 'brackets' })}`;
+    qss = `?${qs.stringify(dataOrParams, { arrayFormat: 'bracket' })}`;
   }
 
   return fetch(
@@ -66,7 +70,7 @@ export function fetchWrapper(method, resource, dataOrParams = null) {
 
     return response
       .text()
-      .then(text => (response.ok ? text : Promise.reject(new Error(text))));
+      .then((text: any) => (response.ok ? text : Promise.reject({ text })));
   });
 }
 

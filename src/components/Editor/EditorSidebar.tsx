@@ -10,16 +10,15 @@ import Sidebar, { SidebarControl } from '../Sidebar';
 import SectionSelector from '../SectionSelector';
 import TopicsSelector from '../TopicsSelector';
 import { formly } from '../../libs/form';
-import {
-  contentForm,
-  contentTone,
-} from '../../libs/constants';
+import { contentForm, contentTone } from '../../libs/constants';
 import * as contentLang from '../../lang/content_attrs';
 
 import { SidebarInput } from '../Sidebar';
 
-const SidebarSlugInput: any = SidebarInput.withComponent(SlugInput);
-const SidebarDebouncedAutosizeTextarea: any = SidebarInput.withComponent(DebouncedAutosizeTextarea);
+const SidebarSlugInput: any = SidebarInput.withComponent(SlugInput as any); // todo
+const SidebarDebouncedAutosizeTextarea: any = SidebarInput.withComponent(
+  DebouncedAutosizeTextarea
+);
 const SidebarDebouncedInput: any = SidebarInput.withComponent(DebouncedInput);
 
 interface IProps {
@@ -84,14 +83,13 @@ function EditorSidebar(props: IProps) {
           value={revision.get('form')}
           onChange={revisionChangeHandler('form', formly.event, formly.int)}
         >
-          {intersection(
-            vertical.content_forms,
-            values(contentForm)
-          ).map(key => (
-            <option value={key} key={key}>
-              {contentLang.contentForm[key]}
-            </option>
-          ))}
+          {intersection(vertical.content_forms, values(contentForm)).map(
+            key => (
+              <option value={key} key={key}>
+                {contentLang.contentForm[key]}
+              </option>
+            )
+          )}
         </select>
       </SidebarControl>
       <SidebarControl title="Tone">
@@ -99,14 +97,13 @@ function EditorSidebar(props: IProps) {
           value={revision.get('tone')}
           onChange={revisionChangeHandler('tone', formly.event, formly.int)}
         >
-          {intersection(
-            vertical.content_tones,
-            values(contentTone)
-          ).map(key => (
-            <option value={key} key={key}>
-              {contentLang.contentTone[key]}
-            </option>
-          ))}
+          {intersection(vertical.content_tones, values(contentTone)).map(
+            key => (
+              <option value={key} key={key}>
+                {contentLang.contentTone[key]}
+              </option>
+            )
+          )}
         </select>
       </SidebarControl>
       <SidebarControl

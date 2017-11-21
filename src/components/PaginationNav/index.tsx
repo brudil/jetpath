@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '../Button';
-import {css} from "emotion";
+import { css } from 'emotion';
 
 const rootStyles = css`
   display: flex;
@@ -14,13 +14,13 @@ const buttonContainerStyles = css`
 `;
 
 const currentPageStyles = css`
-	padding-left: 2rem;
-	padding-right: 2rem;
-	text-transform: uppercase;
-	font-weight: bold;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  text-transform: uppercase;
+  font-weight: bold;
   min-width: 80px;
   text-align: center;
-	color: var(--color__optional-gray);
+  color: var(--color__optional-gray);
   flex: 2 0 0px;
 `;
 
@@ -57,7 +57,9 @@ export function PaginationNav(props: {
         Page {currentPage}
         {total ? ` of ~${total}` : null}
       </div>
-      <div className={buttonContainerStyles}>{hasNext ? renderNext() : null}</div>
+      <div className={buttonContainerStyles}>
+        {hasNext ? renderNext() : null}
+      </div>
     </div>
   );
 }

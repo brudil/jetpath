@@ -588,8 +588,8 @@ function* handleEditorChangeRevisionStatus({ status }: { status: number }) {
 
 function* handleEditorLoad({ contentId }: { contentId: string }) {
   const [revisionPayload, editorialMetadataPayload] = yield [
-    call(WorksClient.getRevision, contentId),
-    call(WorksClient.getEditorialMetadata, contentId),
+    call(WorksClient.getRevision as any, contentId), // todo
+    call(WorksClient.getEditorialMetadata as any, contentId),
   ];
   const revision =
     revisionPayload.payload.entities.contentRevision[

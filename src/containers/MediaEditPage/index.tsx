@@ -1,6 +1,6 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
-import { compose } from 'recompose';
+import { compose } from 'redux';
 
 import ViewContainer from '../../components/ViewContainer';
 import DocumentTitle from '../../components/DocumentTitle';
@@ -14,26 +14,26 @@ import MediaEditQuery from './MediaEditQuery.graphql';
 import EditMediaMutation from './EditMedia.graphql';
 import DeleteMediaMutation from './DeleteMedia.graphql';
 import UndeleteMediaMutation from './UndeleteMedia.graphql';
-import * as Router from "react-router-dom";
+import * as Router from 'react-router-dom';
 
 interface IParams {
-  id: string,
+  id: string;
 }
 
 interface IProps {
   data: {
-    loading: boolean,
-    error: Error,
+    loading: boolean;
+    error: Error;
     media: {
-      mediaId: number,
-      deleted: boolean,
-    }
-  },
-  editMedia(data: any): void,
-  deleteMedia(data: any): void,
-  undeleteMedia(data: any): void,
-  match: Router.match<IParams>,
-  children?: any,
+      mediaId: number;
+      deleted: boolean;
+    };
+  };
+  editMedia(data: any): void;
+  deleteMedia(data: any): void;
+  undeleteMedia(data: any): void;
+  match: Router.match<IParams>;
+  children?: any;
 }
 
 function MediaEditPage(props: IProps) {
@@ -45,7 +45,13 @@ function MediaEditPage(props: IProps) {
     return <h1>Error</h1>;
   }
 
-  const handleSubmit = ({ creditTitle, creditUrl }: { creditTitle: string, creditUrl: string }) =>
+  const handleSubmit = ({
+    creditTitle,
+    creditUrl,
+  }: {
+    creditTitle: string;
+    creditUrl: string;
+  }) =>
     props.editMedia({
       variables: {
         mediaId: props.data.media.mediaId,

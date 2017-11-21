@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '../Button';
-import { compose } from 'recompose';
+import { compose } from 'redux';
 import { graphql } from 'react-apollo';
 
 import ContentWatchersQuery from './ContentWatchers.graphql';

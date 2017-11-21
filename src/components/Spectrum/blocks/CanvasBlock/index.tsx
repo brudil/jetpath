@@ -5,7 +5,8 @@ import InteractiveSelector from '../../../InteractiveSelector';
 import { update } from '../../../../libs/spectrum2/changes';
 import CanvasIcon from '../../../icons/canvas.svg.react';
 import { Changeset, ElementPath } from '../../../../libs/spectrum2/interfaces';
-import CanvasPanel from "./Panel";
+import CanvasPanel from './Panel';
+import { RootState } from '../../../../types';
 
 interface IProps {
   update: (changeset: Changeset) => void;
@@ -46,6 +47,6 @@ class CanvasBlock extends React.Component<IProps> {
 CanvasBlock.Icon = CanvasIcon;
 CanvasBlock.panel = CanvasPanel;
 
-export default connect(state => ({
+export default connect((state: RootState) => ({
   interactiveEntities: state.entities.interactives,
 }))(CanvasBlock);

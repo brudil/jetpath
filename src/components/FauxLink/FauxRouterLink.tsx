@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import {css} from "emotion";
+import { css } from 'emotion';
 
 const linkStyles = css`
   position: absolute !important;

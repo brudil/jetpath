@@ -1,19 +1,47 @@
 import React from 'react';
-import cx from 'classnames';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import SaveBeforeWorkflowMessage from '../SaveBeforeWorkflowMessage';
-
-import styles from './EditorPreview.css';
 import SegmentedControl from '../SegmentedControl/index';
 import Button from '../Button/index';
 import ViewContainer from '../ViewContainer/index';
+import styled from 'react-emotion';
+import { css } from 'emotion';
+
+const PreviewFrame = styled.iframe`
+  transition: width 300ms ease, max-width 300ms ease;
+  width: 100%;
+  border: 1px solid #dedede;
+  border-radius: 2px;
+  box-shadow: 0 2px 5px rgba(50, 50, 50, 0.1);
+  margin: 0 auto;
+  height: calc(100vh - 160px);
+  display: block;
+  margin-top: 1rem;
+  max-width: ${(props: any) => props.maxWidth};
+`;
+
+const headerStyles = css`
+  display: flex;
+  margin-bottom: 1rem;
+`;
+
+const previewTextStyles = css`
+  flex: 1 1 auto;
+`;
 
 enum Sizing {
   FULL,
   DESKTOP,
   TABLET,
-  MOBILE
+  MOBILE,
 }
+
+const sizeMap = {
+  [Sizing.FULL]: '100%',
+  [Sizing.DESKTOP]: '1280px',
+  [Sizing.TABLET]: '768px',
+  [Sizing.MOBILE]: '320px',
+};
 
 interface IProps {
   hasChangesFromSaved: boolean;
@@ -27,7 +55,7 @@ interface IProps {
 
 interface IState {
   mode: Sizing;
-  copiedPreviewUrl: boolean
+  copiedPreviewUrl: boolean;
 }
 
 class EditorPreview extends React.Component<IProps, IState> {
@@ -41,11 +69,7 @@ class EditorPreview extends React.Component<IProps, IState> {
   }
 
   render() {
-    const {
-      isLocal,
-      savedRevision,
-      editorialMetadata,
-    } = this.props;
+    const { isLocal, savedRevision, editorialMetadata } = this.props;
 
     const { mode, copiedPreviewUrl } = this.state;
 
@@ -63,13 +87,13 @@ class EditorPreview extends React.Component<IProps, IState> {
 
     // TODO: work out the best way to get vertical url
     return (
-      <div className={styles.root}>
+      <div>
         <ViewContainer>
-          <div className={styles.header}>
-            <div className={styles.previewText}>
+          <div className={headerStyles}>
+            <div className={previewTextStyles}>
               Previewing revision #{savedRevision.get('revision_number')}
             </div>
-            <div className={styles.copyButton}>
+            <div>
               <CopyToClipboard
                 text={previewUrl}
                 onCopy={() => this.setState({ copiedPreviewUrl: true })}
@@ -95,14 +119,7 @@ class EditorPreview extends React.Component<IProps, IState> {
             onChange={(value: Sizing) => this.setState({ mode: value })}
           />
         </ViewContainer>
-        <iframe
-          className={cx(styles.frame, {
-            [styles.frameDesktop]: this.state.mode === Sizing.DESKTOP,
-            [styles.frameTablet]: this.state.mode === Sizing.TABLET,
-            [styles.frameMobile]: this.state.mode === Sizing.MOBILE,
-          })}
-          src={previewUrl}
-        />
+        <PreviewFrame maxWidth={sizeMap[mode]} src={previewUrl} />
       </div>
     );
   }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import SpectrumEditor from '../components/Spectrum/Editor';
+import { RootState } from '../types';
 
 interface IProps {
   workingDocument: any; // todo
@@ -18,7 +19,7 @@ class EditorSectionContent extends React.Component<IProps> {
   }
 }
 
-export default connect(state => ({
+export default connect((state: RootState) => ({
   workingDocument: state.editor.get('workingDocument'),
   editorFocus: state.editor.get('focus'),
 }))(EditorSectionContent);

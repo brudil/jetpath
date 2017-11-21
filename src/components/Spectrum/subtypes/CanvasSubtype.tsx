@@ -8,15 +8,17 @@ import {
   ElementPath,
 } from '../../../libs/spectrum2/interfaces';
 import { update } from '../../../libs/spectrum2/changes';
+import { RootState } from '../../../types';
 
 interface IProps {
   update: ChangesetApplier;
   data: any;
   path: ElementPath;
   interactiveEntities: any;
+  children?: any;
 }
 
-class CanvasSubtype extends React.Component<IProps> {
+class CanvasSubtype extends React.Component<IProps, {}> {
   private handleSelection: (slug: string) => void;
   private handleViewModeChange: (value: string) => void;
 
@@ -56,6 +58,6 @@ class CanvasSubtype extends React.Component<IProps> {
   }
 }
 
-export default connect(state => ({
+export default connect((state: RootState) => ({
   interactiveEntities: state.entities.interactives,
 }))(CanvasSubtype);

@@ -1,4 +1,5 @@
 import Immutable from 'immutable';
+import { AnyAction } from 'redux';
 
 export const CREATE_TOAST = 'CREATE_TOAST';
 export const REMOVE_TOAST = 'REMOVE_TOAST';
@@ -58,21 +59,11 @@ export const ToastRecord = Immutable.Record<{
   actions: null,
 });
 
-interface Action {
-  type: string;
-  payload: {
-    id: number;
-    title: string;
-    message: string;
-    preset: string;
-  };
-}
-
 const initialState = Immutable.Map({
   toastList: Immutable.List(),
 });
 
-export default function TopicsReducer(state = initialState, action: Action) {
+export default function TopicsReducer(state = initialState, action: AnyAction) {
   switch (action.type) {
     case CREATE_TOAST: {
       return state.update('toastList', list =>

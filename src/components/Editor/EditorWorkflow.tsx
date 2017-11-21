@@ -6,7 +6,7 @@ import SmartDate from '../SmartDate';
 import SaveBeforeWorkflowMessage from '../SaveBeforeWorkflowMessage';
 
 import styles from './EditorWorkflow.css';
-import ContentStageTimeline from "../ContentStageTimeline/index";
+import ContentStageTimeline from '../ContentStageTimeline/index';
 
 function getIssuesForRevision(revision: any) {
   const issues = [];
@@ -35,11 +35,10 @@ interface IProps {
   savedRevision: any; // todo
   workingRevision: any; // todo
   editorialMetadata: any; // todo
-  isLocal: boolean,
-  hasChangesFromSaved: boolean,
+  isLocal: boolean;
+  hasChangesFromSaved: boolean;
   onPublish: any; // todo
   onChangeStatus: any; // todo
-
 }
 
 function EditorWorkflow(props: IProps) {
@@ -141,13 +140,7 @@ function EditorWorkflow(props: IProps) {
   return (
     <div className={styles.root}>
       <div>
-        <h4
-          className={cx(
-            styles.sectionTitle,
-          )}
-        >
-          Now
-        </h4>
+        <h4 className={cx(styles.sectionTitle)}>Now</h4>
         {hasChangesFromSaved ? (
           <p>Unsaved changes!</p>
         ) : (

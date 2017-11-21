@@ -22,6 +22,5 @@ export default {
     danger: '#ff3b31',
     danger_hover: '#ff1a0e',
     danger_active: '#d81512',
-
   },
-}
+};

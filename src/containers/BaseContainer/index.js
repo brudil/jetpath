@@ -18,7 +18,7 @@ const Section = styled.div`
   background-color: ${props => props.theme.colors.background};
   box-sizing: border-box;
   position: relative;
-  box-shadow: -2px 0 16px rgba(60, 60, 60, .15);
+  box-shadow: -2px 0 16px rgba(60, 60, 60, 0.15);
   min-height: 100vh;
 
   @media (min-width: 960px) {
@@ -65,7 +65,10 @@ class BaseContainer extends React.Component {
                   path={`${url}verticals`}
                   component={VerticalSelectionPage}
                 />
-                <Route path={`${url}@:vertical`} component={InnerVerticalPage} />
+                <Route
+                  path={`${url}@:vertical`}
+                  component={InnerVerticalPage}
+                />
                 <Redirect from="/" to="verticals" />
                 <Route path="*" component={NotFoundPage} />
               </Switch>

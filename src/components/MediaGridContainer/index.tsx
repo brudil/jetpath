@@ -4,14 +4,21 @@ import MediaGrid from '../MediaGrid';
 import LoadingContent from '../LoadingContent';
 import NoListItems from '../NoListItems';
 import { graphql } from 'react-apollo';
-import { compose } from 'recompose';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import MediaListQuery from './MediaList.graphql';
 import { MediaClient } from '../../serverAPI';
 import { MediaObject } from '../MediaGrid/MediaGridItem';
+import { RootState } from '../../types';
 
-interface IProps {
+interface ComponentProps {
+  onSelect: (mediaId: number) => void;
+  wrap?: (media: MediaObject, children: JSX.Element) => Element;
+  children?: Element;
+}
+
+interface InternalProps {
   vertical: {
     identifier: string;
   };
@@ -22,10 +29,9 @@ interface IProps {
     };
     refetch: () => void;
   };
-  onSelect: (mediaId: number) => void;
-  wrap?: (media: MediaObject, children: JSX.Element) => Element;
-  children?: Element;
 }
+
+type IProps = InternalProps & ComponentProps;
 
 function MediaGridContainer(props: IProps) {
   if (props.data.loading) {
@@ -62,7 +68,7 @@ function MediaGridContainer(props: IProps) {
 }
 
 export default compose(
-  connect(state => ({
+  connect((state: RootState) => ({
     uploadProgress: state.uploadProgress,
     vertical: state.verticals.selectedVertical,
   })),
@@ -73,4 +79,4 @@ export default compose(
       },
     }),
   })
-)(MediaGridContainer) as any;
+)(MediaGridContainer) as React.SFC<ComponentProps>;

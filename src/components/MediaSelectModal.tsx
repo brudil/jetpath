@@ -5,7 +5,7 @@ import MediaGridContainer from './MediaGridContainer';
 interface IProps extends ReactModal.Props {
   onSelect: (mediaId: number) => void;
   isOpen: boolean;
-  contentLabel: string
+  contentLabel: string;
 }
 
 class MediaSelectModal extends React.Component<IProps, any> {

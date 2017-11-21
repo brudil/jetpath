@@ -1,22 +1,16 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import cx from 'classnames';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import Combokeys from 'combokeys';
 import { Route, Switch } from 'react-router-dom';
-import DebouncedAutosizeTextarea from '../components/DebouncedAutosizeTextarea';
 import DocumentTitle from '../components/DocumentTitle';
-import EditorSidebar from '../components/Editor/EditorSidebar';
 import EditorNav from '../components/Editor/EditorNav';
 import EditorCommandPalette from '../components/Editor/EditorCommandPalette';
 import EditorComments from '../components/Editor/EditorComments';
 import * as EditorActions from '../ducks/Editor';
 import { formly, createChangeHandler } from '../libs/form';
 import LoadingContent from '../components/LoadingContent';
-import stylesEditPane from '../styles/components/EditPane.css';
-import stylesEditor from '../styles/components/Editor.css';
-import stylesWriteSheet from '../styles/components/WriteSheet.css';
 import EditorSectionContent from './EditorSectionContent';
 import EditorSectionMetadata from './EditorSectionMetadata';
 import EditorSectionWorkflow from './EditorSectionWorkflow';
@@ -134,9 +128,7 @@ class EditorPage extends React.Component {
     const { url, params } = this.props.match;
 
     return (
-      <div
-        style={{ paddingTop: '40px' }}
-      >
+      <div style={{ paddingTop: '40px' }}>
         <EditorNav
           headline={workingRevision.get('headline')}
           isLocal={isLocal}
@@ -186,7 +178,9 @@ class EditorPage extends React.Component {
           ref={el => {
             this.editorEl = el;
           }}
-        >{editor}</div>
+        >
+          {editor}
+        </div>
       </DocumentTitle>
     );
   }

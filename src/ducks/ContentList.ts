@@ -2,6 +2,7 @@ import { takeLatest, fork } from 'redux-saga/effects';
 import { action as makeAction, fetchEntity } from '../utils';
 import { WorksClient } from '../serverAPI';
 import getVertical from '../sagas/getVertical';
+import { Action, AnyAction } from 'redux';
 
 const CONTENT_LIST_FETCH_REQUEST = 'CONTENT_LIST_FETCH_REQUEST';
 const CONTENT_LIST_FETCH_FAILURE = 'CONTENT_LIST_FETCH_FAILURE';
@@ -9,16 +10,22 @@ const CONTENT_LIST_FETCH_SUCCESS = 'CONTENT_LIST_FETCH_SUCCESS';
 
 const LOAD_CONTENT_LIST = 'LOAD_CONTENT_LIST';
 
-export const loadContent = query => ({
+export const loadContent = (query: string) => ({
+  // todo
   type: LOAD_CONTENT_LIST,
   payload: { query },
 });
 
+interface LoadContentListAction extends Action {
+  payload: any; // todo
+}
+
 const content = {
-  request: query => makeAction(CONTENT_LIST_FETCH_REQUEST, { query }),
-  success: (query, payload) =>
+  // todo
+  request: (query: string) => makeAction(CONTENT_LIST_FETCH_REQUEST, { query }),
+  success: (query: string, payload: any) =>
     makeAction(CONTENT_LIST_FETCH_SUCCESS, { query, payload }),
-  failure: (query, error) =>
+  failure: (query: string, error: Error) =>
     makeAction(CONTENT_LIST_FETCH_FAILURE, { query, error }),
 };
 
@@ -36,7 +43,10 @@ const initialState = {
   hasPrevious: false,
 };
 
-export default function ContentListReducer(state = initialState, action) {
+export default function ContentListReducer(
+  state = initialState,
+  action: AnyAction
+) {
   switch (action.type) {
     case CONTENT_LIST_FETCH_REQUEST:
       return {
@@ -58,7 +68,7 @@ export default function ContentListReducer(state = initialState, action) {
 }
 
 // SAGAS
-function* handleLoadContentList({ payload: { query } }) {
+function* handleLoadContentList({ payload: { query } }: LoadContentListAction) {
   const vertical = yield getVertical();
   yield fork(fetchContent, vertical, query);
 }

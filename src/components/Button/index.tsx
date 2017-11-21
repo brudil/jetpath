@@ -1,8 +1,9 @@
 import React from 'react';
 import omit from 'lodash/omit';
-import styled from "react-emotion";
+import styled from 'react-emotion';
 
-const getColor = (props: any) => props.danger ? props.theme.colors.danger : props.theme.colors.accent;
+const getColor = (props: any) =>
+  props.danger ? props.theme.colors.danger : props.theme.colors.accent;
 
 const ButtonStyled = styled.button`
   display: block;
@@ -22,7 +23,6 @@ const ButtonStyled = styled.button`
   }
 `;
 
-
 export function Button(props: {
   text: string;
   className?: string;
@@ -32,9 +32,7 @@ export function Button(props: {
   danger?: boolean;
 }) {
   return (
-    <ButtonStyled
-      {...omit(props, ['text', 'className'])}
-    >
+    <ButtonStyled {...omit(props, ['text', 'className'])}>
       {props.text}
     </ButtonStyled>
   );

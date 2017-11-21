@@ -1,4 +1,4 @@
-import React, {ErrorInfo} from 'react';
+import React, { ErrorInfo } from 'react';
 import Loadable from 'react-loadable';
 import { connect } from 'react-redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
@@ -7,7 +7,8 @@ import Stonewall from '../components/Stonewall';
 import LoadableLoading from '../components/LoadableLoading';
 import * as AuthActions from '../ducks/Auth';
 import StonewallContainer from './StonewallContainer';
-import {compose} from "recompose";
+import { RootState } from '../types';
+import { compose } from 'redux';
 
 const LoadableBaseContainer = Loadable({
   loader: () => import(/* webpackChunkName: 'Base' */ './BaseContainer'),
@@ -16,14 +17,14 @@ const LoadableBaseContainer = Loadable({
 
 interface IProps {
   restoreAuth(): void;
-  auth: any // todo: auth shape
+  auth: any; // todo: auth shape
 }
 
 interface IState {
   hasError: boolean;
   error: null | {
-    error: Error,
-    info: ErrorInfo
+    error: Error;
+    info: ErrorInfo;
   };
 }
 
@@ -77,9 +78,12 @@ class ApplicationContainer extends React.Component<IProps, IState> {
 
 export default compose(
   withRouter,
-  connect(state => ({
-    auth: state.auth,
-  }), {
-    restoreAuth: AuthActions.restoreAuth
-  }),
+  connect(
+    (state: RootState) => ({
+      auth: state.auth,
+    }),
+    {
+      restoreAuth: AuthActions.restoreAuth,
+    }
+  )
 )(ApplicationContainer);

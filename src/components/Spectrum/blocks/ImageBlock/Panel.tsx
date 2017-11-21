@@ -6,7 +6,7 @@ import {
   ElementPath,
 } from '../../../../libs/spectrum2/interfaces';
 import Panel, { PanelControl } from '../../ElementPanel/Panel';
-import {SegmentedControl} from "../../../SegmentedControl/index";
+import { SegmentedControl } from '../../../SegmentedControl/index';
 
 interface IProps {
   update: ChangesetApplier;
@@ -42,10 +42,9 @@ class ImageBlockPanel extends React.Component<IProps> {
     this.props.update({
       instruction: ChangesetInstruction.UPDATE,
       path: [...this.props.path, 'container'],
-      value
+      value,
     });
   }
-
 
   render() {
     const { data } = this.props;
@@ -59,7 +58,14 @@ class ImageBlockPanel extends React.Component<IProps> {
         <PanelControl title="Sizing">
           <SegmentedControl
             value={container}
-            options={['CONTENT','Content', 'CONTAINER', 'Container', 'BLEED', 'Bleed']}
+            options={[
+              'CONTENT',
+              'Content',
+              'CONTAINER',
+              'Container',
+              'BLEED',
+              'Bleed',
+            ]}
             onChange={this.handleContainerChange}
           />
         </PanelControl>

@@ -7,6 +7,7 @@ import {
 } from '../utils';
 import getVertical from '../sagas/getVertical';
 import { MediaClient } from '../serverAPI';
+import { Action, AnyAction } from 'redux';
 
 export const LOAD_MEDIA_LIST = 'LOAD_MEDIA_LIST';
 export const MEDIA_LIST_FETCH_REQUEST = 'MEDIA_LIST_FETCH_REQUEST';
@@ -19,26 +20,27 @@ export const MEDIA_DELETE_SUCCESS = 'MEDIA_DELETE_SUCCESS';
 
 export const MEDIA_UPLOAD = createRequestTypes('MEDIA_UPLOAD');
 
-export const loadMediaList = (query, limit) =>
+export const loadMediaList = (query: string, limit: number) =>
   makeAction(LOAD_MEDIA_LIST, { query, limit });
 
-export const deleteMedia = id => ({
+export const deleteMedia = (id: number) => ({
   type: MEDIA_DELETE_REQUEST,
   payload: { id },
 });
 
 export const media = {
-  request: query => makeAction(MEDIA_LIST_FETCH_REQUEST, { query }),
-  success: (query, payload) =>
+  request: (query: string) => makeAction(MEDIA_LIST_FETCH_REQUEST, { query }),
+  success: (query: string, payload: any) =>
     makeAction(MEDIA_LIST_FETCH_SUCCESS, { query, payload }),
-  failure: (query, error) =>
+  failure: (query: string, error: Error) =>
     makeAction(MEDIA_LIST_FETCH_FAILURE, { query, error }),
 };
 
 export const upload = {
-  request: file => makeAction(MEDIA_UPLOAD.REQUEST, { file }),
-  success: payload => makeAction(MEDIA_UPLOAD.SUCCESS, { payload }),
-  failure: error => makeAction(MEDIA_UPLOAD.FAILURE, { error }),
+  // todo
+  request: (file: any) => makeAction(MEDIA_UPLOAD.REQUEST, { file }),
+  success: (payload: any) => makeAction(MEDIA_UPLOAD.SUCCESS, { payload }),
+  failure: (error: any) => makeAction(MEDIA_UPLOAD.FAILURE, { error }),
 };
 
 export const fetchMediaList = fetchEntity.bind(
@@ -55,7 +57,18 @@ const initialState = {
   hasPrevious: false,
 };
 
-export default function MediaListReducer(state = initialState, action) {
+interface MediaListStore {
+  list: object[];
+  loading: boolean;
+  count: number;
+  hasNext: boolean;
+  hasPrevious: boolean;
+}
+
+export default function MediaListReducer(
+  state: MediaListStore = initialState,
+  action: AnyAction
+) {
   const { payload } = action;
 
   switch (action.type) {
@@ -98,12 +111,27 @@ export default function MediaListReducer(state = initialState, action) {
 
 // SAGA
 
-function* handleLoadMediaList(action) {
+interface LoadMediaListAction extends Action {
+  query: string;
+  limit: number;
+}
+
+interface UploadMediaAction extends Action {
+  file: any; // todo
+}
+
+interface MediaDeleteAction extends Action {
+  payload: {
+    id: number;
+  };
+}
+
+function* handleLoadMediaList(action: LoadMediaListAction) {
   const vertical = yield getVertical();
   yield fork(fetchMediaList, vertical, action.query, action.limit);
 }
 
-function* mediaUpload({ file }) {
+function* mediaUpload({ file }: UploadMediaAction) {
   const vertical = yield getVertical();
   const { payload, error } = yield call(MediaClient.upload, vertical, file);
 
@@ -114,7 +142,7 @@ function* mediaUpload({ file }) {
   }
 }
 
-function* mediaDelete({ payload: { id } }) {
+function* mediaDelete({ payload: { id } }: MediaDeleteAction) {
   try {
     yield call(MediaClient.delete, id);
     yield put({ type: MEDIA_DELETE_SUCCESS, payload: { id } });

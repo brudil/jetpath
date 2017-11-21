@@ -12,7 +12,7 @@ function imgix(resource: string, options: Object) {
 interface IProps {
   image: MediaObject;
   className?: string;
-  width?: number
+  width?: number;
 }
 
 interface IState {

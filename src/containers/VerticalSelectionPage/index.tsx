@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import DocumentTitle from '../../components/DocumentTitle';
 import * as VerticalActions from '../../ducks/Vertical';
 import verticalConfig from '../../verticals';
-import styled from "react-emotion";
+import styled from 'react-emotion';
+import { RootState } from '../../types';
 
 const Title = styled.div`
   text-align: center;
@@ -59,7 +60,7 @@ interface IProps {
   context?: any;
 }
 
-class VerticalSelectionPage extends React.Component<IProps, any> {
+class VerticalSelectionPage extends React.Component<IProps> {
   componentDidMount() {
     this.props.getVerticals();
   }
@@ -73,9 +74,7 @@ class VerticalSelectionPage extends React.Component<IProps, any> {
           <VerticalList>
             {verticals.map(vertical => (
               <li key={vertical.identifier}>
-                <VerticalLink
-                  to={`/@${vertical.identifier}/dashboard`}
-                >
+                <VerticalLink to={`/@${vertical.identifier}/dashboard`}>
                   <VerticalLogo
                     src={verticalConfig[vertical.identifier].logoHeader}
                     alt={vertical.name}
@@ -92,7 +91,7 @@ class VerticalSelectionPage extends React.Component<IProps, any> {
 }
 
 export default connect(
-  state => ({
+  (state: RootState) => ({
     verticals: state.verticals.list,
   }),
   {

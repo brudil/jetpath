@@ -1,7 +1,7 @@
 import React from 'react';
 
 import saveToSaveIcon from './cloud-upload.svg';
-import {css} from "emotion";
+import { css } from 'emotion';
 
 const imageStyles = css`
   display: block;

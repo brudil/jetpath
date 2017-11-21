@@ -1,6 +1,6 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
-import { compose } from 'recompose';
+import { compose } from 'redux';
 
 import ViewContainer from '../ViewContainer';
 import DocumentTitle from '../../components/DocumentTitle';
@@ -9,20 +9,20 @@ import MediaDisplay from '../MediaDisplay';
 import LoadingContent from '../LoadingContent';
 import MediaEditQuery from '../../containers/MediaEditPage/MediaEditQuery.graphql';
 import EditMediaMutation from '../../containers/MediaEditPage/EditMedia.graphql';
-import Modal from "../Modal/index";
+import Modal from '../Modal/index';
 
 interface IProps {
-  value: number,
+  value: number;
   data: {
-    loading: boolean,
-    error: Error,
+    loading: boolean;
+    error: Error;
     media: {
-      mediaId: number,
-      deleted: boolean,
-    }
-  },
-  editMedia(data: any): void,
-  children?: any,
+      mediaId: number;
+      deleted: boolean;
+    };
+  };
+  editMedia(data: any): void;
+  children?: any;
 }
 
 function MediaEditPage(props: IProps) {
@@ -34,7 +34,13 @@ function MediaEditPage(props: IProps) {
     return <h1>Error</h1>;
   }
 
-  const handleSubmit = ({ creditTitle, creditUrl }: { creditTitle: string, creditUrl: string }) =>
+  const handleSubmit = ({
+    creditTitle,
+    creditUrl,
+  }: {
+    creditTitle: string;
+    creditUrl: string;
+  }) =>
     props.editMedia({
       variables: {
         mediaId: props.data.media.mediaId,
@@ -71,7 +77,7 @@ const WithData = compose(
       },
     }),
   }),
-  graphql(EditMediaMutation, { name: 'editMedia' }),
+  graphql(EditMediaMutation, { name: 'editMedia' })
 )(MediaEditPage);
 
 export default function MediaEditModal(props: any) {

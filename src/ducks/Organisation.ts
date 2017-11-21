@@ -13,6 +13,8 @@ import {
   createRequestTypes,
 } from '../utils';
 import getVertical from '../sagas/getVertical';
+import { RootState } from '../types';
+import { Action, AnyAction, Dispatch } from 'redux';
 
 // CONSTANTS
 export const GET_ALL_SECTIONS = 'GET_ALL_SECTIONS';
@@ -42,41 +44,43 @@ export const ORGANISATION_FETCH_TOPICS_FOR_SECTION = createRequestTypes(
 // ACTIONS
 export const getAllSections = () => makeAction(GET_ALL_SECTIONS);
 export const fetchAllSections = () => makeAction(FETCH_ALL_SECTIONS.REQUEST);
-export const fetchAllSectionsFailure = payload =>
+export const fetchAllSectionsFailure = (payload: any) =>
   makeAction(FETCH_ALL_SECTIONS.FAILURE, { payload });
-export const fetchAllSectionsSuccess = payload =>
+export const fetchAllSectionsSuccess = (payload: any) =>
   makeAction(FETCH_ALL_SECTIONS.SUCCESS, { payload });
 
 export const fetchTopicsForSection = () =>
   makeAction(ORGANISATION_FETCH_TOPICS_FOR_SECTION.REQUEST);
-export const fetchTopicsForSectionFailure = (id, payload) =>
+export const fetchTopicsForSectionFailure = (id: number, payload: any) =>
   makeAction(ORGANISATION_FETCH_TOPICS_FOR_SECTION.FAILURE, { id, payload });
-export const fetchTopicsForSectionSuccess = (id, payload) =>
+export const fetchTopicsForSectionSuccess = (id: number, payload: any) =>
   makeAction(ORGANISATION_FETCH_TOPICS_FOR_SECTION.SUCCESS, { id, payload });
 
-export const selectSection = id =>
+export const selectSection = (id: number) =>
   makeAction(ORGANISATION_SELECT_SECTION, { id });
-export const selectTopic = id => makeAction(ORGANISATION_SELECT_TOPIC, { id });
-export const selectNewSection = id =>
+export const selectTopic = (id: number) =>
+  makeAction(ORGANISATION_SELECT_TOPIC, { id });
+export const selectNewSection = (id: number) =>
   makeAction(ORGANISATION_SELECT_NEW_SECTION, { id });
-export const selectNewTopic = id =>
+export const selectNewTopic = (id: number) =>
   makeAction(ORGANISATION_SELECT_NEW_TOPIC, { id });
 
-export const saveTopic = data =>
+export const saveTopic = (data: any) =>
   makeAction(ORGANISATION_SAVE_TOPIC.REQUEST, { data });
-export const saveSection = data =>
+export const saveSection = (data: any) =>
   makeAction(ORGANISATION_SAVE_SECTION.REQUEST, { data });
-export const saveTopicSuccess = payload =>
+export const saveTopicSuccess = (payload: any) =>
   makeAction(ORGANISATION_SAVE_TOPIC.SUCCESS, { payload });
-export const saveSectionSuccess = payload =>
+export const saveSectionSuccess = (payload: any) =>
   makeAction(ORGANISATION_SAVE_SECTION.SUCCESS, { payload });
-export const saveTopicFailure = payload =>
+export const saveTopicFailure = (payload: any) =>
   makeAction(ORGANISATION_SAVE_TOPIC.FAILURE, { payload });
-export const saveSectionFailure = payload =>
+export const saveSectionFailure = (payload: any) =>
   makeAction(ORGANISATION_SAVE_SECTION.FAILURE, { payload });
 
-export function getTopicsForSection(sectionId) {
-  return dispatch => {
+export function getTopicsForSection(sectionId: number) {
+  return (dispatch: Dispatch<any>) => {
+    // todo; what the type argument is for
     const transaction = createTransaction(
       dispatch,
       ORGANISATION_GET_TOPICS_FOR_SECTION,
@@ -86,7 +90,7 @@ export function getTopicsForSection(sectionId) {
     );
 
     SectionsClient.getTopicsFor(sectionId)
-      .then(payload => {
+      .then((payload: any) => {
         transaction.done(
           normalize(payload.data, new schema.Array(topicSchema))
         );
@@ -95,8 +99,8 @@ export function getTopicsForSection(sectionId) {
   };
 }
 
-export function updateSection(sectionId, sectionData) {
-  return (dispatch, getState) => {
+export function updateSection(sectionId: number, sectionData: any) {
+  return (dispatch: Dispatch<any>, getState: () => RootState) => {
     const state = getState();
     const transaction = createTransaction(
       dispatch,
@@ -110,14 +114,14 @@ export function updateSection(sectionId, sectionData) {
       ...state.entities.sections[sectionId],
       ...sectionData,
     })
-      .then(payload => {
+      .then((payload: any) => {
         transaction.done(normalize(payload.data, sectionSchema));
       })
       .catch(transaction.error);
   };
 }
-export function updateTopic(topicId, sectionData) {
-  return (dispatch, getState) => {
+export function updateTopic(topicId: number, sectionData: any) {
+  return (dispatch: Dispatch<any>, getState: () => RootState) => {
     const state = getState();
     const transaction = createTransaction(dispatch, ORGANISATION_UPDATE_TOPIC, {
       topicId,
@@ -127,21 +131,21 @@ export function updateTopic(topicId, sectionData) {
       ...state.entities.topics[topicId],
       ...sectionData,
     })
-      .then(payload => {
+      .then((payload: any) => {
         transaction.done(normalize(payload.data, topicSchema));
       })
       .catch(transaction.error);
   };
 }
 
-export function createTopic(sectionId, data) {
-  return dispatch => {
+export function createTopic(sectionId: number, data: any) {
+  return (dispatch: Dispatch<any>) => {
     const transaction = createTransaction(dispatch, ORGANISATION_CREATE_TOPIC, {
       sectionId,
     });
 
     TopicsClient.create(sectionId, data)
-      .then(payload => {
+      .then((payload: any) => {
         transaction.done(normalize(payload.data, topicSchema));
       })
       .catch(transaction.error);
@@ -170,7 +174,21 @@ const initialState = {
   blankOf: null,
 };
 
-export default function OrganisationReducer(state = initialState, action) {
+export interface OrganisationState {
+  sectionList: number[];
+  topicListMap: {
+    [sectionId: number]: Object[];
+  };
+  loading: boolean;
+  selectedSectionId: number | null;
+  selectedTopicId: number | null;
+  blankOf: null;
+}
+
+export default function OrganisationReducer(
+  state: OrganisationState = initialState,
+  action: AnyAction
+) {
   switch (action.type) {
     case FETCH_ALL_SECTIONS.REQUEST: {
       return {
@@ -289,16 +307,21 @@ function* handleGetAllSections() {
     yield put(fetchAllSectionsSuccess(payload));
   }
 }
+interface SelectAction extends Action {
+  id: number;
+}
 
-function* handleSelectSection({ id }) {
+function* handleSelectSection({ id }: SelectAction) {
   const response = yield call(SectionsClient.getTopicsFor, id);
   yield put(fetchTopicsForSectionSuccess(id, response));
-  const section = yield select(state => state.entities.sections[id]);
+  const section = yield select(
+    (state: RootState) => state.entities.sections[id]
+  );
   yield put(formActions.change('sectionEdit', section));
 }
 
-function* handleSelectTopic({ id }) {
-  const topic = yield select(state => state.entities.topics[id]);
+function* handleSelectTopic({ id }: SelectAction) {
+  const topic = yield select((state: RootState) => state.entities.topics[id]);
   yield put(formActions.change('topicEdit', topic));
 }
 
@@ -310,18 +333,20 @@ function* handleSelectNewTopic() {
   yield put(formActions.reset('topicEdit'));
 }
 
-function* handleSaveTopic({ data }) {
+function* handleSaveTopic({ data }: { data: any }) {
   let response = null;
-  const [selectedSectionId, selectedTopicId] = yield select(state => [
-    state.organisation.selectedSectionId,
-    state.organisation.selectedTopicId,
-  ]);
+  const [selectedSectionId, selectedTopicId] = yield select(
+    (state: RootState) => [
+      state.organisation.selectedSectionId,
+      state.organisation.selectedTopicId,
+    ]
+  );
 
   if (selectedTopicId === null) {
     response = yield call(TopicsClient.create, selectedSectionId, data);
   } else {
     const currentData = yield select(
-      state => state.entities.topics[selectedTopicId]
+      (state: RootState) => state.entities.topics[selectedTopicId]
     );
     response = yield call(TopicsClient.update, selectedTopicId, {
       ...currentData,
@@ -336,10 +361,10 @@ function* handleSaveTopic({ data }) {
   }
 }
 
-function* handleSaveSection({ data }) {
+function* handleSaveSection({ data }: { data: any }) {
   let response = null;
   const selectedId = yield select(
-    state => state.organisation.selectedSectionId
+    (state: RootState) => state.organisation.selectedSectionId
   );
   if (selectedId === null) {
     const vertical = yield getVertical();

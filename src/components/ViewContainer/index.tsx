@@ -4,7 +4,7 @@ import styled from 'react-emotion';
 const Container = styled.div`
   padding: 1rem;
 
-  @media(min-width: 960px) {
+  @media (min-width: 960px) {
     padding: 1rem 1.5rem;
   }
 `;

@@ -1,7 +1,7 @@
 import React from 'react';
 import chunk from 'lodash/chunk';
 import styled from 'react-emotion';
-import {css} from "emotion";
+import { css } from 'emotion';
 
 const Container = styled.div`
   display: flex;
@@ -23,8 +23,8 @@ const Option = styled.div`
   padding: 0.25em 0.5em;
   text-align: center;
   cursor: pointer;
-  
-  ${(props: any) => props.active && optionActive}
+
+  ${(props: any) => props.active && optionActive};
 `;
 
 type controlId = string | number | null;
@@ -34,7 +34,7 @@ export function SegmentedControl(props: {
   className?: string;
   value: controlId;
   options: Array<controlId | string>;
-  onChange: (id: controlId) => void;
+  onChange: (id: any) => void;
 }) {
   function handleChange(optionId: controlId) {
     if (optionId !== props.value) {
