@@ -11,8 +11,6 @@ import InnerVerticalPage from '../InnerVerticalPage';
 import NotFoundPage from '../NotFoundPage';
 import LoadingContent from '../../components/LoadingContent/index';
 import styled from 'react-emotion';
-import { ThemeProvider } from 'emotion-theming';
-import defaultTheme from '../../themes/default';
 
 const Section = styled.div`
   background-color: ${props => props.theme.colors.background};
@@ -55,28 +53,26 @@ class BaseContainer extends React.Component {
     }
 
     return (
-      <ThemeProvider theme={defaultTheme}>
+      <div>
+        <GlobalHeader />
         <div>
-          <GlobalHeader />
-          <div>
-            <Section>
-              <Switch>
-                <Route
-                  path={`${url}verticals`}
-                  component={VerticalSelectionPage}
-                />
-                <Route
-                  path={`${url}@:vertical`}
-                  component={InnerVerticalPage}
-                />
-                <Redirect from="/" to="verticals" />
-                <Route path="*" component={NotFoundPage} />
-              </Switch>
-              <Toasts />
-            </Section>
-          </div>
+          <Section>
+            <Switch>
+              <Route
+                path={`${url}verticals`}
+                component={VerticalSelectionPage}
+              />
+              <Route
+                path={`${url}@:vertical`}
+                component={InnerVerticalPage}
+              />
+              <Redirect from="/" to="verticals" />
+              <Route path="*" component={NotFoundPage} />
+            </Switch>
+            <Toasts />
+          </Section>
         </div>
-      </ThemeProvider>
+      </div>
     );
   }
 }

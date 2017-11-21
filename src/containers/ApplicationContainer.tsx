@@ -9,6 +9,8 @@ import * as AuthActions from '../ducks/Auth';
 import StonewallContainer from './StonewallContainer';
 import { RootState } from '../types';
 import { compose } from 'redux';
+import { ThemeProvider } from 'emotion-theming';
+import defaultTheme from '../themes/default';
 
 const LoadableBaseContainer = Loadable({
   loader: () => import(/* webpackChunkName: 'Base' */ './BaseContainer'),
@@ -61,16 +63,18 @@ class ApplicationContainer extends React.Component<IProps, IState> {
 
     return (
       <DocumentTitle title="Jetpath">
-        <div>
-          {this.props.auth.get('attempted') ? (
-            <Switch>
-              <Route path="/auth" component={StonewallContainer} />
-              <Route path="/" component={LoadableBaseContainer} />
-            </Switch>
-          ) : (
-            <Stonewall subtitle="Loading" />
-          )}
-        </div>
+        <ThemeProvider theme={defaultTheme}>
+          <div>
+            {this.props.auth.get('attempted') ? (
+              <Switch>
+                <Route path="/auth" component={StonewallContainer} />
+                <Route path="/" component={LoadableBaseContainer} />
+              </Switch>
+            ) : (
+              <Stonewall subtitle="Loading" />
+            )}
+          </div>
+        </ThemeProvider>
       </DocumentTitle>
     );
   }
