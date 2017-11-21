@@ -1,13 +1,22 @@
 import { schema } from 'normalizr';
 
 const nestingOptions = {
-  processStrategy(value: any, parent: any, key: any) {
-    if (key.endsWith('_nest')) {
-      // eslint-disable-next-line no-param-reassign
-      delete parent[key];
-      // eslint-disable-next-line no-param-reassign
-      parent[key.slice(0, -5)] = value;
+  processStrategy(input: any, _parent: any, _key: any) {
+    const keys = Object.keys(input);
+
+    if (!keys.every(key => !key.endsWith('_nest'))) {
+      const inputObject = { ...input };
+      keys.forEach(key => {
+        if (!key.endsWith('_nest')) {
+          return;
+        }
+
+        inputObject[key.slice(0, -5)] = inputObject[key];
+        delete inputObject[key];
+      })
     }
+
+    return {...input};
   },
 };
 
