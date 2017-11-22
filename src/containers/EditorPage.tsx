@@ -2,22 +2,44 @@ import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import Combokeys from 'combokeys';
-import { Route, Switch } from 'react-router-dom';
 import DocumentTitle from '../components/DocumentTitle';
 import EditorNav from '../components/Editor/EditorNav';
 import EditorCommandPalette from '../components/Editor/EditorCommandPalette';
-import EditorComments from '../components/Editor/EditorComments';
 import * as EditorActions from '../ducks/Editor';
-import { createChangeHandler } from '../libs/form';
+import { createChangeHandlerBound } from '../libs/form';
 import LoadingContent from '../components/LoadingContent';
 import EditorSectionContent from './EditorSectionContent';
-import EditorSectionMetadata from './EditorSectionMetadata';
-import EditorSectionWorkflow from './EditorSectionWorkflow';
-import EditorSectionPreview from './EditorSectionPreview';
 import globalPlugin from 'combokeys/plugins/global-bind';
 import { RootState } from '../types';
 import { Dispatch } from 'redux';
 import { Vertical } from '../ducks/Vertical';
+import styled from 'react-emotion';
+import EditorSidebar from '../components/Editor/EditorSidebar';
+
+const Container = styled.div`
+  display: flex;
+`;
+
+const ComposeContainer = styled.div`
+  flex: 1 1 auto;
+  padding-right: calc(280px + 0.4rem);
+  padding-left: 0.4rem;
+`;
+
+const SideContainer = styled.aside`
+  width: 280px;
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
+  overflow-y: auto;
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgb(247, 247, 247);
+  z-index: 100;
+  border-left: 1px solid rgb(213, 213, 213);
+  box-sizing: border-box;
+`;
 
 interface IRouteParams {
   id: string;
@@ -39,6 +61,7 @@ interface IProps extends RouteComponentProps<IRouteParams> {
   vertical: Vertical;
   stats: any; // todo
 
+  updateRevision: typeof EditorActions.updateRevision;
   toggleCommandPalette: typeof EditorActions.toggleCommandPalette;
   createEmptyDocument: typeof EditorActions.createEmptyDocument;
   save: typeof EditorActions.save;
@@ -140,7 +163,6 @@ class EditorPage extends React.Component<IProps> {
 
   renderEditor() {
     const {
-      vertical,
       workingRevision,
       savedRevision,
       hasChangesFromSaved,
@@ -148,42 +170,36 @@ class EditorPage extends React.Component<IProps> {
       isLocal,
       isSaving,
       commandPaletteOpen,
+      updateRevision,
     } = this.props;
-    const revisionChangeHandler = createChangeHandler(
-      this.props.dispatch,
-      EditorActions.updateRevision
-    );
+    const revisionChangeHandler = createChangeHandlerBound(updateRevision);
 
-    const { url, params } = this.props.match;
+    const { params } = this.props.match;
 
     return (
       <div style={{ paddingTop: '40px' }}>
-        <EditorNav
-          headline={workingRevision.get('headline')}
-          isLocal={isLocal}
-          vertical={vertical}
-          hasChangesFromSaved={hasChangesFromSaved}
-          onSave={this.handleSave}
-          onHeadlineUpdate={revisionChangeHandler('headline')}
-          pathId={params.id}
-          stats={stats}
-          isSaving={isSaving}
-        />
-        <div>
-          <Switch>
-            <Route path={`${url}`} component={EditorSectionContent} exact />
-            <Route path={`${url}/metadata`} component={EditorSectionMetadata} />
-            <Route path={`${url}/workflow`} component={EditorSectionWorkflow} />
-            <Route path={`${url}/preview`} component={EditorSectionPreview} />
-          </Switch>
-        </div>
+        <Container>
+          <ComposeContainer>
+            <EditorNav
+              headline={workingRevision.get('headline')}
+              onHeadlineUpdate={revisionChangeHandler('headline')}
+            />
+            <EditorSectionContent />
+          </ComposeContainer>
+
+          <SideContainer>
+            <EditorSidebar
+              contentId={params.id === 'new' ? -1 : parseInt(params.id, 10)}
+              hasChangesFromSaved={hasChangesFromSaved}
+              savedRevision={savedRevision}
+              isLocal={isLocal}
+              isSaving={isSaving}
+              stats={stats}
+              onSave={this.handleSave}
+            />
+          </SideContainer>
+        </Container>
         {commandPaletteOpen ? <EditorCommandPalette /> : null}
-        {!isLocal && params.id !== 'new' ? (
-          <EditorComments
-            contentId={parseInt(params.id, 10)}
-            revisionId={savedRevision.get('id')}
-          />
-        ) : null}
       </div>
     );
   }
@@ -227,6 +243,7 @@ export default withRouter(
     }),
     {
       loadContent: EditorActions.loadContent,
+      updateRevision: EditorActions.updateRevision,
       createEmptyDocument: EditorActions.createEmptyDocument,
       toggleCommandPalette: EditorActions.toggleCommandPalette,
       save: EditorActions.save,

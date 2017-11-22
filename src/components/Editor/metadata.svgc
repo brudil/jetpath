@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128px" height="128px" viewBox="0 0 128 128" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>metadata</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="metadata" fill-rule="nonzero" fill="currentColor">
+            <g transform="translate(6.000000, 15.000000)" id="Shape">
+                <polygon points="59 5.09624164 49.1778071 4 0 53.3787043 44.4392856 98 49.8939934 92.5140332 10.9187736 53.3785823"></polygon>
+                <path d="M112.532529,4.47238827 L72.2739068,0 L18,54.2712243 L62.7309864,99 L117,44.7336686 L112.532529,4.47238827 Z M92.4729454,28.320559 C89.4481051,28.320559 86.9967453,25.8693203 86.9967453,22.8398589 C86.9967453,19.8103975 89.452876,17.3543882 92.4729454,17.3543882 C95.5025566,17.3543882 97.9586872,19.8103975 97.9586872,22.8398589 C97.9586872,25.8693203 95.5025566,28.320559 92.4729454,28.320559 Z"></path>
+            </g>
+        </g>
+    </g>
+</svg>

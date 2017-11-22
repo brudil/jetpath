@@ -10,9 +10,7 @@ import PostComment from './PostComment';
 import EditorCommentsQuery from './EditorComments.graphql';
 import PostContentCommentMutation from './PostContentComment.graphql';
 
-import chatIcon from './chat.svg';
 import styles from './EditorComments.css';
-import Overlay from '../../Modal/Overlay';
 
 interface User {
   username: string;
@@ -90,19 +88,8 @@ class EditorComments extends React.Component<IProps, any> {
 
     return (
       <div>
-        <button
-          className={styles.button}
-          onClick={
-            props.panelOpen ? props.closeCommentPanel : props.openCommentPanel
-          }
-        >
-          <img src={chatIcon} width="32" />
-        </button>
-        <div
-          className={cx(styles.root, { [styles.root_open]: props.panelOpen })}
-        >
+        <div className={cx(styles.root)}>
           <div
-            className={styles.scroll}
             ref={ref => {
               this.scrollElement = ref;
             }}
@@ -128,7 +115,6 @@ class EditorComments extends React.Component<IProps, any> {
             />
           </div>
         </div>
-        {props.panelOpen ? <Overlay onClose={props.closeCommentPanel} /> : null}
       </div>
     );
   }

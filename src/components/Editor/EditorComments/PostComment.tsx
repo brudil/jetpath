@@ -30,7 +30,7 @@ function PostComment(props: IProps) {
         }
       />
       <Button
-        text="Post comment"
+        text="Save note"
         onClick={handlePost}
         disabled={props.comment === ''}
       />

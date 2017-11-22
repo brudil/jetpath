@@ -13,3 +13,13 @@ export function createChangeHandler(dispatch, action) {
     dispatch(action(Array.isArray(path) ? path : [path], value));
   };
 }
+
+export function createChangeHandlerBound(action) {
+  return (path, ...middleware) => event => {
+    let value = event;
+    if (middleware.length > 0) {
+      value = flow(middleware)(value);
+    }
+    action(Array.isArray(path) ? path : [path], value);
+  };
+}

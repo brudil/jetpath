@@ -3,13 +3,18 @@ import { connect } from 'react-redux';
 import Element from '../Element';
 import DocumentPanel from '../DocumentPanel';
 import * as EditorActions from '../../../ducks/Editor';
-import { css } from 'emotion';
+import { css, cx } from 'emotion';
 
 const rootStyles = css`
-  margin: 0 auto;
   max-width: 820px;
+  margin: 0 auto;
   position: relative;
   padding-bottom: 5rem;
+  transition: padding-right 300ms ease;
+  padding-right: 60px;
+`;
+
+const rootPanelOpenStyles = css`
   padding-right: 260px;
 `;
 
@@ -38,7 +43,11 @@ class SpectrumEditor extends React.Component<IProps, any> {
     const hasContent = document.getIn(['content']) !== null;
 
     return (
-      <div className={rootStyles}>
+      <div
+        className={cx(rootStyles, {
+          [rootPanelOpenStyles]: focus.get('hasPanelOpen'),
+        })}
+      >
         <DocumentPanel
           data={document}
           applyChangeset={this.props.updateSpectrumDocument}

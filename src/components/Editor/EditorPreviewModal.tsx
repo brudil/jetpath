@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as EditorActions from '../ducks/Editor';
+import * as EditorActions from '../../ducks/Editor';
 
-import EditorPreview from '../components/Editor/EditorPreview';
-import { RootState } from '../types';
+import EditorPreview from './EditorPreview';
+import { RootState } from '../../types';
+import Modal from '../Modal';
 
-interface IProps {
+interface IProps extends ReactModal.Props {
   publish(): any;
   changeRevisionStatus(status: number): void;
   workingRevision: any; // todo
@@ -40,7 +41,7 @@ class EditorSectionPreview extends React.Component<IProps> {
       hasChangesFromSaved,
     } = this.props;
     return (
-      <div>
+      <Modal {...this.props}>
         <EditorPreview
           hasChangesFromSaved={hasChangesFromSaved}
           isLocal={isLocal}
@@ -50,7 +51,7 @@ class EditorSectionPreview extends React.Component<IProps> {
           onPublish={this.handlePublish}
           editorialMetadata={editorialMetadata}
         />
-      </div>
+      </Modal>
     );
   }
 }

@@ -6,7 +6,6 @@ import SmartDate from '../SmartDate';
 import SaveBeforeWorkflowMessage from '../SaveBeforeWorkflowMessage';
 
 import styles from './EditorWorkflow.css';
-import ContentStageTimeline from '../ContentStageTimeline/index';
 
 function getIssuesForRevision(revision: any) {
   const issues = [];
@@ -153,7 +152,6 @@ function EditorWorkflow(props: IProps) {
         })}
       >
         <h4 className={styles.sectionTitle}>Next</h4>
-        <ContentStageTimeline />
         {renderNextSection()}
       </div>
     </div>

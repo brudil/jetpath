@@ -98,6 +98,18 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'awesome-typescript-loader?useBabel',
       },
+      {
+        test: /\.svgc$/,
+        use: [
+          'babel-loader',
+          {
+            loader: 'svgr/lib/webpack',
+            options: {
+              svgo: false
+            }
+          },
+        ]
+      },
       { test: /\.svg$/, loader: 'file-loader' },
     ],
   },
