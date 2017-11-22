@@ -10,6 +10,6 @@ Editorial content workflow and authoring web application for lowdown.
 ## Tech
 
 * React + Redux + Sagas
-* ES2015+
-* PostCSS enhanced CSS modules
+* TypeScript
+* Emotion-based styling
 * Consumes lowdown's Manage API
