@@ -531,6 +531,7 @@ function* handleEditorChange() {
     'id',
     'content',
     'revision_number',
+    'preview_key',
   ];
   const removeServerMutableFields = (
     rev: any // todo
