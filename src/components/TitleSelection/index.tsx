@@ -1,17 +1,39 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import TitleSelectionItem from './SelectionItem';
 
 import styles from './TitleSelection.css';
 
-class TitleSelection extends React.Component {
-  constructor(props) {
-    super();
+interface IProps {
+  className?: string;
+  onSelection(value: any): void;
+  children: any;
+  value: string;
+}
 
-    const items = {};
-    const itemsIds = [];
-    props.children.forEach(child => {
+interface Items {
+  [name: string]: {
+    title: string;
+    id: any;
+  };
+}
+
+interface IState {
+  items: Items;
+  itemsIds: number[];
+  isOpen: boolean;
+}
+
+class TitleSelection extends React.Component<IProps, IState> {
+  private handleOpen: any;
+  private handleClose: any;
+
+  constructor(props: IProps) {
+    super(props);
+
+    const items: Items = {};
+    const itemsIds: number[] = [];
+    props.children.forEach((child: any) => {
       items[child.props.name] = {
         title: child.props.children,
         id: child.props.name,
@@ -30,23 +52,22 @@ class TitleSelection extends React.Component {
     this.handleClose = this.handleDisplayVisibility.bind(this, false);
   }
 
-  handleSelect(selectedId) {
+  handleSelect(selectedId: any) {
     const value = this.props.value;
     if (value !== selectedId) {
-      this.setState({ value: selectedId, isOpen: false });
+      this.setState({ isOpen: false });
       this.props.onSelection(selectedId);
     } else {
       this.setState({ isOpen: false });
     }
   }
 
-  handleDisplayVisibility(open) {
+  handleDisplayVisibility(open: boolean) {
     this.setState({ isOpen: open });
   }
 
   render() {
-    const rootClasses = cx({
-      [this.props.className]: true,
+    const rootClasses = cx(this.props.className, {
       [styles.root]: true,
       [styles.root_active]: this.state.isOpen,
     });
@@ -79,20 +100,20 @@ class TitleSelection extends React.Component {
     );
   }
 }
-
-TitleSelection.propTypes = {
-  className: PropTypes.string.isRequired,
-  onSelection: PropTypes.func.isRequired,
-  children: PropTypes.node.isRequired,
-  value: PropTypes.string.isRequired,
-};
-
 export { TitleSelection };
 
-export class SelectionItem {
-  constructor() {
+interface SelectionProps {
+  name: any;
+}
+
+export class SelectionItem extends React.Component<
+  SelectionProps,
+  { value: any }
+> {
+  constructor(props: SelectionProps) {
+    super(props);
     this.state = {
-      value: this.props.value,
+      value: this.props.name,
     };
   }
 }

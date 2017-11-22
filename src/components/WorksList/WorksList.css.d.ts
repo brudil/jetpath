@@ -1,3 +1,4 @@
+export const root: string;
 export const rootList: string;
 export const item: string;
 export const itemNub: string;

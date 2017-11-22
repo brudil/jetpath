@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import filter from 'lodash/filter';
 import { connect } from 'react-redux';
@@ -13,9 +12,34 @@ import Button from '../components/Button';
 import stylesShelter from '../styles/components/BusShelter.css';
 import stylesView from '../styles/components/ViewContainer.css';
 import ViewContainer from '../components/ViewContainer';
+import { RootState } from '../types';
+import { OrganisationState } from '../ducks/Organisation';
 
-class OrganisationPage extends React.Component {
-  constructor(props) {
+// this is very `any` type heavy - i'm going to rewrite this page soon, so didn't bother typing
+
+interface IProps {
+  updateSection: typeof OrgansiationActions.updateSection;
+  updateTopic: typeof OrgansiationActions.updateTopic;
+  createTopic: typeof OrgansiationActions.createTopic;
+  getAllSections: typeof OrgansiationActions.getAllSections;
+  getTopicsForSection: typeof OrgansiationActions.getTopicsForSection;
+  saveSection: typeof OrgansiationActions.saveSection;
+  saveTopic: typeof OrgansiationActions.saveTopic;
+  selectNewSection: typeof OrgansiationActions.selectNewSection;
+  selectNewTopic: typeof OrgansiationActions.selectNewTopic;
+  selectSection: typeof OrgansiationActions.selectSection;
+  selectTopic: typeof OrgansiationActions.selectTopic;
+
+  organisation: OrganisationState;
+
+  selectedSection: any; // todo
+  selectedTopic: any; // todo
+  sectionList: any; // todo
+  selectedTopicList: any; // todo
+}
+
+class OrganisationPage extends React.Component<IProps> {
+  constructor(props: IProps) {
     super(props);
 
     this.handleSelectSection = this.handleSelectSection.bind(this);
@@ -27,55 +51,56 @@ class OrganisationPage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(OrgansiationActions.getAllSections());
+    this.props.getAllSections();
   }
 
-  handleSelectSection(id) {
-    this.props.dispatch(OrgansiationActions.selectSection(id));
+  handleSelectSection(id: number) {
+    this.props.selectSection(id);
   }
 
-  handleSelectTopic(id) {
-    this.props.dispatch(OrgansiationActions.selectTopic(id));
+  handleSelectTopic(id: number) {
+    this.props.selectTopic(id);
   }
 
-  handleSectionSave(form) {
+  handleSectionSave(form: any) {
     const {
       organisation: { selectedSectionId, blankOf },
-      dispatch,
+      updateSection,
     } = this.props;
     if (selectedSectionId) {
-      dispatch(OrgansiationActions.updateSection(selectedSectionId, form));
+      updateSection(selectedSectionId, form);
     }
 
     if (blankOf === 'section') {
-      dispatch(OrgansiationActions.createSection(form));
+      // createSection(form);
     }
   }
 
-  handleTopicSave(form) {
+  handleTopicSave(form: any) {
     const {
       organisation: { selectedSectionId, selectedTopicId, blankOf },
-      dispatch,
+      updateTopic,
+      createTopic,
     } = this.props;
 
     if (selectedTopicId) {
-      dispatch(OrgansiationActions.updateTopic(selectedTopicId, form));
+      updateTopic(selectedTopicId, form);
     }
 
-    if (blankOf === 'topic') {
-      dispatch(OrgansiationActions.createTopic(selectedSectionId, form));
+    if (blankOf === 'topic' && selectedSectionId !== null) {
+      createTopic(selectedSectionId, form);
     }
   }
 
   handleSelectNewTopic() {
-    this.props.dispatch(OrgansiationActions.selectNewTopic());
+    this.props.selectNewTopic();
   }
 
   handleSelectNewSection() {
-    this.props.dispatch(OrgansiationActions.selectNewSection());
+    this.props.selectNewSection();
   }
 
-  renderSections(list, childrenOf = null) {
+  renderSections(list: any, childrenOf = null) {
     const filteredList = filter(list, { parent: childrenOf });
 
     const { selectedSectionId, selectedTopicId } = this.props.organisation;
@@ -83,12 +108,12 @@ class OrganisationPage extends React.Component {
     return (
       <ul className={stylesShelter.col}>
         <li className={stylesShelter.colHeader}>Sections</li>
-        {filteredList.map(item => (
+        {filteredList.map((item: any) => (
           <li
             className={cx(stylesShelter.item, {
-              [stylesShelter.item_selected]:
+              [stylesShelter.itemSelected]:
                 item.id === selectedSectionId && selectedTopicId === null,
-              [stylesShelter.item_selectedDull]:
+              [stylesShelter.itemSelectedDull]:
                 item.id === selectedSectionId && selectedTopicId !== null,
             })}
             key={item.id}
@@ -105,7 +130,7 @@ class OrganisationPage extends React.Component {
     );
   }
 
-  renderTopics(list) {
+  renderTopics(list: any) {
     if (!this.props.selectedSection || list === null) {
       return <ul className={stylesShelter.col} />;
     }
@@ -116,10 +141,10 @@ class OrganisationPage extends React.Component {
           Topics in {this.props.selectedSection.title}
         </li>
         {list
-          ? list.map(item => (
+          ? list.map((item: any) => (
               <li
                 className={cx(stylesShelter.item, {
-                  [stylesShelter.item_selected]:
+                  [stylesShelter.itemSelected]:
                     item.id === this.props.organisation.selectedTopicId,
                 })}
                 key={item.id}
@@ -193,7 +218,11 @@ class OrganisationPage extends React.Component {
       <DocumentTitle title="Organisation">
         <ViewContainer>
           <header className="standard-header">
-            <TitleSelection className="standard-header__title" value="sections">
+            <TitleSelection
+              className="standard-header__title"
+              value="sections"
+              onSelection={() => null}
+            >
               <SelectionItem name="sections">Sections</SelectionItem>
               <SelectionItem name="series">Series</SelectionItem>
             </TitleSelection>
@@ -215,26 +244,41 @@ class OrganisationPage extends React.Component {
   }
 }
 
-OrganisationPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  selectedSection: PropTypes.object,
-  selectedTopic: PropTypes.object,
-  organisation: PropTypes.object.isRequired,
-  sectionList: PropTypes.array.isRequired,
-  selectedTopicList: PropTypes.array,
-};
-
-export default connect(state => {
-  const { organisation, entities } = state;
-  const selectedTopicMap =
-    organisation.topicListMap[organisation.selectedSectionId];
-  return {
-    sectionList: organisation.sectionList.map(id => entities.sections[id]),
-    selectedSection: entities.sections[organisation.selectedSectionId],
-    selectedTopic: entities.topics[organisation.selectedTopicId],
-    selectedTopicList: selectedTopicMap
-      ? selectedTopicMap.map(id => entities.topics[id])
-      : null,
-    organisation,
-  };
-})(OrganisationPage);
+export default connect(
+  (state: RootState) => {
+    const { organisation, entities } = state;
+    const selectedTopicMap =
+      organisation.selectedSectionId !== null
+        ? organisation.topicListMap[organisation.selectedSectionId]
+        : null;
+    return {
+      sectionList: organisation.sectionList.map(id => entities.sections[id]),
+      selectedSection:
+        organisation.selectedSectionId !== null
+          ? entities.sections[organisation.selectedSectionId]
+          : null,
+      selectedTopic:
+        organisation.selectedTopicId !== null
+          ? entities.topics[organisation.selectedTopicId]
+          : null,
+      selectedTopicList: selectedTopicMap
+        ? selectedTopicMap.map(id => entities.topics[id])
+        : null,
+      organisation,
+    };
+  },
+  {
+    // goodness
+    updateSection: OrgansiationActions.updateSection,
+    updateTopic: OrgansiationActions.updateTopic,
+    createTopic: OrgansiationActions.createTopic,
+    getAllSections: OrgansiationActions.getAllSections,
+    getTopicsForSection: OrgansiationActions.getTopicsForSection,
+    saveSection: OrgansiationActions.saveSection,
+    saveTopic: OrgansiationActions.saveTopic,
+    selectNewSection: OrgansiationActions.selectNewSection,
+    selectNewTopic: OrgansiationActions.selectNewTopic,
+    selectSection: OrgansiationActions.selectSection,
+    selectTopic: OrgansiationActions.selectTopic,
+  }
+)(OrganisationPage);

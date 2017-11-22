@@ -13,9 +13,9 @@ import { MediaObject } from '../MediaGrid/MediaGridItem';
 import { RootState } from '../../types';
 
 interface ComponentProps {
-  onSelect: (mediaId: number) => void;
-  wrap?: (media: MediaObject, children: JSX.Element) => Element;
-  children?: Element;
+  onSelect?: (mediaId: number) => void;
+  wrap?: (media: MediaObject, children: any) => any;
+  children?: any;
 }
 
 interface InternalProps {

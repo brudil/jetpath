@@ -24,6 +24,7 @@ const SidebarDebouncedInput: any = SidebarInput.withComponent(DebouncedInput);
 interface IProps {
   workingRevision: any; // todo
   editorialMetadata: any; // todo
+  savedRevision: any; // todo
   vertical: any; // todo
   isLocal: any; // todo
   revisionChangeHandler: any; // todo

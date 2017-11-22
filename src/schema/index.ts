@@ -13,10 +13,10 @@ const nestingOptions = {
 
         inputObject[key.slice(0, -5)] = inputObject[key];
         delete inputObject[key];
-      })
+      });
     }
 
-    return {...input};
+    return { ...input };
   },
 };
 

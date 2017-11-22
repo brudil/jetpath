@@ -1,16 +1,9 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import isEqual from 'lodash/isEqual';
 import intersection from 'lodash/intersection';
 import { connect } from 'react-redux';
 import qs from 'query-string';
-import {
-  contentForm,
-  contentStatus,
-  contentState,
-  contentTone,
-} from '@brudil/drafty-constants';
 import WorksList from '../components/WorksList';
 import { TitleSelection, SelectionItem } from '../components/TitleSelection';
 import DocumentTitle from '../components/DocumentTitle';
@@ -26,18 +19,22 @@ import { generateFromConstants } from '../lang/utils';
 import {
   contentForm as contentFormLang,
   contentTone as contentToneLang,
-  contentState as contentStateLang,
   contentStatus as contentStatusLang,
 } from '../lang/content_attrs';
 
 import ViewContainerStyles from '../styles/components/ViewContainer.css';
 import stylesStandardHeader from '../styles/components/StandardHeader.css';
 import filterPresetsMatch from '../libs/filterPresetsMatch';
+import { RootState } from '../types';
+import { RouteComponentProps } from 'react-router';
+import { Vertical } from '../ducks/Vertical';
+import { Form, Status, Tone } from '../libs/constants';
 
-const presets = {
+const presets: any = {
+  // todo
   ready: {
     state: 'internal',
-    status: contentStatus.STATUS_FINISHED,
+    status: Status.Finished,
   },
   published: {
     state: 'live',
@@ -49,8 +46,19 @@ const presets = {
   },
 };
 
-class ContentListPage extends React.Component {
-  constructor(props) {
+interface RouterParams {}
+
+interface IProps extends RouteComponentProps<RouterParams> {
+  vertical: Vertical;
+  contentlist: any; // todo
+  contentListItems: any; // todo
+  isLoading: boolean;
+
+  loadContent: typeof ContentListActions.loadContent;
+}
+
+class ContentListPage extends React.Component<IProps> {
+  constructor(props: IProps) {
     super(props);
 
     this.handlePagination = this.handlePagination.bind(this);
@@ -60,18 +68,17 @@ class ContentListPage extends React.Component {
 
   componentDidMount() {
     const query = this.getQueryData();
-    this.props.dispatch(ContentListActions.loadContent(query));
+    this.props.loadContent(query);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: IProps) {
     if (!isEqual(this.getQueryData(), this.getQueryData(nextProps))) {
-      this.props.dispatch(
-        ContentListActions.loadContent(this.getQueryData(nextProps))
-      );
+      this.props.loadContent(this.getQueryData(nextProps));
     }
   }
 
-  getQueryData(props = null) {
+  getQueryData(props: IProps | null = null): any {
+    // todo
     const query = qs.parse(
       props === null ? this.props.location.search : props.location.search
     );
@@ -87,11 +94,11 @@ class ContentListPage extends React.Component {
     };
   }
 
-  handleFilterPresetChange(presetId) {
+  handleFilterPresetChange(presetId: string) {
     this.handleQueryChange(presets[presetId]);
   }
 
-  handleQueryChange(filters, createHistoryItem = false) {
+  handleQueryChange(filters: any, createHistoryItem = false) {
     const action = createHistoryItem
       ? this.props.history.push
       : this.props.history.replace;
@@ -101,25 +108,25 @@ class ContentListPage extends React.Component {
     );
   }
 
-  handleUpdate(key, value) {
+  handleUpdate(key: string, value: string) {
     const query = this.getQueryData();
     query[key] = value;
     this.handleQueryChange(query);
   }
 
-  handleInputUpdate(key, event) {
+  handleInputUpdate(key: string, event: React.ChangeEvent<HTMLInputElement>) {
     const query = this.getQueryData();
     query[key] = event.target.value;
     this.handleQueryChange(query);
   }
 
-  handleAuthorChange(value) {
+  handleAuthorChange(value: string) {
     const query = this.getQueryData();
     query.authors = value;
     this.handleQueryChange(query);
   }
 
-  handlePagination(page) {
+  handlePagination(page: number) {
     this.handleQueryChange({ ...this.getQueryData(), page }, true);
   }
 
@@ -129,20 +136,17 @@ class ContentListPage extends React.Component {
     }
 
     const { contentListItems } = this.props;
-    const { contentlist: { hasNext, hasPrevious } } = this.props;
+    const { contentlist: { hasNext, count } } = this.props;
     const query = this.getQueryData();
 
     if (contentListItems.length > 0) {
       return (
         <div>
-          <WorksList
-            works={contentListItems}
-            vertical={this.props.vertical.identifier}
-          />
+          <WorksList works={contentListItems} vertical={this.props.vertical} />
           <PaginationNav
             currentPage={query.page}
             hasNext={hasNext}
-            hasPrevious={hasPrevious}
+            total={count}
             onChange={this.handlePagination}
           />
         </div>
@@ -224,9 +228,9 @@ class ContentListPage extends React.Component {
                       null,
                       'All',
                       ...generateFromConstants(contentStatusLang, [
-                        contentStatus.STATUS_STUB,
-                        contentStatus.STATUS_WRITING,
-                        contentStatus.STATUS_FINISHED,
+                        Status.Stub,
+                        Status.Writing,
+                        Status.Finished,
                       ]),
                     ]}
                     onChange={this.handleUpdate.bind(this, 'status')}
@@ -242,10 +246,10 @@ class ContentListPage extends React.Component {
                       ...generateFromConstants(
                         contentFormLang,
                         intersection(vertical.content_forms, [
-                          contentForm.FORM_ARTICLE,
-                          contentForm.FORM_VIDEO,
-                          contentForm.FORM_INTERACTIVE,
-                          contentForm.FORM_GALLERY,
+                          Form.Article,
+                          Form.Video,
+                          Form.Interactive,
+                          Form.Gallery,
                         ])
                       ),
                     ]}
@@ -262,12 +266,12 @@ class ContentListPage extends React.Component {
                       ...generateFromConstants(
                         contentToneLang,
                         intersection(vertical.content_tones, [
-                          contentTone.TONE_CONTENT,
-                          contentTone.TONE_REVIEW,
-                          contentTone.TONE_VIEWPOINT,
-                          contentTone.TONE_STORYTELLING,
-                          contentTone.TONE_INTERACTIVE,
-                          contentTone.TONE_GUIDE,
+                          Tone.Content,
+                          Tone.Review,
+                          Tone.Viewpoint,
+                          Tone.Storytelling,
+                          Tone.Interactive,
+                          Tone.Guide,
                         ])
                       ),
                     ]}
@@ -305,22 +309,18 @@ class ContentListPage extends React.Component {
   }
 }
 
-ContentListPage.propTypes = {
-  contentlist: PropTypes.object.isRequired,
-  contentListItems: PropTypes.array.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  history: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired,
-};
-
 export default withRouter(
-  connect(state => ({
-    contentlist: state.contentList,
-    contentListItems: state.contentList.list.map(id => ({
-      ...state.entities.contentList[id],
-    })),
-    isLoading: state.contentList.loading,
-    vertical: state.verticals.selectedVertical,
-  }))(ContentListPage)
+  connect(
+    (state: RootState) => ({
+      contentlist: state.contentList,
+      contentListItems: state.contentList.list.map((id: number) => ({
+        ...state.entities.contentList[id],
+      })),
+      isLoading: state.contentList.loading,
+      vertical: state.verticals.selectedVertical,
+    }),
+    {
+      loadContent: ContentListActions.loadContent,
+    }
+  )(ContentListPage)
 );

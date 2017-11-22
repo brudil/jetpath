@@ -7,6 +7,7 @@ import * as OrgansiationActions from '../ducks/Organisation';
 interface IProps {
   model: Object;
   saveSection: any; // todo
+  onSubmit: any; // todo
 }
 
 class SectionEditForm extends React.Component<IProps> {

@@ -38,8 +38,12 @@ interface PostCommentInput {
   comment: string;
 }
 
-interface IProps {
+interface ComponentProps {
   revisionId: number;
+  contentId: number; // we shouldn't ever have new, but ts
+}
+
+interface InternalProps {
   panelOpen: boolean;
   openCommentPanel: () => void;
   closeCommentPanel: () => void;
@@ -51,6 +55,8 @@ interface IProps {
   };
   children: Element;
 }
+
+type IProps = ComponentProps & InternalProps;
 
 class EditorComments extends React.Component<IProps, any> {
   private scrollElement: HTMLDivElement | null;
@@ -158,4 +164,4 @@ export default compose(
       refetchQueries: ['EditorComments'],
     },
   })
-)(EditorComments);
+)(EditorComments) as React.SFC<ComponentProps>;

@@ -1,13 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import DocumentTitle from '../components/DocumentTitle';
-import { getUnread } from '../ducks/Notification';
+import { RootState } from '../types';
+import { NotificationState, Notification } from '../ducks/Notification';
 
-class NotificationsPage extends React.Component {
-  componentDidMount() {
-    this.props.dispatch(getUnread());
-  }
+interface IProps {
+  notification: NotificationState;
+  notificationsList: Notification[]; // todo
+}
 
+class NotificationsPage extends React.Component<IProps> {
   render() {
     return (
       <DocumentTitle title="Works">
@@ -31,7 +33,7 @@ class NotificationsPage extends React.Component {
   }
 }
 
-export default connect(state => ({
+export default connect((state: RootState) => ({
   notification: state.notification,
   notificationsList: state.notification.unreadList.map(
     id => state.entities.notifications[id]

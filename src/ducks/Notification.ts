@@ -28,8 +28,17 @@ const initialState = {
 
 type Action = any;
 
+export interface NotificationState {
+  unreadList: number[];
+  unreadCount: number | null;
+}
+
+export interface Notification {
+  id: number;
+}
+
 export default function NotificationReducer(
-  state = initialState,
+  state: NotificationState = initialState,
   action: Action
 ) {
   switch (action.type) {

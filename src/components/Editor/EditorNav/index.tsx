@@ -1,19 +1,31 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 import styles from './EditorNav.css';
+import { Vertical } from '../../../ducks/Vertical';
 
-class EditorNav extends React.Component {
-  constructor(props) {
+interface IProps {
+  vertical: Vertical;
+  headline: string;
+  isLocal: boolean;
+  isSaving: boolean;
+  hasChangesFromSaved: boolean;
+  onSave(): void;
+  onHeadlineUpdate(headline: string): void;
+  pathId: string;
+  stats: any; // todo
+}
+
+class EditorNav extends React.Component<IProps> {
+  constructor(props: IProps) {
     super(props);
-
-    this.state = {};
 
     this.handleHeadlineChange = this.handleHeadlineChange.bind(this);
   }
 
-  handleHeadlineChange({ target: { value } }) {
+  handleHeadlineChange({
+    currentTarget: { value },
+  }: React.ChangeEvent<HTMLInputElement>) {
     this.props.onHeadlineUpdate(value);
   }
 
@@ -109,19 +121,5 @@ class EditorNav extends React.Component {
     return this.renderDefault();
   }
 }
-
-EditorNav.propTypes = {
-  vertical: PropTypes.shape({
-    identifier: PropTypes.string,
-  }),
-  headline: PropTypes.string,
-  isLocal: PropTypes.bool,
-  isSaving: PropTypes.bool,
-  hasChangesFromSaved: PropTypes.bool,
-  onSave: PropTypes.func,
-  onHeadlineUpdate: PropTypes.func,
-  pathId: PropTypes.string,
-  stats: PropTypes.object,
-};
 
 export default EditorNav;

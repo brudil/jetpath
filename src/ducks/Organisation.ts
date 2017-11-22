@@ -60,10 +60,9 @@ export const selectSection = (id: number) =>
   makeAction(ORGANISATION_SELECT_SECTION, { id });
 export const selectTopic = (id: number) =>
   makeAction(ORGANISATION_SELECT_TOPIC, { id });
-export const selectNewSection = (id: number) =>
-  makeAction(ORGANISATION_SELECT_NEW_SECTION, { id });
-export const selectNewTopic = (id: number) =>
-  makeAction(ORGANISATION_SELECT_NEW_TOPIC, { id });
+export const selectNewSection = () =>
+  makeAction(ORGANISATION_SELECT_NEW_SECTION);
+export const selectNewTopic = () => makeAction(ORGANISATION_SELECT_NEW_TOPIC);
 
 export const saveTopic = (data: any) =>
   makeAction(ORGANISATION_SAVE_TOPIC.REQUEST, { data });
@@ -177,7 +176,7 @@ const initialState = {
 export interface OrganisationState {
   sectionList: number[];
   topicListMap: {
-    [sectionId: number]: Object[];
+    [sectionId: number]: number[];
   };
   loading: boolean;
   selectedSectionId: number | null;

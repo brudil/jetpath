@@ -5,7 +5,7 @@ import styles from './MediaGrid.css';
 
 interface IProps {
   media: Array<{ node: MediaObject; id: string }>;
-  onSelect: (mediaId: number) => void;
+  onSelect?: (mediaId: number) => void;
   wrap?: (media: MediaObject, children: JSX.Element) => Element;
 }
 

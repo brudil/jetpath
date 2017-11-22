@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 import { Link } from 'react-router-dom';
@@ -11,17 +10,17 @@ import {
 } from '../../lang/content_attrs';
 
 import styles from './WorksList.css';
+import { Author } from '../../ducks/Authors';
+import { Vertical } from '../../ducks/Vertical';
 
-function getUsersDisplayName(user) {
-  if (user.first_name !== '' || user.last_name !== '') {
-    return `${user.first_name} ${user.last_name}`;
-  }
-
-  return `@${user.username}`;
+interface IProps {
+  works: any[]; // todo
+  vertical: Vertical;
 }
 
-function WorksList(props) {
-  function renderAuthors(revision) {
+function WorksList(props: IProps) {
+  function renderAuthors(revision: any) {
+    // todo
     if (revision.authors.length <= 0) {
       return (
         <span>
@@ -33,7 +32,7 @@ function WorksList(props) {
     return (
       <span>
         <span>by </span>
-        {revision.authors.map((author, index) => (
+        {revision.authors.map((author: Author, index: number) => (
           <span key={author.id}>
             <span>{author.name}</span>
             {index < revision.authors.length - 1 ? (
@@ -54,7 +53,7 @@ function WorksList(props) {
         const currentRevision = work.current_revision;
 
         const nubClasses = cx(styles.itemNub, {
-          [styles[
+          [(styles as any)[
             `itemNub--status-${contentStatus[
               currentRevision.status
             ].toLowerCase()}`
@@ -66,7 +65,9 @@ function WorksList(props) {
           <li className={styles.item} key={work.content}>
             <div className={nubClasses} />
             <h2 className={styles.itemTitle}>
-              <Link to={`/@${props.vertical}/editor/${work.content}`}>
+              <Link
+                to={`/@${props.vertical.identifier}/editor/${work.content}`}
+              >
                 {currentRevision.headline}
               </Link>
             </h2>
@@ -94,7 +95,7 @@ function WorksList(props) {
             </div>
             <Link
               className={styles.fauxLink}
-              to={`/@${props.vertical}/editor/${work.content}`}
+              to={`/@${props.vertical.identifier}/editor/${work.content}`}
             />
           </li>
         );
@@ -102,10 +103,5 @@ function WorksList(props) {
     </ul>
   );
 }
-
-WorksList.propTypes = {
-  works: PropTypes.array.isRequired,
-  vertical: PropTypes.string.isRequired,
-};
 
 export default WorksList;

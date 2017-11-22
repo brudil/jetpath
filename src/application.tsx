@@ -63,4 +63,17 @@ function renderApp() {
   );
 }
 
-renderApp();
+try {
+  (window as any).Typekit.load({
+    active: function webfontsActivated() {
+      console.log('[webfonts] Active.');
+      renderApp();
+    },
+    inactive: function webfontsInactive() {
+      renderApp();
+    },
+  });
+} catch (e) {
+  console.warn('[webfonts] failed to load');
+  renderApp();
+}

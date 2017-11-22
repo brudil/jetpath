@@ -30,7 +30,23 @@ const initialState = {
   selectedVerticalIdentifier: null,
 };
 
-export default function VerticalReducer(state = initialState, action: any) {
+export interface Vertical {
+  identifier: string;
+  content_tones: number[];
+  content_forms: number[];
+}
+
+export interface VerticalState {
+  list: Vertical[];
+  isLoading: boolean;
+  selectedVertical: Vertical | null;
+  selectedVerticalIdentifier: string | null;
+}
+
+export default function VerticalReducer(
+  state: VerticalState = initialState,
+  action: any
+) {
   switch (action.type) {
     case FETCH_VERTICALS_SUCCESS: {
       const found =

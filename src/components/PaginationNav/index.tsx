@@ -24,12 +24,14 @@ const currentPageStyles = css`
   flex: 2 0 0px;
 `;
 
-export function PaginationNav(props: {
+interface IProps {
   currentPage: number;
   hasNext: boolean;
   total: number;
   onChange: (page: number) => void;
-}) {
+}
+
+export function PaginationNav(props: IProps) {
   const { hasNext, currentPage, onChange, total } = props;
 
   function handlePreviousPage() {

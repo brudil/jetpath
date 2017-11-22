@@ -1,6 +1,5 @@
-import PropTypes from 'prop-types';
 import React from 'react';
-import { withRouter } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import Combokeys from 'combokeys';
 import { Route, Switch } from 'react-router-dom';
@@ -9,16 +8,47 @@ import EditorNav from '../components/Editor/EditorNav';
 import EditorCommandPalette from '../components/Editor/EditorCommandPalette';
 import EditorComments from '../components/Editor/EditorComments';
 import * as EditorActions from '../ducks/Editor';
-import { formly, createChangeHandler } from '../libs/form';
+import { createChangeHandler } from '../libs/form';
 import LoadingContent from '../components/LoadingContent';
 import EditorSectionContent from './EditorSectionContent';
 import EditorSectionMetadata from './EditorSectionMetadata';
 import EditorSectionWorkflow from './EditorSectionWorkflow';
 import EditorSectionPreview from './EditorSectionPreview';
 import globalPlugin from 'combokeys/plugins/global-bind';
+import { RootState } from '../types';
+import { Dispatch } from 'redux';
+import { Vertical } from '../ducks/Vertical';
 
-class EditorPage extends React.Component {
-  constructor(props) {
+interface IRouteParams {
+  id: string;
+}
+
+interface IProps extends RouteComponentProps<IRouteParams> {
+  dispatch: Dispatch<RootState>;
+  workingDocument: any;
+  workingRevision: any;
+  savedDocument: any;
+  savedRevision: any;
+  editorialMetadata: any;
+  contentId: number;
+  isSaving: boolean;
+  isLocal: boolean;
+  hasChangesFromSaved: boolean;
+  location: any;
+  commandPaletteOpen: boolean;
+  vertical: Vertical;
+  stats: any; // todo
+
+  toggleCommandPalette: typeof EditorActions.toggleCommandPalette;
+  createEmptyDocument: typeof EditorActions.createEmptyDocument;
+  save: typeof EditorActions.save;
+  loadContent: typeof EditorActions.loadContent;
+}
+
+class EditorPage extends React.Component<IProps> {
+  private editorTrap: any;
+
+  constructor(props: IProps) {
     super(props);
 
     this.handleSave = this.handleSave.bind(this);
@@ -27,10 +57,10 @@ class EditorPage extends React.Component {
   componentWillMount() {
     const { id } = this.props.match.params;
     if (id !== 'new') {
-      this.props.dispatch(EditorActions.loadContent(id));
+      this.props.loadContent(parseInt(id, 10));
       // this.props.dispatch(EditorActions.fetchLatestRevisionAndUpdateResources(id));
     } else {
-      this.props.dispatch(EditorActions.createEmptyDocument());
+      this.props.createEmptyDocument();
     }
   }
 
@@ -50,22 +80,22 @@ class EditorPage extends React.Component {
 
     this.editorTrap = globalPlugin(new Combokeys(document));
 
-    this.editorTrap.bindGlobal('mod+/', e => {
-      e.preventDefault();
-      this.props.dispatch(EditorActions.toggleCommandPalette({ open: true }));
+    this.editorTrap.bindGlobal('mod+/', (event: KeyboardEvent) => {
+      event.preventDefault();
+      this.props.toggleCommandPalette({ open: true });
     });
 
-    this.editorTrap.bindGlobal('esc', e => {
-      this.props.dispatch(EditorActions.toggleCommandPalette({ open: false }));
+    this.editorTrap.bindGlobal('esc', () => {
+      this.props.toggleCommandPalette({ open: false });
     });
 
-    this.editorTrap.bindGlobal('mod+s', e => {
-      e.preventDefault();
+    this.editorTrap.bindGlobal('mod+s', (event: KeyboardEvent) => {
+      event.preventDefault();
       this.handleSave();
     });
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: IProps) {
     if (
       nextProps.isLocal === false &&
       this.props.isLocal === true &&
@@ -97,7 +127,7 @@ class EditorPage extends React.Component {
       return;
     }
 
-    this.props.dispatch(EditorActions.save());
+    this.props.save();
   }
 
   routerWillLeave() {
@@ -113,7 +143,6 @@ class EditorPage extends React.Component {
       vertical,
       workingRevision,
       savedRevision,
-      editorialMetadata,
       hasChangesFromSaved,
       stats,
       isLocal,
@@ -149,9 +178,9 @@ class EditorPage extends React.Component {
           </Switch>
         </div>
         {commandPaletteOpen ? <EditorCommandPalette /> : null}
-        {!isLocal ? (
+        {!isLocal && params.id !== 'new' ? (
           <EditorComments
-            contentId={params.id}
+            contentId={parseInt(params.id, 10)}
             revisionId={savedRevision.get('id')}
           />
         ) : null}
@@ -174,46 +203,33 @@ class EditorPage extends React.Component {
 
     return (
       <DocumentTitle title="Editor">
-        <div
-          ref={el => {
-            this.editorEl = el;
-          }}
-        >
-          {editor}
-        </div>
+        <div>{editor}</div>
       </DocumentTitle>
     );
   }
 }
 
-EditorPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  params: PropTypes.object,
-  workingDocument: PropTypes.object,
-  workingRevision: PropTypes.object,
-  savedRevision: PropTypes.object,
-  editorialMetadata: PropTypes.object,
-  contentId: PropTypes.number,
-  isSaving: PropTypes.bool.isRequired,
-  isLocal: PropTypes.bool.isRequired,
-  hasChangesFromSaved: PropTypes.bool.isRequired,
-  location: PropTypes.object.isRequired,
-  commandPaletteOpen: PropTypes.bool.isRequired,
-};
-
 export default withRouter(
-  connect(state => ({
-    workingDocument: state.editor.get('workingDocument'),
-    workingRevision: state.editor.get('workingRevision'),
-    savedDocument: state.editor.get('savedDocument'),
-    savedRevision: state.editor.get('savedRevision'),
-    isLocal: state.editor.get('isLocal'),
-    stats: state.editor.get('stats'),
-    vertical: state.verticals.selectedVertical,
-    isSaving: state.editor.get('isSaving'),
-    hasChangesFromSaved: state.editor.get('hasChangesFromSaved'),
-    editorialMetadata: state.editor.get('editorialMetadata'),
-    contentId: state.editor.get('remoteId'),
-    commandPaletteOpen: state.editor.getIn(['focus', 'commandPaletteOpen']),
-  }))(EditorPage)
+  connect(
+    (state: RootState) => ({
+      workingDocument: state.editor.get('workingDocument'),
+      workingRevision: state.editor.get('workingRevision'),
+      savedDocument: state.editor.get('savedDocument'),
+      savedRevision: state.editor.get('savedRevision'),
+      isLocal: state.editor.get('isLocal'),
+      stats: state.editor.get('stats'),
+      vertical: state.verticals.selectedVertical,
+      isSaving: state.editor.get('isSaving'),
+      hasChangesFromSaved: state.editor.get('hasChangesFromSaved'),
+      editorialMetadata: state.editor.get('editorialMetadata'),
+      contentId: state.editor.get('remoteId'),
+      commandPaletteOpen: state.editor.getIn(['focus', 'commandPaletteOpen']),
+    }),
+    {
+      loadContent: EditorActions.loadContent,
+      createEmptyDocument: EditorActions.createEmptyDocument,
+      toggleCommandPalette: EditorActions.toggleCommandPalette,
+      save: EditorActions.save,
+    }
+  )(EditorPage)
 );

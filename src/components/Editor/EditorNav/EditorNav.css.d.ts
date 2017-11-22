@@ -1,3 +1,5 @@
+export const root: string;
+export const info: string;
 export const main: string;
 export const secondary: string;
 export const element: string;

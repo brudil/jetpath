@@ -1,5 +1,6 @@
 import { OrganisationState } from './ducks/Organisation';
 import { TopicsStore } from './ducks/Topic';
+import { NotificationState } from './ducks/Notification';
 
 interface EntityMap {
   [key: number]: Object;
@@ -10,6 +11,8 @@ interface EntityState {
   media: EntityMap;
   interactives: EntityMap;
   topics: EntityMap;
+  notifications: EntityMap;
+  contentList: EntityMap;
 }
 
 export interface RootState {
@@ -18,9 +21,10 @@ export interface RootState {
   verticals: any; // todo
   organisation: OrganisationState;
   entities: EntityState;
-  notification: any; // todo
+  notification: NotificationState;
   uploadProgress: any; // todo
   toasts: any; // todo
+  contentList: any; // todo
   topics: TopicsStore;
 }
 

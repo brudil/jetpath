@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'react-emotion';
-import { loadUnreadCount } from '../../ducks/Notification';
+import { loadUnreadCount, NotificationState } from '../../ducks/Notification';
 // eslint-disable-next-line
 import bellIcon from 'icons/bell.svg';
 import { RootState } from '../../types';
@@ -39,9 +39,7 @@ interface DispatchProps {
 }
 
 interface ComponentProps {
-  notification: {
-    unreadCount: number;
-  };
+  notification: NotificationState;
 }
 
 type IProps = ComponentProps & DispatchProps;

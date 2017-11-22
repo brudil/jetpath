@@ -62,10 +62,7 @@ class BaseContainer extends React.Component {
                 path={`${url}verticals`}
                 component={VerticalSelectionPage}
               />
-              <Route
-                path={`${url}@:vertical`}
-                component={InnerVerticalPage}
-              />
+              <Route path={`${url}@:vertical`} component={InnerVerticalPage} />
               <Redirect from="/" to="verticals" />
               <Route path="*" component={NotFoundPage} />
             </Switch>

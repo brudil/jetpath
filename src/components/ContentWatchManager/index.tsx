@@ -15,8 +15,11 @@ interface ContentWatcher {
   };
 }
 
-interface IProps {
+interface ComponentProps {
   contentId: number;
+}
+
+interface InternalProps {
   auth: {
     id: number;
   };
@@ -32,6 +35,8 @@ interface IProps {
   watchContent: () => void;
   children?: Element;
 }
+
+type IProps = InternalProps & ComponentProps;
 
 function ContentWatchManager(props: IProps) {
   if (props.data.loading) {
@@ -75,4 +80,4 @@ export default compose(
       },
     }),
   })
-)(ContentWatchManager);
+)(ContentWatchManager) as React.SFC<ComponentProps>;

@@ -1,8 +1,6 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import qs from 'query-string';
 import without from 'lodash/without';
-import TagsInput from 'react-tagsinput';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Link, withRouter } from 'react-router-dom';
@@ -17,8 +15,25 @@ import Sidebar, { SidebarControl } from '../components/Sidebar';
 import viewContainerStyles from '../styles/components/ViewContainer.css';
 import stylesStandardHeader from '../styles/components/StandardHeader.css';
 import filterPresetsMatch from '../libs/filterPresetsMatch';
+import { RootState } from '../types';
+import { RouteComponentProps } from 'react-router';
+import { Vertical } from '../ducks/Vertical';
 
-const presets = {
+interface Filter {
+  order: 'created_asc' | 'created_desc';
+  type: string | null;
+  uploaders: number[];
+  tags: string[];
+  page: number;
+}
+
+type FilterKeys = 'order' | 'type' | 'uploaders' | 'tags' | 'page';
+
+interface Presets {
+  [key: string]: Partial<Filter>;
+}
+
+const presets: Presets = {
   all: {
     order: 'created_desc',
   },
@@ -32,8 +47,21 @@ const presets = {
   },
 };
 
-class MediaListPage extends React.Component {
-  constructor(props) {
+interface RouteProps {}
+
+interface IProps extends RouteComponentProps<RouteProps> {
+  media: any; // todo
+  mediaItems: any; // todo
+  uploadProgress: any; // todo
+  isLoading: boolean;
+  hasNext: boolean;
+  vertical: Vertical;
+
+  uploadRequest: typeof MediaListActions.upload.request;
+}
+
+class MediaListPage extends React.Component<IProps> {
+  constructor(props: IProps) {
     super(props);
 
     this.handlePagination = this.handlePagination.bind(this);
@@ -46,7 +74,7 @@ class MediaListPage extends React.Component {
     this.handleQueryChange(data);
   }
 
-  getQueryData() {
+  getQueryData(): Filter {
     const query = qs.parse(this.props.location.search);
     return {
       order: query.order || 'created_desc',
@@ -57,23 +85,24 @@ class MediaListPage extends React.Component {
     };
   }
 
-  handleQueryChange(filters) {
+  handleQueryChange(filters: Partial<Filter>) {
     console.log(this.props);
     const vertical = this.props.vertical.identifier;
     this.props.history.replace(`/@${vertical}/media?${qs.stringify(filters)}`);
   }
 
-  handleUpdate(key, value) {
+  handleUpdate(key: FilterKeys, value: string) {
     const query = this.getQueryData();
     query[key] = value;
     this.handleQueryChange(query);
   }
 
-  handleFilterPresetChange(key) {
+  handleFilterPresetChange(key: string) {
     this.handleQueryChange(presets[key]);
   }
 
-  handleUserFilter(method, userId) {
+  handleUserFilter(method: string, userId: number) {
+    // todo
     const add = method === 'add';
     const query = this.getQueryData();
     if (add) {
@@ -85,11 +114,12 @@ class MediaListPage extends React.Component {
     this.handleQueryChange(query);
   }
 
-  handleFile(file) {
-    this.props.dispatch(MediaListActions.upload.request(file));
+  handleFile(file: any) {
+    // todo
+    this.props.uploadRequest(file);
   }
 
-  handlePagination(page) {
+  handlePagination(page: number) {
     this.handleQueryChange({ ...this.getQueryData(), page });
   }
 
@@ -136,13 +166,6 @@ class MediaListPage extends React.Component {
             </div>
             <div className={viewContainerStyles.sidebar}>
               <Sidebar>
-                <SidebarControl title="Tags">
-                  <TagsInput
-                    value={query.tags}
-                    onChange={this.handleUpdate.bind(this, 'tags')}
-                  />
-                </SidebarControl>
-
                 <SidebarControl title="Uploader">
                   <em>to be reimplemented</em>
                 </SidebarControl>
@@ -162,7 +185,7 @@ class MediaListPage extends React.Component {
                   />
                 </SidebarControl>
 
-                <SidebarControl className="Order">
+                <SidebarControl title="Order">
                   <SegmentedControl
                     value={query.order}
                     options={[
@@ -183,21 +206,15 @@ class MediaListPage extends React.Component {
   }
 }
 
-MediaListPage.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  media: PropTypes.object.isRequired,
-  mediaItems: PropTypes.array.isRequired,
-  uploadProgress: PropTypes.object.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  location: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired,
-  hasNext: PropTypes.bool.isRequired,
-};
-
 export default compose(
   withRouter,
-  connect(state => ({
-    uploadProgress: state.uploadProgress,
-    vertical: state.verticals.selectedVertical,
-  }))
+  connect(
+    (state: RootState) => ({
+      uploadProgress: state.uploadProgress,
+      vertical: state.verticals.selectedVertical,
+    }),
+    {
+      uploadRequest: MediaListActions.upload.request,
+    }
+  )
 )(MediaListPage);

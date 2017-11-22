@@ -11,6 +11,11 @@ export const AUTHOR_FETCH_REQUEST = 'AUTHOR_FETCH_REQUEST';
 export const AUTHOR_FETCH_FAILURE = 'AUTHOR_FETCH_FAILURE';
 export const AUTHOR_FETCH_SUCCESS = 'AUTHOR_FETCH_SUCCESS';
 
+export interface Author {
+  id: number;
+  name: string;
+}
+
 export const author = {
   request: (query: string) => ({
     type: AUTHOR_FETCH_REQUEST,

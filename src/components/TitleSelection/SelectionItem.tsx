@@ -1,11 +1,18 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import cx from 'classnames';
 
 import styles from './TitleSelection.css';
 
-class SelectionItem extends React.Component {
-  constructor(props) {
+interface IProps {
+  title: string;
+  id: any;
+  onItemClick(value: any): void;
+}
+
+class SelectionItem extends React.Component<IProps> {
+  private handleClick: any;
+
+  constructor(props: IProps) {
     super(props);
 
     this.handleClick = this.props.onItemClick.bind(this, this.props.id);
@@ -23,11 +30,5 @@ class SelectionItem extends React.Component {
     );
   }
 }
-
-SelectionItem.propTypes = {
-  title: PropTypes.string,
-  id: PropTypes.string,
-  onItemClick: PropTypes.func,
-};
 
 export default SelectionItem;
