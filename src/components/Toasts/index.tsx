@@ -16,6 +16,7 @@ const toastListStyles = css`
   margin-top: 5rem;
   margin-right: 0.7rem;
   max-width: 300px;
+  z-index: 100;
 `;
 
 interface IProps {

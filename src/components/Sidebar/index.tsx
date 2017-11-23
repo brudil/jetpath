@@ -3,7 +3,7 @@ import { SidebarInput } from './SidebarInput';
 import styled from 'react-emotion';
 
 const Sidebar = styled.div`
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 `;
 
 export default Sidebar;

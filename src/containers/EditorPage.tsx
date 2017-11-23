@@ -183,6 +183,7 @@ class EditorPage extends React.Component<IProps> {
             <EditorNav
               headline={workingRevision.get('headline')}
               onHeadlineUpdate={revisionChangeHandler('headline')}
+              stats={stats}
             />
             <EditorSectionContent />
           </ComposeContainer>

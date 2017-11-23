@@ -11,7 +11,7 @@ const ControlTitle = styled.h2`
   text-transform: uppercase;
   font-weight: bold;
   margin-bottom: 0.25em;
-  color: ${(props: any) => props.theme.colors.grey_winter};
+  color: ${(props: any) => props.theme.colors.grey_worst_winter};
 `;
 
 const ControlTitleLimit = styled.span`
@@ -27,6 +27,7 @@ interface IProps {
   charLimit?: number;
   charCount?: number;
   buttonTreats?: Array<Object>;
+  className?: string
 }
 
 function SidebarControl({
@@ -35,9 +36,10 @@ function SidebarControl({
   charLimit = null,
   charCount = null,
   buttonTreats = null,
+  className
 }: IProps) {
   return (
-    <Container>
+    <Container className={className}>
       <ControlTitle>
         {title}
 

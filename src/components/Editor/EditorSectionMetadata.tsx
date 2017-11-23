@@ -7,7 +7,6 @@ import { Vertical } from '../../ducks/Vertical';
 import { bindActionCreators, Dispatch } from 'redux';
 import values from 'lodash/values';
 import intersection from 'lodash/intersection';
-import DebouncedInput from '../DebouncedInput';
 import DebouncedAutosizeTextarea from '../DebouncedAutosizeTextarea';
 import MediaInput from '../MediaInput';
 import SlugInput from '../SlugInput';
@@ -25,7 +24,6 @@ const SidebarSlugInput: any = SidebarInput.withComponent(SlugInput as any); // t
 const SidebarDebouncedAutosizeTextarea: any = SidebarInput.withComponent(
   DebouncedAutosizeTextarea
 );
-const SidebarDebouncedInput: any = SidebarInput.withComponent(DebouncedInput);
 
 const wand = <WandComponent height={16} width={16} />;
 
@@ -94,7 +92,7 @@ class EditorSectionMetadata extends React.Component<IProps> {
     }
 
     return (
-      <div style={{ maxWidth: '500px', width: '100%', margin: '2rem auto' }}>
+      <div>
         <Sidebar>
           <SidebarControl
             title="Slug"
@@ -172,8 +170,7 @@ class EditorSectionMetadata extends React.Component<IProps> {
               },
             ]}
           >
-            <SidebarDebouncedInput
-              type="text"
+            <SidebarDebouncedAutosizeTextarea
               value={revision.get('short_headline')}
               onChange={revisionChangeHandler('short_headline', formly.event)}
               maxLength={60}
@@ -184,8 +181,7 @@ class EditorSectionMetadata extends React.Component<IProps> {
             charLimit={60}
             charCount={revision.get('kicker').length}
           >
-            <SidebarDebouncedInput
-              type="text"
+            <SidebarDebouncedAutosizeTextarea
               value={revision.get('kicker')}
               onChange={revisionChangeHandler('kicker', formly.event)}
               maxLength={60}

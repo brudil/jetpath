@@ -2,7 +2,7 @@ import styled from 'react-emotion';
 
 export const Textbox = styled.textarea`
   border: 1px solid rgba(0, 0, 0, 0.1);
-  font-size: 1rem;
+  font-size: inherit;
   padding: 5px;
   -webkit-appearance: none;
   width: 100%;

@@ -6,6 +6,7 @@ import SmartDate from '../SmartDate';
 import SaveBeforeWorkflowMessage from '../SaveBeforeWorkflowMessage';
 
 import styles from './EditorWorkflow.css';
+import {SidebarControl} from "../Sidebar";
 
 function getIssuesForRevision(revision: any) {
   const issues = [];
@@ -138,22 +139,21 @@ function EditorWorkflow(props: IProps) {
 
   return (
     <div className={styles.root}>
-      <div>
-        <h4 className={cx(styles.sectionTitle)}>Now</h4>
+      <SidebarControl title="Now">
         {hasChangesFromSaved ? (
           <p>Unsaved changes!</p>
         ) : (
           <p>Saved as revision #{savedRevision.get('revision_number')}</p>
         )}
-      </div>
-      <div
+      </SidebarControl>
+      <SidebarControl
         className={cx({
           [styles.sectionDisabled]: hasChangesFromSaved,
         })}
+        title="Next"
       >
-        <h4 className={styles.sectionTitle}>Next</h4>
         {renderNextSection()}
-      </div>
+      </SidebarControl>
     </div>
   );
 }

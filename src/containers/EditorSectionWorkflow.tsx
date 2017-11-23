@@ -5,6 +5,7 @@ import ContentWatchManager from '../components/ContentWatchManager';
 
 import EditorWorkflow from '../components/Editor/EditorWorkflow';
 import { RootState } from '../types';
+import Sidebar from "../components/Sidebar";
 
 interface IProps {
   savedRevision: any; // todo
@@ -43,7 +44,7 @@ class EditorSectionWorkflow extends React.Component<IProps> {
       hasChangesFromSaved,
     } = this.props;
     return (
-      <div style={{ maxWidth: '500px', width: '100%', margin: '2rem auto' }}>
+      <Sidebar>
         <EditorWorkflow
           hasChangesFromSaved={hasChangesFromSaved}
           isLocal={isLocal}
@@ -54,7 +55,7 @@ class EditorSectionWorkflow extends React.Component<IProps> {
           editorialMetadata={editorialMetadata}
         />
         <ContentWatchManager contentId={savedRevision.get('content')} />
-      </div>
+      </Sidebar>
     );
   }
 }

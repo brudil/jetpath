@@ -10,6 +10,10 @@ import PreviewIcon from './preview.svgc';
 import MetadataIcon from './metadata.svgc';
 import EditorPreviewModal from './EditorPreviewModal';
 
+const Container = styled.div`
+  padding-top: 40px;
+`;
+
 const IconButton = styled.button`
   border: 0;
   display: block;
@@ -95,7 +99,6 @@ class EditorSidebar extends React.Component<IProps, IState> {
   render() {
     const {
       savedRevision,
-      stats,
       isLocal,
       isSaving,
       hasChangesFromSaved,
@@ -113,7 +116,7 @@ class EditorSidebar extends React.Component<IProps, IState> {
     };
 
     return (
-      <div>
+      <Container>
         <Header>
           <SidebarMenu>
             <MenuItem active={view === Views.Notes}>
@@ -146,10 +149,6 @@ class EditorSidebar extends React.Component<IProps, IState> {
           </button>
         </Header>
 
-        <div>
-          {stats.get('wordCount')} words.{' '}
-          {Math.round(stats.get('wordCount') / 270)} minute read.
-        </div>
         {view === Views.Notes && (
           <EditorComments
             contentId={contentId}
@@ -164,7 +163,7 @@ class EditorSidebar extends React.Component<IProps, IState> {
           contentLabel="Content preview"
           onRequestClose={() => this.handlePreviewModal(false)}
         />
-      </div>
+      </Container>
     );
   }
 }

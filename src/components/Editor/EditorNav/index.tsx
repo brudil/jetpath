@@ -4,6 +4,7 @@ import styles from './EditorNav.css';
 interface IProps {
   headline: string;
   onHeadlineUpdate(headline: string): void;
+  stats: any; // todo
 }
 
 class EditorNav extends React.Component<IProps> {
@@ -20,7 +21,7 @@ class EditorNav extends React.Component<IProps> {
   }
 
   renderDefault() {
-    const { headline } = this.props;
+    const { headline, stats } = this.props;
 
     return (
       <div className={styles.root}>
@@ -32,6 +33,12 @@ class EditorNav extends React.Component<IProps> {
             onChange={this.handleHeadlineChange}
             placeholder="Headline of content"
           />
+        </div>
+        <div className={styles.secondary}>
+          <div className={styles.info}>
+            {stats.get('wordCount')} words.{' '}
+            {Math.round(stats.get('wordCount') / 250)} minute read.
+          </div>
         </div>
       </div>
     );

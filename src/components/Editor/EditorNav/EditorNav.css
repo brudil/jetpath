@@ -19,16 +19,17 @@
 }
 
 .secondary {
-  background: linear-gradient(to bottom, rgba(251, 251, 251, 0.9) 0%,rgba(251, 251, 251, 0) 100%);
   box-sizing: border-box;
   color: rgb(100, 100, 100);
   font-size: 0.8rem;
   left: 68px;
-  padding: 0.4rem;
   text-align: right;
   position: fixed;
   right: 0;
   top: 32px;
+  padding: 0.4rem calc(280px + 0.4rem) 0.4rem 0.4rem;
+  z-index: 80;
+  text-shadow: 0 0 3px rgba(245, 245, 245, 0.8);
 }
 
 .element {
