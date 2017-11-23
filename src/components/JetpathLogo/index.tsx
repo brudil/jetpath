@@ -5,7 +5,7 @@ import logoQuotes from '../../lang/logo_quotes';
 import jetpathLogo from 'logo.svg';
 import styled from 'react-emotion';
 
-const Logo: any = styled.div`
+const Logo: any = styled.img`
   opacity: 1;
   height: 22px;
   transition: transform 200ms ease;
