@@ -9,12 +9,27 @@ import NotesIcon from './notes.svgc';
 import PreviewIcon from './preview.svgc';
 import MetadataIcon from './metadata.svgc';
 import EditorPreviewModal from './EditorPreviewModal';
+import {css} from "emotion";
 
 const Container = styled.div`
   padding-top: 40px;
 `;
 
-const IconButton = styled.button`
+const badge = css`
+  &:after {
+    content: '';
+    display: block;
+    height: 8px;
+    width: 8px;
+    background: #ff3b31;
+    border-radius: 50%;
+    position: relative;
+    left: 23px;
+    top: -23px;
+  }
+`;
+
+const IconButton = styled<{ badge?: boolean }, 'button'>('button')`
   border: 0;
   display: block;
   width: 100%;
@@ -22,6 +37,8 @@ const IconButton = styled.button`
   background-color: transparent;
   padding-top: 0.3rem;
   cursor: pointer;
+  
+  ${(props: any) => props.badge && badge}
 `;
 
 const SidebarMenu = styled.ul`
@@ -73,6 +90,7 @@ interface IProps {
   contentId: number;
   stats: any; // todo
   savedRevision: any; // todo
+  editorialMetadata: any;
 }
 
 class EditorSidebar extends React.Component<IProps, IState> {
@@ -103,6 +121,7 @@ class EditorSidebar extends React.Component<IProps, IState> {
       isSaving,
       hasChangesFromSaved,
       contentId,
+      editorialMetadata,
     } = this.props;
 
     const { view, isPreviewModalOpen } = this.state;
@@ -114,6 +133,9 @@ class EditorSidebar extends React.Component<IProps, IState> {
 
       return isSaving ? 'Saving' : 'Save';
     };
+
+    const hasUnpublishedRevisions = editorialMetadata.get('published_revision') !== null
+      && editorialMetadata.getIn(['published_revision', 'revision_number']) < savedRevision.get('revision_number');
 
     return (
       <Container>
@@ -130,7 +152,7 @@ class EditorSidebar extends React.Component<IProps, IState> {
               </IconButton>
             </MenuItem>
             <MenuItem active={view === Views.Workflow}>
-              <IconButton onClick={() => this.handleView(Views.Workflow)}>
+              <IconButton onClick={() => this.handleView(Views.Workflow)} badge={hasUnpublishedRevisions}>
                 <WorkflowIcon width={20} height={20} />
               </IconButton>
             </MenuItem>

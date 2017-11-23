@@ -170,6 +170,7 @@ class EditorPage extends React.Component<IProps> {
       isLocal,
       isSaving,
       commandPaletteOpen,
+      editorialMetadata,
       updateRevision,
     } = this.props;
     const revisionChangeHandler = createChangeHandlerBound(updateRevision);
@@ -196,6 +197,7 @@ class EditorPage extends React.Component<IProps> {
               isLocal={isLocal}
               isSaving={isSaving}
               stats={stats}
+              editorialMetadata={editorialMetadata}
               onSave={this.handleSave}
             />
           </SideContainer>
