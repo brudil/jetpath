@@ -27,7 +27,7 @@ interface IProps {
   charLimit?: number;
   charCount?: number;
   buttonTreats?: Array<Object>;
-  className?: string
+  className?: string;
 }
 
 function SidebarControl({
@@ -36,7 +36,7 @@ function SidebarControl({
   charLimit = null,
   charCount = null,
   buttonTreats = null,
-  className
+  className,
 }: IProps) {
   return (
     <Container className={className}>

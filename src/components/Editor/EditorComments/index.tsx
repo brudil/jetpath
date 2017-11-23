@@ -11,8 +11,8 @@ import EditorCommentsQuery from './EditorComments.graphql';
 import PostContentCommentMutation from './PostContentComment.graphql';
 
 import styles from './EditorComments.css';
-import Sidebar from "../../Sidebar";
-import styled from "react-emotion";
+import Sidebar from '../../Sidebar';
+import styled from 'react-emotion';
 
 const NoNotes = styled.div`
   color: ${(props: any) => props.theme.colors.grey_worst_winter};
@@ -116,11 +116,15 @@ class EditorComments extends React.Component<IProps, any> {
                 comment={comment.comment}
                 key={comment.id}
                 previousComment={index > 0 ? comments[index - 1] : null}
-                nextComment={comments.length > index + 1 ? comments[index + 1] : null}
+                nextComment={
+                  comments.length > index + 1 ? comments[index + 1] : null
+                }
               />
             ))}
 
-            {comments.length <= 0 && <NoNotes>Use this space for ideas, notes and comments.</NoNotes>}
+            {comments.length <= 0 && (
+              <NoNotes>Use this space for ideas, notes and comments.</NoNotes>
+            )}
           </div>
           <div className={styles.postComment}>
             <PostComment

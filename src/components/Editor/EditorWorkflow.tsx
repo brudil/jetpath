@@ -6,7 +6,7 @@ import SmartDate from '../SmartDate';
 import SaveBeforeWorkflowMessage from '../SaveBeforeWorkflowMessage';
 
 import styles from './EditorWorkflow.css';
-import {SidebarControl} from "../Sidebar";
+import { SidebarControl } from '../Sidebar';
 
 function getIssuesForRevision(revision: any) {
   const issues = [];

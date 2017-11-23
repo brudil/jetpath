@@ -543,14 +543,51 @@ function* handleEditorChange() {
       )
     );
 
+  const serverMutableDocumentFields = ['version'];
+  const removeServerMutableDocumentFields = (
+    rev: any // todo
+  ) =>
+    rev.merge(
+      serverMutableDocumentFields.reduce(
+        (state: any, fieldName) => state.set(fieldName, null), // todo: state: any
+        Immutable.Map()
+      )
+    );
+
   const documentEqual = Immutable.is(
-    editorState.get('workingDocument'),
-    editorState.get('savedDocument')
+    removeServerMutableDocumentFields(editorState.get('workingDocument')),
+    removeServerMutableDocumentFields(editorState.get('savedDocument'))
   );
   const revisionEqual = Immutable.is(
     removeServerMutableFields(editorState.get('workingRevision')),
     removeServerMutableFields(editorState.get('savedRevision'))
   );
+
+  if (!documentEqual) {
+    console.log({
+      workingDocument: JSON.stringify(
+        removeServerMutableDocumentFields(
+          editorState.get('workingDocument')
+        ).toJSON()
+      ),
+      savedDocument: JSON.stringify(
+        removeServerMutableDocumentFields(
+          editorState.get('savedDocument')
+        ).toJSON()
+      ),
+    });
+  }
+
+  if (!revisionEqual) {
+    console.log({
+      workingRevision: JSON.stringify(
+        removeServerMutableFields(editorState.get('workingRevision')).toJSON()
+      ),
+      savedRevision: JSON.stringify(
+        removeServerMutableFields(editorState.get('savedRevision')).toJSON()
+      ),
+    });
+  }
 
   /*
    console.log(diff(

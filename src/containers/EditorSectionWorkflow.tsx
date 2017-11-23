@@ -5,7 +5,7 @@ import ContentWatchManager from '../components/ContentWatchManager';
 
 import EditorWorkflow from '../components/Editor/EditorWorkflow';
 import { RootState } from '../types';
-import Sidebar from "../components/Sidebar";
+import Sidebar from '../components/Sidebar';
 
 interface IProps {
   savedRevision: any; // todo
