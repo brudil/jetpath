@@ -11,12 +11,22 @@ import EditorCommentsQuery from './EditorComments.graphql';
 import PostContentCommentMutation from './PostContentComment.graphql';
 
 import styles from './EditorComments.css';
+import Sidebar from "../../Sidebar";
+import styled from "react-emotion";
+
+const NoNotes = styled.div`
+  color: ${(props: any) => props.theme.colors.grey_worst_winter};
+  text-align: center;
+  font-size: 1rem;
+  padding: 1rem;
+  font-style: italic;
+`;
 
 interface User {
   username: string;
 }
 
-interface IComment {
+export interface IComment {
   id: number;
   created: string;
   user: User;
@@ -50,6 +60,7 @@ interface InternalProps {
     loading: boolean;
     error: boolean;
     vertical: IComments;
+    refetch(): void;
   };
   children: Element;
 }
@@ -58,6 +69,10 @@ type IProps = ComponentProps & InternalProps;
 
 class EditorComments extends React.Component<IProps, any> {
   private scrollElement: HTMLDivElement | null;
+
+  componentDidMount() {
+    setInterval(() => this.props.data.refetch(), 8000);
+  }
 
   componentWillReceiveProps(nextProps: IProps) {
     if (nextProps !== this.props) {
@@ -87,21 +102,25 @@ class EditorComments extends React.Component<IProps, any> {
     const { comments } = props.data.vertical.content.editorialMetadata;
 
     return (
-      <div>
+      <Sidebar>
         <div className={cx(styles.root)}>
           <div
             ref={ref => {
               this.scrollElement = ref;
             }}
           >
-            {comments.map(comment => (
+            {comments.map((comment, index) => (
               <Comment
                 user={comment.user}
                 created={comment.created}
                 comment={comment.comment}
                 key={comment.id}
+                previousComment={index > 0 ? comments[index - 1] : null}
+                nextComment={comments.length > index + 1 ? comments[index + 1] : null}
               />
             ))}
+
+            {comments.length <= 0 && <NoNotes>Use this space for ideas, notes and comments.</NoNotes>}
           </div>
           <div className={styles.postComment}>
             <PostComment
@@ -115,7 +134,7 @@ class EditorComments extends React.Component<IProps, any> {
             />
           </div>
         </div>
-      </div>
+      </Sidebar>
     );
   }
 }

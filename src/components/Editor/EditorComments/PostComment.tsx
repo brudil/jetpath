@@ -3,6 +3,16 @@ import React from 'react';
 import DebouncedAutosizeTextarea from '../../DebouncedAutosizeTextarea';
 import Button from '../../Button';
 import { withState } from 'recompose';
+import {SidebarInput} from "../../Sidebar";
+import styled from "react-emotion";
+
+const SidebarDebouncedAutosizeTextarea: any = SidebarInput.withComponent(
+  DebouncedAutosizeTextarea
+);
+
+const InputContainer = styled.div`
+  margin-bottom: 0.4rem;
+`;
 
 interface ComponentProps {
   onPost: (comment: string) => void;
@@ -23,14 +33,18 @@ function PostComment(props: IProps) {
 
   return (
     <div>
-      <DebouncedAutosizeTextarea
-        value={props.comment}
-        onChange={(e: React.FormEvent<HTMLTextAreaElement>) =>
-          props.updateComment(e.currentTarget.value)
-        }
-      />
+      <InputContainer>
+        <SidebarDebouncedAutosizeTextarea
+          value={props.comment}
+          onChange={(e: React.FormEvent<HTMLTextAreaElement>) =>
+            props.updateComment(e.currentTarget.value)
+          }
+
+          rows={3}
+        />
+      </InputContainer>
       <Button
-        text="Save note"
+        text="Save"
         onClick={handlePost}
         disabled={props.comment === ''}
       />
