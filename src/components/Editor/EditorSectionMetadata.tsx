@@ -19,7 +19,7 @@ import { formly } from '../../libs/form';
 import { contentForm, contentTone } from '../../libs/constants';
 import * as contentLang from '../../lang/content_attrs';
 import { SidebarInput } from '../Sidebar';
-import wandImage from './wand.svg';
+import WandComponent from './wand.svgc';
 
 const SidebarSlugInput: any = SidebarInput.withComponent(SlugInput as any); // todo
 const SidebarDebouncedAutosizeTextarea: any = SidebarInput.withComponent(
@@ -27,7 +27,7 @@ const SidebarDebouncedAutosizeTextarea: any = SidebarInput.withComponent(
 );
 const SidebarDebouncedInput: any = SidebarInput.withComponent(DebouncedInput);
 
-const wand = <img src={wandImage} height={16} width={16} />;
+const wand = <WandComponent height={16} width={16} />;
 
 interface ComponentProps {}
 
