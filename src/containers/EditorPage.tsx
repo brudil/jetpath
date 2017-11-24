@@ -179,6 +179,10 @@ class EditorPage extends React.Component<IProps> {
 
     return (
       <div style={{ paddingTop: '40px' }}>
+        <Helmet>
+          <title>{workingRevision.get('headline') || 'Untitled'}</title>
+        </Helmet>
+
         <Container>
           <ComposeContainer>
             <EditorNav
