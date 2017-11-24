@@ -13,7 +13,7 @@ import stylesView from '../styles/components/ViewContainer.css';
 import ViewContainer from '../components/ViewContainer';
 import { RootState } from '../types';
 import { OrganisationState } from '../ducks/Organisation';
-import Helmet from "react-helmet";
+import Helmet from 'react-helmet';
 
 // this is very `any` type heavy - i'm going to rewrite this page soon, so didn't bother typing
 

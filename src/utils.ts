@@ -1,7 +1,7 @@
 import uuid from 'uuid/v4';
 import { call, put } from 'redux-saga/effects';
-import {Dispatch} from "redux";
-import {RootState} from "./types";
+import { Dispatch } from 'redux';
+import { RootState } from './types';
 
 export function action(type: string, payload = {}) {
   return { type, ...payload };
@@ -21,7 +21,11 @@ export function createRequestTypes(base: string): RequestTypes {
   };
 }
 
-export function createTransaction(dispatch: Dispatch<RootState>, actionType: string, sequenceData = {}) {
+export function createTransaction(
+  dispatch: Dispatch<RootState>,
+  actionType: string,
+  sequenceData = {}
+) {
   const transactionId = uuid();
   console.warn(
     `${
@@ -76,7 +80,8 @@ export function createTransaction(dispatch: Dispatch<RootState>, actionType: str
   };
 }
 
-export function sequence(state: any, action: any, methods: any) { // trying to get rid of this. not typing
+export function sequence(state: any, action: any, methods: any) {
+  // trying to get rid of this. not typing
   if (action.error && {}.hasOwnProperty.call(methods, 'error')) {
     return methods.error();
   }
@@ -92,7 +97,13 @@ export function sequence(state: any, action: any, methods: any) { // trying to g
   return state;
 }
 
-export function* fetchEntity(entity: any, apiFn: any, vertical: string, id: string, url: string) {
+export function* fetchEntity(
+  entity: any,
+  apiFn: any,
+  vertical: string,
+  id: string,
+  url: string
+) {
   yield put(entity.request(id));
   const { payload, error } = yield call(apiFn, vertical, id, url);
   if (payload) {

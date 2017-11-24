@@ -1,14 +1,20 @@
 import flow from 'lodash/flow';
 
 import * as formly from './middleware';
-import {RootState} from "../../types";
-import {Dispatch} from "redux";
-import {Middleware} from "./middleware";
+import { RootState } from '../../types';
+import { Dispatch } from 'redux';
+import { Middleware } from './middleware';
 
 export { formly };
 
-export function createChangeHandler(dispatch: Dispatch<RootState>, action: any) { // todo
-  return (path: string[] | string, ...middleware: Middleware[]) => (event: any) => {
+export function createChangeHandler(
+  dispatch: Dispatch<RootState>,
+  action: any
+) {
+  // todo
+  return (path: string[] | string, ...middleware: Middleware[]) => (
+    event: any
+  ) => {
     let value = event;
     if (middleware.length > 0) {
       value = flow(middleware)(value);
@@ -17,8 +23,11 @@ export function createChangeHandler(dispatch: Dispatch<RootState>, action: any) 
   };
 }
 
-export function createChangeHandlerBound(action: any) { // todo
-  return (path: string[] | string, ...middleware: Middleware[]) => (event: any) => {
+export function createChangeHandlerBound(action: any) {
+  // todo
+  return (path: string[] | string, ...middleware: Middleware[]) => (
+    event: any
+  ) => {
     let value = event;
     if (middleware.length > 0) {
       value = flow(middleware)(value);

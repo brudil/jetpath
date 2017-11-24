@@ -1,9 +1,9 @@
 import { OrganisationState } from './ducks/Organisation';
-import {Topic, TopicsStore} from './ducks/Topic';
+import { Topic, TopicsStore } from './ducks/Topic';
 import { NotificationState } from './ducks/Notification';
-import {AuthState} from "./ducks/Auth";
-import {Interactive, InteractivesState} from "./ducks/Interactives";
-import {Author, AuthorsState} from "./ducks/Authors";
+import { AuthState } from './ducks/Auth';
+import { Interactive, InteractivesState } from './ducks/Interactives';
+import { Author, AuthorsState } from './ducks/Authors';
 
 export interface EntityMap<T> {
   [key: number]: T;

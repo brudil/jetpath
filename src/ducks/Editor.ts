@@ -25,7 +25,7 @@ import {
   dismissToastAction,
   ButtonTypes,
 } from './Toast';
-import {Action} from "redux";
+import { Action } from 'redux';
 
 const EDITOR_LOAD_CONTENT = createRequestTypes('EDITOR_LOAD_CONTENT');
 const EDITOR_PUBLISH_CONTENT = createRequestTypes('EDITOR_PUBLISH_CONTENT');
@@ -414,7 +414,6 @@ function* handleEditorSave() {
     if (
       editorState.getIn(['editorialMetadata', 'published_revision']) !== null
     ) {
-
     }
   } else {
     const metadataResponse = yield call(
@@ -600,7 +599,9 @@ interface ChangeRevisionStatusAction extends Action {
   status: number;
 }
 
-function* handleEditorChangeRevisionStatus({ status }: ChangeRevisionStatusAction) {
+function* handleEditorChangeRevisionStatus({
+  status,
+}: ChangeRevisionStatusAction) {
   const editorState = yield select((state: any) => state.editor);
 
   yield call(

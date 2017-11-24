@@ -84,7 +84,10 @@ export interface AuthState extends Immutable.Map<string, any> {
   toJS(): any;
   get<K extends keyof IAuthState>(key: K): IAuthState[K];
 }
-export default function AuthReducer(state: AuthState = initialState, action: AnyAction) {
+export default function AuthReducer(
+  state: AuthState = initialState,
+  action: AnyAction
+) {
   switch (action.type) {
     case AUTH_LOGIN_REQUEST:
       return state.set('loading', true);

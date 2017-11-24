@@ -21,7 +21,7 @@ const Body = styled.div`
   background: #fff;
   box-shadow: 1px 1px 2px rgba(30, 30, 30, 0.1);
   border-radius: 1px;
-  
+
   & ul {
     list-style: inside disc;
   }

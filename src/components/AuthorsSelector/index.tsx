@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Select, {Option} from 'react-select';
+import Select, { Option } from 'react-select';
 import * as AuthorActions from '../../ducks/Authors';
 import 'style-loader!css-loader!postcss-loader!react-select/dist/react-select.css';
-import {EntityMap, RootState} from "../../types";
-import {Author, AuthorsState} from "../../ducks/Authors";
+import { EntityMap, RootState } from '../../types';
+import { Author, AuthorsState } from '../../ducks/Authors';
 
 interface ComponentProps {
   value: number[];
@@ -40,16 +40,20 @@ class AuthorsSelector extends React.Component<IProps> {
   }
 
   onChange(selected: Option | Array<Option> | null) {
-    this.props.onChange((selected as Array<Option>).map(item => item.value as number));
+    this.props.onChange(
+      (selected as Array<Option>).map(item => item.value as number)
+    );
   }
 
   render() {
     const { suggestions, authors, value } = this.props;
 
-    const options: Array<Option> = suggestions.map(id => authors[id]).map(author => ({
-      value: author.id,
-      label: author.name,
-    }));
+    const options: Array<Option> = suggestions
+      .map(id => authors[id])
+      .map(author => ({
+        value: author.id,
+        label: author.name,
+      }));
 
     return (
       <div>
@@ -65,10 +69,13 @@ class AuthorsSelector extends React.Component<IProps> {
   }
 }
 
-export default connect((state: RootState) => ({
-  suggestions: state.authors.suggestions,
-  keywordMap: state.topics.keywordMap,
-  authors: state.entities.authors,
-}), {
-  requestSuggestions: AuthorActions.requestSuggestions,
-})(AuthorsSelector);
+export default connect(
+  (state: RootState) => ({
+    suggestions: state.authors.suggestions,
+    keywordMap: state.topics.keywordMap,
+    authors: state.entities.authors,
+  }),
+  {
+    requestSuggestions: AuthorActions.requestSuggestions,
+  }
+)(AuthorsSelector);

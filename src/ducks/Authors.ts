@@ -50,9 +50,7 @@ export interface AuthorsState {
   suggestions: number[];
 }
 
-export interface Author {
-
-}
+export interface Author {}
 
 export default function AuthorReducer(state = initialState, action: AnyAction) {
   const { payload } = action;

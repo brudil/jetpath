@@ -47,7 +47,7 @@ const initialState = {
 };
 
 export interface InteractivesState {
-  list: number[],
+  list: number[];
   loading: boolean;
   count: number;
   hasNext: boolean;

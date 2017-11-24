@@ -1,4 +1,9 @@
-export default function filterMatch(query: any, presetsMap: any, fallback: any) { // todo
+export default function filterMatch(
+  query: any,
+  presetsMap: any,
+  fallback: any
+) {
+  // todo
   const res = Object.keys(presetsMap).filter(presetName => {
     const preset = presetsMap[presetName];
 

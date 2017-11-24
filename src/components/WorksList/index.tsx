@@ -12,9 +12,9 @@ import {
 import theme from '../../themes/default';
 import { Author } from '../../ducks/Authors';
 import { Vertical } from '../../ducks/Vertical';
-import styled from "react-emotion";
-import {css} from "emotion";
-import {Status} from "../../libs/constants";
+import styled from 'react-emotion';
+import { css } from 'emotion';
+import { Status } from '../../libs/constants';
 
 interface IProps {
   works: any[]; // todo
@@ -100,7 +100,7 @@ const statusStyleMap: {
   [Status.Stub]: statusStubStyles,
   [Status.Writing]: statusWritingStyles,
   [Status.Finished]: statusFinishedStyles,
-}
+};
 
 function WorksList(props: IProps) {
   function renderAuthors(revision: any) {
@@ -162,15 +162,9 @@ function WorksList(props: IProps) {
                 {currentRevision.created_by &&
                   currentRevision.created_by.username}
               </MetaBit>
-              <MetaBit>
-                revision: #{work.revision_count}
-              </MetaBit>
-              <MetaBit>
-                tone: {contentTone[currentRevision.tone]}
-              </MetaBit>
-              <MetaBit>
-                status: {contentStatus[currentRevision.status]}
-              </MetaBit>
+              <MetaBit>revision: #{work.revision_count}</MetaBit>
+              <MetaBit>tone: {contentTone[currentRevision.tone]}</MetaBit>
+              <MetaBit>status: {contentStatus[currentRevision.status]}</MetaBit>
               <ul className="inline-tags" />
             </Meta>
             <FauxLink

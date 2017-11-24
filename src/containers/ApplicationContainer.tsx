@@ -10,7 +10,7 @@ import { RootState } from '../types';
 import { compose } from 'redux';
 import { ThemeProvider } from 'emotion-theming';
 import defaultTheme from '../themes/default';
-import Helmet from "react-helmet";
+import Helmet from 'react-helmet';
 
 const LoadableBaseContainer = Loadable({
   loader: () => import(/* webpackChunkName: 'Base' */ './BaseContainer'),
@@ -64,10 +64,7 @@ class ApplicationContainer extends React.Component<IProps, IState> {
     return (
       <ThemeProvider theme={defaultTheme}>
         <div>
-          <Helmet
-            titleTemplate="%s - Jetpath"
-            defaultTitle="Jetpath"
-          />
+          <Helmet titleTemplate="%s - Jetpath" defaultTitle="Jetpath" />
 
           {this.props.auth.get('attempted') ? (
             <Switch>

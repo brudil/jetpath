@@ -28,7 +28,7 @@ import { RootState } from '../types';
 import { RouteComponentProps } from 'react-router';
 import { Vertical } from '../ducks/Vertical';
 import { Form, Status, Tone } from '../libs/constants';
-import Helmet from "react-helmet";
+import Helmet from 'react-helmet';
 
 const presets: any = {
   // todo
@@ -285,12 +285,7 @@ class ContentListPage extends React.Component<IProps> {
               <SidebarControl title="Order">
                 <SegmentedControl
                   value={query.order}
-                  options={[
-                    'updated_desc',
-                    'Recent',
-                    'updated_asc',
-                    'Oldest',
-                  ]}
+                  options={['updated_desc', 'Recent', 'updated_asc', 'Oldest']}
                   onChange={this.handleUpdate.bind(this, 'order')}
                 />
               </SidebarControl>

@@ -1,18 +1,18 @@
 import React from 'react';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
-import Select, {Option} from 'react-select';
+import Select, { Option } from 'react-select';
 import * as TopicActions from '../../ducks/Topic';
 import 'style-loader!css-loader!postcss-loader!react-select/dist/react-select.css';
-import {EntityMap, RootState} from "../../types";
-import {Topic, TopicsStore} from "../../ducks/Topic"; // eslint-disable-line
+import { EntityMap, RootState } from '../../types';
+import { Topic, TopicsStore } from '../../ducks/Topic'; // eslint-disable-line
 
 interface IProps {
   getTopicsForKeyword: typeof TopicActions.getTopicsForKeyword;
   onChange(value: Immutable.Set<number>): void;
   value: Immutable.Set<number>;
   isLoading: boolean;
-  keywordMap: TopicsStore['keywordMap']
+  keywordMap: TopicsStore['keywordMap'];
   topics: EntityMap<Topic>;
 }
 
@@ -95,10 +95,13 @@ class TopicsSelector extends React.Component<IProps, IState> {
   }
 }
 
-export default connect((state: RootState) => ({
-  isLoading: state.topics.isLoading,
-  keywordMap: state.topics.keywordMap,
-  topics: state.entities.topics,
-}), {
-  getTopicsForKeyword: TopicActions.getTopicsForKeyword
-})(TopicsSelector);
+export default connect(
+  (state: RootState) => ({
+    isLoading: state.topics.isLoading,
+    keywordMap: state.topics.keywordMap,
+    topics: state.entities.topics,
+  }),
+  {
+    getTopicsForKeyword: TopicActions.getTopicsForKeyword,
+  }
+)(TopicsSelector);

@@ -9,7 +9,7 @@ import LoadingContent from '../LoadingContent';
 import MediaEditQuery from '../../containers/MediaEditPage/MediaEditQuery.graphql';
 import EditMediaMutation from '../../containers/MediaEditPage/EditMedia.graphql';
 import Modal from '../Modal/index';
-import Helmet from "react-helmet";
+import Helmet from 'react-helmet';
 
 interface IProps {
   value: number;

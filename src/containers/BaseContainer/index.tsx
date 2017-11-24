@@ -10,9 +10,9 @@ import InnerVerticalPage from '../InnerVerticalPage';
 import NotFoundPage from '../NotFoundPage';
 import LoadingContent from '../../components/LoadingContent/index';
 import styled from 'react-emotion';
-import {RouteComponentProps} from "react-router";
-import {RootState} from "../../types";
-import {AuthState} from "../../ducks/Auth";
+import { RouteComponentProps } from 'react-router';
+import { RootState } from '../../types';
+import { AuthState } from '../../ducks/Auth';
 
 const Section = styled.div`
   background-color: ${props => props.theme.colors.background};
@@ -86,6 +86,6 @@ const withRoutered = withRouter(
   }))(BaseContainer)
 );
 
-const finalComponent = dragDropContext(HTML5Backend)(withRoutered)
+const finalComponent = dragDropContext(HTML5Backend)(withRoutered);
 
 export default finalComponent;

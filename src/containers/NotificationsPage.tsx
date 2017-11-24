@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { RootState } from '../types';
 import { NotificationState, Notification } from '../ducks/Notification';
-import Helmet from "react-helmet";
+import Helmet from 'react-helmet';
 
 interface IProps {
   notification: NotificationState;

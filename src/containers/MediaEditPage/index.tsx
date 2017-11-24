@@ -14,7 +14,7 @@ import EditMediaMutation from './EditMedia.graphql';
 import DeleteMediaMutation from './DeleteMedia.graphql';
 import UndeleteMediaMutation from './UndeleteMedia.graphql';
 import * as Router from 'react-router-dom';
-import Helmet from "react-helmet";
+import Helmet from 'react-helmet';
 
 interface IParams {
   id: string;

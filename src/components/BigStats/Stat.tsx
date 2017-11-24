@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'react-emotion';
-import {ConditionalWrap} from "../ConditionalWrap";
-import {Link} from "react-router-dom";
+import { ConditionalWrap } from '../ConditionalWrap';
+import { Link } from 'react-router-dom';
 
 const Subtitle = styled.div`
   text-transform: uppercase;
@@ -16,7 +16,7 @@ const Value: any = styled.div`
 const Container = styled.div`
   flex: 1 1 auto;
   text-align: center;
-  
+
   & a {
     color: inherit;
   }
@@ -36,7 +36,10 @@ const render = (loading: undefined | boolean, value: any) =>
 function Stat(props: IProps) {
   return (
     <Container>
-      <ConditionalWrap condition={props.to} wrap={(children: any) => <Link to={props.to || ''}>{children}</Link>}>
+      <ConditionalWrap
+        condition={props.to}
+        wrap={(children: any) => <Link to={props.to || ''}>{children}</Link>}
+      >
         <Value loading={props.loading}>
           {props.render
             ? props.render(props.loading, props.value)

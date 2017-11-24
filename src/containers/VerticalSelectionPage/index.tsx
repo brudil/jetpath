@@ -5,7 +5,7 @@ import * as VerticalActions from '../../ducks/Vertical';
 import verticalConfig from '../../verticals';
 import styled from 'react-emotion';
 import { RootState } from '../../types';
-import Helmet from "react-helmet";
+import Helmet from 'react-helmet';
 
 const Title = styled.div`
   text-align: center;

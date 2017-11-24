@@ -9,7 +9,7 @@ import {
 } from '../../../libs/spectrum2/interfaces';
 import { update } from '../../../libs/spectrum2/changes';
 import { RootState } from '../../../types';
-import {Interactive} from "../../../ducks/Interactives";
+import { Interactive } from '../../../ducks/Interactives';
 
 interface IProps {
   update: ChangesetApplier;

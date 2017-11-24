@@ -1,10 +1,10 @@
 import React from 'react';
-import Select, {Option} from 'react-select';
+import Select, { Option } from 'react-select';
 import { connect } from 'react-redux';
 import styled from 'react-emotion';
 import * as InteractivesActions from '../../ducks/Interactives';
-import {RootState} from "../../types";
-import {Interactive} from "../../ducks/Interactives";
+import { RootState } from '../../types';
+import { Interactive } from '../../ducks/Interactives';
 
 const InteractiveIframe = styled.iframe`
   margin: 1rem 0;
@@ -21,7 +21,7 @@ interface IProps {
 
   onChange(value: string | null): void;
 
-  value?: Interactive,
+  value?: Interactive;
   listLoading: boolean;
   interactiveItems: Interactive[];
 }
@@ -32,7 +32,8 @@ class InteractiveSelector extends React.Component<IProps> {
   componentWillMount() {
     this.props.loadInteractivesList({ order: 'created_desc' }, 5);
 
-    this.handleSelection = (value: Option | null) => this.props.onChange(value ? value.value as string: null);
+    this.handleSelection = (value: Option | null) =>
+      this.props.onChange(value ? (value.value as string) : null);
   }
 
   render() {
@@ -63,11 +64,14 @@ class InteractiveSelector extends React.Component<IProps> {
   }
 }
 
-export default connect((state: RootState) => ({
-  interactiveItems: state.interactives.list.map(
-    id => state.entities.interactives[id]
-  ),
-  listLoading: state.interactives.loading,
-}), {
-  loadInteractivesList: InteractivesActions.loadInteractivesList,
-})(InteractiveSelector);
+export default connect(
+  (state: RootState) => ({
+    interactiveItems: state.interactives.list.map(
+      id => state.entities.interactives[id]
+    ),
+    listLoading: state.interactives.loading,
+  }),
+  {
+    loadInteractivesList: InteractivesActions.loadInteractivesList,
+  }
+)(InteractiveSelector);

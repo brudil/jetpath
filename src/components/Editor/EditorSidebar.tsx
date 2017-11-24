@@ -9,7 +9,7 @@ import NotesIcon from './notes.svgc';
 import PreviewIcon from './preview.svgc';
 import MetadataIcon from './metadata.svgc';
 import EditorPreviewModal from './EditorPreviewModal';
-import {css} from "emotion";
+import { css } from 'emotion';
 
 const Container = styled.div`
   padding-top: 40px;
@@ -37,8 +37,8 @@ const IconButton = styled<{ badge?: boolean }, 'button'>('button')`
   background-color: transparent;
   padding-top: 0.3rem;
   cursor: pointer;
-  
-  ${(props: any) => props.badge && badge}
+
+  ${(props: any) => props.badge && badge};
 `;
 
 const SidebarMenu = styled.ul`
@@ -134,8 +134,10 @@ class EditorSidebar extends React.Component<IProps, IState> {
       return isSaving ? 'Saving' : 'Save';
     };
 
-    const hasUnpublishedRevisions = editorialMetadata.get('published_revision') !== null
-      && editorialMetadata.getIn(['published_revision', 'revision_number']) < savedRevision.get('revision_number');
+    const hasUnpublishedRevisions =
+      editorialMetadata.get('published_revision') !== null &&
+      editorialMetadata.getIn(['published_revision', 'revision_number']) <
+        savedRevision.get('revision_number');
 
     return (
       <Container>
@@ -152,7 +154,10 @@ class EditorSidebar extends React.Component<IProps, IState> {
               </IconButton>
             </MenuItem>
             <MenuItem active={view === Views.Workflow}>
-              <IconButton onClick={() => this.handleView(Views.Workflow)} badge={hasUnpublishedRevisions}>
+              <IconButton
+                onClick={() => this.handleView(Views.Workflow)}
+                badge={hasUnpublishedRevisions}
+              >
                 <WorkflowIcon width={20} height={20} />
               </IconButton>
             </MenuItem>

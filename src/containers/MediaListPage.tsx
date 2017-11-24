@@ -17,7 +17,7 @@ import filterPresetsMatch from '../libs/filterPresetsMatch';
 import { RootState } from '../types';
 import { RouteComponentProps } from 'react-router';
 import { Vertical } from '../ducks/Vertical';
-import Helmet from "react-helmet";
+import Helmet from 'react-helmet';
 
 interface Filter {
   order: 'created_asc' | 'created_desc';
@@ -176,14 +176,7 @@ class MediaListPage extends React.Component<IProps> {
               <SidebarControl title="File type">
                 <SegmentedControl
                   value={query.type}
-                  options={[
-                    null,
-                    'All',
-                    'image',
-                    'Images',
-                    'video',
-                    'Videos',
-                  ]}
+                  options={[null, 'All', 'image', 'Images', 'video', 'Videos']}
                   onChange={this.handleUpdate.bind(this, 'type')}
                 />
               </SidebarControl>
@@ -191,12 +184,7 @@ class MediaListPage extends React.Component<IProps> {
               <SidebarControl title="Order">
                 <SegmentedControl
                   value={query.order}
-                  options={[
-                    'created_desc',
-                    'Recent',
-                    'created_asc',
-                    'Oldest',
-                  ]}
+                  options={['created_desc', 'Recent', 'created_asc', 'Oldest']}
                   onChange={this.handleUpdate.bind(this, 'order')}
                 />
               </SidebarControl>

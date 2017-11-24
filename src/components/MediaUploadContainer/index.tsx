@@ -1,20 +1,22 @@
 import React from 'react';
 import { NativeTypes } from 'react-dnd-html5-backend';
-import { DropTarget as dropTarget, ConnectDropTarget, DropTargetMonitor } from 'react-dnd';
+import {
+  DropTarget as dropTarget,
+  ConnectDropTarget,
+  DropTargetMonitor,
+} from 'react-dnd';
 import cx from 'classnames';
-import styled from "react-emotion";
-import {css} from "emotion";
+import styled from 'react-emotion';
+import { css } from 'emotion';
 
-interface ComponentProps {
-
-}
+interface ComponentProps {}
 
 interface InternalProps {
   children: any;
   onFile: any; // todo
   isOver: boolean;
   canDrop: boolean;
-  connectDropTarget: ConnectDropTarget,
+  connectDropTarget: ConnectDropTarget;
 }
 
 type IProps = InternalProps & ComponentProps;
@@ -44,7 +46,11 @@ const isOverStyles = css`
 `;
 
 const fileTarget = {
-  drop(_props: IProps, monitor: DropTargetMonitor, component: MediaUploadContainer) {
+  drop(
+    _props: IProps,
+    monitor: DropTargetMonitor,
+    component: MediaUploadContainer
+  ) {
     component.handleFileUpload((monitor.getItem() as any).files); // todo
   },
 };

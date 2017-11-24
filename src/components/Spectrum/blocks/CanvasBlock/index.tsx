@@ -7,7 +7,7 @@ import CanvasIcon from '../../../icons/canvas.svg.react';
 import { Changeset, ElementPath } from '../../../../libs/spectrum2/interfaces';
 import CanvasPanel from './Panel';
 import { RootState } from '../../../../types';
-import {Interactive} from "../../../../ducks/Interactives";
+import { Interactive } from '../../../../ducks/Interactives';
 
 interface IProps {
   update: (changeset: Changeset) => void;

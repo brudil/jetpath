@@ -12,7 +12,7 @@ import Stat from '../components/BigStats/Stat';
 import { startOfDay } from 'date-fns';
 import { RootState } from '../types';
 import { compose } from 'redux';
-import Helmet from "react-helmet";
+import Helmet from 'react-helmet';
 
 interface PageProps {
   vertical: {
@@ -118,15 +118,21 @@ class DashboardPage extends React.Component<IProps, {}> {
             />
             <Stat
               subtitle="Ideas to kick off"
-              to={`/@${vertical.identifier}/content?form&order=updated_desc&page=1&search=&state=internal&status=1&tone`}
+              to={`/@${
+                vertical.identifier
+              }/content?form&order=updated_desc&page=1&search=&state=internal&status=1&tone`}
             />
             <Stat
               subtitle="Drafts to finish"
-              to={`/@${vertical.identifier}/content?form&order=updated_desc&page=1&search=&state=internal&status=5&tone`}
+              to={`/@${
+                vertical.identifier
+              }/content?form&order=updated_desc&page=1&search=&state=internal&status=5&tone`}
             />
             <Stat
               subtitle="Ready to publish"
-              to={`/@${vertical.identifier}/content?form&order=updated_desc&page=1&search=&state=internal&status=9&tone`}
+              to={`/@${
+                vertical.identifier
+              }/content?form&order=updated_desc&page=1&search=&state=internal&status=9&tone`}
             />
           </BigStats>
         </div>

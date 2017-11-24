@@ -14,7 +14,7 @@ import { Dispatch } from 'redux';
 import { Vertical } from '../ducks/Vertical';
 import styled from 'react-emotion';
 import EditorSidebar from '../components/Editor/EditorSidebar';
-import Helmet from "react-helmet";
+import Helmet from 'react-helmet';
 
 const Container = styled.div`
   display: flex;
