@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Form, Field } from 'react-redux-form';
 import { SidebarControl } from './Sidebar';
 import * as OrgansiationActions from '../ducks/Organisation';
+import {Input} from "../Textbox";
 
 interface IProps {
   saveTopic: typeof OrgansiationActions.saveTopic;
@@ -27,12 +28,12 @@ class TopicEditForm extends React.Component<IProps> {
       <Form model="topicEdit" onSubmit={this.handleSubmit}>
         <SidebarControl title="Topic Name">
           <Field model="topicEdit.title">
-            <input type="text" />
+            <Input type="text" />
           </Field>
         </SidebarControl>
         <SidebarControl title="Slug">
           <Field model="topicEdit.slug">
-            <input type="text" />
+            <Input type="text" />
           </Field>
         </SidebarControl>
         <input

@@ -1,9 +1,12 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { Field as FieldUnstyled, reduxForm } from 'redux-form';
+import {Input} from "../Textbox";
 
 interface IProps {
   handleSubmit: any; // SubmitHandler for internal redux form, external is something else?
 }
+
+const Field = Input.withComponent(FieldUnstyled as any);
 
 let MediaEditForm = (props: IProps) => {
   const { handleSubmit } = props;

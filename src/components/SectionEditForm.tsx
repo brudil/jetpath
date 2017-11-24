@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Form, Field } from 'react-redux-form';
 import { SidebarControl } from './Sidebar';
 import * as OrgansiationActions from '../ducks/Organisation';
+import {Input} from "../Textbox";
 
 interface IProps {
   model: Object;
@@ -27,12 +28,12 @@ class SectionEditForm extends React.Component<IProps> {
       <Form model="sectionEdit" onSubmit={this.handleSubmit}>
         <SidebarControl title="Section Title">
           <Field model="sectionEdit.title">
-            <input type="text" placeholder="Title" />
+            <Input type="text" placeholder="Title" />
           </Field>
         </SidebarControl>
         <SidebarControl title="Slug">
           <Field model="sectionEdit.slug">
-            <input type="text" />
+            <Input type="text" />
           </Field>
         </SidebarControl>
         <input
