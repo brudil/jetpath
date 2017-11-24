@@ -1,13 +1,15 @@
 import React from 'react';
-import DocumentTitle from '../components/DocumentTitle';
+import Helmet from "react-helmet";
 
 function NotFoundPage() {
   return (
-    <DocumentTitle title="Not found!">
-      <div>
-        <h1>Not found!</h1>
-      </div>
-    </DocumentTitle>
+    <div>
+      <Helmet>
+        <title>Not found!</title>
+      </Helmet>
+
+      <h1>Not found!</h1>
+    </div>
   );
 }
 

@@ -2,7 +2,6 @@ import React, { ErrorInfo } from 'react';
 import Loadable from 'react-loadable';
 import { connect } from 'react-redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
-import DocumentTitle from '../components/DocumentTitle';
 import Stonewall from '../components/Stonewall';
 import LoadableLoading from '../components/LoadableLoading';
 import * as AuthActions from '../ducks/Auth';
@@ -11,6 +10,7 @@ import { RootState } from '../types';
 import { compose } from 'redux';
 import { ThemeProvider } from 'emotion-theming';
 import defaultTheme from '../themes/default';
+import Helmet from "react-helmet";
 
 const LoadableBaseContainer = Loadable({
   loader: () => import(/* webpackChunkName: 'Base' */ './BaseContainer'),
@@ -62,20 +62,23 @@ class ApplicationContainer extends React.Component<IProps, IState> {
     }
 
     return (
-      <DocumentTitle title="Jetpath">
-        <ThemeProvider theme={defaultTheme}>
-          <div>
-            {this.props.auth.get('attempted') ? (
-              <Switch>
-                <Route path="/auth" component={StonewallContainer} />
-                <Route path="/" component={LoadableBaseContainer} />
-              </Switch>
-            ) : (
-              <Stonewall subtitle="Loading" />
-            )}
-          </div>
-        </ThemeProvider>
-      </DocumentTitle>
+      <ThemeProvider theme={defaultTheme}>
+        <div>
+          <Helmet
+            titleTemplate="%s - Jetpath"
+            defaultTitle="Jetpath"
+          />
+
+          {this.props.auth.get('attempted') ? (
+            <Switch>
+              <Route path="/auth" component={StonewallContainer} />
+              <Route path="/" component={LoadableBaseContainer} />
+            </Switch>
+          ) : (
+            <Stonewall subtitle="Loading" />
+          )}
+        </div>
+      </ThemeProvider>
     );
   }
 }

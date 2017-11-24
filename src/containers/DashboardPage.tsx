@@ -1,5 +1,4 @@
 import React from 'react';
-import DocumentTitle from '../components/DocumentTitle';
 import ViewContainer from '../components/ViewContainer';
 import { lifecycle } from 'recompose';
 import { graphql } from 'react-apollo';
@@ -13,6 +12,7 @@ import Stat from '../components/BigStats/Stat';
 import { startOfDay } from 'date-fns';
 import { RootState } from '../types';
 import { compose } from 'redux';
+import Helmet from "react-helmet";
 
 interface PageProps {
   vertical: {
@@ -145,14 +145,16 @@ class DashboardPage extends React.Component<IProps, {}> {
 
   render() {
     return (
-      <DocumentTitle title="Dashboard">
-        <ViewContainer>
-          <h1 style={{ marginBottom: '1rem' }}>
-            Hey, {this.props.auth.getIn(['auth', 'username'])}!
-          </h1>
-          {this.renderContent()}
-        </ViewContainer>
-      </DocumentTitle>
+      <ViewContainer>
+        <Helmet>
+          <title>Dashboard</title>
+        </Helmet>
+
+        <h1 style={{ marginBottom: '1rem' }}>
+          Hey, {this.props.auth.getIn(['auth', 'username'])}!
+        </h1>
+        {this.renderContent()}
+      </ViewContainer>
     );
   }
 }

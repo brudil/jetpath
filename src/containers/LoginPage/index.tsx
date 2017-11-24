@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import sample from 'lodash/sample';
 import classnames from 'classnames';
-import DocumentTitle from '../../components/DocumentTitle';
 import loginButtonOptions from '../../lang/login';
 import * as AuthActions from '../../ducks/Auth';
 import Button from '../../components/Button';
@@ -11,6 +10,7 @@ import { compose } from 'redux';
 import { Input } from '../../Textbox/index';
 import styled from 'react-emotion';
 import { RootState } from '../../types';
+import Helmet from "react-helmet";
 
 const InputLabel = styled.span`
   text-transform: uppercase;
@@ -86,43 +86,44 @@ class LoginPage extends React.Component<IProps, IState> {
   render() {
     const buttonClass = classnames({ loading: this.props.auth.get('loading') });
     return (
-      <DocumentTitle title="Login">
-        <div>
-          {this.props.auth.get('error') ? 'Error!' : ''}
-          <form onSubmit={this.handleSubmit}>
-            <label htmlFor="usernameInput">
-              <InputLabel>Username</InputLabel>
-              <Input
-                id="usernameInput"
-                type="text"
-                placeholder="Username"
-                value={this.state.username}
-                onChange={this.handleUsernameChange}
-                required
-              />
-            </label>
-            <label htmlFor="passwordInput">
-              <InputLabel>Password</InputLabel>
-              <Input
-                id="passwordInput"
-                type="password"
-                placeholder="Password"
-                value={this.state.password}
-                onChange={this.handlePasswordChange}
-                required
-              />
-            </label>
-            <Button
-              className={buttonClass}
-              type="submit"
-              disabled={this.props.auth.get('loading')}
-              text={`${
-                this.props.auth.get('loading') ? 'Logging in' : 'Log in'
-              } ${this.state.loginPhrase}`}
+      <div>
+        <Helmet>
+          <title>Login</title>
+        </Helmet>
+        {this.props.auth.get('error') ? 'Error!' : ''}
+        <form onSubmit={this.handleSubmit}>
+          <label htmlFor="usernameInput">
+            <InputLabel>Username</InputLabel>
+            <Input
+              id="usernameInput"
+              type="text"
+              placeholder="Username"
+              value={this.state.username}
+              onChange={this.handleUsernameChange}
+              required
             />
-          </form>
-        </div>
-      </DocumentTitle>
+          </label>
+          <label htmlFor="passwordInput">
+            <InputLabel>Password</InputLabel>
+            <Input
+              id="passwordInput"
+              type="password"
+              placeholder="Password"
+              value={this.state.password}
+              onChange={this.handlePasswordChange}
+              required
+            />
+          </label>
+          <Button
+            className={buttonClass}
+            type="submit"
+            disabled={this.props.auth.get('loading')}
+            text={`${
+              this.props.auth.get('loading') ? 'Logging in' : 'Log in'
+            } ${this.state.loginPhrase}`}
+          />
+        </form>
+      </div>
     );
   }
 }

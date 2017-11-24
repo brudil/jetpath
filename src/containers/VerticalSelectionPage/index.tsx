@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import DocumentTitle from '../../components/DocumentTitle';
 import * as VerticalActions from '../../ducks/Vertical';
 import verticalConfig from '../../verticals';
 import styled from 'react-emotion';
 import { RootState } from '../../types';
+import Helmet from "react-helmet";
 
 const Title = styled.div`
   text-align: center;
@@ -68,24 +68,26 @@ class VerticalSelectionPage extends React.Component<IProps> {
   render() {
     const verticals = this.props.verticals;
     return (
-      <DocumentTitle title="Select a vertical">
-        <div>
-          <Title>Select a vertical</Title>
-          <VerticalList>
-            {verticals.map(vertical => (
-              <li key={vertical.identifier}>
-                <VerticalLink to={`/@${vertical.identifier}/dashboard`}>
-                  <VerticalLogo
-                    src={verticalConfig[vertical.identifier].logoHeader}
-                    alt={vertical.name}
-                  />
-                  <AudienceTag>{vertical.audience}</AudienceTag>
-                </VerticalLink>
-              </li>
-            ))}
-          </VerticalList>
-        </div>
-      </DocumentTitle>
+      <div>
+        <Helmet>
+          <title>Select a vertical</title>
+        </Helmet>
+
+        <Title>Select a vertical</Title>
+        <VerticalList>
+          {verticals.map(vertical => (
+            <li key={vertical.identifier}>
+              <VerticalLink to={`/@${vertical.identifier}/dashboard`}>
+                <VerticalLogo
+                  src={verticalConfig[vertical.identifier].logoHeader}
+                  alt={vertical.name}
+                />
+                <AudienceTag>{vertical.audience}</AudienceTag>
+              </VerticalLink>
+            </li>
+          ))}
+        </VerticalList>
+      </div>
     );
   }
 }

@@ -8,7 +8,6 @@ import { TitleSelection, SelectionItem } from '../components/TitleSelection';
 import MediaGridContainer from '../components/MediaGridContainer';
 import * as MediaListActions from '../ducks/MediaList';
 import ViewContainer from '../components/ViewContainer';
-import DocumentTitle from '../components/DocumentTitle';
 import SegmentedControl from '../components/SegmentedControl';
 import Sidebar, { SidebarControl } from '../components/Sidebar';
 
@@ -18,6 +17,7 @@ import filterPresetsMatch from '../libs/filterPresetsMatch';
 import { RootState } from '../types';
 import { RouteComponentProps } from 'react-router';
 import { Vertical } from '../ducks/Vertical';
+import Helmet from "react-helmet";
 
 interface Filter {
   order: 'created_asc' | 'created_desc';
@@ -127,81 +127,83 @@ class MediaListPage extends React.Component<IProps> {
     const query = this.getQueryData();
 
     return (
-      <DocumentTitle title="Media">
-        <ViewContainer>
-          <header className={stylesStandardHeader.root}>
-            <a className={stylesStandardHeader.prepend}>
-              <i className="icon icon-plus">
-                <img
-                  // eslint-disable-next-line
-                  src={require('icons/plus.svg')}
-                  alt="Add media"
-                />
-              </i>
-            </a>
-            <TitleSelection
-              onSelection={this.handleFilterPresetChange}
-              className={stylesStandardHeader.title}
-              value={filterPresetsMatch(query, presets, 'custom')}
-            >
-              <SelectionItem name="all">All Media</SelectionItem>
-              <SelectionItem name="images">Images</SelectionItem>
-              <SelectionItem name="videos">Videos</SelectionItem>
-              <SelectionItem name="custom">Filtered</SelectionItem>
-            </TitleSelection>
-          </header>
-          <div className={viewContainerStyles.root}>
-            <div className={viewContainerStyles.content}>
-              <MediaGridContainer
-                wrap={(media, children) => (
-                  <Link
-                    to={`${this.props.match && this.props.match.url}/${
-                      media.mediaId
-                    }`}
-                  >
-                    {children}
-                  </Link>
-                )}
+      <ViewContainer>
+        <Helmet>
+          <title>Media</title>
+        </Helmet>
+
+        <header className={stylesStandardHeader.root}>
+          <a className={stylesStandardHeader.prepend}>
+            <i className="icon icon-plus">
+              <img
+                // eslint-disable-next-line
+                src={require('icons/plus.svg')}
+                alt="Add media"
               />
-            </div>
-            <div className={viewContainerStyles.sidebar}>
-              <Sidebar>
-                <SidebarControl title="Uploader">
-                  <em>to be reimplemented</em>
-                </SidebarControl>
-
-                <SidebarControl title="File type">
-                  <SegmentedControl
-                    value={query.type}
-                    options={[
-                      null,
-                      'All',
-                      'image',
-                      'Images',
-                      'video',
-                      'Videos',
-                    ]}
-                    onChange={this.handleUpdate.bind(this, 'type')}
-                  />
-                </SidebarControl>
-
-                <SidebarControl title="Order">
-                  <SegmentedControl
-                    value={query.order}
-                    options={[
-                      'created_desc',
-                      'Recent',
-                      'created_asc',
-                      'Oldest',
-                    ]}
-                    onChange={this.handleUpdate.bind(this, 'order')}
-                  />
-                </SidebarControl>
-              </Sidebar>
-            </div>
+            </i>
+          </a>
+          <TitleSelection
+            onSelection={this.handleFilterPresetChange}
+            className={stylesStandardHeader.title}
+            value={filterPresetsMatch(query, presets, 'custom')}
+          >
+            <SelectionItem name="all">All Media</SelectionItem>
+            <SelectionItem name="images">Images</SelectionItem>
+            <SelectionItem name="videos">Videos</SelectionItem>
+            <SelectionItem name="custom">Filtered</SelectionItem>
+          </TitleSelection>
+        </header>
+        <div className={viewContainerStyles.root}>
+          <div className={viewContainerStyles.content}>
+            <MediaGridContainer
+              wrap={(media, children) => (
+                <Link
+                  to={`${this.props.match && this.props.match.url}/${
+                    media.mediaId
+                  }`}
+                >
+                  {children}
+                </Link>
+              )}
+            />
           </div>
-        </ViewContainer>
-      </DocumentTitle>
+          <div className={viewContainerStyles.sidebar}>
+            <Sidebar>
+              <SidebarControl title="Uploader">
+                <em>to be reimplemented</em>
+              </SidebarControl>
+
+              <SidebarControl title="File type">
+                <SegmentedControl
+                  value={query.type}
+                  options={[
+                    null,
+                    'All',
+                    'image',
+                    'Images',
+                    'video',
+                    'Videos',
+                  ]}
+                  onChange={this.handleUpdate.bind(this, 'type')}
+                />
+              </SidebarControl>
+
+              <SidebarControl title="Order">
+                <SegmentedControl
+                  value={query.order}
+                  options={[
+                    'created_desc',
+                    'Recent',
+                    'created_asc',
+                    'Oldest',
+                  ]}
+                  onChange={this.handleUpdate.bind(this, 'order')}
+                />
+              </SidebarControl>
+            </Sidebar>
+          </div>
+        </div>
+      </ViewContainer>
     );
   }
 }

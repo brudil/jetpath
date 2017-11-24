@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import DocumentTitle from '../components/DocumentTitle';
 import { RootState } from '../types';
 import { NotificationState, Notification } from '../ducks/Notification';
+import Helmet from "react-helmet";
 
 interface IProps {
   notification: NotificationState;
@@ -12,23 +12,25 @@ interface IProps {
 class NotificationsPage extends React.Component<IProps> {
   render() {
     return (
-      <DocumentTitle title="Works">
-        <div>
-          <header className="standard-header">
-            <h2>Notifications</h2>
-          </header>
-          <div className="view-container">
-            <div className="view-container__content">
-              Your notifications!
-              <ul>
-                {this.props.notificationsList.map(notification => (
-                  <li>ID: {notification.id}</li>
-                ))}
-              </ul>
-            </div>
+      <div>
+        <Helmet>
+          <title>Works</title>
+        </Helmet>
+
+        <header className="standard-header">
+          <h2>Notifications</h2>
+        </header>
+        <div className="view-container">
+          <div className="view-container__content">
+            Your notifications!
+            <ul>
+              {this.props.notificationsList.map(notification => (
+                <li>ID: {notification.id}</li>
+              ))}
+            </ul>
           </div>
         </div>
-      </DocumentTitle>
+      </div>
     );
   }
 }

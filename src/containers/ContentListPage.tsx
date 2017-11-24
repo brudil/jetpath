@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import qs from 'query-string';
 import WorksList from '../components/WorksList';
 import { TitleSelection, SelectionItem } from '../components/TitleSelection';
-import DocumentTitle from '../components/DocumentTitle';
 import ViewContainer from '../components/ViewContainer';
 import PaginationNav from '../components/PaginationNav';
 import SegmentedControl from '../components/SegmentedControl';
@@ -29,6 +28,7 @@ import { RootState } from '../types';
 import { RouteComponentProps } from 'react-router';
 import { Vertical } from '../ducks/Vertical';
 import { Form, Status, Tone } from '../libs/constants';
+import Helmet from "react-helmet";
 
 const presets: any = {
   // todo
@@ -161,150 +161,152 @@ class ContentListPage extends React.Component<IProps> {
     const vertical = this.props.vertical;
 
     return (
-      <DocumentTitle title="Content">
-        <ViewContainer>
-          <header className={stylesStandardHeader.root}>
-            <Link
-              to={`/@${vertical.identifier}/editor/new`}
-              className={stylesStandardHeader.prepend}
-            >
-              <i className="icon icon-plus">
-                <img
-                  // eslint-disable-next-line
-                  src={require('icons/plus.svg')}
-                  alt="Add"
-                />
-              </i>
-            </Link>
-            <TitleSelection
-              onSelection={this.handleFilterPresetChange}
-              className={stylesStandardHeader.title}
-              value={filterPresetsMatch(query, presets, 'custom')}
-            >
-              <SelectionItem name="recent">Recently Edited</SelectionItem>
-              <SelectionItem name="ready">Ready</SelectionItem>
-              <SelectionItem name="published">Published</SelectionItem>
-              <SelectionItem name="custom">Filtered</SelectionItem>
-            </TitleSelection>
-          </header>
-          <div className={ViewContainerStyles.root}>
-            <div className={ViewContainerStyles.content}>
-              {this.renderContent()}
-            </div>
-            <div className={ViewContainerStyles.sidebar}>
-              <Sidebar>
-                <SidebarControl title="Search">
-                  <SidebarInput
-                    type="text"
-                    value={query.search}
-                    onChange={this.handleInputUpdate.bind(this, 'search')}
-                  />
-                </SidebarControl>
-                <SidebarControl title="Authors">
-                  <AuthorsSelector
-                    onChange={this.handleAuthorChange}
-                    value={query.authors}
-                  />
-                </SidebarControl>
-                <SidebarControl title="State">
-                  <SegmentedControl
-                    value={query.state}
-                    options={[
-                      null,
-                      'All',
-                      'internal',
-                      'Internal',
-                      'live',
-                      'Live',
-                    ]}
-                    onChange={this.handleUpdate.bind(this, 'state')}
-                  />
-                </SidebarControl>
+      <ViewContainer>
+        <Helmet>
+          <title>Content</title>
+        </Helmet>
 
-                <SidebarControl title="Status">
-                  <SegmentedControl
-                    value={query.status}
-                    options={[
-                      null,
-                      'All',
-                      ...generateFromConstants(contentStatusLang, [
-                        Status.Stub,
-                        Status.Writing,
-                        Status.Finished,
-                      ]),
-                    ]}
-                    onChange={this.handleUpdate.bind(this, 'status')}
-                  />
-                </SidebarControl>
-
-                <SidebarControl title="Form">
-                  <SegmentedControl
-                    value={query.form}
-                    options={[
-                      null,
-                      'All',
-                      ...generateFromConstants(
-                        contentFormLang,
-                        intersection(vertical.content_forms, [
-                          Form.Article,
-                          Form.Video,
-                          Form.Interactive,
-                          Form.Gallery,
-                        ])
-                      ),
-                    ]}
-                    onChange={this.handleUpdate.bind(this, 'form')}
-                  />
-                </SidebarControl>
-
-                <SidebarControl title="Tone">
-                  <SegmentedControl
-                    value={query.tone}
-                    options={[
-                      null,
-                      'All',
-                      ...generateFromConstants(
-                        contentToneLang,
-                        intersection(vertical.content_tones, [
-                          Tone.Content,
-                          Tone.Review,
-                          Tone.Viewpoint,
-                          Tone.Storytelling,
-                          Tone.Interactive,
-                          Tone.Guide,
-                        ])
-                      ),
-                    ]}
-                    onChange={this.handleUpdate.bind(this, 'tone')}
-                  />
-                </SidebarControl>
-
-                <SidebarControl title="Order">
-                  <SegmentedControl
-                    value={query.order}
-                    options={[
-                      'updated_desc',
-                      'Recent',
-                      'updated_asc',
-                      'Oldest',
-                    ]}
-                    onChange={this.handleUpdate.bind(this, 'order')}
-                  />
-                </SidebarControl>
-                {/*
-                <SidebarControl title="Section">
-                  <input type="text" />
-                </SidebarControl>
-
-                <SidebarControl title="Topics">
-                  <input type="text" />
-                </SidebarControl>
-                */}
-              </Sidebar>
-            </div>
+        <header className={stylesStandardHeader.root}>
+          <Link
+            to={`/@${vertical.identifier}/editor/new`}
+            className={stylesStandardHeader.prepend}
+          >
+            <i className="icon icon-plus">
+              <img
+                // eslint-disable-next-line
+                src={require('icons/plus.svg')}
+                alt="Add"
+              />
+            </i>
+          </Link>
+          <TitleSelection
+            onSelection={this.handleFilterPresetChange}
+            className={stylesStandardHeader.title}
+            value={filterPresetsMatch(query, presets, 'custom')}
+          >
+            <SelectionItem name="recent">Recently Edited</SelectionItem>
+            <SelectionItem name="ready">Ready</SelectionItem>
+            <SelectionItem name="published">Published</SelectionItem>
+            <SelectionItem name="custom">Filtered</SelectionItem>
+          </TitleSelection>
+        </header>
+        <div className={ViewContainerStyles.root}>
+          <div className={ViewContainerStyles.content}>
+            {this.renderContent()}
           </div>
-        </ViewContainer>
-      </DocumentTitle>
+          <div className={ViewContainerStyles.sidebar}>
+            <Sidebar>
+              <SidebarControl title="Search">
+                <SidebarInput
+                  type="text"
+                  value={query.search}
+                  onChange={this.handleInputUpdate.bind(this, 'search')}
+                />
+              </SidebarControl>
+              <SidebarControl title="Authors">
+                <AuthorsSelector
+                  onChange={this.handleAuthorChange}
+                  value={query.authors}
+                />
+              </SidebarControl>
+              <SidebarControl title="State">
+                <SegmentedControl
+                  value={query.state}
+                  options={[
+                    null,
+                    'All',
+                    'internal',
+                    'Internal',
+                    'live',
+                    'Live',
+                  ]}
+                  onChange={this.handleUpdate.bind(this, 'state')}
+                />
+              </SidebarControl>
+
+              <SidebarControl title="Status">
+                <SegmentedControl
+                  value={query.status}
+                  options={[
+                    null,
+                    'All',
+                    ...generateFromConstants(contentStatusLang, [
+                      Status.Stub,
+                      Status.Writing,
+                      Status.Finished,
+                    ]),
+                  ]}
+                  onChange={this.handleUpdate.bind(this, 'status')}
+                />
+              </SidebarControl>
+
+              <SidebarControl title="Form">
+                <SegmentedControl
+                  value={query.form}
+                  options={[
+                    null,
+                    'All',
+                    ...generateFromConstants(
+                      contentFormLang,
+                      intersection(vertical.content_forms, [
+                        Form.Article,
+                        Form.Video,
+                        Form.Interactive,
+                        Form.Gallery,
+                      ])
+                    ),
+                  ]}
+                  onChange={this.handleUpdate.bind(this, 'form')}
+                />
+              </SidebarControl>
+
+              <SidebarControl title="Tone">
+                <SegmentedControl
+                  value={query.tone}
+                  options={[
+                    null,
+                    'All',
+                    ...generateFromConstants(
+                      contentToneLang,
+                      intersection(vertical.content_tones, [
+                        Tone.Content,
+                        Tone.Review,
+                        Tone.Viewpoint,
+                        Tone.Storytelling,
+                        Tone.Interactive,
+                        Tone.Guide,
+                      ])
+                    ),
+                  ]}
+                  onChange={this.handleUpdate.bind(this, 'tone')}
+                />
+              </SidebarControl>
+
+              <SidebarControl title="Order">
+                <SegmentedControl
+                  value={query.order}
+                  options={[
+                    'updated_desc',
+                    'Recent',
+                    'updated_asc',
+                    'Oldest',
+                  ]}
+                  onChange={this.handleUpdate.bind(this, 'order')}
+                />
+              </SidebarControl>
+              {/*
+              <SidebarControl title="Section">
+                <input type="text" />
+              </SidebarControl>
+
+              <SidebarControl title="Topics">
+                <input type="text" />
+              </SidebarControl>
+              */}
+            </Sidebar>
+          </div>
+        </div>
+      </ViewContainer>
     );
   }
 }

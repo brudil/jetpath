@@ -3,13 +3,13 @@ import { graphql } from 'react-apollo';
 import { compose } from 'redux';
 
 import ViewContainer from '../ViewContainer';
-import DocumentTitle from '../../components/DocumentTitle';
 import MediaEditForm from '../MediaEditForm';
 import MediaDisplay from '../MediaDisplay';
 import LoadingContent from '../LoadingContent';
 import MediaEditQuery from '../../containers/MediaEditPage/MediaEditQuery.graphql';
 import EditMediaMutation from '../../containers/MediaEditPage/EditMedia.graphql';
 import Modal from '../Modal/index';
+import Helmet from "react-helmet";
 
 interface IProps {
   value: number;
@@ -52,20 +52,22 @@ function MediaEditPage(props: IProps) {
   const isDeleted = props.data.media.deleted;
 
   return (
-    <DocumentTitle title="Media">
-      <ViewContainer>
-        <h1>
-          Edit media #{props.data.media.mediaId} {isDeleted ? '[deleted]' : ''}
-        </h1>
-        <div style={{ maxWidth: '300px', with: '100%' }}>
-          <MediaEditForm
-            initialValues={props.data.media}
-            onSubmit={handleSubmit}
-          />
-        </div>
-        <MediaDisplay media={props.data.media} />
-      </ViewContainer>
-    </DocumentTitle>
+    <ViewContainer>
+      <Helmet>
+        <title>Media</title>
+      </Helmet>
+
+      <h1>
+        Edit media #{props.data.media.mediaId} {isDeleted ? '[deleted]' : ''}
+      </h1>
+      <div style={{ maxWidth: '300px', with: '100%' }}>
+        <MediaEditForm
+          initialValues={props.data.media}
+          onSubmit={handleSubmit}
+        />
+      </div>
+      <MediaDisplay media={props.data.media} />
+    </ViewContainer>
   );
 }
 

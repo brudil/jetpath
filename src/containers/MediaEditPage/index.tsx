@@ -3,7 +3,6 @@ import { graphql } from 'react-apollo';
 import { compose } from 'redux';
 
 import ViewContainer from '../../components/ViewContainer';
-import DocumentTitle from '../../components/DocumentTitle';
 import MediaEditForm from '../../components/MediaEditForm';
 import MediaDisplay from '../../components/MediaDisplay';
 import LoadingContent from '../../components/LoadingContent';
@@ -15,6 +14,7 @@ import EditMediaMutation from './EditMedia.graphql';
 import DeleteMediaMutation from './DeleteMedia.graphql';
 import UndeleteMediaMutation from './UndeleteMedia.graphql';
 import * as Router from 'react-router-dom';
+import Helmet from "react-helmet";
 
 interface IParams {
   id: string;
@@ -78,32 +78,34 @@ function MediaEditPage(props: IProps) {
   const isDeleted = props.data.media.deleted;
 
   return (
-    <DocumentTitle title="Media">
-      <ViewContainer>
-        <h1>
-          Edit media #{props.data.media.mediaId} {isDeleted ? '[deleted]' : ''}
-        </h1>
-        <div style={{ maxWidth: '300px', with: '100%' }}>
-          <MediaEditForm
-            initialValues={props.data.media}
-            onSubmit={handleSubmit}
-          />
+    <ViewContainer>
+      <Helmet>
+        <title>Media</title>
+      </Helmet>
 
-          <div style={{ paddingTop: '2rem' }}>
-            {!isDeleted ? (
-              <LowkeyDeleteButton
-                text="Delete media"
-                confirmText="Are you sure you want to delete this media?"
-                onDelete={handleDelete}
-              />
-            ) : (
-              <Button text="Undelete" onClick={handleUndelete} />
-            )}
-          </div>
+      <h1>
+        Edit media #{props.data.media.mediaId} {isDeleted ? '[deleted]' : ''}
+      </h1>
+      <div style={{ maxWidth: '300px', with: '100%' }}>
+        <MediaEditForm
+          initialValues={props.data.media}
+          onSubmit={handleSubmit}
+        />
+
+        <div style={{ paddingTop: '2rem' }}>
+          {!isDeleted ? (
+            <LowkeyDeleteButton
+              text="Delete media"
+              confirmText="Are you sure you want to delete this media?"
+              onDelete={handleDelete}
+            />
+          ) : (
+            <Button text="Undelete" onClick={handleUndelete} />
+          )}
         </div>
-        <MediaDisplay media={props.data.media} />
-      </ViewContainer>
-    </DocumentTitle>
+      </div>
+      <MediaDisplay media={props.data.media} />
+    </ViewContainer>
   );
 }
 

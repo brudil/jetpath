@@ -2,7 +2,6 @@ import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import Combokeys from 'combokeys';
-import DocumentTitle from '../components/DocumentTitle';
 import EditorNav from '../components/Editor/EditorNav';
 import EditorCommandPalette from '../components/Editor/EditorCommandPalette';
 import * as EditorActions from '../ducks/Editor';
@@ -15,6 +14,7 @@ import { Dispatch } from 'redux';
 import { Vertical } from '../ducks/Vertical';
 import styled from 'react-emotion';
 import EditorSidebar from '../components/Editor/EditorSidebar';
+import Helmet from "react-helmet";
 
 const Container = styled.div`
   display: flex;
@@ -221,9 +221,13 @@ class EditorPage extends React.Component<IProps> {
     }
 
     return (
-      <DocumentTitle title="Editor">
-        <div>{editor}</div>
-      </DocumentTitle>
+      <div>
+        <Helmet>
+          <title>Editor</title>
+        </Helmet>
+
+        {editor}
+      </div>
     );
   }
 }

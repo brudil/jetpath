@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import cx from 'classnames';
 import { TitleSelection, SelectionItem } from '../components/TitleSelection';
 import * as OrgansiationActions from '../ducks/Organisation';
-import DocumentTitle from '../components/DocumentTitle';
 import TopicEditForm from '../components/TopicEditForm';
 import SectionEditForm from '../components/SectionEditForm';
 import Button from '../components/Button';
@@ -14,6 +13,7 @@ import stylesView from '../styles/components/ViewContainer.css';
 import ViewContainer from '../components/ViewContainer';
 import { RootState } from '../types';
 import { OrganisationState } from '../ducks/Organisation';
+import Helmet from "react-helmet";
 
 // this is very `any` type heavy - i'm going to rewrite this page soon, so didn't bother typing
 
@@ -215,31 +215,33 @@ class OrganisationPage extends React.Component<IProps> {
 
   render() {
     return (
-      <DocumentTitle title="Organisation">
-        <ViewContainer>
-          <header className="standard-header">
-            <TitleSelection
-              className="standard-header__title"
-              value="sections"
-              onSelection={() => null}
-            >
-              <SelectionItem name="sections">Sections</SelectionItem>
-              <SelectionItem name="series">Series</SelectionItem>
-            </TitleSelection>
-          </header>
-          <div className={stylesView.root}>
-            <div className={stylesView.content}>
-              <div className={stylesShelter.root}>
-                {this.renderSections(this.props.sectionList)}
-                {this.renderTopics(this.props.selectedTopicList)}
-              </div>
-            </div>
-            <div className={stylesView.sidebar}>
-              <div className="sidebar">{this.renderSidebar()}</div>
+      <ViewContainer>
+        <Helmet>
+          <title>Organisation</title>
+        </Helmet>
+
+        <header className="standard-header">
+          <TitleSelection
+            className="standard-header__title"
+            value="sections"
+            onSelection={() => null}
+          >
+            <SelectionItem name="sections">Sections</SelectionItem>
+            <SelectionItem name="series">Series</SelectionItem>
+          </TitleSelection>
+        </header>
+        <div className={stylesView.root}>
+          <div className={stylesView.content}>
+            <div className={stylesShelter.root}>
+              {this.renderSections(this.props.sectionList)}
+              {this.renderTopics(this.props.selectedTopicList)}
             </div>
           </div>
-        </ViewContainer>
-      </DocumentTitle>
+          <div className={stylesView.sidebar}>
+            <div className="sidebar">{this.renderSidebar()}</div>
+          </div>
+        </div>
+      </ViewContainer>
     );
   }
 }
