@@ -1,19 +1,32 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { NativeTypes } from 'react-dnd-html5-backend';
-import { DropTarget as dropTarget } from 'react-dnd';
+import { DropTarget as dropTarget, ConnectDropTarget, DropTargetMonitor } from 'react-dnd';
 import cx from 'classnames';
 
 import styles from './MediaUpload.css';
 
+interface ComponentProps {
+
+}
+
+interface InternalProps {
+  children: any;
+  onFile: any; // todo
+  isOver: boolean;
+  canDrop: boolean;
+  connectDropTarget: ConnectDropTarget,
+}
+
+type IProps = InternalProps & ComponentProps;
+
 const fileTarget = {
-  drop(props, monitor, component) {
-    component.handleFileUpload(monitor.getItem().files);
+  drop(_props: IProps, monitor: DropTargetMonitor, component: MediaUploadContainer) {
+    component.handleFileUpload((monitor.getItem() as any).files); // todo
   },
 };
 
-class MediaUploadContainer extends React.Component {
-  handleFileUpload(files) {
+class MediaUploadContainer extends React.Component<IProps> {
+  handleFileUpload(files: File[]) {
     files.forEach(file => this.props.onFile(file));
   }
 
@@ -34,16 +47,8 @@ class MediaUploadContainer extends React.Component {
   }
 }
 
-MediaUploadContainer.propTypes = {
-  children: PropTypes.element.isRequired,
-  onFile: PropTypes.func.isRequired,
-  isOver: PropTypes.bool.isRequired,
-  canDrop: PropTypes.bool.isRequired,
-  connectDropTarget: PropTypes.func.isRequired,
-};
-
 export default dropTarget(NativeTypes.FILE, fileTarget, (connect, monitor) => ({
   connectDropTarget: connect.dropTarget(),
   isOver: monitor.isOver(),
   canDrop: monitor.canDrop(),
-}))(MediaUploadContainer);
+}))(MediaUploadContainer) as any; // todo

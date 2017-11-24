@@ -98,4 +98,4 @@ export default compose(
     state,
   })),
   pure
-)(GlobalHeader);
+)(GlobalHeader) as React.SFC<{}>;

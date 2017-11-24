@@ -17,7 +17,7 @@ export const INTERACTIVES_LIST_FETCH_SUCCESS =
 
 export const MEDIA_UPLOAD = createRequestTypes('MEDIA_UPLOAD');
 
-export const loadInteractivesList = (query: string, limit: number) => ({
+export const loadInteractivesList = (query: Object, limit: number) => ({
   type: LOAD_INTERACTIVES_LIST,
   query,
   limit,
@@ -46,8 +46,21 @@ const initialState = {
   hasPrevious: false,
 };
 
+export interface InteractivesState {
+  list: number[],
+  loading: boolean;
+  count: number;
+  hasNext: boolean;
+  hasPrevious: boolean;
+}
+
+export interface Interactive {
+  slug: string;
+  latest_public_release_number: number;
+}
+
 export default function MediaListReducer(
-  state = initialState,
+  state: InteractivesState = initialState,
   action: AnyAction
 ) {
   const { payload } = action;

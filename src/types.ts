@@ -1,22 +1,26 @@
 import { OrganisationState } from './ducks/Organisation';
-import { TopicsStore } from './ducks/Topic';
+import {Topic, TopicsStore} from './ducks/Topic';
 import { NotificationState } from './ducks/Notification';
+import {AuthState} from "./ducks/Auth";
+import {Interactive, InteractivesState} from "./ducks/Interactives";
+import {Author, AuthorsState} from "./ducks/Authors";
 
-interface EntityMap {
-  [key: number]: Object;
+export interface EntityMap<T> {
+  [key: number]: T;
 }
 
 interface EntityState {
-  sections: EntityMap;
-  media: EntityMap;
-  interactives: EntityMap;
-  topics: EntityMap;
-  notifications: EntityMap;
-  contentList: EntityMap;
+  sections: EntityMap<Object>; // todo
+  media: EntityMap<Object>; // todo
+  interactives: EntityMap<Interactive>;
+  topics: EntityMap<Topic>; // todo
+  notifications: EntityMap<Object>; // todo
+  contentList: EntityMap<Object>; // todo
+  authors: EntityMap<Author>;
 }
 
 export interface RootState {
-  auth: any; // todo
+  auth: AuthState;
   editor: any; // todo
   verticals: any; // todo
   organisation: OrganisationState;
@@ -26,6 +30,8 @@ export interface RootState {
   toasts: any; // todo
   contentList: any; // todo
   topics: TopicsStore;
+  interactives: InteractivesState;
+  authors: AuthorsState;
 }
 
 export type TopicId = number;

@@ -1,8 +1,10 @@
 import React from 'react';
-import Select from 'react-select';
+import Select, {Option} from 'react-select';
 import { connect } from 'react-redux';
 import styled from 'react-emotion';
 import * as InteractivesActions from '../../ducks/Interactives';
+import {RootState} from "../../types";
+import {Interactive} from "../../ducks/Interactives";
 
 const InteractiveIframe = styled.iframe`
   margin: 1rem 0;
@@ -14,13 +16,23 @@ const InteractiveIframe = styled.iframe`
   border: 1px solid #3e3e3e;
 `;
 
-class InteractiveSelector extends React.Component {
-  componentWillMount() {
-    this.props.dispatch(
-      InteractivesActions.loadInteractivesList({ order: 'created_desc' }, 5)
-    );
+interface IProps {
+  loadInteractivesList: typeof InteractivesActions.loadInteractivesList;
 
-    this.handleSelection = value => this.props.onChange(value.value);
+  onChange(value: string | null): void;
+
+  value?: Interactive,
+  listLoading: boolean;
+  interactiveItems: Interactive[];
+}
+
+class InteractiveSelector extends React.Component<IProps> {
+  private handleSelection: any;
+
+  componentWillMount() {
+    this.props.loadInteractivesList({ order: 'created_desc' }, 5);
+
+    this.handleSelection = (value: Option | null) => this.props.onChange(value ? value.value as string: null);
   }
 
   render() {
@@ -33,9 +45,8 @@ class InteractiveSelector extends React.Component {
             value: interactiveItem.slug,
             label: interactiveItem.slug,
           }))}
-          onInputChange={this.handleInputChangeBound}
           onChange={this.handleSelection}
-          value={value ? value.slug : null}
+          value={value ? value.slug : false}
         />
 
         {value !== undefined ? (
@@ -52,11 +63,11 @@ class InteractiveSelector extends React.Component {
   }
 }
 
-InteractiveSelector.propTypes = {};
-
-export default connect(state => ({
+export default connect((state: RootState) => ({
   interactiveItems: state.interactives.list.map(
     id => state.entities.interactives[id]
   ),
   listLoading: state.interactives.loading,
-}))(InteractiveSelector);
+}), {
+  loadInteractivesList: InteractivesActions.loadInteractivesList,
+})(InteractiveSelector);

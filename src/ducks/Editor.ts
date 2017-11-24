@@ -25,6 +25,7 @@ import {
   dismissToastAction,
   ButtonTypes,
 } from './Toast';
+import {Action} from "redux";
 
 const EDITOR_LOAD_CONTENT = createRequestTypes('EDITOR_LOAD_CONTENT');
 const EDITOR_PUBLISH_CONTENT = createRequestTypes('EDITOR_PUBLISH_CONTENT');
@@ -595,7 +596,11 @@ function* handleLoadResourcesOnChange() {
   }
 }
 
-function* handleEditorChangeRevisionStatus({ status }: { status: number }) {
+interface ChangeRevisionStatusAction extends Action {
+  status: number;
+}
+
+function* handleEditorChangeRevisionStatus({ status }: ChangeRevisionStatusAction) {
   const editorState = yield select((state: any) => state.editor);
 
   yield call(
@@ -606,7 +611,11 @@ function* handleEditorChangeRevisionStatus({ status }: { status: number }) {
   yield put(changeRevisionStatusSuccess({ status }));
 }
 
-function* handleEditorLoad({ contentId }: { contentId: string }) {
+interface EditorLoadAction extends Action {
+  contentId: string;
+}
+
+function* handleEditorLoad({ contentId }: EditorLoadAction) {
   const [revisionPayload, editorialMetadataPayload] = yield [
     call(WorksClient.getRevision as any, contentId), // todo
     call(WorksClient.getEditorialMetadata as any, contentId),

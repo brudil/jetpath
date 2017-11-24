@@ -332,7 +332,11 @@ function* handleSelectNewTopic() {
   yield put(formActions.reset('topicEdit'));
 }
 
-function* handleSaveTopic({ data }: { data: any }) {
+interface SaveAction extends Action {
+  data: any;
+}
+
+function* handleSaveTopic({ data }: SaveAction) {
   let response = null;
   const [selectedSectionId, selectedTopicId] = yield select(
     (state: RootState) => [
@@ -360,7 +364,7 @@ function* handleSaveTopic({ data }: { data: any }) {
   }
 }
 
-function* handleSaveSection({ data }: { data: any }) {
+function* handleSaveSection({ data }: SaveAction) {
   let response = null;
   const selectedId = yield select(
     (state: RootState) => state.organisation.selectedSectionId

@@ -1,25 +1,27 @@
 import uuid from 'uuid/v4';
 import { call, put } from 'redux-saga/effects';
+import {Dispatch} from "redux";
+import {RootState} from "./types";
 
-export function action(type, payload = {}) {
+export function action(type: string, payload = {}) {
   return { type, ...payload };
 }
 
-const REQUEST = 'REQUEST';
-const SUCCESS = 'SUCCESS';
-const FAILURE = 'FAILURE';
-
-export function createRequestTypes(base) {
-  const res = {};
-  [REQUEST, SUCCESS, FAILURE].forEach(type => {
-    const constant = `${base}_${type}`;
-    res[type] = constant;
-    return constant;
-  });
-  return res;
+interface RequestTypes {
+  REQUEST: string;
+  SUCCESS: string;
+  FAILURE: string;
 }
 
-export function createTransaction(dispatch, actionType, sequenceData = {}) {
+export function createRequestTypes(base: string): RequestTypes {
+  return {
+    REQUEST: `${base}_REQUEST`,
+    SUCCESS: `${base}_SUCCESS`,
+    FAILURE: `${base}_FAILURE`,
+  };
+}
+
+export function createTransaction(dispatch: Dispatch<RootState>, actionType: string, sequenceData = {}) {
   const transactionId = uuid();
   console.warn(
     `${
@@ -48,7 +50,7 @@ export function createTransaction(dispatch, actionType, sequenceData = {}) {
         },
       });
     },
-    progress(progress) {
+    progress(progress: any) {
       dispatch({
         type: actionType,
         sequence: {
@@ -74,7 +76,7 @@ export function createTransaction(dispatch, actionType, sequenceData = {}) {
   };
 }
 
-export function sequence(state, action, methods) {
+export function sequence(state: any, action: any, methods: any) { // trying to get rid of this. not typing
   if (action.error && {}.hasOwnProperty.call(methods, 'error')) {
     return methods.error();
   }
@@ -90,7 +92,7 @@ export function sequence(state, action, methods) {
   return state;
 }
 
-export function* fetchEntity(entity, apiFn, vertical, id, url) {
+export function* fetchEntity(entity: any, apiFn: any, vertical: string, id: string, url: string) {
   yield put(entity.request(id));
   const { payload, error } = yield call(apiFn, vertical, id, url);
   if (payload) {

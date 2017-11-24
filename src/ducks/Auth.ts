@@ -1,4 +1,4 @@
-import { Map, Record } from 'immutable';
+import Immutable, { Map, Record } from 'immutable';
 import { takeLatest, put } from 'redux-saga/effects';
 import { AuthClient } from '../serverAPI';
 import { createToast } from './Toast';
@@ -73,7 +73,18 @@ const initialState = Map<any>({
   error: null,
 });
 
-export default function AuthReducer(state = initialState, action: AnyAction) {
+interface IAuthState {
+  auth: any; // todo
+  loading: boolean;
+  attempted: boolean;
+  error: Error | null;
+}
+
+export interface AuthState extends Immutable.Map<string, any> {
+  toJS(): any;
+  get<K extends keyof IAuthState>(key: K): IAuthState[K];
+}
+export default function AuthReducer(state: AuthState = initialState, action: AnyAction) {
   switch (action.type) {
     case AUTH_LOGIN_REQUEST:
       return state.set('loading', true);

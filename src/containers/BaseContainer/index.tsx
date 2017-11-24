@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext as dragDropContext } from 'react-dnd';
@@ -11,6 +10,9 @@ import InnerVerticalPage from '../InnerVerticalPage';
 import NotFoundPage from '../NotFoundPage';
 import LoadingContent from '../../components/LoadingContent/index';
 import styled from 'react-emotion';
+import {RouteComponentProps} from "react-router";
+import {RootState} from "../../types";
+import {AuthState} from "../../ducks/Auth";
 
 const Section = styled.div`
   background-color: ${props => props.theme.colors.background};
@@ -24,7 +26,12 @@ const Section = styled.div`
   }
 `;
 
-class BaseContainer extends React.Component {
+interface IProps extends RouteComponentProps<{}> {
+  children: any;
+  auth: AuthState;
+}
+
+class BaseContainer extends React.Component<IProps> {
   componentWillMount() {
     if (!{}.hasOwnProperty.call(this.props, 'auth')) {
       return;
@@ -33,11 +40,11 @@ class BaseContainer extends React.Component {
     this.handleCorrectRoute(this.props);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: IProps) {
     this.handleCorrectRoute(nextProps);
   }
 
-  handleCorrectRoute(props) {
+  handleCorrectRoute(props: IProps) {
     if (props.auth.get('auth') === null) {
       this.props.history.replace(
         `/auth/login?nextPath=${this.props.location.pathname}`
@@ -46,7 +53,6 @@ class BaseContainer extends React.Component {
   }
 
   render() {
-    const vertical = this.props.match.params.vertical;
     const { url } = this.props.match;
     if (this.props.auth.get('auth') === null) {
       return <LoadingContent />;
@@ -74,17 +80,12 @@ class BaseContainer extends React.Component {
   }
 }
 
-BaseContainer.propTypes = {
-  children: PropTypes.node,
-  location: PropTypes.object,
-  dispatch: PropTypes.func,
-};
-
 const withRoutered = withRouter(
-  connect(state => ({
+  connect((state: RootState) => ({
     auth: state.auth,
-    verticals: state.verticals,
   }))(BaseContainer)
 );
 
-export default dragDropContext(HTML5Backend)(withRoutered);
+const finalComponent = dragDropContext(HTML5Backend)(withRoutered)
+
+export default finalComponent;

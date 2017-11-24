@@ -39,9 +39,14 @@ const initialState = {
 
 export interface TopicsStore {
   keywordMap: {
-    [keyword: string]: Object;
+    [keyword: string]: number[];
   };
   isLoading: boolean;
+}
+
+export interface Topic {
+  id: number;
+  title: string;
 }
 
 export default function TopicsReducer(

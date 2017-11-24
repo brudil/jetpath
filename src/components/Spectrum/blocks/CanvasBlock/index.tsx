@@ -7,6 +7,7 @@ import CanvasIcon from '../../../icons/canvas.svg.react';
 import { Changeset, ElementPath } from '../../../../libs/spectrum2/interfaces';
 import CanvasPanel from './Panel';
 import { RootState } from '../../../../types';
+import {Interactive} from "../../../../ducks/Interactives";
 
 interface IProps {
   update: (changeset: Changeset) => void;
@@ -34,7 +35,7 @@ class CanvasBlock extends React.Component<IProps> {
   render() {
     const { interactiveEntities, data } = this.props;
     const slug = data.getIn(['resource', 'slug']);
-    const item = find(interactiveEntities, { slug });
+    const item: Interactive | undefined = find(interactiveEntities, { slug });
 
     return (
       <div>

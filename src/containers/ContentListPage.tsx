@@ -120,7 +120,7 @@ class ContentListPage extends React.Component<IProps> {
     this.handleQueryChange(query);
   }
 
-  handleAuthorChange(value: string) {
+  handleAuthorChange(value: number[]) {
     const query = this.getQueryData();
     query.authors = value;
     this.handleQueryChange(query);
@@ -203,7 +203,7 @@ class ContentListPage extends React.Component<IProps> {
                 <SidebarControl title="Authors">
                   <AuthorsSelector
                     onChange={this.handleAuthorChange}
-                    value={parseInt(query.authors, 10)}
+                    value={query.authors}
                   />
                 </SidebarControl>
                 <SidebarControl title="State">
