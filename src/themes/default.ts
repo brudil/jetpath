@@ -22,5 +22,9 @@ export default {
     danger: '#ff3b31',
     danger_hover: '#ff1a0e',
     danger_active: '#d81512',
+
+    contentStatus_stub: '#f7db15',
+    contentStatus_writing: '#fd8603',
+    contentStatus_finished: '#00cbe7',
   },
 };
