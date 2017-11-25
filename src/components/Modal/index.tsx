@@ -1,11 +1,15 @@
 import React from 'react';
 import ReactModal from 'react-modal';
 import {css} from "emotion";
+import defaultTheme from "../../themes/default";
+import layers from "../../themes/layers";
+
+const { colors } = defaultTheme;
 
 const rootModalStyles = css`
   margin: 1rem;
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.3);
-  background-color: var(--color__modal-background);
+  background-color: ${colors.grey_summer};
   transition: all 150ms 150ms ease;
   position: relative;
   top: 0;
@@ -23,7 +27,7 @@ const overlayStyles = css`
   right: 0;
   bottom: 0;
   opacity: 1;
-  z-index: var(--layer__overlay);
+  z-index: ${layers.overlay};
   display: flex;
   background: rgba(0, 0, 0, 0.6);
 `;

@@ -67,7 +67,7 @@ class DocumentPanel extends React.Component<IProps, any> {
         className={prefButtonStyles}
         onClick={this.handleVisibilityToggle}
       >
-        <CogIcon alt="Document preferences" width="24" />
+        <CogIcon alt="Document preferences" width="24" height="24" />
       </button>
     );
   }

@@ -1,9 +1,8 @@
 import React from 'react';
 import Image from '../Image';
-
-import styles from './MediaGridItem.css';
 import styled from "react-emotion";
 import {css} from "emotion";
+import layers from "../../themes/layers";
 
 const PseudoPreview = styled.div`
   width: 100%;
@@ -38,7 +37,7 @@ const InnerContainer = styled.div`
     transform: scale(1.25);
     background: #ffffff;
     box-shadow: 0 0 12px rgba(30, 30, 30, 0.3);
-    z-index: var(--layer__media-grid-hover);
+    z-index: ${layers.mediaGridHover};
   }
 `;
 

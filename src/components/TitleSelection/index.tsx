@@ -3,6 +3,41 @@ import cx from 'classnames';
 import TitleSelectionItem from './SelectionItem';
 
 import styles from './TitleSelection.css';
+import styled from "react-emotion";
+import {css} from "emotion";
+import {linkStyles} from "../../Textbox";
+import layers from "../../themes/layers";
+
+const Dropdown = styled.div`
+  display: ${(props: any) => props.isOpen ? 'block' : 'none' };
+  box-shadow: 0 0 6px 0 rgba(30, 30, 30, 0.3);
+  background: #ffffff;
+  padding: 0.5rem 3rem 0.5rem 0.5rem;
+  box-sizing: border-box;
+  margin-top: -0.5rem;
+  margin-left: -0.5rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: ${layers.titleSelectionDropdown};
+`;
+
+const Container = styled.div`
+  display: inline-block;
+  position: relative;
+  user-select: none;
+`;
+
+export const choicesStyles = css`
+  padding-top: 1em;
+`;
+
+export const titleStyles = css`
+  font-size: 1.6em;
+  font-weight: 400;
+  ${linkStyles};
+`;
+
 
 interface IProps {
   className?: string;
@@ -67,25 +102,20 @@ class TitleSelection extends React.Component<IProps, IState> {
   }
 
   render() {
-    const rootClasses = cx(this.props.className, {
-      [styles.root]: true,
-      [styles.root_active]: this.state.isOpen,
-    });
-
     return (
-      <div className={rootClasses}>
+      <Container>
         <h2
-          className={cx(styles.title, styles.currentTitle, 'link')}
+          className={cx(titleStyles, styles.currentTitle)}
           onClick={this.handleOpen}
         >
           {this.state.items[this.props.value].title}
         </h2>
 
-        <div className={styles.dropdown}>
-          <h2 className={cx(styles.title, 'link')} onClick={this.handleClose}>
+        <Dropdown isOpen={this.state.isOpen}>
+          <h2 className={cx(titleStyles)} onClick={this.handleClose}>
             {this.state.items[this.props.value].title}
           </h2>
-          <ul className={styles.choices}>
+          <ul className={choicesStyles}>
             {this.state.itemsIds.map(id => (
               <TitleSelectionItem
                 key={id}
@@ -95,8 +125,8 @@ class TitleSelection extends React.Component<IProps, IState> {
               />
             ))}
           </ul>
-        </div>
-      </div>
+        </Dropdown>
+      </Container>
     );
   }
 }

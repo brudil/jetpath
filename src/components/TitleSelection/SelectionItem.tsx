@@ -2,6 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 
 import styles from './TitleSelection.css';
+import {titleStyles} from "./index";
 
 interface IProps {
   title: string;
@@ -22,7 +23,7 @@ class SelectionItem extends React.Component<IProps> {
     const { title } = this.props;
     return (
       <li
-        className={cx(styles.title, styles.choice, 'link')}
+        className={cx(titleStyles, styles.choice, 'link')}
         onClick={this.handleClick}
       >
         {title}
