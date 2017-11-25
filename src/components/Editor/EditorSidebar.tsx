@@ -4,10 +4,10 @@ import EditorComments from './EditorComments';
 import EditorSectionMetadata from './EditorSectionMetadata';
 import EditorSectionWorkflow from '../../containers/EditorSectionWorkflow';
 import styled from 'react-emotion';
-import WorkflowIcon from './workflow.svgc';
-import NotesIcon from './notes.svgc';
-import PreviewIcon from './preview.svgc';
-import MetadataIcon from './metadata.svgc';
+import WorkflowIcon from './workflow.svg';
+import NotesIcon from './notes.svg';
+import PreviewIcon from './preview.svg';
+import MetadataIcon from './metadata.svg';
 import EditorPreviewModal from './EditorPreviewModal';
 import { css } from 'emotion';
 

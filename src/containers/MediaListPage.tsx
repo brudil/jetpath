@@ -19,6 +19,8 @@ import { RouteComponentProps } from 'react-router';
 import { Vertical } from '../ducks/Vertical';
 import Helmet from 'react-helmet';
 
+import PlusIcon from 'icons/plus.svg';
+
 interface Filter {
   order: 'created_asc' | 'created_desc';
   type: string | null;
@@ -135,10 +137,10 @@ class MediaListPage extends React.Component<IProps> {
         <header className={stylesStandardHeader.root}>
           <a className={stylesStandardHeader.prepend}>
             <i className="icon icon-plus">
-              <img
-                // eslint-disable-next-line
-                src={require('icons/plus.svg')}
-                alt="Add media"
+              <PlusIcon
+                width={24}
+                height={24}
+                alt="Add"
               />
             </i>
           </a>

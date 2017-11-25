@@ -6,10 +6,10 @@ import JetpathLogo from '../JetpathLogo';
 import UserMenu from '../../components/UserMenu';
 import verticals from '../../verticals';
 
-import contentIcon from './content.svg';
-import dashboardIcon from './dashboard.svg';
-import mediaIcon from './media.svg';
-import organisationIcon from './organisation.svg';
+import ContentIcon from './content.svg';
+import DashboardIcon from './dashboard.svg';
+import MediaIcon from './media.svg';
+import OrganisationIcon from './organisation.svg';
 
 import * as styles from './GlobalHeader.css';
 import { pure } from 'recompose';
@@ -30,15 +30,16 @@ function GlobalHeader(props: {
 
   const verticalLinkTo = (part: string) => `/@${vertical.identifier}/${part}`;
 
+  const VerticalLogo = verticals[vertical.identifier].logoHeader;
+
   return (
     <div className={cx(styles.root, style[`vertical_${vertical.identifier}`])}>
       <header className={styles.header}>
         <h1 className={styles.logoHeading}>
           {vertical ? (
             <Link to={verticalLinkTo('dashboard')}>
-              <img
+              <VerticalLogo
                 className={styles.verticalLogo}
-                src={verticals[vertical.identifier].logoHeader}
                 alt={vertical.name}
               />
             </Link>
@@ -53,7 +54,7 @@ function GlobalHeader(props: {
             <ul>
               <li className={styles.menuItem} title="Dashboard">
                 <Link to={verticalLinkTo('dashboard')}>
-                  <img src={dashboardIcon} />
+                  <DashboardIcon />
                 </Link>
               </li>
               <li className={styles.menuItem} title="Content">
@@ -62,17 +63,17 @@ function GlobalHeader(props: {
                     'content?order=updated_desc&state=internal&status'
                   )}
                 >
-                  <img src={contentIcon} />
+                  <ContentIcon />
                 </Link>
               </li>
               <li className={styles.menuItem} title="Media">
                 <Link to={verticalLinkTo('media')}>
-                  <img src={mediaIcon} />
+                  <MediaIcon />
                 </Link>
               </li>
               <li className={styles.menuItem} title="Organisation">
                 <Link to={verticalLinkTo('organisation')}>
-                  <img src={organisationIcon} />
+                  <OrganisationIcon />
                 </Link>
               </li>
             </ul>

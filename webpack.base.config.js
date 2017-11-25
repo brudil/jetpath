@@ -99,7 +99,7 @@ module.exports = {
         loader: 'awesome-typescript-loader?useBabel',
       },
       {
-        test: /\.svgc$/,
+        test: /\.svg$/,
         use: [
           'babel-loader',
           {
@@ -110,7 +110,7 @@ module.exports = {
           },
         ]
       },
-      { test: /\.svg$/, loader: 'file-loader' },
+      // { test: /\.svg$/, loader: 'file-loader' },
     ],
   },
 };

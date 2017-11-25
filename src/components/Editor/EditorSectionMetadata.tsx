@@ -18,7 +18,7 @@ import { formly } from '../../libs/form';
 import { contentForm, contentTone } from '../../libs/constants';
 import * as contentLang from '../../lang/content_attrs';
 import { SidebarInput } from '../Sidebar';
-import WandComponent from './wand.svgc';
+import WandComponent from './wand.svg';
 
 const SidebarSlugInput: any = SidebarInput.withComponent(SlugInput as any); // todo
 const SidebarDebouncedAutosizeTextarea: any = SidebarInput.withComponent(

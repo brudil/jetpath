@@ -80,8 +80,9 @@
     line-height: 1em;
   }
 
-  & img {
+  & svg {
     width: 24px;
+    height: auto;
     margin: 0 auto;
     display: block;
     opacity: 0.6;

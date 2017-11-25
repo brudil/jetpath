@@ -1,6 +1,6 @@
 import React from 'react';
 
-import saveToSaveIcon from './cloud-upload.svg';
+import SaveToSaveIcon from './cloud-upload.svg';
 import { css } from 'emotion';
 
 const imageStyles = css`
@@ -18,7 +18,7 @@ const messageStyles = css`
 function SaveBeforeWorkflowMessage() {
   return (
     <div>
-      <img className={imageStyles} src={saveToSaveIcon} role="presentation" />
+      <SaveToSaveIcon className={imageStyles} role="presentation" />
       <div className={messageStyles}>
         Sync to the cloud to access workflow management
       </div>

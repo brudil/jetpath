@@ -30,6 +30,8 @@ import { Vertical } from '../ducks/Vertical';
 import { Form, Status, Tone } from '../libs/constants';
 import Helmet from 'react-helmet';
 
+import PlusIcon from 'icons/plus.svg';
+
 const presets: any = {
   // todo
   ready: {
@@ -172,9 +174,9 @@ class ContentListPage extends React.Component<IProps> {
             className={stylesStandardHeader.prepend}
           >
             <i className="icon icon-plus">
-              <img
-                // eslint-disable-next-line
-                src={require('icons/plus.svg')}
+              <PlusIcon
+                width={24}
+                height={24}
                 alt="Add"
               />
             </i>

@@ -4,7 +4,7 @@ import { sets } from '../../../libs/spectrum2/structure';
 import { changeSubtype } from '../../../libs/spectrum2/changes';
 import SegmentedControl from '../../SegmentedControl';
 
-import cogIcon from './cog.svg';
+import CogIcon from './cog.svg';
 import { css } from 'emotion';
 
 const prefButtonStyles = css`
@@ -67,7 +67,7 @@ class DocumentPanel extends React.Component<IProps, any> {
         className={prefButtonStyles}
         onClick={this.handleVisibilityToggle}
       >
-        <img src={cogIcon} alt="Document preferences" width="24" />
+        <CogIcon alt="Document preferences" width="24" />
       </button>
     );
   }

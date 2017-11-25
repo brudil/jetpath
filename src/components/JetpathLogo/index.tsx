@@ -2,10 +2,10 @@ import React from 'react';
 import loSample from 'lodash/sample';
 import logoQuotes from '../../lang/logo_quotes';
 
-import jetpathLogo from 'logo.svg';
+import JetpathLogo from 'logo.svg';
 import styled from 'react-emotion';
 
-const Logo: any = styled.img`
+const JetpathLogoStyled: any = styled(JetpathLogo)`
   opacity: 1;
   height: 22px;
   transition: transform 200ms ease;
@@ -23,8 +23,8 @@ const Logo: any = styled.img`
   }
 `;
 
-function JetpathLogo() {
-  return <Logo src={jetpathLogo} alt="Jetpath" title={loSample(logoQuotes)} />;
+function JetpathLogoContainer() {
+  return <JetpathLogoStyled alt="Jetpath" title={loSample(logoQuotes)} />;
 }
 
-export default JetpathLogo;
+export default JetpathLogoContainer;

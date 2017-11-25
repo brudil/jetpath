@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import styled from 'react-emotion';
 import { loadUnreadCount, NotificationState } from '../../ducks/Notification';
 // eslint-disable-next-line
-import bellIcon from 'icons/bell.svg';
+import BellIcon from 'icons/bell.svg';
 import { RootState } from '../../types';
 
 const Container = styled.div`
@@ -12,7 +12,7 @@ const Container = styled.div`
   margin-right: 0.5em;
 `;
 
-const Icon = styled.img`
+const BellIconStyled = styled(BellIcon)`
   width: 25px;
   display: inline-block;
   float: left;
@@ -53,7 +53,7 @@ export class NotificationBell extends React.Component<IProps> {
     return (
       <Link to="/notifications">
         <Container>
-          <Icon src={bellIcon} role="presentation" />
+          <BellIconStyled />
           <Badge>{this.props.notification.unreadCount}</Badge>
         </Container>
       </Link>

@@ -1,5 +1,5 @@
-import thePrateHeaderLogo from './img/theprate-logotype.svg';
-import theDrabHeaderLogo from './img/thedrab-logotype.svg';
+import ThePrateHeaderLogo from './img/theprate-logotype.svg';
+import TheDrabHeaderLogo from './img/thedrab-logotype.svg';
 
 interface VerticalMap {
   [key: string]: { logoHeader: string };
@@ -7,9 +7,9 @@ interface VerticalMap {
 
 export default {
   theprate: {
-    logoHeader: thePrateHeaderLogo,
+    logoHeader: ThePrateHeaderLogo,
   },
   thedrab: {
-    logoHeader: theDrabHeaderLogo,
+    logoHeader: TheDrabHeaderLogo,
   },
 } as VerticalMap;

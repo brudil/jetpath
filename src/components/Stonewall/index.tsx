@@ -1,5 +1,5 @@
 import React from 'react';
-import jetpathLogo from 'logo.svg';
+import JetpathLogo from 'logo.svg';
 import styled from 'react-emotion';
 import { keyframes } from 'emotion';
 
@@ -20,7 +20,7 @@ const Container = styled.div`
   margin-right: auto;
   margin-top: 15vh;
 `;
-const Logo = styled.img`
+const JetpathLogoContainer = styled(JetpathLogo)`
   margin: 0 auto 0.5em;
   display: block;
   height: 68px;
@@ -41,7 +41,7 @@ export function Stonewall(props: IProps) {
   return (
     <Container>
       <h1>
-        <Logo src={jetpathLogo} role="presentation" />
+        <JetpathLogoContainer role="presentation" />
       </h1>
       {props.subtitle ? <Subtitle>{props.subtitle}</Subtitle> : null}
       {props.children ? props.children : null}

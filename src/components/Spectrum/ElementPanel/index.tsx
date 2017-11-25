@@ -5,6 +5,11 @@ import styles from './ElementPanel.css';
 import { move, remove } from '../../../libs/spectrum2/changes';
 import { Changeset, ElementPath } from '../../../libs/spectrum2/interfaces';
 
+import EllipsisIcon from 'icons/vertical-elip.svg';
+import UpArrowIcon from 'icons/up-caret.svg';
+import DownArrowIcon from 'icons/down-caret.svg';
+import CrossIcon from 'icons/cross.svg';
+
 interface IProps {
   update: (changeset: Changeset) => void;
   streamIndex: Array<any>; // todo: fix
@@ -60,10 +65,9 @@ class ElementPanel extends React.Component<IProps, IState> {
   renderRemove() {
     return (
       <li className={styles.item} title="Remove" onClick={this.handleRemove}>
-        <img
-          src={require(`icons/cross${
-            this.state.shownDeleteConfirm ? '-danger' : ''
-          }.svg`)}
+        <CrossIcon
+          width={16}
+          height={16}
           alt="Remove element"
         />
       </li>
@@ -86,21 +90,27 @@ class ElementPanel extends React.Component<IProps, IState> {
             title="Open Preferences"
             onClick={this.handlePrefsOpen}
           >
-            <img
-              src={require('icons/vertical-elip.svg')}
+            <EllipsisIcon
+              width={16}
+              height={16}
               alt="Open preferences"
             />
           </li>
         ) : null}
         {showUp ? (
           <li className={styles.item} title="Move Up" onClick={this.handleUp}>
-            <img src={require('icons/up-caret.svg')} alt="Move element up" />
+            <UpArrowIcon
+              width={16}
+              height={16}
+              alt="Move element up"
+            />
           </li>
         ) : null}
         {showDown ? (
           <li className={styles.item} title="Move up" onClick={this.handleDown}>
-            <img
-              src={require('icons/down-caret.svg')}
+            <DownArrowIcon
+              width={16}
+              height={16}
               alt="Move element down"
             />
           </li>
