@@ -25,7 +25,7 @@ const badge = css`
     border-radius: 50%;
     position: relative;
     left: 23px;
-    top: -23px;
+    margin-top: -23px;
   }
 `;
 
