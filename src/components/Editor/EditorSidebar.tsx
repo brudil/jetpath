@@ -134,7 +134,7 @@ class EditorSidebar extends React.Component<IProps, IState> {
       return isSaving ? 'Saving' : 'Save';
     };
 
-    const hasUnpublishedRevisions =
+    const hasUnpublishedRevisions = editorialMetadata &&
       editorialMetadata.get('published_revision') !== null &&
       editorialMetadata.getIn(['published_revision', 'revision_number']) <
         savedRevision.get('revision_number');
