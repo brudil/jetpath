@@ -5,7 +5,7 @@ import { compose } from 'redux';
 import ViewContainer from '../../components/ViewContainer';
 import MediaEditForm from '../../components/MediaEditForm';
 import MediaDisplay from '../../components/MediaDisplay';
-import LoadingContent from '../../components/LoadingContent';
+import {DelayedLoadingContent} from '../../components/LoadingContent';
 import Button from '../../components/Button';
 import LowkeyDeleteButton from '../../components/LowkeyDeleteButton';
 
@@ -38,7 +38,7 @@ interface IProps {
 
 function MediaEditPage(props: IProps) {
   if (props.data.loading) {
-    return <LoadingContent />;
+    return <DelayedLoadingContent />;
   }
 
   if (props.data.error) {

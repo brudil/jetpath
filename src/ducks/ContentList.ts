@@ -43,15 +43,23 @@ const initialState = {
   hasPrevious: false,
 };
 
+export interface ContentListState {
+  list: number[],
+  loading: boolean,
+  count: number,
+  hasNext: boolean,
+  hasPrevious: boolean,
+}
+
 export default function ContentListReducer(
-  state = initialState,
+  state: ContentListState = initialState,
   action: AnyAction
 ) {
   switch (action.type) {
     case CONTENT_LIST_FETCH_REQUEST:
       return {
         ...state,
-        list: [],
+        loading: true,
       };
     case CONTENT_LIST_FETCH_SUCCESS:
       return {

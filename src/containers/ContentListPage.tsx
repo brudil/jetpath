@@ -31,6 +31,11 @@ import { Form, Status, Tone } from '../libs/constants';
 import Helmet from 'react-helmet';
 
 import PlusIcon from 'icons/plus.svg';
+import {css, cx} from "emotion";
+
+const loadingStyles = css`
+  opacity: 0.4;
+`;
 
 const presets: any = {
   // todo
@@ -133,17 +138,18 @@ class ContentListPage extends React.Component<IProps> {
   }
 
   renderContent() {
-    if (this.props.isLoading) {
+    const { contentListItems } = this.props;
+
+    if (this.props.isLoading && contentListItems.length <= 0) {
       return <LoadingContent />;
     }
 
-    const { contentListItems } = this.props;
     const { contentlist: { hasNext, count } } = this.props;
     const query = this.getQueryData();
 
     if (contentListItems.length > 0) {
       return (
-        <div>
+        <div className={cx({ [loadingStyles]: this.props.isLoading })}>
           <WorksList works={contentListItems} vertical={this.props.vertical} />
           <PaginationNav
             currentPage={query.page}

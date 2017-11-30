@@ -4,6 +4,7 @@ import { NotificationState } from './ducks/Notification';
 import { AuthState } from './ducks/Auth';
 import { Interactive, InteractivesState } from './ducks/Interactives';
 import { Author, AuthorsState } from './ducks/Authors';
+import {ContentListState} from "./ducks/ContentList";
 
 export interface EntityMap<T> {
   [key: number]: T;
@@ -28,7 +29,7 @@ export interface RootState {
   notification: NotificationState;
   uploadProgress: any; // todo
   toasts: any; // todo
-  contentList: any; // todo
+  contentList: ContentListState; // todo
   topics: TopicsStore;
   interactives: InteractivesState;
   authors: AuthorsState;

@@ -10,6 +10,7 @@ function Loading(props: LoadingComponentProps) {
   } else if (props.pastDelay) {
     return <Loader />;
   }
+
   return null;
 }
 
