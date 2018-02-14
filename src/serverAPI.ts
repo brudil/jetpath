@@ -149,7 +149,7 @@ export class UserClient {
 export class AuthorClient {
   static search(vertical: string, term: string) {
     return api
-      .get(`/verticals/${vertical}/authors`, { search: term, limit: 10 })
+      .get(`/verticals/${vertical}/authors`, { search: term, limit: 100 })
       .then((payload: BasicPayload) => ({
         payload: normalize(
           payload.data.results,
