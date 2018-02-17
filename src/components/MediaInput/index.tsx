@@ -7,7 +7,7 @@ import Button from '../Button';
 import MediaEditModal from '../MediaEditModal/index';
 import styled from 'react-emotion';
 import { css } from 'emotion';
-import { RootState } from '../../types';
+import {MediaObject, RootState} from '../../types';
 
 const EditMediaButton = styled.button`
   border: 0;
@@ -51,7 +51,7 @@ const containerHasMedia = css`
 
 interface IProps {
   filter?: object;
-  mediaEntities: object[];
+  mediaEntities: MediaObject[];
   onChange: (imageId: number) => void;
   value: number;
 }

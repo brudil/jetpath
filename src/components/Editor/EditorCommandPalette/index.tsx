@@ -3,7 +3,7 @@ import Fuse from 'fuse.js';
 
 import { withState } from 'recompose';
 import styled from 'react-emotion';
-import { compose } from 'redux';
+import { compose } from 'recompose';
 
 const Container = styled.div`
   position: fixed;
@@ -106,11 +106,15 @@ baseCommands.forEach(baseCommand => {
 
 const fuse = new Fuse(baseCommands, { keys: ['command'] });
 
-interface IProps {
+interface ComponentProps {
+}
+
+interface InternalProps {
   commandQuery: string;
   updateQuery: (value: string) => void;
-  children?: any;
 }
+
+type IProps = ComponentProps & InternalProps;
 
 function EditorCommandPalette(props: IProps) {
   return (
@@ -131,6 +135,6 @@ function EditorCommandPalette(props: IProps) {
   );
 }
 
-export default compose(withState('commandQuery', 'updateQuery', ''))(
-  EditorCommandPalette
-);
+export default compose<IProps, ComponentProps>(
+  withState('commandQuery', 'updateQuery', '')
+)(EditorCommandPalette);

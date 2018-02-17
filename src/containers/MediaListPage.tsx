@@ -2,7 +2,7 @@ import React from 'react';
 import qs from 'query-string';
 import without from 'lodash/without';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
+import { compose } from 'recompose';
 import { Link, withRouter } from 'react-router-dom';
 import { TitleSelection, SelectionItem } from '../components/TitleSelection';
 import MediaGridContainer from '../components/MediaGridContainer';
@@ -198,7 +198,7 @@ class MediaListPage extends React.Component<IProps> {
   }
 }
 
-export default compose(
+export default compose<IProps, {}>(
   withRouter,
   connect(
     (state: RootState) => ({

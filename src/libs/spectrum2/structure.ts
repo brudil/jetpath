@@ -112,9 +112,9 @@ export const CanvasSubtype = createElement('canvas_subtype', {
 
 sets.subtypes = [ArticleSubtype, CanvasSubtype];
 
-const nameMap = new Map();
+const nameMap = new Map<string, ElementDefinition>();
 
-Object.values(sets).forEach(elements => {
+Object.values(sets).forEach((elements: Array<ElementDefinition>) => {
   elements.forEach(element => nameMap.set(element.identifier, element));
 });
 
@@ -122,5 +122,6 @@ export function getElementByName(name: string) {
   if (!nameMap.has(name)) {
     console.warn(`[spectrum] element "${name}" not in map.`);
   }
+
   return nameMap.get(name);
 }

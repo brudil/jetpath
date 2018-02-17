@@ -7,7 +7,7 @@ import LoadableLoading from '../components/LoadableLoading';
 import * as AuthActions from '../ducks/Auth';
 import StonewallContainer from './StonewallContainer';
 import { RootState } from '../types';
-import { compose } from 'redux';
+import { compose } from 'recompose';
 import { ThemeProvider } from 'emotion-theming';
 import defaultTheme from '../themes/default';
 import Helmet from 'react-helmet';
@@ -80,7 +80,7 @@ class ApplicationContainer extends React.Component<IProps, IState> {
   }
 }
 
-export default compose(
+export default compose<IProps, {}>(
   withRouter,
   connect(
     (state: RootState) => ({

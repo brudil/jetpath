@@ -11,7 +11,7 @@ import BigStats from '../components/BigStats/index';
 import Stat from '../components/BigStats/Stat';
 import { startOfDay } from 'date-fns';
 import { RootState } from '../types';
-import { compose } from 'redux';
+import { compose } from 'recompose';
 import Helmet from 'react-helmet';
 
 interface PageProps {
@@ -165,12 +165,12 @@ class DashboardPage extends React.Component<IProps, {}> {
   }
 }
 
-export default compose(
+export default compose<IProps, {}>(
   connect((state: RootState) => ({
     vertical: state.verticals.selectedVertical,
     auth: state.auth,
   })),
-  graphql(DashboardQuery, {
+  graphql<{}, IProps, {}>(DashboardQuery, {
     options: (props: PageProps) => ({
       variables: {
         vertical: props.vertical.identifier,

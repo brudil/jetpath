@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '../Button';
-import { compose } from 'redux';
+import { compose } from 'recompose';
 import { graphql } from 'react-apollo';
 
 import ContentWatchersQuery from './ContentWatchers.graphql';
@@ -68,16 +68,16 @@ function ContentWatchManager(props: IProps) {
   );
 }
 
-export default compose(
+export default compose<IProps, ComponentProps>(
   connect((state: any) => ({
     auth: state.auth.get('auth'),
   })),
   graphql(WatchContentMutation, { name: 'watchContent' }),
-  graphql(ContentWatchersQuery, {
+  graphql<{}, IProps, InternalProps>(ContentWatchersQuery, {
     options: (props: IProps) => ({
       variables: {
         contentId: props.contentId,
       },
     }),
   })
-)(ContentWatchManager) as React.SFC<ComponentProps>;
+)(ContentWatchManager);

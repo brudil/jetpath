@@ -92,6 +92,10 @@ export function filterNode(
 
   let found: Array<any> = [];
 
+  if (!def) {
+    return found;
+  }
+
   if (predicate(def, node)) {
     found.push(node);
   }

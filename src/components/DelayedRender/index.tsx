@@ -10,7 +10,7 @@ interface IProps {
 }
 
 export class DelayedRender extends React.Component<IProps, IState> {
-  private delay: number | null;
+  private delay: number | null = null;
   constructor(props: IProps) {
     super(props);
 

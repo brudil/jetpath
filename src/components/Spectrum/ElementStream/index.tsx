@@ -21,7 +21,13 @@ interface IProps {
 const ElementStream: React.SFC<IProps> = (props: IProps) => {
   const { data, index, path, update, className, focus } = props;
 
-  const structure = getElementByName(data.get('_name')).fields[index];
+  const def = getElementByName(data.get('_name'));
+
+  if (!def) {
+    return <div>error. check console.</div>
+  }
+
+  const structure = def.fields[index];
 
   return (
     <ul className={cx(className, 'spectrum-stream')}>

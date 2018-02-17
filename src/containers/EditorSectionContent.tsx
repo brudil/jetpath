@@ -6,13 +6,14 @@ import { RootState } from '../types';
 interface IProps {
   workingDocument: any; // todo
   editorFocus: any; // todo
+  style?: any;
 }
 
 class EditorSectionContent extends React.Component<IProps> {
   render() {
-    const { workingDocument, editorFocus } = this.props;
+    const { workingDocument, editorFocus, style } = this.props;
     return (
-      <div>
+      <div style={style}>
         <SpectrumEditor document={workingDocument} focus={editorFocus} />
       </div>
     );

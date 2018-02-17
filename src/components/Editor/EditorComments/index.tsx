@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
+import { compose } from 'recompose';
 import { graphql } from 'react-apollo';
 
 import { openCommentPanel, closeCommentPanel } from '../../../ducks/Editor';
@@ -68,7 +68,7 @@ interface InternalProps {
 type IProps = ComponentProps & InternalProps;
 
 class EditorComments extends React.Component<IProps, any> {
-  private scrollElement: HTMLDivElement | null;
+  private scrollElement: HTMLDivElement | null = null;
 
   componentDidMount() {
     setInterval(() => this.props.data.refetch(), 8000);
@@ -148,7 +148,7 @@ const getVertical = () =>
     vertical: state.verticals.selectedVertical,
   }));
 
-export default compose(
+export default compose<IProps, ComponentProps>(
   getVertical(),
   connect(
     (state: any) => ({
@@ -173,4 +173,4 @@ export default compose(
       refetchQueries: ['EditorComments'],
     },
   })
-)(EditorComments) as React.SFC<ComponentProps>;
+)(EditorComments);

@@ -6,7 +6,7 @@ import classnames from 'classnames';
 import loginButtonOptions from '../../lang/login';
 import * as AuthActions from '../../ducks/Auth';
 import Button from '../../components/Button';
-import { compose } from 'redux';
+import { compose } from 'recompose';
 import { Input } from '../../Textbox/index';
 import styled from 'react-emotion';
 import { RootState } from '../../types';
@@ -128,7 +128,7 @@ class LoginPage extends React.Component<IProps, IState> {
   }
 }
 
-export default compose(
+export default compose<IProps, {}>(
   withRouter,
   connect(
     (state: RootState) => ({

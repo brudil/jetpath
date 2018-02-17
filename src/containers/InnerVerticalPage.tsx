@@ -6,7 +6,7 @@ import * as VerticalActions from '../ducks/Vertical';
 import LoadableLoading from '../components/LoadableLoading';
 import ContentListPage from './ContentListPage';
 import { match } from 'react-router-dom';
-import { compose } from 'redux';
+import { compose } from 'recompose';
 import { RootState } from '../types';
 
 const LoadableDashboardPage = Loadable({
@@ -35,6 +35,12 @@ const LoadableMediaListPage = Loadable({
 const LoadableMediaEditPage = Loadable({
   loader: () =>
     import(/* webpackChunkName: 'MediaEditPage' */ './MediaEditPage'),
+  loading: LoadableLoading,
+});
+
+const LoadableProfilePage = Loadable({
+  loader: () =>
+    import(/* webpackChunkName: 'ProfilePage' */ './ProfilePage'),
   loading: LoadableLoading,
 });
 
@@ -100,6 +106,7 @@ class InnerVerticalPage extends React.Component<IProps> {
         <Route path={`${url}/content`} component={ContentListPage} />
         <Route path={`${url}/media`} exact component={LoadableMediaListPage} />
         <Route path={`${url}/media/:id`} component={LoadableMediaEditPage} />
+        <Route path={`${url}/profile`} component={LoadableProfilePage} />
         <Route
           path={`${url}/organisation`}
           component={LoadableOrganisationPage}
@@ -111,7 +118,7 @@ class InnerVerticalPage extends React.Component<IProps> {
   }
 }
 
-export default compose(
+export default compose<IProps, {}>(
   withRouter,
   connect(
     (state: RootState) => ({

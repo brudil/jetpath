@@ -14,14 +14,22 @@ import OrganisationIcon from './organisation.svg';
 import * as styles from './GlobalHeader.css';
 import { pure } from 'recompose';
 import { RootState } from '../../types';
-import { compose } from 'redux';
+import { compose } from 'recompose';
 
 const style = styles as any;
 
-function GlobalHeader(props: {
+interface OwnProps {
+
+}
+
+interface GivenProps {
   vertical: { identifier: string; name: string } | null;
   children?: any;
-}) {
+}
+
+type IProps = OwnProps & GivenProps;
+
+function GlobalHeader(props: IProps) {
   const { vertical } = props;
 
   if (!vertical) {
@@ -93,10 +101,10 @@ function GlobalHeader(props: {
   );
 }
 
-export default compose(
+export default compose<IProps, OwnProps>(
   connect((state: RootState) => ({
     vertical: state.verticals.selectedVertical,
     state,
   })),
   pure
-)(GlobalHeader) as React.SFC<{}>;
+)(GlobalHeader);

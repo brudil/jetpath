@@ -1,6 +1,6 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
-import { compose } from 'redux';
+import { compose } from 'recompose';
 
 import ViewContainer from '../../components/ViewContainer';
 import MediaEditForm from '../../components/MediaEditForm';
@@ -15,6 +15,7 @@ import DeleteMediaMutation from './DeleteMedia.graphql';
 import UndeleteMediaMutation from './UndeleteMedia.graphql';
 import * as Router from 'react-router-dom';
 import Helmet from 'react-helmet';
+import {MediaObject} from "../../types";
 
 interface IParams {
   id: string;
@@ -24,10 +25,7 @@ interface IProps {
   data: {
     loading: boolean;
     error: Error;
-    media: {
-      mediaId: number;
-      deleted: boolean;
-    };
+    media: MediaObject;
   };
   editMedia(data: any): void;
   deleteMedia(data: any): void;
@@ -67,6 +65,7 @@ function MediaEditPage(props: IProps) {
       },
     });
   };
+
   const handleUndelete = () => {
     props.undeleteMedia({
       variables: {
@@ -109,8 +108,8 @@ function MediaEditPage(props: IProps) {
   );
 }
 
-export default compose(
-  graphql(MediaEditQuery, {
+export default compose<IProps, {}>(
+  graphql<{}, IProps, {}>(MediaEditQuery, {
     options: (props: IProps) => ({
       variables: {
         mediaId: props.match.params.id,

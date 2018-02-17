@@ -33,14 +33,14 @@ export function fetchWrapper(
 
   const urlPath = `${resource}/`;
 
-  const additional: { method: string; body?: Object; headers: Headers } = {
+  const additional: RequestInit = {
     method,
     headers,
   };
   let qss = '';
   if (['GET', 'HEAD'].indexOf(method) === -1 && dataOrParams) {
     if (isFile) {
-      additional.body = dataOrParams;
+      additional.body = dataOrParams as FormData;
     } else {
       additional.body = JSON.stringify(dataOrParams);
     }
@@ -59,7 +59,7 @@ export function fetchWrapper(
       response.status !== 204
     ) {
       return response.json().then(
-        json =>
+        (json: any) =>
           response.ok
             ? json
             : Promise.reject({

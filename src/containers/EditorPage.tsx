@@ -15,6 +15,7 @@ import { Vertical } from '../ducks/Vertical';
 import styled from 'react-emotion';
 import EditorSidebar from '../components/Editor/EditorSidebar';
 import Helmet from 'react-helmet';
+import {hasPermission} from "../libs/authHelpers";
 
 const Container = styled.div`
   display: flex;
@@ -60,6 +61,9 @@ interface IProps extends RouteComponentProps<IRouteParams> {
   commandPaletteOpen: boolean;
   vertical: Vertical;
   stats: any; // todo
+
+  canPublish: boolean;
+  canSave: boolean;
 
   updateRevision: typeof EditorActions.updateRevision;
   toggleCommandPalette: typeof EditorActions.toggleCommandPalette;
@@ -190,7 +194,7 @@ class EditorPage extends React.Component<IProps> {
               onHeadlineUpdate={revisionChangeHandler('headline')}
               stats={stats}
             />
-            <EditorSectionContent />
+            <EditorSectionContent style={{ pointerEvents: this.props.canSave ? 'auto' : 'none' }} />
           </ComposeContainer>
 
           <SideContainer>
@@ -251,6 +255,8 @@ export default withRouter(
       editorialMetadata: state.editor.get('editorialMetadata'),
       contentId: state.editor.get('remoteId'),
       commandPaletteOpen: state.editor.getIn(['focus', 'commandPaletteOpen']),
+      canPublish: hasPermission(state, 'content.publish'),
+      canSave: hasPermission(state, 'content.save_any') || (hasPermission(state, 'content.save_watching') && true) // user id in watchers
     }),
     {
       loadContent: EditorActions.loadContent,

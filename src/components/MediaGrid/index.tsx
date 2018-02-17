@@ -1,5 +1,6 @@
 import React from 'react';
-import MediaGridItem, { MediaObject } from './MediaGridItem';
+import MediaGridItem  from './MediaGridItem';
+import {MediaObject} from "../../types";
 
 interface IProps {
   media: Array<{ node: MediaObject; id: string }>;

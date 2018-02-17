@@ -1,6 +1,6 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
-import { compose } from 'redux';
+import { compose } from 'recompose';
 
 import ViewContainer from '../ViewContainer';
 import MediaEditForm from '../MediaEditForm';
@@ -10,20 +10,23 @@ import MediaEditQuery from '../../containers/MediaEditPage/MediaEditQuery.graphq
 import EditMediaMutation from '../../containers/MediaEditPage/EditMedia.graphql';
 import Modal from '../Modal/index';
 import Helmet from 'react-helmet';
+import {MediaObject} from "../../types";
 
-interface IProps {
+interface ComponentProps {
   value: number;
-  data: {
-    loading: boolean;
-    error: Error;
-    media: {
-      mediaId: number;
-      deleted: boolean;
-    };
-  };
   editMedia(data: any): void;
   children?: any;
 }
+
+interface InternalProps {
+  data: {
+    loading: boolean;
+    error: Error;
+    media: MediaObject;
+  };
+}
+
+type IProps = ComponentProps & InternalProps;
 
 function MediaEditPage(props: IProps) {
   if (props.data.loading) {
@@ -71,8 +74,8 @@ function MediaEditPage(props: IProps) {
   );
 }
 
-const WithData = compose(
-  graphql(MediaEditQuery, {
+const WithData = compose<IProps, ComponentProps>(
+  graphql<{}, IProps, InternalProps>(MediaEditQuery, {
     options: (props: IProps) => ({
       variables: {
         mediaId: props.value,
