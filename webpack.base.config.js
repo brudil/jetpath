@@ -24,7 +24,7 @@ module.exports = {
   target: 'web',
 
   entry: {
-    main: ['./src/application.tsx'],
+    main: ['./src/lazysizesEntry.ts', './src/application.tsx'],
   },
 
   output: {
@@ -86,7 +86,7 @@ module.exports = {
         test: /\.css$/,
         loader:
           'style-loader!typings-for-css-modules-loader?modules&namedExport&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader',
-        exclude: /node_modules/,
+        exclude: /node_modules|utils/,
       },
       {
         test: /\.graphql$/,
@@ -103,7 +103,7 @@ module.exports = {
         use: [
           'babel-loader',
           {
-            loader: 'svgr/lib/webpack',
+            loader: 'svgr/webpack',
             options: {
               svgo: false
             }

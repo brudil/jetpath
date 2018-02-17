@@ -61,6 +61,7 @@ const AuthUser = Record(
     first_name: null,
     last_name: null,
     gravatar_hash: null,
+    permissions: null,
   },
   'AuthUser'
 );

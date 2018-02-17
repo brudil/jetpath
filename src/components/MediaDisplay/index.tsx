@@ -1,6 +1,7 @@
 import React from 'react';
-import Image from '../Image';
+import { OneImage } from '../OneImage';
 import styled from 'react-emotion';
+import {MediaObject} from "../../types";
 
 const Container = styled.div`
   width: 100%;
@@ -16,7 +17,7 @@ const ImageContainer = styled.div`
 
 interface IProps {
   className?: string;
-  media: any; // todo
+  media: MediaObject; // todo
 }
 
 function MediaDisplay({ className, media }: IProps) {
@@ -24,7 +25,11 @@ function MediaDisplay({ className, media }: IProps) {
     <Container className={className}>
       {media.file_type === 'image' || media.fileType === 'image' ? (
         <ImageContainer>
-          <Image image={media} width={600} />
+          <OneImage
+            src={media.resourceName}
+            aspectRatio={media.object}
+            alt=""
+          />
         </ImageContainer>
       ) : null}
     </Container>

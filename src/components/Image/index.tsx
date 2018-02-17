@@ -3,7 +3,7 @@ import qs from 'query-string';
 import Imgix from 'react-imgix';
 
 import styles from './ImagePop.css';
-import { MediaObject } from '../MediaGrid/MediaGridItem';
+import {MediaObject} from "../../types";
 
 function imgix(resource: string, options: Object) {
   return `https://drafty.imgix.net/${resource}?${qs.stringify(options)}`;

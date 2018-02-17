@@ -1,0 +1,58 @@
+:global(.u-responsive-ratio) {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+:global(.u-responsive-ratio--wide) {
+  padding-bottom: 60%;
+}
+
+:global(.u-responsive-ratio--r20by9) {
+  padding-bottom: 45%;
+}
+
+:global(.u-responsive-ratio--r1by1) {
+  padding-bottom: 100%;
+}
+
+:global(.u-responsive-ratio--r16by9) {
+  padding-bottom: 56.25%;
+}
+
+:global(.u-responsive-ratio--r4by3) {
+  padding-bottom: 75%;
+}
+
+:global(.u-responsive-ratio > img),
+:global(.ImagePlaceholder) {
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+}
+
+:global(.u-responsive-fit) {
+    position: relative;
+    overflow: hidden;
+
+
+  }
+:global(.u-responsive-fit > img),
+:global(.ImagePlaceholder) {
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+}
+:global(.lazyload),
+:global(.lazyloading) {
+    opacity: 0;
+  }
+
+:global(.lazyloaded) {
+    opacity: 1;
+    transition: opacity 300ms;
+  }

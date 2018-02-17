@@ -1,8 +1,9 @@
 import React from 'react';
-import Image from '../Image';
 import styled from "react-emotion";
 import {css} from "emotion";
 import layers from "../../themes/layers";
+import {OneImage} from "../OneImage";
+import {MediaObject} from "../../types";
 
 const PseudoPreview = styled.div`
   width: 100%;
@@ -46,16 +47,6 @@ const thumbnailStyles = css`
   display: block;
 `;
 
-export interface MediaObject {
-  id: string;
-  mediaId: number;
-  object: { width: number; height: number };
-  fileType: string;
-  mime: string;
-  resourceName: string;
-  directUrl: string;
-}
-
 interface IProps {
   media: MediaObject;
   onSelect?: (mediaId: number) => void;
@@ -81,7 +72,14 @@ class MediaGridItem extends React.Component<IProps, {}> {
   renderImagePreview() {
     const { media } = this.props;
 
-    return <Image className={thumbnailStyles} image={media} />;
+    return (
+      <OneImage
+        className={thumbnailStyles}
+        src={media.resourceName}
+        aspectRatio={{ width: media.object.width, height: media.object.height }}
+        alt=""
+      />
+    );
   }
 
   renderPseudoPreview() {

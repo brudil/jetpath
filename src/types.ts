@@ -49,3 +49,16 @@ export interface Filter {
   limit: number;
   offset: number;
 }
+
+
+export interface MediaObject {
+  id: string;
+  mediaId: number;
+  object: { width: number; height: number };
+  fileType: string;
+  file_type: string;
+  mime: string;
+  resourceName: string;
+  directUrl: string;
+  deleted: boolean;
+}

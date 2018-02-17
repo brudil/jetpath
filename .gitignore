@@ -34,3 +34,4 @@ build
 disc.html
 dist
 assets.json
+*.css.d.ts
