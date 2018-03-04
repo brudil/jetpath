@@ -25,7 +25,7 @@ class SectionEditForm extends React.Component<IProps> {
   render() {
     const { model } = this.props;
     return (
-      <Form model="sectionEdit" onSubmit={this.handleSubmit}>
+      <Form model="sectionEdit" onSubmit={this.handleSubmit} hideNativeErrors={false}>
         <SidebarControl title="Section Title">
           <Field model="sectionEdit.title">
             <Input type="text" placeholder="Title" />

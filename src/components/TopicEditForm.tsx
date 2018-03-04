@@ -25,7 +25,7 @@ class TopicEditForm extends React.Component<IProps> {
     const { model } = this.props;
 
     return (
-      <Form model="topicEdit" onSubmit={this.handleSubmit}>
+      <Form model="topicEdit" onSubmit={this.handleSubmit} hideNativeErrors={false}>
         <SidebarControl title="Topic Name">
           <Field model="topicEdit.title">
             <Input type="text" />

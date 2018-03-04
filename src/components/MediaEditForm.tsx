@@ -1,30 +1,38 @@
 import React from 'react';
-import { Field as FieldUnstyled, reduxForm } from 'redux-form';
+import { Form, Field } from 'react-final-form';
 import {Input} from "../Textbox";
 
 interface IProps {
-  handleSubmit: any; // SubmitHandler for internal redux form, external is something else?
+  onSubmit: any; // SubmitHandler for internal redux form, external is something else?
+  initialValues: any;
 }
 
-const Field = Input.withComponent(FieldUnstyled as any);
-
 let MediaEditForm = (props: IProps) => {
-  const { handleSubmit } = props;
+  console.log(props);
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="creditTitle">Credit title</label>
-        <Field name="creditTitle" component="input" type="text" />
-      </div>
-      <div>
-        <label htmlFor="creditUrl">Credit URL</label>
-        <Field name="creditUrl" component="input" type="text" />
-      </div>
-      <button type="submit">Save</button>
-    </form>
+    <Form onSubmit={props.onSubmit} initialValues={props.initialValues} render={({ handleSubmit }) => (
+      <form onSubmit={handleSubmit}>
+        <Field name="creditTitle">
+          {({ input }) => (
+            <div>
+              <label htmlFor="creditTitle">Credit title</label>
+              <Input {...input} id="creditTitle" type="text" />
+            </div>
+          )}
+        </Field>
+
+        <Field name="creditUrl">
+          {({ input }) => (
+            <div>
+              <label htmlFor="creditUrl">Credit URL</label>
+              <Input {...input} id="creditUrl" type="text" />
+            </div>
+          )}
+        </Field>
+        <button type="submit">Save</button>
+      </form>
+    )} />
   );
 };
 
-export default reduxForm({
-  form: 'media',
-})(MediaEditForm) as any;
+export default MediaEditForm;
