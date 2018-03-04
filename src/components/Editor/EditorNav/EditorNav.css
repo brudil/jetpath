@@ -11,25 +11,33 @@
   color: rgb(100, 100, 100);
   display: flex;
   flex-direction: row;
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 68px;
+
   z-index: 100;
+
+  @media (min-width: 960px) {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 68px;
+  }
 }
 
 .secondary {
   box-sizing: border-box;
   color: rgb(100, 100, 100);
   font-size: 0.8rem;
-  left: 68px;
   text-align: right;
-  position: fixed;
-  right: 0;
-  top: 32px;
-  padding: 0.4rem calc(280px + 0.4rem) 0.4rem 0.4rem;
   z-index: 80;
   text-shadow: 0 0 3px rgba(245, 245, 245, 0.8);
+  padding: 0.4rem;
+
+  @media (min-width: 960px) {
+    padding: 0.4rem calc(280px + 0.4rem) 0.4rem 0.4rem;
+    left: 68px;
+    position: fixed;
+    right: 0;
+    top: 32px;
+  }
 }
 
 .element {

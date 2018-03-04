@@ -1,6 +1,7 @@
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { connect } from 'react-redux';
+import theme from '../themes/default';
 import Combokeys from 'combokeys';
 import EditorNav from '../components/Editor/EditorNav';
 import EditorCommandPalette from '../components/Editor/EditorCommandPalette';
@@ -23,15 +24,37 @@ const Container = styled.div`
 
 const ComposeContainer = styled.div`
   flex: 1 1 auto;
-  padding-right: calc(280px + 0.4rem);
   padding-left: 0.4rem;
+  
+  @media (min-width: 960px) {
+    padding-right: calc(280px + 0.4rem);
+  }
+`;
+
+const MobileToggle = styled.button`
+  position: absolute;
+  display: block;
+  border: 0;
+  color: ${theme.colors.accent};
+  background-color: white;
+  right: 280px;
+  padding: 0.4rem;
+  font-size: 1.2rem;
+  
+  & > span {
+    display: block;
+    transition: transform ease 300ms;
+    transform: rotate(${(props: any) => props.isOpen ? '180deg' : '0deg' });
+  }
+  
+  @media (min-width: 960px) {
+    display: none;
+  }
 `;
 
 const SideContainer = styled.aside`
-  width: 280px;
   padding-left: 0.4rem;
   padding-right: 0.4rem;
-  overflow-y: auto;
   position: fixed;
   right: 0;
   top: 0;
@@ -40,6 +63,15 @@ const SideContainer = styled.aside`
   z-index: 100;
   border-left: 1px solid rgb(213, 213, 213);
   box-sizing: border-box;
+  width: 280px;
+  transition: margin-right ease 300ms;
+  margin-right: ${(props: any) => props.isOpen ? '0' : '-280px'};
+
+  
+  @media (min-width: 960px) {
+    width: 280px;
+    margin-right: 0;
+  }
 `;
 
 interface IRouteParams {
@@ -72,13 +104,22 @@ interface IProps extends RouteComponentProps<IRouteParams> {
   loadContent: typeof EditorActions.loadContent;
 }
 
-class EditorPage extends React.Component<IProps> {
+interface IState {
+  isSidebarOpen: boolean;
+}
+
+class EditorPage extends React.Component<IProps, IState> {
   private editorTrap: any;
 
   constructor(props: IProps) {
     super(props);
 
     this.handleSave = this.handleSave.bind(this);
+    this.handleToggleSidebar = this.handleToggleSidebar.bind(this);
+
+    this.state = {
+      isSidebarOpen: false,
+    };
   }
 
   componentWillMount() {
@@ -165,6 +206,12 @@ class EditorPage extends React.Component<IProps> {
     return true;
   }
 
+  handleToggleSidebar() {
+    this.setState(state => ({
+      isSidebarOpen: !state.isSidebarOpen
+    }))
+  }
+
   renderEditor() {
     const {
       workingRevision,
@@ -177,12 +224,15 @@ class EditorPage extends React.Component<IProps> {
       editorialMetadata,
       updateRevision,
     } = this.props;
+
+    const { isSidebarOpen } = this.state;
+
     const revisionChangeHandler = createChangeHandlerBound(updateRevision);
 
     const { params } = this.props.match;
 
     return (
-      <div style={{ paddingTop: '40px' }}>
+      <div>
         <Helmet>
           <title>{workingRevision.get('headline') || 'Untitled'}</title>
         </Helmet>
@@ -194,10 +244,11 @@ class EditorPage extends React.Component<IProps> {
               onHeadlineUpdate={revisionChangeHandler('headline')}
               stats={stats}
             />
-            <EditorSectionContent style={{ pointerEvents: this.props.canSave ? 'auto' : 'none' }} />
+            <EditorSectionContent style={{ paddingTop: '40px', pointerEvents: this.props.canSave ? 'auto' : 'none' }} />
           </ComposeContainer>
 
-          <SideContainer>
+          <SideContainer isOpen={isSidebarOpen}>
+            <MobileToggle isOpen={isSidebarOpen} onClick={this.handleToggleSidebar}><span>◀</span></MobileToggle>
             <EditorSidebar
               contentId={params.id === 'new' ? -1 : parseInt(params.id, 10)}
               hasChangesFromSaved={hasChangesFromSaved}

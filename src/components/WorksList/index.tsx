@@ -27,6 +27,7 @@ const FauxLink = styled(Link)`
   right: 0;
   top: 0;
   bottom: 0;
+  z-index: 0;
 `;
 
 const ListItem = styled.li`
@@ -54,10 +55,18 @@ const Meta = styled.div`
   opacity: 0.9;
   padding-top: 0.2em;
   color: ${(props: any) => props.theme.colors.grey_worst_winter};
+  z-index: 1;
+  position: relative;
 `;
 
 const MetaBit = styled.span`
   margin-right: 0.6rem;
+`;
+
+const MetaBitLink = styled.span`
+  margin-right: 0.6rem;
+  z-index: 1 !important;
+  position: relative;
 `;
 
 const Nub = styled.div`

@@ -103,9 +103,10 @@
 }
 
 .footer {
-  display: flex;
+  display: none;
 
   @media (min-width: 960px) {
+    display: flex;
     flex-direction: column;
   }
 }
@@ -137,7 +138,7 @@
 .verticalLogo {
   height: 22px;
   display: block;
-  float: left;
+  width: auto;
 
   @media (min-width: 960px) {
     width: 100%;

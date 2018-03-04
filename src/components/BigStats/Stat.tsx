@@ -16,6 +16,8 @@ const Value: any = styled.div`
 const Container = styled.div`
   flex: 1 1 auto;
   text-align: center;
+  padding: 1rem;
+  box-sizing: border-box;
 
   & a {
     color: inherit;

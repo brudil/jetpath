@@ -12,7 +12,13 @@ import EditorPreviewModal from './EditorPreviewModal';
 import { css } from 'emotion';
 
 const Container = styled.div`
-  padding-top: 40px;
+  overflow-y: scroll;
+  height: 100%;
+  box-sizing: border-box;
+    
+  @media (min-width: 960px) {
+    padding-top: 40px;
+  }
 `;
 
 const badge = css`
@@ -59,16 +65,19 @@ const MenuItem = styled.li`
 `;
 
 const Header = styled.header`
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 279px;
   background: #fbfbfb;
   box-sizing: border-box;
   padding: 0 0.4rem;
   display: flex;
   z-index: 10;
   box-shadow: 0 1px 4px rgba(100, 100, 100, 0.08);
+  
+  @media (min-width: 960px) {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 279px;
+  }
 `;
 
 enum Views {

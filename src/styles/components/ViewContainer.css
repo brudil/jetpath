@@ -11,4 +11,11 @@
   max-width: 220px;
   max-height: 100vh;
   padding-left: 1em;
+
+  margin-right: -240px;
+  transition: margin-right ease 300ms;
+
+  @media (min-width: 768px) {
+    margin-right: 0;
+  }
 }

@@ -1,12 +1,17 @@
 .root {
   position: absolute;
-  right: -100px;
-  width: 105px;
+  width: 30px;
   min-height: 35px;
   top: 0;
   visibility: hidden;
   text-align: left;
   /* transition: width 300ms ease, right 300ms ease, height 300ms ease; */
+  right: -30px;
+
+  @media (min-width: 960px) {
+    width: 105px;
+    right: -100px;
+  }
 }
 
 .root_visible {
