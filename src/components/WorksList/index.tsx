@@ -174,6 +174,7 @@ function WorksList(props: IProps) {
               <MetaBit>revision: #{work.revision_count}</MetaBit>
               <MetaBit>tone: {contentTone[currentRevision.tone]}</MetaBit>
               <MetaBit>status: {contentStatus[currentRevision.status]}</MetaBit>
+              {work.published_revision && <MetaBitLink><a href={`https://thedrab.co/article/${work.published_revision.slug}-${work.id}`}>view published</a></MetaBitLink>}
               <ul className="inline-tags" />
             </Meta>
             <FauxLink

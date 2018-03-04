@@ -100,6 +100,7 @@ function EditorWorkflow(props: IProps) {
       const publishedWasUpdated =
         editorialMetadata.get('published_date') !==
         editorialMetadata.get('published_updated_date');
+      console.log({ publishedRevision, editorialMetadata })
       const renderPublishedData = () => (
         <div>
           #{publishedRevision.get('revision_number')}
@@ -121,6 +122,8 @@ function EditorWorkflow(props: IProps) {
               />
             </div>
           ) : null}
+
+          <a className="Button" href={`https://thedrab.co/article/${publishedRevision.get('slug')}-${editorialMetadata.get('id')}`}>View on site</a>
         </div>
       );
 
