@@ -154,7 +154,7 @@ class ContentListPage extends React.Component<IProps> {
           <PaginationNav
             currentPage={query.page}
             hasNext={hasNext}
-            total={count}
+            total={Math.ceil(count / 20)}
             onChange={this.handlePagination}
           />
         </div>
