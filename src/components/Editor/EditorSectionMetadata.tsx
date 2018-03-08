@@ -204,6 +204,20 @@ class EditorSectionMetadata extends React.Component<IProps> {
               onChange={revisionChangeHandler('authors', formly.toImmutable)}
             />
           </SidebarControl>
+          <SidebarControl title="Channel">
+            <select
+              value={revision.get('channel')}
+              onChange={revisionChangeHandler('channel', formly.event)}
+            >
+              {vertical.channels.map(
+                key => (
+                  <option value={key} key={key}>
+                    {key}
+                  </option>
+                )
+              )}
+            </select>
+          </SidebarControl>
           <SidebarControl title="Section">
             <SectionSelector
               value={revision.get('section')}

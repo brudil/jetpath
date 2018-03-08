@@ -34,6 +34,7 @@ export interface Vertical {
   identifier: string;
   content_tones: number[];
   content_forms: number[];
+  channels: string[]
 }
 
 export interface VerticalState {
