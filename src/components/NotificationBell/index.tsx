@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'react-emotion';
 import { loadUnreadCount, NotificationState } from '../../ducks/Notification';
-// eslint-disable-next-line
 import BellIcon from 'icons/bell.svg';
 import { RootState } from '../../types';
 

@@ -259,11 +259,9 @@ export class MediaClient {
 
   static convertForGraphQL(obj: any) {
     // todo
-    /* eslint-disable */
     obj.object = obj.type_data;
     obj.resourceName = obj.resource_name;
 
-    /* eslint-enable */
     return obj;
   }
 

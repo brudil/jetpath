@@ -5,7 +5,7 @@ import Select, { Option } from 'react-select';
 import * as TopicActions from '../../ducks/Topic';
 import 'style-loader!css-loader!postcss-loader!react-select/dist/react-select.css';
 import { EntityMap, RootState } from '../../types';
-import { Topic, TopicsStore } from '../../ducks/Topic'; // eslint-disable-line
+import { Topic, TopicsStore } from '../../ducks/Topic';
 
 interface IProps {
   getTopicsForKeyword: typeof TopicActions.getTopicsForKeyword;

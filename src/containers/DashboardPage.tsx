@@ -58,7 +58,6 @@ interface IProps {
   };
 }
 
-// eslint-disable-next-line react/prefer-stateless-function
 class DashboardPage extends React.Component<IProps, {}> {
   renderContentCards() {
     const { vertical } = this.props;

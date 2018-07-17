@@ -13,7 +13,6 @@ interface IProps {
   };
 }
 
-// eslint-disable-next-line react/prefer-stateless-function
 class ProfilePage extends React.Component<IProps, {}> {
 
   render() {

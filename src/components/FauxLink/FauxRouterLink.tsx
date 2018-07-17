@@ -12,7 +12,6 @@ const linkStyles = css`
   z-index: 100 !important;
 `;
 
-// eslint-disable-next-line jsx-a11y/anchor-has-content
 export default ({ to }: { to: string }) => (
   <Link className={linkStyles} to={to} />
 );

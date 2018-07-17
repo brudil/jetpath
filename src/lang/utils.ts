@@ -1,4 +1,3 @@
-// eslint-disable-next-line
 export function generateFromConstants(
   langMap: { [key: string]: string },
   constantIds: Array<number>
