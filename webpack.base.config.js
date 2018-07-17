@@ -103,7 +103,7 @@ module.exports = {
         use: [
           'babel-loader',
           {
-            loader: 'svgr/webpack',
+            loader: '@svgr/webpack',
             options: {
               svgo: false
             }
