@@ -6,7 +6,7 @@ interface IProps {
   size: number;
 }
 
-function DumbGravatar(props: IProps) {
+const DumbGravatar: React.FC<IProps> = (props) => {
   return (
     <img
       {...omit(props, ['hash', 'size'])}

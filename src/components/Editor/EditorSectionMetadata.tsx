@@ -37,7 +37,7 @@ interface InternalProps {
   isLocal: boolean;
   isSaving: boolean;
   hasChangesFromSaved: boolean;
-  dispatch: Dispatch<RootState>;
+  dispatch: Dispatch<any>;
 
   addAuthor: typeof EditorActions.addAuthor;
   removeAuthor: typeof EditorActions.removeAuthor;

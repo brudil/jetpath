@@ -1,7 +1,7 @@
 import React from 'react';
-import Select, { Option } from 'react-select';
+import Select from 'react-select';
 import { connect } from 'react-redux';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import * as InteractivesActions from '../../ducks/Interactives';
 import { RootState } from '../../types';
 import { Interactive } from '../../ducks/Interactives';
@@ -32,7 +32,7 @@ class InteractiveSelector extends React.Component<IProps> {
   componentWillMount() {
     this.props.loadInteractivesList({ order: 'created_desc' }, 5);
 
-    this.handleSelection = (value: Option | null) =>
+    this.handleSelection = (value: any) =>
       this.props.onChange(value ? (value.value as string) : null);
   }
 
@@ -45,15 +45,15 @@ class InteractiveSelector extends React.Component<IProps> {
           options={interactiveItems.map(interactiveItem => ({
             value: interactiveItem.slug,
             label: interactiveItem.slug,
-          }))}
+          })) as any}
           onChange={this.handleSelection}
-          value={value ? value.slug : false}
+          value={value ? value : undefined}
         />
 
         {value !== undefined ? (
           <div>
             <InteractiveIframe
-              src={`https://thedrab.co/interactive-frame/${value.slug}/v${
+              src={`https://theprate.com/interactive-frame/${value.slug}/v${
                 value.latest_public_release_number
               }`}
             />

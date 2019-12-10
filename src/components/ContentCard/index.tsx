@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import FauxRouterLink from '../FauxLink/FauxRouterLink';
 import SmartDate from '../SmartDate';
 
@@ -40,7 +40,7 @@ interface IProps {
   };
 }
 
-export function ContentCard(props: IProps) {
+export const ContentCard: React.FC<IProps> = (props) => {
   return (
     <Container>
       <FauxRouterLink to={props.link} />

@@ -8,7 +8,7 @@ import * as AuthActions from '../../ducks/Auth';
 import Button from '../../components/Button';
 import { compose } from 'recompose';
 import { Input } from '../../Textbox/index';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { RootState } from '../../types';
 import Helmet from 'react-helmet';
 
@@ -75,11 +75,11 @@ class LoginPage extends React.Component<IProps, IState> {
     }
   }
 
-  handleUsernameChange(event: React.ChangeEvent<HTMLInputElement>) {
+  handleUsernameChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     this.setState({ username: event.currentTarget.value });
   }
 
-  handlePasswordChange(event: React.ChangeEvent<HTMLInputElement>) {
+  handlePasswordChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     this.setState({ password: event.target.value });
   }
 
@@ -118,10 +118,9 @@ class LoginPage extends React.Component<IProps, IState> {
             className={buttonClass}
             type="submit"
             disabled={this.props.auth.get('loading')}
-            text={`${
+          >{`${
               this.props.auth.get('loading') ? 'Logging in' : 'Log in'
-            } ${this.state.loginPhrase}`}
-          />
+            } ${this.state.loginPhrase}`}</Button>
         </form>
       </div>
     );

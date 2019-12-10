@@ -1,6 +1,6 @@
 import React from 'react';
 import HTML5Backend from 'react-dnd-html5-backend';
-import { DragDropContext as dragDropContext } from 'react-dnd';
+import { DndProvider } from 'react-dnd';
 import { connect } from 'react-redux';
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom';
 import GlobalHeader from '../../components/GlobalHeader';
@@ -9,13 +9,13 @@ import VerticalSelectionPage from '../VerticalSelectionPage';
 import InnerVerticalPage from '../InnerVerticalPage';
 import NotFoundPage from '../NotFoundPage';
 import LoadingContent from '../../components/LoadingContent/index';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { RouteComponentProps } from 'react-router';
 import { RootState } from '../../types';
 import { AuthState } from '../../ducks/Auth';
 
 const Section = styled.div`
-  background-color: ${props => props.theme.colors.background};
+  background-color: ${(props: any) => props.theme.colors.background};
   box-sizing: border-box;
   position: relative;
   box-shadow: -2px 0 16px rgba(60, 60, 60, 0.15);
@@ -59,6 +59,7 @@ class BaseContainer extends React.Component<IProps> {
     }
 
     return (
+      <DndProvider backend={HTML5Backend}>
       <div>
         <GlobalHeader />
         <div>
@@ -76,6 +77,7 @@ class BaseContainer extends React.Component<IProps> {
           </Section>
         </div>
       </div>
+      </DndProvider>
     );
   }
 }
@@ -86,6 +88,4 @@ const withRoutered = withRouter(
   }))(BaseContainer)
 );
 
-const finalComponent = dragDropContext(HTML5Backend)(withRoutered);
-
-export default finalComponent;
+export default withRoutered;

@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { ConditionalWrap } from '../ConditionalWrap';
 import { Link } from 'react-router-dom';
 
@@ -35,12 +35,12 @@ interface IProps {
 const render = (loading: undefined | boolean, value: any) =>
   loading ? '0' : value;
 
-function Stat(props: IProps) {
+const Stat: React.FC<IProps> = (props) => {
   return (
     <Container>
       <ConditionalWrap
-        condition={props.to}
-        wrap={(children: any) => <Link to={props.to || ''}>{children}</Link>}
+        condition={!!props.to}
+        wrap={children => <Link to={props.to || ''}>{children}</Link>}
       >
         <Value loading={props.loading}>
           {props.render

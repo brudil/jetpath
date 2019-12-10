@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 
 const Container = styled.div`
   color: ${(props: any) => props.theme.colors.grey_winter};
@@ -23,7 +23,7 @@ interface IProps {
   text: string;
 }
 
-export function NoListItems(props: IProps) {
+export const NoListItems: React.FC<IProps> = (props) => {
   return (
     <Container>
       <Face>:(</Face>

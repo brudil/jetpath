@@ -77,7 +77,7 @@ class MediaListPage extends React.Component<IProps> {
   }
 
   getQueryData(): Filter {
-    const query = qs.parse(this.props.location.search);
+    const query = qs.parse(this.props.location.search) as any;
     return {
       order: query.order || 'created_desc',
       type: query.type || null,
@@ -94,7 +94,7 @@ class MediaListPage extends React.Component<IProps> {
   }
 
   handleUpdate(key: FilterKeys, value: string) {
-    const query = this.getQueryData();
+    const query = this.getQueryData() as any;
     query[key] = value;
     this.handleQueryChange(query);
   }

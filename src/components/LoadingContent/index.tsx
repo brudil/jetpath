@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import LoadingSpinner from './spinner.svg';
 import {keyframes} from "emotion";
 import {DelayedRender} from "../DelayedRender";

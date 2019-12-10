@@ -1,6 +1,5 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 const path = require('path');
 const _ = require('lodash');
@@ -62,41 +61,33 @@ module.exports = {
       filename: '200.html',
     }),
     new webpack.IgnorePlugin(/unicode\/category\/So/),
-
-    new FaviconsWebpackPlugin({
-      logo: './src/images/favicon-2048-black.png',
-      icons: {
-        favicons: true,
-        android: isProduction,
-        appleIcon: isProduction,
-        windows: isProduction,
-        firefox: isProduction,
-        opengraph: false,
-        yandex: false,
-        coast: false,
-        appleStartup: false,
-      },
-    }),
   ],
 
   module: {
-    loaders: [
+    rules: [
       // { test: /react\-select\.css$/, loader: 'style!css' },
       {
         test: /\.css$/,
-        loader:
-          'style-loader!typings-for-css-modules-loader?modules&namedExport&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader',
+          use: [
+          {loader: "style-loader"},
+            {loader: "css-loader",         options:{
+              modules:true,
+              localIdentName:'[path][name]__[local]--[hash:base64:5]',
+            },},
+            {loader: "postcss-loader"},
+        ],
+
         exclude: /node_modules|utils/,
       },
       {
         test: /\.graphql$/,
         exclude: /node_modules/,
-        loader: 'graphql-tag/loader',
+        use: 'graphql-tag/loader',
       },
       {
         test: /\.ts(x?)$/,
         exclude: /node_modules/,
-        loader: 'awesome-typescript-loader?useBabel',
+        use: 'awesome-typescript-loader?useBabel',
       },
       {
         test: /\.svg$/,
@@ -104,9 +95,6 @@ module.exports = {
           'babel-loader',
           {
             loader: '@svgr/webpack',
-            options: {
-              svgo: false
-            }
           },
         ]
       },

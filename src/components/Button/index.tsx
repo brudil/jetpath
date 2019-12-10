@@ -1,11 +1,9 @@
-import React from 'react';
-import omit from 'lodash/omit';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 
 const getColor = (props: any) =>
   props.danger ? props.theme.colors.danger : props.theme.colors.accent;
 
-const ButtonStyled = styled.button`
+export default styled.button`
   display: block;
   width: 100%;
   padding: 6px;
@@ -22,20 +20,3 @@ const ButtonStyled = styled.button`
     background-color: ${(props: any) => props.theme.colors.grey_winter};
   }
 `;
-
-export function Button(props: {
-  text: string;
-  className?: string;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  disabled?: boolean;
-  type?: string;
-  danger?: boolean;
-}) {
-  return (
-    <ButtonStyled {...omit(props, ['text', 'className'])}>
-      {props.text}
-    </ButtonStyled>
-  );
-}
-
-export default Button;

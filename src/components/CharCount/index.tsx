@@ -1,6 +1,6 @@
 import React from 'react';
 import {css, cx} from "emotion";
-import styled from "react-emotion";
+import styled from "@emotion/styled";
 
 const Container = styled.div`
   display: inline;
@@ -16,7 +16,7 @@ const dangerStyles = css`
   color: var(--color__danger-accent);
 `;
 
-export function CharCount({ value, max }: { value: string; max: number }) {
+export const CharCount: React.FC<{ value: string; max: number }> = ({ value, max }) => {
   const length = value ? value.length : 0;
   return (
     <Container

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import * as AuthActions from '../../ducks/Auth';
 import { RootState } from '../../types';
 

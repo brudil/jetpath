@@ -6,6 +6,7 @@ import {
   select,
   takeLatest,
   throttle,
+  all,
 } from 'redux-saga/effects';
 import find from 'lodash/find';
 import {
@@ -617,10 +618,12 @@ interface EditorLoadAction extends Action {
 }
 
 function* handleEditorLoad({ contentId }: EditorLoadAction) {
-  const [revisionPayload, editorialMetadataPayload] = yield [
+  const [revisionPayload, editorialMetadataPayload] = yield all([
     call(WorksClient.getRevision as any, contentId), // todo
     call(WorksClient.getEditorialMetadata as any, contentId),
-  ];
+  ]);
+  console.log({revisionPayload, editorialMetadataPayload})
+
   const revision =
     revisionPayload.payload.entities.contentRevision[
       revisionPayload.payload.result
@@ -629,7 +632,7 @@ function* handleEditorLoad({ contentId }: EditorLoadAction) {
     editorialMetadataPayload.payload.entities.editorialMetadata;
   const editorialMetadata =
     metaEntities[editorialMetadataPayload.payload.result];
-  yield [
+  yield all([
     spawn(
       loadMissingResourcesForRevision,
       Immutable.fromJS(revision),
@@ -644,7 +647,7 @@ function* handleEditorLoad({ contentId }: EditorLoadAction) {
         revision,
       })
     ),
-  ];
+  ]);
 }
 
 function* updateStats() {

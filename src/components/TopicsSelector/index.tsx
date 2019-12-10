@@ -1,9 +1,8 @@
 import React from 'react';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
-import Select, { Option } from 'react-select';
+import Select from 'react-select';
 import * as TopicActions from '../../ducks/Topic';
-import 'style-loader!css-loader!postcss-loader!react-select/dist/react-select.css';
 import { EntityMap, RootState } from '../../types';
 import { Topic, TopicsStore } from '../../ducks/Topic';
 
@@ -40,7 +39,7 @@ class TopicsSelector extends React.Component<IProps, IState> {
     this.setState({ keyword: value });
   }
 
-  handleAddChange(selected: Option<any> | null) {
+  handleAddChange(selected: any) {
     if (selected !== null) {
       const { value } = this.props;
       this.props.onChange(value.add(selected.value));
@@ -65,7 +64,7 @@ class TopicsSelector extends React.Component<IProps, IState> {
         .map((id: number) => topics[id]);
     }
 
-    const suggestionOptions: Option[] = options.map((topic: Topic) => ({
+    const suggestionOptions: any = options.map((topic: Topic) => ({
       value: topic.id,
       label: topic.title,
     }));

@@ -15,7 +15,7 @@ const messageStyles = css`
   font-size: 1.7rem;
 `;
 
-function SaveBeforeWorkflowMessage() {
+const SaveBeforeWorkflowMessage: React.FC = () => {
   return (
     <div>
       <SaveToSaveIcon className={imageStyles} role="presentation" />

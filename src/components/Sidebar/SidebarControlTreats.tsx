@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 
 const TreatList = styled.ul`
   display: inline;
@@ -20,11 +20,11 @@ const TreatButton = styled.button`
   text-transform: uppercase;
 `;
 
-export const SidebarControlTreats = (props: {
-  buttonTreats: Array<Object>;
+export const SidebarControlTreats: React.FC<{ buttonTreats: any }> = ({
+  buttonTreats
 }) => (
   <TreatList>
-    {props.buttonTreats.map((treat: any) => (
+    {buttonTreats && buttonTreats.map((treat: any) => (
       <li>
         <TreatButton {...treat} />
       </li>

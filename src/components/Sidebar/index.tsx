@@ -1,6 +1,6 @@
 import { SidebarControl } from './SidebarControl';
 import { SidebarInput } from './SidebarInput';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 
 const Sidebar = styled.div`
   font-size: 0.85rem;

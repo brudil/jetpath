@@ -1,6 +1,6 @@
 import React from 'react';
 import formatDistance from 'date-fns/formatDistance';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { IComment } from './index';
 import { differenceInMinutes } from 'date-fns';
 import ReactMarkdown from 'react-markdown';
@@ -47,11 +47,11 @@ function Comment(props: {
 
   const displayTimestamp =
     props.previousComment === null ||
-    differenceInMinutes(props.created, props.previousComment.created) > 90;
+    differenceInMinutes(new Date(props.created), new Date(props.previousComment.created)) > 90;
   return (
     <Container>
       {displayTimestamp && (
-        <Timestamp>{formatDistance(props.created, new Date())} ago</Timestamp>
+        <Timestamp>{formatDistance(new Date(props.created), new Date())} ago</Timestamp>
       )}
       {displayUsername && <Username>{props.user.username}</Username>}
       <Body>

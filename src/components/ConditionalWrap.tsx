@@ -1,8 +1,7 @@
-interface IProps {
+interface ConditionalWrapProps {
   condition: boolean;
-  wrap(wrapper: (children: any) => any): any;
-  children: any;
+  wrap: (children: React.ReactNode | undefined) => any;
 }
 
-export const ConditionalWrap = ({ condition, wrap, children }: IProps) =>
+export const ConditionalWrap: React.FC<ConditionalWrapProps> = ({ condition, wrap, children }) =>
   condition ? wrap(children) : children;

@@ -1,6 +1,4 @@
 import React from 'react';
-import { lifecycle } from 'recompose';
-import * as ReactDOM from 'react-dom';
 
 const ENDPOINT = 'https://drafty.imgix.net/';
 
@@ -127,19 +125,7 @@ const OneImageComponent: React.SFC<IProps> = (props) => {
   return <div {...containerProps}>{img}</div>;
 };
 
-const OneImage = lifecycle({
-  componentDidUpdate(prevProps: IProps) {
-    if (this.props.src !== prevProps.src) {
-      const el = ReactDOM.findDOMNode(this as any);
-
-      const img = el.nodeName === 'IMG' ? el : el.querySelector('img');
-      if (img) {
-        img.classList.toggle('lazyloaded', false);
-        img.classList.toggle('lazyload', true);
-      }
-    }
-  },
-})(OneImageComponent);
+const OneImage = OneImageComponent;
 
 interface IBackgroundProps extends React.HTMLAttributes<HTMLDivElement> {
   aspectRatio?: AspectRatioInput;

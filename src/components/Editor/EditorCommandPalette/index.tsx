@@ -2,7 +2,7 @@ import React from 'react';
 import Fuse from 'fuse.js';
 
 import { withState } from 'recompose';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { compose } from 'recompose';
 
 const Container = styled.div`

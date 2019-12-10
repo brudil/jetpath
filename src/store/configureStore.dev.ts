@@ -1,28 +1,17 @@
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import ReduxThunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 import { createLogger } from 'redux-logger';
-import * as rootReducer from '../reducers/index';
+import {rootReducer} from '../reducers/index';
 
 export default function configureStore() {
   const sagaMiddleware = createSagaMiddleware();
-  const composeEnhancers =
-    (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-  const finalCreateStore = composeEnhancers(
-    applyMiddleware(sagaMiddleware),
-    applyMiddleware(ReduxThunk),
-    applyMiddleware(
-      createLogger({
-        collapsed: true,
-      })
-    )
-  )(createStore);
+  const reducers = combineReducers(rootReducer as any);
 
-  const store = finalCreateStore(
-    combineReducers({
-      ...rootReducer,
+  const store = createStore(reducers, applyMiddleware(sagaMiddleware, ReduxThunk,       createLogger({
+      collapsed: true,
     })
-  );
+  ));
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
@@ -33,7 +22,7 @@ export default function configureStore() {
     });
   }
 
-  store.sagaMiddleware = sagaMiddleware;
+  (store as any).sagaMiddleware = sagaMiddleware;
 
   return store;
 }

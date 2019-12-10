@@ -1,6 +1,6 @@
 import React from 'react';
 import JetpathLogo from 'logo.svg';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { keyframes } from 'emotion';
 
 const tardis = keyframes`
@@ -37,7 +37,7 @@ interface IProps {
   children?: any;
 }
 
-export function Stonewall(props: IProps) {
+export const Stonewall: React.FC<IProps> = (props) => {
   return (
     <Container>
       <h1>

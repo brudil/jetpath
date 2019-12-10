@@ -5,7 +5,7 @@ import MediaDisplay from '../MediaDisplay';
 import MediaSelectModal from '../MediaSelectModal';
 import Button from '../Button';
 import MediaEditModal from '../MediaEditModal/index';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { css } from 'emotion';
 import {MediaObject, RootState} from '../../types';
 
@@ -117,8 +117,7 @@ class MediaInput extends React.Component<IProps, IState> {
         <ButtonSet>
           <Button
             onClick={this.handleOpenLibrary}
-            text={'Select media from library'}
-          />
+          >Select media from library</Button>
         </ButtonSet>
 
         <MediaSelectModal

@@ -3,7 +3,7 @@ import loSample from 'lodash/sample';
 import logoQuotes from '../../lang/logo_quotes';
 
 import JetpathLogo from 'logo.svg';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 
 const JetpathLogoStyled: any = styled(JetpathLogo)`
   opacity: 1;
@@ -23,7 +23,7 @@ const JetpathLogoStyled: any = styled(JetpathLogo)`
   }
 `;
 
-function JetpathLogoContainer() {
+const JetpathLogoContainer: React.FC = () => {
   return <JetpathLogoStyled alt="Jetpath" title={loSample(logoQuotes)} />;
 }
 

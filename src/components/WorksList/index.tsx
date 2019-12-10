@@ -12,7 +12,7 @@ import {
 import theme from '../../themes/default';
 import { Author } from '../../ducks/Authors';
 import { Vertical } from '../../ducks/Vertical';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { css } from 'emotion';
 import { Status } from '../../libs/constants';
 
@@ -174,7 +174,7 @@ function WorksList(props: IProps) {
               <MetaBit>revision: #{work.revision_count}</MetaBit>
               <MetaBit>tone: {contentTone[currentRevision.tone]}</MetaBit>
               <MetaBit>status: {contentStatus[currentRevision.status]}</MetaBit>
-              {work.published_revision && <MetaBitLink><a href={`https://thedrab.co/article/${work.published_revision.slug}-${work.id}`}>view published</a></MetaBitLink>}
+              {work.published_revision && <MetaBitLink><a href={`https://theprate.com/article/${work.published_revision.slug}-${work.id}`}>view published</a></MetaBitLink>}
               <ul className="inline-tags" />
             </Meta>
             <FauxLink

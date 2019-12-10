@@ -2,7 +2,7 @@ import React from 'react';
 import { LoadingComponentProps } from 'react-loadable';
 import Loader from '../LoadingContent';
 
-function Loading(props: LoadingComponentProps) {
+const Loading: React.FC<LoadingComponentProps> = (props) => {
   if (props.error) {
     return <div>Error!</div>;
   } else if (props.timedOut) {

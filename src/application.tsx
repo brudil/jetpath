@@ -11,6 +11,7 @@ import configureStore from './store/configureStore';
 import rootSaga from './sagas/index';
 import ApplicationContainer from './containers/ApplicationContainer';
 import { clientAuth } from './client';
+import {StoreContext} from 'redux-react-hook';
 
 console.log('Jetpath 8.0');
 console.log(`ENV: ${process.env.NODE_ENV}`);
@@ -53,9 +54,12 @@ function renderApp() {
     (
       <ApolloProvider client={client}>
         <Provider store={store}>
+        <StoreContext.Provider value={store}>
+
           <Router>
             <ApplicationContainer />
           </Router>
+          </StoreContext.Provider>
         </Provider>
       </ApolloProvider>
     ) as any,

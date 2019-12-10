@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { loadUnreadCount, NotificationState } from '../../ducks/Notification';
 import BellIcon from 'icons/bell.svg';
 import { RootState } from '../../types';

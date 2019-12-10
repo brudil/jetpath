@@ -4,7 +4,7 @@ import SaveBeforeWorkflowMessage from '../SaveBeforeWorkflowMessage';
 import SegmentedControl from '../SegmentedControl/index';
 import Button from '../Button/index';
 import ViewContainer from '../ViewContainer/index';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { css } from 'emotion';
 
 const PreviewFrame = styled.iframe`
@@ -81,7 +81,7 @@ class EditorPreview extends React.Component<IProps, IState> {
       return <p>Loading</p>;
     }
 
-    const previewUrl = `https://thedrab.co/preview/${savedRevision.get(
+    const previewUrl = `https://theprate.com/preview/${savedRevision.get(
       'id'
     )}/${savedRevision.get('preview_key')}`;
 
@@ -99,8 +99,7 @@ class EditorPreview extends React.Component<IProps, IState> {
                 onCopy={() => this.setState({ copiedPreviewUrl: true })}
               >
                 <Button
-                  text={copiedPreviewUrl ? 'Copied!' : 'Copy preview link'}
-                />
+                >{copiedPreviewUrl ? 'Copied!' : 'Copy preview link'}</Button>
               </CopyToClipboard>
             </div>
           </div>

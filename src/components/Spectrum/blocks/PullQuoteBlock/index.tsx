@@ -7,7 +7,7 @@ import {
   ElementPath,
 } from '../../../../libs/spectrum2/interfaces';
 import PullQuotePanel from './Panel';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 
 const Container = styled.div`
   &:before {

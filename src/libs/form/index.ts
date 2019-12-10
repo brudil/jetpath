@@ -1,14 +1,13 @@
 import flow from 'lodash/flow';
 
 import * as formly from './middleware';
-import { RootState } from '../../types';
 import { Dispatch } from 'redux';
 import { Middleware } from './middleware';
 
 export { formly };
 
 export function createChangeHandler(
-  dispatch: Dispatch<RootState>,
+  dispatch: Dispatch<any>,
   action: any
 ) {
   // todo

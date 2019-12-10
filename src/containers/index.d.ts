@@ -6,6 +6,6 @@ declare module '*.graphql' {
 }
 
 declare module '*.svg' {
-  const value: Any;
+  const value: any;
   export = value;
 }

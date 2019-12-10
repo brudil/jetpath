@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '../Button/index';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 
 const TextButton = styled.button`
   color: var(--color__grey);
@@ -51,7 +51,7 @@ class LowkeyDeleteButton extends React.Component<IProps, IState> {
         {showingConfirm ? (
           <Popover>
             <div>{confirmText}</div>
-            <Button text={text} onClick={onDelete} danger />
+            <Button onClick={onDelete} danger>{text}</Button>
           </Popover>
         ) : null}
       </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import Stat from './Stat';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 
 const Container = styled.div`
   display: flex;
@@ -13,7 +13,7 @@ interface IProps {
   children: any;
 }
 
-function BigStats(props: IProps) {
+const BigStats: React.FC<IProps> = (props) => {
   return (
     <Container>
       {props.children.map((child: any, index: number) =>

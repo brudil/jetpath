@@ -6,7 +6,7 @@ import {
   DropTargetMonitor,
 } from 'react-dnd';
 import cx from 'classnames';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { css } from 'emotion';
 
 interface ComponentProps {}

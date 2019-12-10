@@ -1,6 +1,5 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
-import { compose } from 'recompose';
+import { useMutation, useQuery } from 'react-apollo';
 
 import ViewContainer from '../../components/ViewContainer';
 import MediaEditForm from '../../components/MediaEditForm';
@@ -27,19 +26,26 @@ interface IProps {
     error: Error;
     media: MediaObject;
   };
-  editMedia(data: any): void;
-  deleteMedia(data: any): void;
-  undeleteMedia(data: any): void;
   match: Router.match<IParams>;
   children?: any;
 }
 
-function MediaEditPage(props: IProps) {
-  if (props.data.loading) {
+const MediaEditPage: React.FC<IProps> = (props) => {
+  const { data, loading, error} = useQuery(MediaEditQuery, {
+    variables: {
+      mediaId: props.match.params.id,
+    },
+  });
+  const [editMedia] = useMutation(EditMediaMutation);
+  const [deleteMedia] = useMutation(DeleteMediaMutation);
+  const [undeleteMedia] = useMutation(UndeleteMediaMutation);
+
+
+  if (loading) {
     return <DelayedLoadingContent />;
   }
 
-  if (props.data.error) {
+  if (error) {
     return <h1>Error</h1>;
   }
 
@@ -50,31 +56,31 @@ function MediaEditPage(props: IProps) {
     creditTitle: string;
     creditUrl: string;
   }) =>
-    props.editMedia({
+    editMedia({
       variables: {
-        mediaId: props.data.media.mediaId,
+        mediaId: data.media.mediaId,
         creditTitle,
         creditUrl,
       },
     });
 
   const handleDelete = () => {
-    props.deleteMedia({
+    deleteMedia({
       variables: {
-        mediaId: props.data.media.mediaId,
+        mediaId: data.media.mediaId,
       },
     });
   };
 
   const handleUndelete = () => {
-    props.undeleteMedia({
+    undeleteMedia({
       variables: {
-        mediaId: props.data.media.mediaId,
+        mediaId: data.media.mediaId,
       },
     });
   };
 
-  const isDeleted = props.data.media.deleted;
+  const isDeleted = data.media.deleted;
 
   return (
     <ViewContainer>
@@ -83,11 +89,11 @@ function MediaEditPage(props: IProps) {
       </Helmet>
 
       <h1>
-        Edit media #{props.data.media.mediaId} {isDeleted ? '[deleted]' : ''}
+        Edit media #{data.media.mediaId} {isDeleted ? '[deleted]' : ''}
       </h1>
-      <div style={{ maxWidth: '300px', with: '100%' }}>
+      <div style={{ maxWidth: '300px', width: '100%' }}>
         <MediaEditForm
-          initialValues={props.data.media}
+          initialValues={data.media}
           onSubmit={handleSubmit}
         />
 
@@ -99,24 +105,13 @@ function MediaEditPage(props: IProps) {
               onDelete={handleDelete}
             />
           ) : (
-            <Button text="Undelete" onClick={handleUndelete} />
+            <Button onClick={handleUndelete}>Undelete</Button>
           )}
         </div>
       </div>
-      <MediaDisplay media={props.data.media} />
+      <MediaDisplay media={data.media} />
     </ViewContainer>
   );
 }
 
-export default compose<IProps, {}>(
-  graphql<{}, IProps, {}>(MediaEditQuery, {
-    options: (props: IProps) => ({
-      variables: {
-        mediaId: props.match.params.id,
-      },
-    }),
-  }),
-  graphql(EditMediaMutation, { name: 'editMedia' }),
-  graphql(DeleteMediaMutation, { name: 'deleteMedia' }),
-  graphql(UndeleteMediaMutation, { name: 'undeleteMedia' })
-)(MediaEditPage);
+export default MediaEditPage;

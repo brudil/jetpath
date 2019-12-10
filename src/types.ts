@@ -10,20 +10,30 @@ export interface EntityMap<T> {
   [key: number]: T;
 }
 
+interface Notification {
+  id: number;
+}
+
 interface EntityState {
   sections: EntityMap<Object>; // todo
   media: EntityMap<Object>; // todo
   interactives: EntityMap<Interactive>;
   topics: EntityMap<Topic>; // todo
-  notifications: EntityMap<Object>; // todo
+  notifications: EntityMap<Notification>; // todo
   contentList: EntityMap<Object>; // todo
   authors: EntityMap<Author>;
+}
+
+export interface Vertical {
+  identifier: string;
+  name: string;
+  audience: string;
 }
 
 export interface RootState {
   auth: AuthState;
   editor: any; // todo
-  verticals: any; // todo
+  verticals: any;
   organisation: OrganisationState;
   entities: EntityState;
   notification: NotificationState;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { SidebarControlTreats } from './SidebarControlTreats';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 
 const Container = styled.div`
   margin-bottom: 1em;
@@ -14,12 +14,14 @@ const ControlTitle = styled.h2`
   color: ${(props: any) => props.theme.colors.grey_worst_winter};
 `;
 
-const ControlTitleLimit = styled.span`
+const ControlTitleLimit: React.FC<{ warning: boolean, danger: boolean }> = ({ danger, children}) => {
+  return (<span css={`
   margin-left: 1em;
   color: ${(props: any) =>
-    props.danger ? props.theme.colors.danger : props.theme.colors.grey_winter};
+    danger ? props.theme.colors.danger : props.theme.colors.grey_winter};
   font-size: 0.9em;
-`;
+`}>{children}</span>)
+}
 
 interface IProps {
   title: string;
@@ -30,23 +32,23 @@ interface IProps {
   className?: string;
 }
 
-function SidebarControl({
+const SidebarControl: React.FC<IProps> = ({
   title,
   children,
-  charLimit = null,
-  charCount = null,
-  buttonTreats = null,
+  charLimit,
+  charCount,
+  buttonTreats,
   className,
-}: IProps) {
+}) => {
   return (
     <Container className={className}>
       <ControlTitle>
         {title}
-
-        {charCount !== null && charLimit !== null ? (
+ 
+        {charCount !== undefined && charLimit !== undefined ? (
           <ControlTitleLimit
-            warning={charCount > charLimit * 0.8}
-            danger={charCount > charLimit}
+            warning={charCount && charLimit && charCount > charLimit * 0.8 || false}
+            danger={charCount && charLimit && charCount > charLimit || false}
           >
             {charCount}
             {charLimit !== null ? `/${charLimit}` : null}

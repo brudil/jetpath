@@ -20,12 +20,12 @@ const toastListStyles = css`
 `;
 
 interface IProps {
-  toastList: Array<Immutable.Record.Instance<any>>;
+  toastList: Array<Immutable.Record<any>>;
   removeToast: (id: number) => Object;
   dispatch: (action: Object) => void;
 }
 
-function ToastList(props: IProps) {
+const ToastList: React.FC<IProps> = (props) => {
   const handleRemove = (id: number) => props.removeToast(id);
 
   return (

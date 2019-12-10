@@ -29,7 +29,7 @@ interface GivenProps {
 
 type IProps = OwnProps & GivenProps;
 
-function GlobalHeader(props: IProps) {
+const GlobalHeader: React.FC<IProps> = (props) => {
   const { vertical } = props;
 
   if (!vertical) {
@@ -38,7 +38,7 @@ function GlobalHeader(props: IProps) {
 
   const verticalLinkTo = (part: string) => `/@${vertical.identifier}/${part}`;
 
-  const VerticalLogo = verticals[vertical.identifier].logoHeader;
+  const VerticalLogo = verticals[vertical.identifier].logoHeader as any;
 
   return (
     <div className={cx(styles.root, style[`vertical_${vertical.identifier}`])}>

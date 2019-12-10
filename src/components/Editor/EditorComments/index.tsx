@@ -12,7 +12,7 @@ import PostContentCommentMutation from './PostContentComment.graphql';
 
 import styles from './EditorComments.css';
 import Sidebar from '../../Sidebar';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 
 const NoNotes = styled.div`
   color: ${(props: any) => props.theme.colors.grey_worst_winter};
@@ -92,6 +92,10 @@ class EditorComments extends React.Component<IProps, any> {
 
   render() {
     const props = this.props;
+
+    
+
+
     if (props.data.loading) {
       return null;
     }

@@ -4,7 +4,7 @@ import DebouncedAutosizeTextarea from '../../DebouncedAutosizeTextarea';
 import Button from '../../Button';
 import { withState } from 'recompose';
 import { SidebarInput } from '../../Sidebar';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 
 const SidebarDebouncedAutosizeTextarea: any = SidebarInput.withComponent(
   DebouncedAutosizeTextarea
@@ -43,10 +43,9 @@ function PostComment(props: IProps) {
         />
       </InputContainer>
       <Button
-        text="Save"
         onClick={handlePost}
         disabled={props.comment === ''}
-      />
+      >Save</Button>
     </div>
   );
 }

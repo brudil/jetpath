@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import ViewContainer from '../components/ViewContainer';
-import { connect } from 'react-redux';
 import { RootState } from '../types';
-import { compose } from 'recompose';
 import Helmet from 'react-helmet';
 import LoadingContent from "../components/LoadingContent";
+import { useMappedState } from 'redux-react-hook';
 
 interface IProps {
   auth: any;
@@ -13,9 +12,13 @@ interface IProps {
   };
 }
 
-class ProfilePage extends React.Component<IProps, {}> {
+const ProfilePage: React.FC<IProps> = () => {
+  const mappedState = useCallback((state: RootState) => ({
+    auth: state.auth,
+  }), []);
 
-  render() {
+  const { auth} = useMappedState(mappedState);
+
     return (
       <ViewContainer>
         <Helmet>
@@ -23,17 +26,11 @@ class ProfilePage extends React.Component<IProps, {}> {
         </Helmet>
 
         <h1 style={{ marginBottom: '1rem' }}>
-          Hey, {this.props.auth.getIn(['auth', 'username'])}!
+          Hey, {auth.getIn(['auth', 'username'])}!
         </h1>
         <LoadingContent />
       </ViewContainer>
     );
-  }
 }
 
-export default compose<IProps, {}>(
-  connect((state: RootState) => ({
-    vertical: state.verticals.selectedVertical,
-    auth: state.auth,
-  })),
-)(ProfilePage);
+export default ProfilePage;

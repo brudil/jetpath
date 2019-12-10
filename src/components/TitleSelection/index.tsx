@@ -3,7 +3,7 @@ import cx from 'classnames';
 import TitleSelectionItem from './SelectionItem';
 
 import styles from './TitleSelection.css';
-import styled from "react-emotion";
+import styled from "@emotion/styled";
 import {css} from "emotion";
 import {linkStyles} from "../../Textbox";
 import layers from "../../themes/layers";

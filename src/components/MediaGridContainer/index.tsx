@@ -32,7 +32,7 @@ interface InternalProps {
 
 type IProps = InternalProps & ComponentProps;
 
-function MediaGridContainer(props: IProps) {
+const MediaGridContainer: React.FC<IProps> = (props) => {
   if (props.data.loading) {
     return <LoadingContent />;
   }

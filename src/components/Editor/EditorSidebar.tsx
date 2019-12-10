@@ -3,13 +3,13 @@ import styles from './EditorNav/EditorNav.css';
 import EditorComments from './EditorComments';
 import EditorSectionMetadata from './EditorSectionMetadata';
 import EditorSectionWorkflow from '../../containers/EditorSectionWorkflow';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import WorkflowIcon from './workflow.svg';
 import NotesIcon from './notes.svg';
 import PreviewIcon from './preview.svg';
 import MetadataIcon from './metadata.svg';
 import EditorPreviewModal from './EditorPreviewModal';
-import { css } from 'emotion';
+import css from '@emotion/css';
 
 const Container = styled.div`
   overflow-y: scroll;
@@ -21,7 +21,7 @@ const Container = styled.div`
   }
 `;
 
-const badge = css`
+const badgeStyle = css`
   &:after {
     content: '';
     display: block;
@@ -35,17 +35,20 @@ const badge = css`
   }
 `;
 
-const IconButton = styled<{ badge?: boolean }, 'button'>('button')`
-  border: 0;
-  display: block;
-  width: 100%;
-  text-align: center;
-  background-color: transparent;
-  padding-top: 0.3rem;
-  cursor: pointer;
-
-  ${(props: any) => props.badge && badge};
-`;
+const IconButton: React.FC<{badge?: boolean | undefined } & React.HTMLProps<HTMLButtonElement>> = ({ badge, children, ...props}) => {
+  return (
+    <button {...props as any} css={`
+    border: 0;
+    display: block;
+    width: 100%;
+    text-align: center;
+    background-color: transparent;
+    padding-top: 0.3rem;
+    cursor: pointer;
+    ${badge && badgeStyle}
+  `}>{children}</button>
+  );
+};
 
 const SidebarMenu = styled.ul`
   list-style: none;
@@ -57,12 +60,12 @@ const SidebarMenu = styled.ul`
   }
 `;
 
-const MenuItem = styled.li`
-  & button {
+const MenuItem: React.FC<{active: boolean}> = ({active, children, ...props}) => {
+  return <li {...props} css={`& button {
     color: ${(props: any) =>
-      props.active ? props.theme.colors.accent : props.theme.colors.grey_slate};
-  }
-`;
+      active ? props.theme.colors.accent : props.theme.colors.grey_slate};
+  }`}>{children}</li>
+}
 
 const Header = styled.header`
   background: #fbfbfb;

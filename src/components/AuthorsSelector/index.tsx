@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Select, { Option } from 'react-select';
+import Select from 'react-select';
 import * as AuthorActions from '../../ducks/Authors';
-import 'style-loader!css-loader!postcss-loader!react-select/dist/react-select.css';
 import { EntityMap, RootState } from '../../types';
 import { Author, AuthorsState } from '../../ducks/Authors';
 
@@ -39,16 +38,16 @@ class AuthorsSelector extends React.Component<IProps> {
     this.setState({ keyword: value });
   }
 
-  onChange(selected: Option | Array<Option> | null) {
+  onChange(selected: any) {
     this.props.onChange(
-      (selected as Array<Option>).map(item => item.value as number)
+      (selected).map((item: any) => item.value as number)
     );
   }
 
   render() {
     const { suggestions, authors, value } = this.props;
 
-    const options: Array<Option> = suggestions
+    const options: any = suggestions
       .map(id => authors[id])
       .map(author => ({
         value: author.id,

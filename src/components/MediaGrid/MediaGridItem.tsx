@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from "react-emotion";
+import styled from "@emotion/styled";
 import {css} from "emotion";
 import layers from "../../themes/layers";
 import {OneImage} from "../OneImage";

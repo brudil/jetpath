@@ -1,16 +1,17 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useCallback } from 'react';
 import { RootState } from '../types';
-import { NotificationState, Notification } from '../ducks/Notification';
 import Helmet from 'react-helmet';
+import { useMappedState } from 'redux-react-hook';
 
-interface IProps {
-  notification: NotificationState;
-  notificationsList: Notification[]; // todo
-}
+const NotificationsPage: React.FC = () => {
+  const mappedState = useCallback((state: RootState) => ({
+    notification: state.notification,
+    notificationsList: state.notification.unreadList.map(
+      id => state.entities.notifications[id]
+    ),
+  }), []);
 
-class NotificationsPage extends React.Component<IProps> {
-  render() {
+  const { notificationsList } = useMappedState(mappedState);
     return (
       <div>
         <Helmet>
@@ -24,7 +25,7 @@ class NotificationsPage extends React.Component<IProps> {
           <div className="view-container__content">
             Your notifications!
             <ul>
-              {this.props.notificationsList.map(notification => (
+              {notificationsList.map(notification => (
                 <li>ID: {notification.id}</li>
               ))}
             </ul>
@@ -32,12 +33,6 @@ class NotificationsPage extends React.Component<IProps> {
         </div>
       </div>
     );
-  }
 }
 
-export default connect((state: RootState) => ({
-  notification: state.notification,
-  notificationsList: state.notification.unreadList.map(
-    id => state.entities.notifications[id]
-  ),
-}))(NotificationsPage);
+export default NotificationsPage;

@@ -8,7 +8,7 @@ interface IProps {
   wrap?: (media: MediaObject, children: JSX.Element) => Element;
 }
 
-function MediaGrid(props: IProps) {
+const MediaGrid: React.FC<IProps> = (props) => {
   return (
     <ul>
       {props.media.map(media => (

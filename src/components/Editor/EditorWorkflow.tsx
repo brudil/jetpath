@@ -77,7 +77,7 @@ function EditorWorkflow(props: IProps) {
   const renderNextSection = () => {
     if (currentStatus === 1) {
       // stub
-      return <Button text="Move to draft" onClick={handleMoveToDraft} />;
+      return <Button onClick={handleMoveToDraft}>Move to draft</Button>;
     }
 
     if (currentStatus === 5) {
@@ -87,10 +87,9 @@ function EditorWorkflow(props: IProps) {
         <div>
           <ul>{issues.map(issue => <li>{issue}</li>)}</ul>
           <Button
-            text="Move to final"
             disabled={issues.length > 0}
             onClick={handleMoveToFinal}
-          />
+          >Move to final</Button>
         </div>
       );
     }
@@ -123,7 +122,7 @@ function EditorWorkflow(props: IProps) {
             </div>
           ) : null}
 
-          <a className="Button" href={`https://thedrab.co/article/${publishedRevision.get('slug')}-${editorialMetadata.get('id')}`}>View on site</a>
+          <a className="Button" href={`https://theprate.com/article/${publishedRevision.get('slug')}-${editorialMetadata.get('id')}`}>View on site</a>
         </div>
       );
 
@@ -131,7 +130,7 @@ function EditorWorkflow(props: IProps) {
         <div>
           {isPublished ? renderPublishedData() : null}
           {revisionNumberDifference > 0 || !isPublished ? (
-            <Button text="Publish" onClick={onPublish} />
+            <Button onClick={onPublish}>Publish</Button>
           ) : null}
         </div>
       );

@@ -52,7 +52,7 @@ class ApplicationContainer extends React.Component<IProps, IState> {
   render() {
     if (this.state.hasError) {
       return (
-        <Stonewall subtitle="Huston, shit's just crashed.">
+        <Stonewall subtitle="Houston, shit's just crashed.">
           <p>
             Yeah. Sorry about this! Have a gander in the console if {`you're `}
             interested in what happened.

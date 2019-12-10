@@ -9,10 +9,10 @@ config.devtool = 'inline-source-map';
 
 config.plugins = config.plugins.concat([new webpack.NoEmitOnErrorsPlugin()]);
 
-config.module.loaders = config.module.loaders.concat([
+config.module.rules = config.module.rules.concat([
   {
     test: /\.js?$/,
-    loaders: ['babel-loader?cacheDirectory'],
+    use: ['babel-loader?cacheDirectory'],
     exclude: /node_modules/,
   },
 ]);

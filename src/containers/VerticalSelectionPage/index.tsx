@@ -1,12 +1,13 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as VerticalActions from '../../ducks/Vertical';
 import verticalConfig from '../../verticals';
-import styled from 'react-emotion';
-import { RootState } from '../../types';
+import styled from '@emotion/styled';
+import { RootState, Vertical } from '../../types';
 import Helmet from 'react-helmet';
 import {css} from "emotion";
+import { useMappedState } from 'redux-react-hook';
 
 const Title = styled.div`
   text-align: center;
@@ -53,26 +54,23 @@ const verticalLogoStyles = css`
   height: auto;
 `;
 
-interface Vertical {
-  identifier: string;
-  name: string;
-  audience: string;
-}
+const VerticalSelectionPage: React.FC = () => {
+    const dispatch = useDispatch();
 
-interface IProps {
-  getVerticals: any; // TODO: i think this is technically () => void as it's being bound to dispatch
-  verticals: Array<Vertical>;
-  children?: Element;
-  context?: any;
-}
+    useEffect(() => {
+      dispatch(VerticalActions.getVerticals());
+    }, [dispatch]);
 
-class VerticalSelectionPage extends React.Component<IProps> {
-  componentDidMount() {
-    this.props.getVerticals();
-  }
+    const mappedState = useCallback((state: RootState) => ({
+      verticals: state.verticals.list,
+    }), []);
 
-  render() {
-    const verticals = this.props.verticals;
+    const {verticals} = useMappedState(mappedState) as any;
+    
+    if (!verticals) {
+      return <h1>loading</h1>
+    }
+    
     return (
       <div>
         <Helmet>
@@ -81,8 +79,8 @@ class VerticalSelectionPage extends React.Component<IProps> {
 
         <Title>Select a vertical</Title>
         <VerticalList>
-          {verticals.map(vertical => {
-            const VerticalLogo = verticalConfig[vertical.identifier].logoHeader;
+          {verticals.map((vertical: Vertical) => {
+            const VerticalLogo = verticalConfig[vertical.identifier].logoHeader as any;
             return (
             <li key={vertical.identifier}>
               <VerticalLink to={`/@${vertical.identifier}/dashboard`}>
@@ -101,13 +99,5 @@ class VerticalSelectionPage extends React.Component<IProps> {
       </div>
     );
   }
-}
 
-export default connect(
-  (state: RootState) => ({
-    verticals: state.verticals.list,
-  }),
-  {
-    getVerticals: VerticalActions.getVerticals,
-  }
-)(VerticalSelectionPage);
+  export default VerticalSelectionPage;

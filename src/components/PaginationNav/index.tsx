@@ -43,11 +43,11 @@ export function PaginationNav(props: IProps) {
   }
 
   function renderPrevious() {
-    return <Button onClick={handlePreviousPage} text="Previous" />;
+    return <Button onClick={handlePreviousPage}>Previous</Button>;
   }
 
   function renderNext() {
-    return <Button onClick={handleNextPage} text="Next" />;
+    return <Button onClick={handleNextPage}>Next</Button>;
   }
 
   return (

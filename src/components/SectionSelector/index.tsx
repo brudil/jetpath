@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import Select from 'react-select';
 import * as OrgansiationActions from '../../ducks/Organisation';
 
-import 'style-loader!css-loader!postcss-loader!react-select/dist/react-select.css';
 import { RootState } from '../../types';
 
 interface IProps {

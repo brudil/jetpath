@@ -13,7 +13,7 @@ import globalPlugin from 'combokeys/plugins/global-bind';
 import { RootState } from '../types';
 import { Dispatch } from 'redux';
 import { Vertical } from '../ducks/Vertical';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import EditorSidebar from '../components/Editor/EditorSidebar';
 import Helmet from 'react-helmet';
 import {hasPermission} from "../libs/authHelpers";
@@ -79,7 +79,7 @@ interface IRouteParams {
 }
 
 interface IProps extends RouteComponentProps<IRouteParams> {
-  dispatch: Dispatch<RootState>;
+  dispatch: Dispatch<any>;
   workingDocument: any;
   workingRevision: any;
   savedDocument: any;

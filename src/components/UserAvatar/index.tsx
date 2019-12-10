@@ -8,7 +8,7 @@ interface IProps {
   size: number;
 }
 
-function UserAvatar(props: IProps) {
+const UserAvatar: React.FC<IProps> = (props) => {
   return (
     <div className={cx('user-avatar', props.className)}>
       <DumbGravatar

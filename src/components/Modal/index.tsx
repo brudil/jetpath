@@ -33,7 +33,7 @@ const overlayStyles = css`
 `;
 
 
-export default function Modal(props: ReactModal.Props) {
+const Modal: React.FC<ReactModal.Props>  = (props) => {
   return (
     <ReactModal
       className={rootModalStyles}
@@ -42,3 +42,5 @@ export default function Modal(props: ReactModal.Props) {
     />
   );
 }
+
+export default Modal;

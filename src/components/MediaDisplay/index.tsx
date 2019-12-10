@@ -1,6 +1,6 @@
 import React from 'react';
 import { OneImage } from '../OneImage';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import {MediaObject} from "../../types";
 
 const Container = styled.div`
@@ -20,7 +20,7 @@ interface IProps {
   media: MediaObject; // todo
 }
 
-function MediaDisplay({ className, media }: IProps) {
+const MediaDisplay: React.FC<IProps> = ({ className, media }) => {
   return (
     <Container className={className}>
       {media.file_type === 'image' || media.fileType === 'image' ? (

@@ -124,7 +124,7 @@ class OrganisationPage extends React.Component<IProps> {
           </li>
         ))}
         <li className="bus-shelter__item-add">
-          <Button text="Add section" onClick={this.handleSelectNewSection} />
+          <Button onClick={this.handleSelectNewSection}>Add section</Button>
         </li>
       </ul>
     );
@@ -157,7 +157,7 @@ class OrganisationPage extends React.Component<IProps> {
         {!list ? <em>Loading</em> : null}
         {list.length <= 0 ? <em>Nothing here</em> : null}
         <li className="bus-shelter__item-add">
-          <Button text="Add topic" onClick={this.handleSelectNewTopic} />
+          <Button onClick={this.handleSelectNewTopic}>Add topic</Button>
         </li>
       </ul>
     );

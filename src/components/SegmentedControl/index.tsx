@@ -1,6 +1,6 @@
 import React from 'react';
 import chunk from 'lodash/chunk';
-import styled from 'react-emotion';
+import styled from '@emotion/styled';
 import { css } from 'emotion';
 
 const Container = styled.div`

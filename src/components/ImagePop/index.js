@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import qs from 'query-string';
 
@@ -78,10 +77,5 @@ class ImagePop extends React.Component {
     );
   }
 }
-
-ImagePop.propTypes = {
-  image: PropTypes.object.isRequired,
-  className: PropTypes.string,
-};
 
 export default ImagePop;

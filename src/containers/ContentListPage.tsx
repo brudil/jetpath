@@ -88,7 +88,7 @@ class ContentListPage extends React.Component<IProps> {
     // todo
     const query = qs.parse(
       props === null ? this.props.location.search : props.location.search
-    );
+    ) as any;
     return {
       order: query.order || 'created_desc',
       state: query.state || null,
@@ -121,7 +121,7 @@ class ContentListPage extends React.Component<IProps> {
     this.handleQueryChange(query);
   }
 
-  handleInputUpdate(key: string, event: React.ChangeEvent<HTMLInputElement>) {
+  handleInputUpdate(key: string, event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const query = this.getQueryData();
     query[key] = event.target.value;
     this.handleQueryChange(query);

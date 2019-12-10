@@ -1,6 +1,5 @@
 import React from 'react';
-import { graphql } from 'react-apollo';
-import { compose } from 'recompose';
+import { useMutation, useQuery } from 'react-apollo';
 
 import ViewContainer from '../ViewContainer';
 import MediaEditForm from '../MediaEditForm';
@@ -28,12 +27,19 @@ interface InternalProps {
 
 type IProps = ComponentProps & InternalProps;
 
-function MediaEditPage(props: IProps) {
-  if (props.data.loading) {
+const MediaEditPage: React.FC<IProps> = (props) => {
+  const [editMedia] = useMutation(EditMediaMutation);
+  const { data, loading, error } = useQuery(MediaEditQuery, {
+    variables: {
+      mediaId: props.value,
+    },
+  });
+
+  if (loading) {
     return <LoadingContent />;
   }
 
-  if (props.data.error) {
+  if (error) {
     return <h1>Error</h1>;
   }
 
@@ -44,15 +50,15 @@ function MediaEditPage(props: IProps) {
     creditTitle: string;
     creditUrl: string;
   }) =>
-    props.editMedia({
+    editMedia({
       variables: {
-        mediaId: props.data.media.mediaId,
+        mediaId: data.media.mediaId,
         creditTitle,
         creditUrl,
       },
     });
 
-  const isDeleted = props.data.media.deleted;
+  const isDeleted = data.media.deleted;
 
   return (
     <ViewContainer>
@@ -61,34 +67,23 @@ function MediaEditPage(props: IProps) {
       </Helmet>
 
       <h1>
-        Edit media #{props.data.media.mediaId} {isDeleted ? '[deleted]' : ''}
+        Edit media #{data.media.mediaId} {isDeleted ? '[deleted]' : ''}
       </h1>
-      <div style={{ maxWidth: '300px', with: '100%' }}>
+      <div style={{ maxWidth: '300px', width: '100%' }}>
         <MediaEditForm
-          initialValues={props.data.media}
+          initialValues={data.media}
           onSubmit={handleSubmit}
         />
       </div>
-      <MediaDisplay media={props.data.media} />
+      <MediaDisplay media={data.media} />
     </ViewContainer>
   );
 }
 
-const WithData = compose<IProps, ComponentProps>(
-  graphql<{}, IProps, InternalProps>(MediaEditQuery, {
-    options: (props: IProps) => ({
-      variables: {
-        mediaId: props.value,
-      },
-    }),
-  }),
-  graphql(EditMediaMutation, { name: 'editMedia' })
-)(MediaEditPage);
-
 export default function MediaEditModal(props: any) {
   return (
     <Modal {...props}>
-      <WithData {...props} />
+      <MediaEditPage {...props} />
     </Modal>
   );
 }

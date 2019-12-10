@@ -1,7 +1,6 @@
 import uuid from 'uuid/v4';
 import { call, put } from 'redux-saga/effects';
 import { Dispatch } from 'redux';
-import { RootState } from './types';
 
 export function action(type: string, payload = {}) {
   return { type, ...payload };
@@ -22,7 +21,7 @@ export function createRequestTypes(base: string): RequestTypes {
 }
 
 export function createTransaction(
-  dispatch: Dispatch<RootState>,
+  dispatch: Dispatch<any>,
   actionType: string,
   sequenceData = {}
 ) {
