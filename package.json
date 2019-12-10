@@ -110,7 +110,7 @@
     "imgix-core-js": "^1.1.1",
     "immutable": "4.0.0-rc.4",
     "lazysizes": "^4.0.4",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.13",
     "lost": "^8.3.0",
     "normalizr": "^3.2.3",
     "polished": "^1.9.3",
