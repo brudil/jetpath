@@ -3,7 +3,7 @@ function getHost(): string {
     process.env.NODE_ENV === 'production' ||
     window.localStorage.getItem('useProductionLowdownEndpoint') === 'true'
   ) {
-    return 'https://platform.thedrab.co';
+    return 'https://platform.theprate.com';
   }
 
   return 'http://localhost:8000';
